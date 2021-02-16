@@ -25,6 +25,17 @@
     "alliance_members": {
       "collection": "alliance-member",
       "via": "alliance"
+    },
+    "reputation": {
+      "type": "biginteger",
+      "default": "0"
+    },
+    "level": {
+      "type": "integer",
+      "default": 1
+    },
+    "motto": {
+      "type": "string"
     }
   }
 }

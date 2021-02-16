@@ -14,7 +14,7 @@ async function createPlayer(gid, name, vip) {
 	logger.debug('Player created')
 }
 
-async function getPlayer(gid) {
+async function getPlayerByGID(gid) {
 	const players = await client('players')
 		.where('gid', '=', gid)
 		.limit(1)
@@ -62,6 +62,6 @@ async function createPlayerRank(rank) {
 module.exports = {
 	createPlayer,
 	updatePlayer,
-	getPlayer,
+	getPlayerByGID,
 	createPlayerRank,
 }

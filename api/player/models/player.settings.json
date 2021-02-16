@@ -25,8 +25,8 @@
       "default": 0
     },
     "rankings": {
-      "collection": "ranking",
-      "via": "player"
+      "via": "player",
+      "collection": "ranking"
     },
     "alliance_members": {
       "collection": "alliance-member",

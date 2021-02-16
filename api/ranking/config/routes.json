@@ -18,6 +18,14 @@
     },
     {
       "method": "GET",
+      "path": "/rankings/ladder",
+      "handler": "ladder.index",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
       "path": "/rankings/:id",
       "handler": "ranking.findOne",
       "config": {

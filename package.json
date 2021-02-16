@@ -7,11 +7,28 @@
     "dev": "strapi develop",
     "start": "strapi start",
     "build": "strapi build",
-    "strapi": "strapi"
+    "strapi": "strapi",
+    "lint": "eslint --ext \".js\" --ignore-path .gitignore .",
+    "lint:fix": "yarn lint --fix"
+  },
+  "lint-staged": {
+    "*.{js}": "eslint --ext \".js\" --ignore-path .gitignore ."
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "devDependencies": {
+    "babel-eslint": "^10.1",
     "chalk": "^4.1",
-    "date-fns": "^2.17"
+    "date-fns": "^2.17",
+    "eslint": "^7.20",
+    "eslint-config-prettier": "^7.2",
+    "eslint-plugin-prettier": "^3.3",
+    "husky": "^4.3",
+    "lint-staged": "^10.5",
+    "prettier": "^2.2"
   },
   "dependencies": {
     "knex": "^0.21",
@@ -27,7 +44,7 @@
     "strapi-utils": "3.4"
   },
   "author": {
-    "name": "A Strapi developer"
+    "name": "Chypriote"
   },
   "strapi": {
     "uuid": "bb26a18f-4111-46cb-8131-eaab061324c5"

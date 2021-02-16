@@ -18,6 +18,14 @@
     },
     {
       "method": "GET",
+      "path": "/players/informations/:id",
+      "handler": "informations.index",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
       "path": "/players/:id",
       "handler": "player.findOne",
       "config": {

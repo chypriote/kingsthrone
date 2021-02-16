@@ -24,8 +24,12 @@
       "required": true
     },
     "player": {
-      "via": "rankings",
-      "model": "player"
+      "model": "player",
+      "via": "rankings"
+    },
+    "rank": {
+      "type": "integer",
+      "required": true
     }
   }
 }

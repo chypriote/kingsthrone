@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "players",
+  "info": {
+    "name": "Player",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "gid": {
+      "type": "uid",
+      "required": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "vip": {
+      "type": "integer",
+      "required": true,
+      "default": 0
+    },
+    "rankings": {
+      "collection": "ranking",
+      "via": "player"
+    },
+    "alliance_members": {
+      "collection": "alliance-member",
+      "via": "player"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "alliance_members",
+  "info": {
+    "name": "AllianceMember"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "alliance": {
+      "via": "alliance_members",
+      "model": "alliance"
+    },
+    "player": {
+      "via": "alliance_members",
+      "model": "player"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    },
+    "leftAt": {
+      "type": "datetime"
+    }
+  }
+}

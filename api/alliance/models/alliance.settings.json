@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "alliances",
+  "info": {
+    "name": "Alliance",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "aid": {
+      "type": "uid",
+      "required": true
+    },
+    "power": {
+      "type": "biginteger"
+    },
+    "alliance_members": {
+      "collection": "alliance-member",
+      "via": "alliance"
+    }
+  }
+}

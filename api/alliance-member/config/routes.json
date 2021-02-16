@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/alliance-members",
+      "handler": "alliance-member.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/alliance-members/count",
+      "handler": "alliance-member.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/alliance-members/:id",
+      "handler": "alliance-member.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/alliance-members",
+      "handler": "alliance-member.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/alliance-members/:id",
+      "handler": "alliance-member.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/alliance-members/:id",
+      "handler": "alliance-member.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

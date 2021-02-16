@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "rankings",
+  "info": {
+    "name": "Ranking",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "date": {
+      "type": "datetime",
+      "required": true
+    },
+    "power": {
+      "type": "biginteger",
+      "required": true
+    },
+    "level": {
+      "type": "integer",
+      "required": true
+    },
+    "player": {
+      "via": "rankings",
+      "model": "player"
+    }
+  }
+}

@@ -83,9 +83,16 @@ async function setPlayerAlliance(player, ally) {
 		})
 }
 
+async function leaveAlliance(player) {
+	return client('alliance_members')
+		.update({active: 0, leftAt: formatISO(new Date()), updated_at: formatISO(new Date())})
+		.where({player: player});
+}
+
 module.exports = {
 	createAlliance,
 	updateAlliance,
+	leaveAlliance,
 	getAllianceByAID,
 	getPlayerAlliance,
 	setPlayerAlliance,

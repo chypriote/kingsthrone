@@ -6,7 +6,7 @@ const logger = require('./services/logger')
 const chalk = require('chalk')
 const formatISO = require('date-fns/formatISO')
 const { getPlayerByGID, createPlayer, updatePlayer, createPlayerRank } = require('./repository/player')
-const { setPlayerAlliance, getPlayerAlliance } = require('./repository/alliance')
+const { setPlayerAlliance, getPlayerAlliance, leaveAlliance } = require('./repository/alliance')
 
 async function updatePlayerAlliance(player, ally) {
 	//Check if player currently has alliance
@@ -17,14 +17,11 @@ async function updatePlayerAlliance(player, ally) {
 	//Return if current ally is same
 	if (parseInt(current.aid) === ally.aid) {return}
 	if (ally.aid === 0) {
-		return client('alliance_members')
-			.update({ active: false })
-			.where({ player: player.id, leftAt: formatISO(new Date()) })
+		logger.error(player.id, 'Left alliance')
+		return await leaveAlliance(player.id)
 	}
 
-	await client('alliance_members')
-		.update({ active: false })
-		.where({ player: player.id, leftAt: formatISO(new Date()) })
+	await leaveAlliance(player.id)
 	await setPlayerAlliance(player, ally)
 }
 

@@ -1163,11 +1163,6 @@
     ts-node "^9.1.1"
     typescript "~4.1"
 
-"@nuxt/ufo@^0.5.3":
-  version "0.5.4"
-  resolved "https://registry.yarnpkg.com/@nuxt/ufo/-/ufo-0.5.4.tgz#2e1428e2c947cc559d566c27786525bf0f40fbc8"
-  integrity sha512-JZOGDlt2BvLCBmLhrchhRJ6tP9PBfSWLdsHC+JVJ5Qp8/hT/2u61cSsLS30zUOwcPRaQ3y2oHNkEiKJ5v90iEQ==
-
 "@nuxt/utils@2.15.0":
   version "2.15.0"
   resolved "https://registry.yarnpkg.com/@nuxt/utils/-/utils-2.15.0.tgz#811f421e5266ad55c199abb22f92ad8ed066bc04"
@@ -1332,17 +1327,19 @@
     serve-static "^1.14.1"
     workbox-cdn "^5.1.4"
 
-"@nuxtjs/strapi@^0.1":
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/strapi/-/strapi-0.1.10.tgz#d4ab4eb24ca8f4aa399b9a4d6b5bc465f3e452c7"
-  integrity sha512-/ySZITD+jXGUOKMbklUj9Ea53U7M/cop+qIkKmpiAlvWD4j3eIIA7W+2mrfCQbPN+FSKuoKquhXZ0DICtSWMxA==
+"@nuxtjs/strapi@^0.3":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/strapi/-/strapi-0.3.0.tgz#d1c3e2b0b023a45a5972281ee197e4068879841e"
+  integrity sha512-BsETj8JvAJj/JKYOh4lwd+GElhz7UdZX5oiCfIa+l4hegn/I+MAtrscFqo0ATHksOITaH4D4H3G/FsOb65UUnw==
   dependencies:
     "@nuxt/http" "^0.6.2"
-    "@nuxt/ufo" "^0.5.3"
     cookie-universal-nuxt "^2.1.4"
     defu "^3.2.2"
+    destr "^1.0.1"
     hookable "^4.3.1"
+    ms "^2.1.3"
     requrl "^3.0.2"
+    ufo "^0.5.4"
 
 "@nuxtjs/stylelint-module@^4.0":
   version "4.0.0"
@@ -6382,6 +6379,11 @@ ms@2.1.2:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
+ms@^2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.3.tgz#574c8138ce1d2b5861f0b44579dbadd60c6615b2"
+  integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
+
 multimap@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/multimap/-/multimap-1.1.0.tgz#5263febc085a1791c33b59bb3afc6a76a2a10ca8"
@@ -9474,6 +9476,11 @@ ua-parser-js@^0.7.24:
   version "0.7.24"
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.24.tgz#8d3ecea46ed4f1f1d63ec25f17d8568105dc027c"
   integrity sha512-yo+miGzQx5gakzVK3QFfN0/L9uVhosXBBO7qmnk7c2iw1IhL212wfA3zbnI54B0obGwC/5NWub/iT9sReMx+Fw==
+
+ufo@^0.5.4:
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/ufo/-/ufo-0.5.4.tgz#a9b469fdc56fe27169f6f474ed590cc7b0fd4ebe"
+  integrity sha512-JxWFr31rhXXufMQKpV2CxFNrc1p9//aqHguWR32M0jPQnw2TNK9sERd7Bic+ZSprlmDPRPR4yuSueLNT8hsdQA==
 
 ufo@^0.6.6:
   version "0.6.6"

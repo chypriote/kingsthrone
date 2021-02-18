@@ -25,7 +25,7 @@
     "@nuxt/typescript-runtime": "^2.0",
     "@nuxtjs/axios": "^5.13",
     "@nuxtjs/pwa": "^3.3",
-    "@nuxtjs/strapi": "^0.1",
+    "@nuxtjs/strapi": "^0.3",
     "bulma": "^0.9",
     "chart.js": "^2.9",
     "core-js": "^3.8",

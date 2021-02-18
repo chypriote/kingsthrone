@@ -41,7 +41,7 @@ async function updateAlliance(
 		motto,
 		updated_at: formatISO(new Date()),
 	}).where('aid', '=', aid)
-	logger.debug('Alliance created')
+	logger.debug('Alliance updated')
 }
 
 async function getAllianceByAID(aid) {

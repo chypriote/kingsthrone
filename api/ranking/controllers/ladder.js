@@ -8,9 +8,6 @@ async function index(ctx) {
 	for (const player of players) {
 		const [rank, alliance] = await Promise.all([getLatestRank(player.id), getAlliance(player.id)])
 
-		if (player.name === 'Sero the Unruly') {
-			console.log(alliance);
-		}
 		rankings.push({ ...rank, player, alliance })
 	}
 

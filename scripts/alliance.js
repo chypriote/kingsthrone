@@ -13,6 +13,7 @@ async function updateAlliances(file) {
 		let alliance = await getAllianceByAID(club.id)
 
 		if (!alliance) {
+			logger.debug(`Alliance ${club.id} (${club.name}) not found`)
 			await createAlliance(club.id, club.name, club.allShiLi, club.fund, club.level, club.outmsg)
 		} else {
 			await updateAlliance(club.id, club.name, club.allShiLi, club.fund, club.level, club.outmsg)

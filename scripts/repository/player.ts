@@ -82,5 +82,5 @@ export const updatePlayerDetails = async (player: Player, details: Profile): Pro
 		})
 		.where('gid', '=', player.gid)
 		.limit(1)
-	logger.debug(`Player ${player.name} details updated`)
+	// logger.debug(`Player ${player.name} details updated`)
 }

@@ -1,5 +1,5 @@
 import { config } from 'dotenv'
-import { chunk } from 'lodash-es'
+import { chunk } from 'lodash'
 import { Player } from '~/types/types'
 import { logger } from './services/logger'
 import { getProfile } from './services/requests'

@@ -25,12 +25,36 @@
       "default": 0
     },
     "rankings": {
-      "via": "player",
-      "collection": "ranking"
+      "collection": "ranking",
+      "via": "player"
     },
     "alliance_members": {
       "collection": "alliance-member",
       "via": "player"
+    },
+    "military": {
+      "type": "biginteger"
+    },
+    "fortune": {
+      "type": "biginteger"
+    },
+    "provisions": {
+      "type": "biginteger"
+    },
+    "inspiration": {
+      "type": "biginteger"
+    },
+    "intimacy": {
+      "type": "integer"
+    },
+    "children": {
+      "type": "integer"
+    },
+    "maidens": {
+      "type": "integer"
+    },
+    "heroes": {
+      "type": "integer"
     }
   }
 }

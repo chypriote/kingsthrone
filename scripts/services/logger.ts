@@ -1,6 +1,8 @@
-const chalk = require('chalk')
+/* eslint-disable */
+//@ts-nocheck
+import chalk from 'chalk'
 
-const logger = {
+export const logger = {
 	log: (...message) => {
 		console.log(...message)
 	},
@@ -18,5 +20,3 @@ const logger = {
 		console.log(chalk.green(...message))
 	},
 }
-
-module.exports = logger

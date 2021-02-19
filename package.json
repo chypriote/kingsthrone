@@ -8,40 +8,53 @@
     "start": "strapi start",
     "build": "strapi build",
     "strapi": "strapi",
-    "lint": "eslint --ext \".js\" --ignore-path .gitignore .",
-    "lint:fix": "yarn lint --fix"
+    "lint": "eslint --ext \".js,.ts\" --ignore-path .gitignore .",
+    "lint:fix": "yarn lint --fix",
+    "ladder": "ts-node scripts/ladder.ts",
+    "alliance": "ts-node scripts/alliance.ts",
+    "profiles": "ts-node scripts/profiles.ts"
   },
   "lint-staged": {
-    "*.{js}": "eslint --ext \".js\" --ignore-path .gitignore ."
+    "*.{js}": "eslint --ext \".js,.ts\" --ignore-path .gitignore ."
   },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
     }
   },
-  "devDependencies": {
-    "babel-eslint": "^10.1",
-    "chalk": "^4.1",
+  "dependencies": {
+    "axios": "^0.21",
     "date-fns": "^2.17",
+    "dotenv": "^8.2",
+    "knex": "^0.21",
+    "lodash-es": "^4.17",
+    "pg": "^8.5",
+    "strapi": "^3.4",
+    "strapi-admin": "^3.4",
+    "strapi-connector-bookshelf": "^3.4",
+    "strapi-plugin-content-manager": "^3.4",
+    "strapi-plugin-content-type-builder": "^3.4",
+    "strapi-plugin-email": "^3.4",
+    "strapi-plugin-upload": "^3.4",
+    "strapi-plugin-users-permissions": "^3.4",
+    "strapi-utils": "^3.4",
+    "ts-node": "^9.1",
+    "typescript": "^4.1"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14",
+    "@types/lodash-es": "^4.17",
+    "@types/node": "^14.14",
+    "@types/pg": "^7.14",
+    "@typescript-eslint/eslint-plugin": "^4.15",
+    "@typescript-eslint/parser": "^4.15",
+    "chalk": "^4.1",
     "eslint": "^7.20",
     "eslint-config-prettier": "^7.2",
     "eslint-plugin-prettier": "^3.3",
     "husky": "^4.3",
     "lint-staged": "^10.5",
     "prettier": "^2.2"
-  },
-  "dependencies": {
-    "knex": "^0.21",
-    "pg": "^8.5",
-    "strapi": "3.4",
-    "strapi-admin": "3.4",
-    "strapi-connector-bookshelf": "3.4",
-    "strapi-plugin-content-manager": "3.4",
-    "strapi-plugin-content-type-builder": "3.4",
-    "strapi-plugin-email": "3.4",
-    "strapi-plugin-upload": "3.4",
-    "strapi-plugin-users-permissions": "3.4",
-    "strapi-utils": "3.4"
   },
   "author": {
     "name": "Chypriote"

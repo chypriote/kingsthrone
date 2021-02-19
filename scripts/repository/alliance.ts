@@ -1,15 +1,16 @@
-const client = require('../services/database')
-const logger = require('../services/logger')
-const formatISO = require('date-fns/formatISO')
+import { formatISO } from 'date-fns'
+import { Alliance, Player } from '~/types/types'
+import { client } from '../services/database'
+import { logger } from '../services/logger'
 
-async function createAlliance(
-	aid,
-	name,
+export const createAlliance = async (
+	aid: number,
+	name: string,
 	power = 0,
 	reputation = 0,
 	level = 0,
-	motto = null
-) {
+	motto: string|null = null
+): Promise<void> => {
 	await client('alliances').insert({
 		aid,
 		name,
@@ -25,14 +26,14 @@ async function createAlliance(
 	logger.debug('Alliance created')
 }
 
-async function updateAlliance(
-	aid,
-	name,
-	power = null,
-	reputation = null,
-	level = null,
-	motto = null
-) {
+export const updateAlliance = async (
+	aid: number,
+	name: string,
+	power = 0,
+	reputation = 0,
+	level = 0,
+	motto: string|null = null
+): Promise<void> => {
 	await client('alliances').update({
 		name,
 		power,
@@ -44,7 +45,7 @@ async function updateAlliance(
 	logger.debug('Alliance updated')
 }
 
-async function getAllianceByAID(aid) {
+export const getAllianceByAID = async (aid: number): Promise<Alliance> => {
 	const alliances = await client('alliances')
 		.where('aid', '=', aid)
 		.limit(1)
@@ -52,18 +53,18 @@ async function getAllianceByAID(aid) {
 	return alliances.length ? alliances[0] : null
 }
 
-async function getPlayerAlliance(id) {
+export const getPlayerAlliance = async (player: Player): Promise<Alliance> => {
 	const members = await client('alliance_members as am')
 		.select('alliances.id', 'alliances.name', 'alliances.aid')
 		.join('alliances', 'am.alliance', 'alliances.id')
-		.where({ player: id, active: true })
+		.where({ player: player.id, active: true })
 		.limit(1)
 
 	return members.length ? members[0] : null
 }
 
 // Checks if sent alliance already exists and creates it if not, add player to alliance
-async function setPlayerAlliance(player, ally) {
+export const setPlayerAlliance = async (player: Player, ally: Alliance): Promise<void> => {
 	logger.debug(`Joining alliance ${ally.name}`)
 	let alliance = await getAllianceByAID(ally.aid)
 	if (!alliance) {
@@ -83,17 +84,8 @@ async function setPlayerAlliance(player, ally) {
 		})
 }
 
-async function leaveAlliance(player) {
-	return client('alliance_members')
-		.update({active: 0, leftAt: formatISO(new Date()), updated_at: formatISO(new Date())})
-		.where({player: player});
-}
-
-module.exports = {
-	createAlliance,
-	updateAlliance,
-	leaveAlliance,
-	getAllianceByAID,
-	getPlayerAlliance,
-	setPlayerAlliance,
+export const leaveAlliance = async (player: Player): Promise<void> => {
+	await client('alliance_members')
+		.update({ active: 0, leftAt: formatISO(new Date()), updated_at: formatISO(new Date()) })
+		.where({ player: player.id })
 }

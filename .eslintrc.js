@@ -6,17 +6,12 @@ module.exports = {
 		node: true,
 		browser: false,
 	},
-	parser: 'babel-eslint',
-	parserOptions: {
-		ecmaFeatures: {
-			experimentalObjectRestSpread: true,
-			jsx: false,
-		},
-		sourceType: 'module',
-	},
+	parser: '@typescript-eslint/parser',
+	plugins: ['@typescript-eslint'],
 	extends: [
 		'eslint:recommended',
 		'prettier',
+		'plugin:@typescript-eslint/recommended',
 	],
 	globals: {
 		'strapi': true,

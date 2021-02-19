@@ -28,7 +28,7 @@
     "@nuxtjs/strapi": "^0.1",
     "bulma": "^0.9",
     "chart.js": "^2.9",
-    "core-js": "^3.8",
+    "core-js": "^3.9",
     "date-fns": "^2.17",
     "lodash-es": "^4.17",
     "nuxt": "^2.15",

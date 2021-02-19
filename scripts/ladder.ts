@@ -1,11 +1,9 @@
 import { config } from 'dotenv'
-import fs from 'fs'
-import path from 'path'
 import chalk from 'chalk'
 import formatISO from 'date-fns/formatISO'
-import { Rank } from '~/types/goat'
 import { Alliance, Player } from '~/types/types'
 import { logger } from './services/logger'
+import { getLadder } from './services/requests'
 import { createPlayer, createPlayerRank, getPlayerByGID, updatePlayer } from './repository/player'
 import { getPlayerAlliance, leaveAlliance, setPlayerAlliance } from './repository/alliance'
 
@@ -28,8 +26,9 @@ async function updatePlayerAlliance(player: Player, ally: Alliance) {
 	await setPlayerAlliance(player, ally)
 }
 
-async function updateLadder(rankings: Rank[]) {
+async function updateLadder() {
 	const now = Date.now()
+	const rankings = await getLadder()
 
 	for (const rank of rankings) {
 		logger.log(`Handling ${chalk.bold(rank.name)}`)
@@ -56,17 +55,4 @@ async function updateLadder(rankings: Rank[]) {
 	}
 }
 
-async function loadFile(fileName: string) {
-	const filePath = path.resolve(fileName)
-
-	logger.warn(`Reading file "${filePath}"`)
-	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-	// @ts-ignore
-	const file = JSON.parse(fs.readFileSync(filePath))
-	await updateLadder(file.a.ranking.shili)
-
-	logger.success('Finished')
-}
-
-const fileName = process.argv[2]
-loadFile(fileName).then(() => process.exit)
+updateLadder().then(() => process.exit)

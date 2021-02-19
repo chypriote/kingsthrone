@@ -2,6 +2,7 @@ import { formatISO } from 'date-fns'
 import { Alliance, Player } from '~/types/types'
 import { client } from '../services/database'
 import { logger } from '../services/logger'
+import { Rank } from '~/types/goat'
 
 export const createAlliance = async (
 	aid: number,
@@ -64,12 +65,12 @@ export const getPlayerAlliance = async (player: Player): Promise<Alliance> => {
 }
 
 // Checks if sent alliance already exists and creates it if not, add player to alliance
-export const setPlayerAlliance = async (player: Player, ally: Alliance): Promise<void> => {
-	logger.debug(`Joining alliance ${ally.name}`)
-	let alliance = await getAllianceByAID(ally.aid)
+export const setPlayerAlliance = async (player: Player, ally: Rank): Promise<void> => {
+	logger.debug(`Joining alliance ${ally.clubname}`)
+	let alliance = await getAllianceByAID(ally.clubid)
 	if (!alliance) {
-		await createAlliance(ally.aid, ally.name)
-		alliance = await getAllianceByAID(ally.aid)
+		await createAlliance(ally.clubid, ally.clubname)
+		alliance = await getAllianceByAID(ally.clubid)
 	}
 
 	await client('alliance_members')

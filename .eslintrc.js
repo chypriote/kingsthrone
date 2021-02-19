@@ -40,5 +40,6 @@ module.exports = {
 		'object-curly-spacing': ['error', 'always'],
 		quotes: ['error', 'single'],
 		semi: ['error', 'never'],
+		'@typescript-eslint/ban-ts-comment': 'warn',
 	},
 }

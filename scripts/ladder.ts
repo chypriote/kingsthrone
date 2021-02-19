@@ -1,7 +1,8 @@
 import { config } from 'dotenv'
 import chalk from 'chalk'
 import formatISO from 'date-fns/formatISO'
-import { Alliance, Player } from '~/types/types'
+import { Rank } from '~/types/goat'
+import { Player } from '~/types/types'
 import { logger } from './services/logger'
 import { getLadder } from './services/requests'
 import { createPlayer, createPlayerRank, getPlayerByGID, updatePlayer } from './repository/player'
@@ -9,15 +10,21 @@ import { getPlayerAlliance, leaveAlliance, setPlayerAlliance } from './repositor
 
 config()
 
-async function updatePlayerAlliance(player: Player, ally: Alliance) {
+async function updatePlayerAlliance(player: Player, ally: Rank) {
 	//Check if player currently has alliance
 	const current = await getPlayerAlliance(player)
-	if (!current && ally.aid === 0) {return}
-	if (!current) { return await setPlayerAlliance(player, ally) }
+	if (!current && ally.clubid === 0) {
+		return
+	}
+	if (!current) {
+		return await setPlayerAlliance(player, ally)
+	}
 
 	//Return if current ally is same
-	if (current.aid === ally.aid) {return}
-	if (ally.aid === 0) {
+	if (parseInt(String(current.aid)) === ally.clubid) {
+		return
+	}
+	if (ally.clubid === 0) {
 		logger.error(player.id, 'Left alliance')
 		return await leaveAlliance(player)
 	}
@@ -50,9 +57,11 @@ async function updateLadder() {
 				level: rank.level,
 				rank: rank.rid,
 			}),
-			updatePlayerAlliance(player, { aid: rank.clubid, name: rank.clubname }),
+			updatePlayerAlliance(player, rank),
 		])
 	}
+
+	logger.success('Finished')
 }
 
-updateLadder().then(() => process.exit)
+updateLadder().then(() => process.exit())

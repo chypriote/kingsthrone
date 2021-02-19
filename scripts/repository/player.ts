@@ -36,7 +36,8 @@ export const updatePlayer = async (player: Player, name: string, vip: number): P
 
 export const getLatestRank = async (player: Player): Promise<Ranking> => {
 	const rankings = await client('rankings')
-		.where('player', '=', player.gid)
+		// @ts-ignore
+		.where('player', '=', player.id)
 		.orderBy('date', 'desc')
 		.limit(1)
 
@@ -56,6 +57,7 @@ export const createPlayerRank = async (rank: Ranking): Promise<void> => {
 
 	await client('rankings').insert({
 		...rank,
+		player: rank.player.id,
 		created_by: 1,
 		updated_by: 1,
 		created_at: formatISO(new Date()),

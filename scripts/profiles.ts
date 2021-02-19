@@ -26,6 +26,8 @@ const updateProfiles = async () => {
 		chunk.forEach((player: Player) => promises.push(updateProfile(player)))
 		await Promise.all(promises)
 	}
+
+	logger.success('Finished')
 }
 
-updateProfiles().then(() => process.exit)
+updateProfiles().then(() => process.exit())

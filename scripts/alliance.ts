@@ -34,6 +34,8 @@ async function updateAlliances() {
 			)
 		}
 	}
+
+	logger.success('Finished')
 }
 
 updateAlliances().then(() => process.exit())

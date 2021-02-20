@@ -13,7 +13,8 @@
     "ladder": "ts-node scripts/ladder.ts",
     "tourney": "ts-node scripts/tourney.ts",
     "alliance": "ts-node scripts/alliance.ts",
-    "profiles": "ts-node scripts/profiles.ts"
+    "profiles": "ts-node scripts/profiles.ts",
+    "test": "ts-node scripts/test.ts"
   },
   "lint-staged": {
     "*.{js}": "eslint --ext \".js,.ts\" --ignore-path .gitignore ."

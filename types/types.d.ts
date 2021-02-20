@@ -9,9 +9,9 @@ export type KingdomRanking = {
 export type TourneyRanking = {
 	id?: number
 	date: string
-	player: Player
 	rank: number
 	points: number
+	player: Player
 }
 
 export type Player = {

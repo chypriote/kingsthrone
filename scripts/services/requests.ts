@@ -1,13 +1,14 @@
 import axios from 'axios'
 import { Club, Profile, KingdomRank, TourneyRank } from '~/types/goat'
+import { logger } from '../services/logger'
 
 const BASE_SERVER = '699'
 const BASE_URL = (server = BASE_SERVER) => `http://zsjefunbm.zwformat.com/servers/s${server}.php`
 const COOKIE = 'lyjxncc=2083c99339e8b46bf500d2d46ae68581'
-const TOKEN = '7f0aec7272a279327728ab62847fe4d7'
+const TOKEN = '6f850b4853f1b0e61a78b42461c48609'
 
 const sendRequest = async (data: unknown): Promise<any> => {
-	return await axios.post(BASE_URL(), data, {
+	const response =  await axios.post(BASE_URL(), data, {
 		params: {
 			sevid: BASE_SERVER,
 			ver: 'V1.3.497',
@@ -25,6 +26,13 @@ const sendRequest = async (data: unknown): Promise<any> => {
 			'Connection': 'Keep-Alive',
 		},
 	}).then(response => response.data)
+
+	if (response?.a?.system?.errror) {
+		logger.error(`RequestError: ${response?.a?.system?.errror.msg}`)
+		process.exit()
+	}
+
+	return response
 }
 
 export const getProfile = async (gid: number): Promise<Profile> => {

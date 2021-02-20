@@ -1,11 +1,10 @@
 import axios from 'axios'
-import { Club, Profile, Rank } from '~/types/goat'
-import { logger } from '~/scripts/services/logger'
+import { Club, Profile, KingdomRank, TourneyRank } from '~/types/goat'
 
 const BASE_SERVER = '699'
 const BASE_URL = (server = BASE_SERVER) => `http://zsjefunbm.zwformat.com/servers/s${server}.php`
-const COOKIE = 'lyjxncc=61807df8e4b62e93df38a13783e6513b'
-const TOKEN = '1b79904280f7e1b2966f88c0f7ea70bc'
+const COOKIE = 'lyjxncc=2083c99339e8b46bf500d2d46ae68581'
+const TOKEN = '7f0aec7272a279327728ab62847fe4d7'
 
 const sendRequest = async (data: unknown): Promise<any> => {
 	return await axios.post(BASE_URL(), data, {
@@ -37,13 +36,21 @@ export const getProfile = async (gid: number): Promise<Profile> => {
 	return profile.a.user.fuser
 }
 
-export const getLadder = async (): Promise<Rank[]> => {
+export const getKingdomRankings = async (): Promise<KingdomRank[]> => {
 	const ladder = await sendRequest({
 		rsn:'2ynxlnaqyx',
 		ranking:{ paihang:{ type:0 } },
 	})
 
 	return ladder.a.ranking.shili
+}
+
+export const getTourneyRankings = async (): Promise<TourneyRank[]> => {
+	const tourney = await sendRequest(
+		{ yamen:{ getrank:[] }, rsn:'8jaaovjikee' }
+	)
+
+	return tourney.a.yamen.rank
 }
 
 export const getAllianceLadder = async (): Promise<Club[]> => {

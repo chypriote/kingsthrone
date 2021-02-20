@@ -1,11 +1,10 @@
 import { config } from 'dotenv'
+config()
 import { chunk } from 'lodash'
 import { Player } from '~/types/types'
 import { logger } from './services/logger'
 import { getProfile } from './services/requests'
 import { getPlayers, updatePlayerDetails } from './repository/player'
-
-config()
 
 const updateProfile = async (player: Player): Promise<void> => {
 	logger.debug(`Updating ${player.name}`)
@@ -20,11 +19,12 @@ const updateProfile = async (player: Player): Promise<void> => {
 
 const updateProfiles = async () => {
 	const players: Player[] = await getPlayers()
-	const chunks = chunk(players, 50)
+	const chunks = chunk(players, 9)
 	for (const chunk of chunks) {
 		const promises: Promise<void>[] = []
 		chunk.forEach((player: Player) => promises.push(updateProfile(player)))
 		await Promise.all(promises)
+		await new Promise(resolve => setTimeout(resolve, 1000))
 	}
 
 	logger.success('Finished')

@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "alliance_members",
   "info": {
-    "name": "AllianceMember"
+    "name": "AllianceMember",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -11,12 +12,12 @@
   },
   "attributes": {
     "alliance": {
-      "via": "alliance_members",
-      "model": "alliance"
+      "model": "alliance",
+      "via": "alliance_members"
     },
     "player": {
-      "via": "alliance_members",
-      "model": "player"
+      "model": "player",
+      "via": "alliance_members"
     },
     "active": {
       "type": "boolean",
@@ -24,6 +25,10 @@
     },
     "leftAt": {
       "type": "datetime"
+    },
+    "rank": {
+      "type": "integer",
+      "default": 4
     }
   }
 }

@@ -25,12 +25,12 @@
       "default": 0
     },
     "rankings": {
-      "collection": "ranking",
-      "via": "player"
+      "via": "player",
+      "collection": "ranking"
     },
     "alliance_members": {
-      "collection": "alliance-member",
-      "via": "player"
+      "via": "player",
+      "collection": "alliance-member"
     },
     "military": {
       "type": "biginteger"
@@ -55,6 +55,10 @@
     },
     "heroes": {
       "type": "integer"
+    },
+    "tourney_rankings": {
+      "via": "player",
+      "collection": "tourney-ranking"
     }
   }
 }

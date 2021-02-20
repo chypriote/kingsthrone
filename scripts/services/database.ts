@@ -1,7 +1,6 @@
 import { config } from 'dotenv'
-import knex from 'knex'
-
 config()
+import knex from 'knex'
 
 export const client = knex({
 	client: 'postgresql',

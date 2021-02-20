@@ -11,6 +11,7 @@
     "lint": "eslint --ext \".js,.ts\" --ignore-path .gitignore .",
     "lint:fix": "yarn lint --fix",
     "ladder": "ts-node scripts/ladder.ts",
+    "tourney": "ts-node scripts/tourney.ts",
     "alliance": "ts-node scripts/alliance.ts",
     "profiles": "ts-node scripts/profiles.ts"
   },

@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tourney_rankings",
+  "info": {
+    "name": "TourneyRanking"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "date": {
+      "type": "datetime"
+    },
+    "rank": {
+      "type": "integer"
+    },
+    "points": {
+      "type": "biginteger"
+    },
+    "player": {
+      "model": "player",
+      "via": "tourney_rankings"
+    }
+  }
+}

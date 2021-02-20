@@ -23,8 +23,8 @@
       "type": "biginteger"
     },
     "alliance_members": {
-      "collection": "alliance-member",
-      "via": "alliance"
+      "via": "alliance",
+      "collection": "alliance-member"
     },
     "reputation": {
       "type": "biginteger",

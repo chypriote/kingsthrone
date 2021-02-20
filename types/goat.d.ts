@@ -35,7 +35,7 @@ export type Profile = {
 	set: number
 }
 
-export type Rank = {
+export type KingdomRank = {
 	uid: string
 	name: string
 	job: number
@@ -47,14 +47,36 @@ export type Rank = {
 	headType: number
 	headId: number
 	vipStatus: number
-	shili: number
+	shili: number //kp
 	clubid: number
 	clubname: string
 	frame: number
 	head: number
 	chatframe: number
-	rid: number
-	num: number
+	rid: number //classement
+	num: number //kp
+}
+
+export type TourneyRank = {
+	uid: string
+	name: string
+	job: number
+	sex: number
+	level: number
+	vip: number
+	chenghao: number
+	headframe: number
+	headType: number
+	headId: number
+	vipStatus: number
+	shili: number //kp
+	clubid: number
+	clubname: string
+	frame: number
+	head: number
+	chatframe: number
+	rid: number //classement
+	num: number //points
 }
 
 export type Club = {

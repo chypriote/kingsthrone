@@ -1,10 +1,9 @@
 import { config } from 'dotenv'
+config()
 import chalk from 'chalk'
 import { logger } from './services/logger'
 import { getAllianceLadder } from './services/requests'
 import { createAlliance, getAllianceByAID, updateAlliance } from './repository/alliance'
-
-config()
 
 async function updateAlliances() {
 	const clubs = await getAllianceLadder()

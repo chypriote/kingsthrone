@@ -1,10 +1,17 @@
-export type Ranking = {
+export type KingdomRanking = {
 	id?: number
 	date: string
 	rank: number
 	power: number
 	level: number
 	player: Player
+}
+export type TourneyRanking = {
+	id?: number
+	date: string
+	player: Player
+	rank: number
+	points: number
 }
 
 export type Player = {
@@ -23,11 +30,11 @@ export type Player = {
 	children: number
 	intimacy: number
 
-	rankings?: Ranking[]
+	rankings?: KingdomRanking[]
 	alliance_members?: AllianceMembers[]
 
 	alliance?: Alliance
-	rank?: Ranking
+	rank?: KingdomRanking
 }
 
 export type Alliance = {
@@ -46,4 +53,5 @@ export type AllianceMembers = {
 	alliance: Alliance
 	active: boolean
 	leftAt: string
+	rank: number
 }

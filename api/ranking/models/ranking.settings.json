@@ -2,7 +2,7 @@
   "kind": "collectionType",
   "collectionName": "rankings",
   "info": {
-    "name": "Ranking",
+    "name": "KingdomRanking",
     "description": ""
   },
   "options": {
@@ -24,8 +24,8 @@
       "required": true
     },
     "player": {
-      "via": "rankings",
-      "model": "player"
+      "model": "player",
+      "via": "rankings"
     },
     "rank": {
       "type": "integer",

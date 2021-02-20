@@ -31,6 +31,7 @@ module.exports = {
 	getAlliance: async (player) => {
 		const knex = strapi.connections.default
 		const alliances = await knex('alliances')
+			.select('alliances.*')
 			.join('alliance_members as am', 'am.alliance', 'alliances.id')
 			.where('am.active', '=', true)
 			.andWhere('am.player', '=', player)

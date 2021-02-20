@@ -19,9 +19,18 @@ module.exports = {
 
 		return players.length ? players[0] : null
 	},
-	getLatestRank: async (player) => {
+	getLatestKingdomRank: async (player) => {
 		const knex = strapi.connections.default
-		const rankings = await knex('rankings')
+		const rankings = await knex('rankings_kingdom')
+			.where('player', '=', player)
+			.orderBy('date', 'desc')
+			.limit(1)
+
+		return rankings.length ? rankings[0] : null
+	},
+	getLatestTourneyRank: async (player) => {
+		const knex = strapi.connections.default
+		const rankings = await knex('rankings_tourney')
 			.where('player', '=', player)
 			.orderBy('date', 'desc')
 			.limit(1)

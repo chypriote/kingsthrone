@@ -1,6 +1,6 @@
 {
   "kind": "collectionType",
-  "collectionName": "tourney_rankings",
+  "collectionName": "rankings_tourney",
   "info": {
     "name": "TourneyRanking"
   },

@@ -22,10 +22,6 @@
     "power": {
       "type": "biginteger"
     },
-    "alliance_members": {
-      "via": "alliance",
-      "collection": "alliance-member"
-    },
     "reputation": {
       "type": "biginteger",
       "default": "0"
@@ -36,6 +32,10 @@
     },
     "motto": {
       "type": "string"
-    }
+    },
+		"alliance_members": {
+			"via": "alliance",
+			"collection": "alliance-member"
+		}
   }
 }

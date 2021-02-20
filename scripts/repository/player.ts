@@ -35,7 +35,7 @@ export const updatePlayer = async (player: Player, name: string, vip: number): P
 }
 
 export const getLatestKingdomRank = async (player: Player): Promise<KingdomRanking> => {
-	const rankings = await client('rankings')
+	const rankings = await client('rankings_kingdom')
 		// @ts-ignore
 		.where('player', '=', player.id)
 		.orderBy('date', 'desc')
@@ -44,7 +44,7 @@ export const getLatestKingdomRank = async (player: Player): Promise<KingdomRanki
 	return rankings.length ? rankings[0] : null
 }
 export const getLatestTourneyRank = async (player: Player): Promise<TourneyRanking> => {
-	const rankings = await client('tourney_rankings')
+	const rankings = await client('rankings_tourney')
 		// @ts-ignore
 		.where('player', '=', player.id)
 		.orderBy('date', 'desc')

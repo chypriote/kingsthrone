@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { isConstructorDeclaration } from 'typescript'
 import { Club, Profile, KingdomRank, TourneyRank } from '~/types/goat'
 import { logger } from '../services/logger'
 
@@ -20,6 +19,11 @@ export class GoatRequest {
 		this.cookie = cookie
 		this.server = server
 		this.base_url = `http://zsjefunbm.zwformat.com/servers/s${server}.php`
+	}
+
+	setServer(server: string): this {
+		this.server = server
+		return this
 	}
 
 	private async login(): Promise<any> {
@@ -68,7 +72,6 @@ export class GoatRequest {
 
 	private async sendRequest(data: unknown): Promise<any> {
 		if (!this.isLoggedIn) {await this.login()}
-		console.log(this.server, this.token, this.cookie)
 
 		const response =  await axios.post(BASE_URL(), data, {
 			params: {
@@ -97,7 +100,6 @@ export class GoatRequest {
 		return response
 	}
 
-
 	async getProfile(gid: number): Promise<Profile>  {
 		const profile = await this.sendRequest({ user: { getFuserMember: { id: gid } },rsn: '5ypfaywvff' })
 
@@ -122,6 +124,8 @@ export class GoatRequest {
 		return alliances.a.club.clubList
 	}
 }
+
+export const client = new GoatRequest()
 
 const sendRequest = async (data: unknown): Promise<any> => {
 	const response =  await axios.post(BASE_URL(), data, {

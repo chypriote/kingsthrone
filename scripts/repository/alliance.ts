@@ -1,8 +1,8 @@
 import { formatISO } from 'date-fns'
-import { Alliance, Player } from '~/types/types'
+import { Alliance, Player } from '~/types/strapi'
 import { client } from '../services/database'
 import { logger } from '../services/logger'
-import { KingdomRank } from '~/types/goat'
+import { KingdomRank, Profile } from '~/types/goat'
 
 export const createAlliance = async (
 	aid: number,
@@ -65,7 +65,7 @@ export const getPlayerAlliance = async (player: Player): Promise<Alliance> => {
 }
 
 // Checks if sent alliance already exists and creates it if not, add player to alliance
-export const setPlayerAlliance = async (player: Player, ally: KingdomRank): Promise<void> => {
+export const setPlayerAlliance = async (player: Player, ally: Profile): Promise<void> => {
 	logger.debug(`Joining alliance ${ally.clubname}`)
 	let alliance = await getAllianceByAID(ally.clubid)
 	if (!alliance) {

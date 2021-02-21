@@ -1,6 +1,6 @@
-import { differenceInHours, formatISO } from 'date-fns'
+import { formatISO } from 'date-fns'
 import { KingdomRank, Profile, TourneyRank } from '~/types/goat'
-import { Player, KingdomRanking, TourneyRanking } from '~/types/types'
+import { Player } from '~/types/strapi'
 import { client } from '../services/database'
 import { logger } from '../services/logger'
 
@@ -34,73 +34,13 @@ export const updatePlayer = async (player: Player, name: string, vip: number): P
 	logger.debug('Player updated')
 }
 
-export const getLatestKingdomRank = async (player: Player): Promise<KingdomRanking> => {
-	const rankings = await client('rankings_kingdom')
-		// @ts-ignore
-		.where('player', '=', player.id)
-		.orderBy('date', 'desc')
-		.limit(1)
-
-	return rankings.length ? rankings[0] : null
-}
-export const getLatestTourneyRank = async (player: Player): Promise<TourneyRanking> => {
-	const rankings = await client('rankings_tourney')
-		// @ts-ignore
-		.where('player', '=', player.id)
-		.orderBy('date', 'desc')
-		.limit(1)
-
-	return rankings.length ? rankings[0] : null
-}
-
-export const createPlayerKingdomRank = async (rank: KingdomRanking): Promise<void> => {
-	const latest = await getLatestKingdomRank(rank.player)
-	if (latest) {
-		const now = new Date()
-		const old = new Date(latest.date)
-
-		if (differenceInHours(now, old) < 3) {
-			return logger.warn('Player rank already up to date')
-		}
-	}
-
-	await client('rankings_kingdom').insert({
-		...rank,
-		player: rank.player.id,
-		created_by: 1,
-		updated_by: 1,
-		created_at: formatISO(new Date()),
-		updated_at: formatISO(new Date()),
-	})
-	logger.debug('Rank saved')
-}
-export const createPlayerTourneyRank = async (rank: TourneyRanking): Promise<void> => {
-	const latest = await getLatestTourneyRank(rank.player)
-	if (latest) {
-		const now = new Date()
-		const old = new Date(latest.date)
-
-		if (differenceInHours(now, old) < 3) {
-			return logger.warn('Player rank already up to date')
-		}
-	}
-
-	await client('rankings_tourney').insert({
-		...rank,
-		player: rank.player.id,
-		created_by: 1,
-		updated_by: 1,
-		created_at: formatISO(new Date()),
-		updated_at: formatISO(new Date()),
-	})
-	logger.debug('Rank saved')
-}
-
 export const updatePlayerDetails = async (player: Player, details: Profile): Promise<void> => {
 	await client('players')
 		.update({
 			name: details.name,
 			vip: details.vip,
+			level: details.level,
+			power: details.shili,
 			military: details.ep.e1,
 			fortune: details.ep.e2,
 			provisions: details.ep.e3,
@@ -112,7 +52,6 @@ export const updatePlayerDetails = async (player: Player, details: Profile): Pro
 		})
 		.where('gid', '=', player.gid)
 		.limit(1)
-	// logger.debug(`Player ${player.name} details updated`)
 }
 
 export const getOrCreatePlayerFromGoat = async (rank: TourneyRank|KingdomRank): Promise<Player> => {

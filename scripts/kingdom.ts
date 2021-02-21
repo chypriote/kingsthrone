@@ -5,25 +5,26 @@ import formatISO from 'date-fns/formatISO'
 import { logger } from './services/logger'
 import { client } from './services/requests'
 import { getOrCreatePlayerFromGoat } from './repository/player'
-import { createPlayerTourneyRank } from '~/scripts/repository/tourney-rankings'
+import { createPlayerKingdomRank } from '~/scripts/repository/kingdom-rankings'
 
-export const updateTourneyLadder = async(): Promise<void> => {
+export const updateKingdomLadder = async (): Promise<void> => {
 	const now = Date.now()
-	const rankings = await client.getTourneyRankings()
+	const rankings = await client.getKingdomRankings()
 
 	for (const rank of rankings) {
 		logger.log(`Handling ${chalk.bold(rank.name)}`)
 		const player = await getOrCreatePlayerFromGoat(rank)
 
-		await createPlayerTourneyRank({
+		await createPlayerKingdomRank({
 			player,
 			date: formatISO(now),
+			power: rank.num,
+			level: rank.level,
 			rank: rank.rid,
-			points: rank.num,
 		})
 	}
 
 	logger.success('Finished')
 }
 
-updateTourneyLadder().then(() => process.exit())
+updateKingdomLadder().then(() => process.exit())

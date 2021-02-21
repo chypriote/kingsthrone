@@ -20,8 +20,8 @@
       "type": "biginteger"
     },
     "player": {
-      "model": "player",
-      "via": "tourney_rankings"
+      "via": "tourney_rankings",
+      "model": "player"
     }
   }
 }

@@ -19,6 +19,8 @@ export type Player = {
 	gid: number
 	name: string
 	vip: number
+	level: number
+	power: number
 
 	military: number
 	fortune: number

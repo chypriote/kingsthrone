@@ -16,8 +16,8 @@
       "via": "alliance_members"
     },
     "player": {
-      "model": "player",
-      "via": "alliance_members"
+      "via": "alliance_members",
+      "model": "player"
     },
     "active": {
       "type": "boolean",

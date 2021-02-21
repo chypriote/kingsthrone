@@ -24,6 +24,12 @@
       "required": true,
       "default": 0
     },
+		"power": {
+			"type": "biginteger"
+		},
+		"level": {
+			"type": "integer"
+		},
     "military": {
       "type": "biginteger"
     },
@@ -48,17 +54,17 @@
     "heroes": {
       "type": "integer"
     },
-		"kingdom_rankings": {
-			"via": "player",
-			"collection": "kingdom-ranking"
-		},
-    "tourney_rankings": {
-      "via": "player",
-      "collection": "tourney-ranking"
+    "kingdom_rankings": {
+      "collection": "kingdom-ranking",
+      "via": "player"
     },
-		"alliance_members": {
-			"via": "player",
-			"collection": "alliance-member"
-		}
-	}
+    "tourney_rankings": {
+      "collection": "tourney-ranking",
+      "via": "player"
+    },
+    "alliance_members": {
+      "collection": "alliance-member",
+      "via": "player"
+    }
+  }
 }

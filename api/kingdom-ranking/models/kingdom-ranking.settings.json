@@ -15,10 +15,10 @@
       "type": "datetime",
       "required": true
     },
-		"rank": {
-			"type": "integer",
-			"required": true
-		},
+    "rank": {
+      "type": "integer",
+      "required": true
+    },
     "power": {
       "type": "biginteger",
       "required": true
@@ -27,9 +27,9 @@
       "type": "integer",
       "required": true
     },
-		"player": {
-			"model": "player",
-			"via": "kingdom_rankings"
-		}
-	}
+    "player": {
+      "via": "kingdom_rankings",
+      "model": "player"
+    }
+  }
 }

@@ -1,9 +1,8 @@
-import { getProfile, login } from './services/requests'
+import { GoatRequest } from './services/requests'
 
-login('699').then(async response => {
+const Server699 = new GoatRequest('699')
+
+Server699.getProfile(699002934).then(response => {
 	console.log(response)
-
-	const user = await getProfile(response.uid)
-	console.log(user)
 	process.exit()
 })

@@ -64,7 +64,7 @@ export const createPlayerKingdomRank = async (rank: KingdomRanking): Promise<voi
 		}
 	}
 
-	await client('rankings').insert({
+	await client('rankings_kingdom').insert({
 		...rank,
 		player: rank.player.id,
 		created_by: 1,
@@ -85,7 +85,7 @@ export const createPlayerTourneyRank = async (rank: TourneyRanking): Promise<voi
 		}
 	}
 
-	await client('tourney_rankings').insert({
+	await client('rankings_tourney').insert({
 		...rank,
 		player: rank.player.id,
 		created_by: 1,

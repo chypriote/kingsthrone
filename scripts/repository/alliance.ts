@@ -1,8 +1,8 @@
 import { formatISO } from 'date-fns'
+import { Profile } from '~/types/goat'
 import { Alliance, Player } from '~/types/strapi'
 import { client } from '../services/database'
 import { logger } from '../services/logger'
-import { KingdomRank, Profile } from '~/types/goat'
 
 export const createAlliance = async (
 	aid: number,

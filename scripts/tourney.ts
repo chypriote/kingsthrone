@@ -5,7 +5,7 @@ import formatISO from 'date-fns/formatISO'
 import { logger } from './services/logger'
 import { client } from './services/requests'
 import { getOrCreatePlayerFromGoat } from './repository/player'
-import { createPlayerTourneyRank } from '~/scripts/repository/tourney-rankings'
+import { createPlayerTourneyRank } from './repository/tourney-rankings'
 
 export const updateTourneyLadder = async(): Promise<void> => {
 	const now = Date.now()

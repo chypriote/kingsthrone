@@ -5,7 +5,7 @@ import formatISO from 'date-fns/formatISO'
 import { logger } from './services/logger'
 import { client } from './services/requests'
 import { getOrCreatePlayerFromGoat } from './repository/player'
-import { createPlayerKingdomRank } from '~/scripts/repository/kingdom-rankings'
+import { createPlayerKingdomRank } from './repository/kingdom-rankings'
 
 export const updateKingdomLadder = async (): Promise<void> => {
 	const now = Date.now()

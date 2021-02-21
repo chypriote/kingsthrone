@@ -1,10 +1,12 @@
-import { updateTourneyLadder } from '~/scripts/tourney'
-import { updateKingdomLadder } from '~/scripts/kingdom'
-import { updateAlliances } from '~/scripts/alliance'
-import { updateProfiles } from '~/scripts/profiles'
-import { logger } from '~/scripts/services/logger'
+import { logger } from './services/logger'
+import { client } from './services/requests'
+import { updateTourneyLadder } from './tourney'
+import { updateKingdomLadder } from './kingdom'
+import { updateAlliances } from './alliance'
+import { updateProfiles } from './profiles'
 
 const update = async () => {
+	await client.login()
 	await Promise.all([
 		updateTourneyLadder(),
 		updateKingdomLadder(),

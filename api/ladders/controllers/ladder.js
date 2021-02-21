@@ -8,7 +8,8 @@ const setPlayerAndAllianceForRanking = async (ranking) => {
 }
 
 async function kingdom(ctx) {
-	const rankings = await strapi.services.ladder.getKingdom()
+	const { _limit } = ctx.request.query
+	const rankings = await strapi.services.ladder.getKingdom(_limit)
 	const results = []
 
 	for (const ranking of rankings) {

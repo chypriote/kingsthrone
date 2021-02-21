@@ -1,7 +1,7 @@
 import { differenceInHours, formatISO } from 'date-fns'
 import { Player, KingdomRanking } from '~/types/strapi'
-import { client } from '~/scripts/services/database'
-import { logger } from '~/scripts/services/logger'
+import { client } from '../services/database'
+import { logger } from '../services/logger'
 
 export const getLatestKingdomRank = async (player: Player): Promise<KingdomRanking> => {
 	const rankings = await client('rankings_kingdom')

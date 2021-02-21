@@ -6,7 +6,7 @@ import { Player } from '~/types/strapi'
 import { logger } from './services/logger'
 import { client } from './services/requests'
 import { getPlayers, updatePlayerDetails } from './repository/player'
-import { getPlayerAlliance, leaveAlliance, setPlayerAlliance } from '~/scripts/repository/alliance'
+import { getPlayerAlliance, leaveAlliance, setPlayerAlliance } from './repository/alliance'
 
 const updatePlayerAlliance = async (player: Player, ally: Profile): Promise<void> => {
 	//Check if player currently has alliance
@@ -49,6 +49,7 @@ const updateProfile = async (player: Player): Promise<void> => {
 }
 
 export const updateProfiles = async (): Promise<void> => {
+	await client.login()
 	const players: Player[] = await getPlayers()
 	const chunks = chunk(players, 9)
 	for (const chunk of chunks) {

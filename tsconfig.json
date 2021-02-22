@@ -15,22 +15,14 @@
     "noEmit": true,
     "experimentalDecorators": true,
     "baseUrl": ".",
+    "outDir": "build",
     "paths": {
-      "~/*": [
-        "./*"
-      ],
-      "@/*": [
-        "./*"
-      ]
+      "~/*": ["./*"],
+      "@/*": ["./*"]
     },
-    "types": [
-      "@types/axios",
-      "@types/lodash",
-      "@types/node",
-      "@types/pg",
-      "types",
-    ]
+    "typeRoots": ["node_modules/@types"]
   },
+	"include": ["scripts/*.ts"],
   "exclude": [
     "node_modules",
     "build",

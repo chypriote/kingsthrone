@@ -1,8 +1,19 @@
-import { GoatRequest } from './services/requests'
+import { client } from './services/requests'
+import { logger } from './services/logger'
+import { createPlayer, getPlayerByGID } from './repository/player'
 
-const Server699 = new GoatRequest('699')
+export const findMissingPlayers = async (): Promise<void> => {
+	const players = await client.getEventTourneyLadder()
 
-Server699.getProfile(699002934).then(response => {
-	console.log(response)
-	process.exit()
-})
+	for (const player of players) {
+		const gid = parseInt(player.uid)
+		const found = getPlayerByGID(gid)
+		if (found) {continue}
+
+		await createPlayer(gid, player.name)
+	}
+
+	logger.success('Finished')
+}
+
+findMissingPlayers().then(() => process.exit())

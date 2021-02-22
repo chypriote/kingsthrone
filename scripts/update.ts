@@ -5,8 +5,9 @@ import { updateKingdomLadder } from './kingdom'
 import { updateAlliances } from './alliance'
 import { updateProfiles } from './profiles'
 
-const update = async () => {
+const updateAll = async (): Promise<void> => {
 	await client.login()
+
 	await Promise.all([
 		updateTourneyLadder(),
 		updateKingdomLadder(),
@@ -15,7 +16,6 @@ const update = async () => {
 	await updateProfiles()
 }
 
-update()
+updateAll()
 	.then(() => logger.success('updated'))
 	.catch(e => logger.error(e.toString()))
-	.finally(() => process.exit())

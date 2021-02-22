@@ -99,3 +99,10 @@ export type Club = {
 	userShili: number
 	userLevel: number
 }
+
+export type EventRank = {
+	name: string
+	rid: number
+	score: number
+	uid: string
+}

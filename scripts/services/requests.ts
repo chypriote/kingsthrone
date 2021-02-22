@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Club, Profile, KingdomRank, TourneyRank } from '~/types/goat'
+import { Club, Profile, KingdomRank, TourneyRank, EventRank } from '~/types/goat'
 import { logger } from '../services/logger'
 
 const COOKIE = 'lyjxncc=2083c99339e8b46bf500d2d46ae68581'
@@ -24,6 +24,7 @@ export class GoatRequest {
 	}
 
 	async login(): Promise<any> {
+		console.log('logging in')
 		const response = await axios.post(this.base_url, {
 			'rsn':'4cfhvxxiim',
 			'login':{
@@ -55,7 +56,7 @@ export class GoatRequest {
 				'Connection': 'Keep-Alive',
 			},
 		}).then(response => response.data)
-
+		console.log(response)
 		if (!response?.a?.loginMod?.loginAccount?.token) {
 			logger.error(`LoginError: ${response?.a?.system?.errror.msg}`)
 			process.exit()
@@ -98,27 +99,38 @@ export class GoatRequest {
 	}
 
 	async getProfile(gid: number): Promise<Profile>  {
+		console.log('getProfile')
 		const profile = await this.sendRequest({ user: { getFuserMember: { id: gid } },rsn: '5ypfaywvff' })
 
 		return profile.a.user.fuser
 	}
 
 	async getKingdomRankings(): Promise<KingdomRank[]> {
+		console.log('getKingdomRankings')
 		const ladder = await this.sendRequest({ ranking:{ paihang:{ type:0 } }, rsn:'2ynxlnaqyx' })
 
 		return ladder.a.ranking.shili
 	}
 
 	async getTourneyRankings(): Promise<TourneyRank[]> {
+		console.log('getTourneyRankings')
 		const tourney = await this.sendRequest({ yamen:{ getrank:[] }, rsn:'8jaaovjikee' })
 
 		return tourney.a.yamen.rank
 	}
 
 	async getAllianceLadder(): Promise<Club[]> {
+		console.log('getAllianceLadder')
 		const alliances = await this.sendRequest({ club:{ clubList:[] },rsn:'3zhpsspfrse' })
 
 		return alliances.a.club.clubList
+	}
+
+	async getEventTourneyLadder(): Promise<EventRank[]> {
+		console.log('getEventTourneyLadder')
+		const ladder = await this.sendRequest({ huodong:{ hd254Info:[] }, rsn:'3ekkszzrpf' })
+
+		return ladder.a.cbhuodong.yamenlist
 	}
 }
 

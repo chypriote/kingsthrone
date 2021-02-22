@@ -41,6 +41,7 @@
     "strapi-plugin-email": "^3.5",
     "strapi-plugin-upload": "^3.5",
     "strapi-plugin-users-permissions": "^3.5",
+    "strapi-provider-upload-cloudinary": "https://github.com/chypriote/strapi-provider-upload-cloudinary.git",
     "strapi-utils": "^3.5",
     "ts-node": "^9.1",
     "typescript": "^4.1.5"

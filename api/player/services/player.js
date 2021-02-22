@@ -48,4 +48,11 @@ module.exports = {
 
 		return alliances.length ? alliances[0] : null
 	},
+	getHeroes: async (player) => {
+		const knex = strapi.connections.default
+		return await knex('player_heroes as ph')
+			.select('hero.name', 'hero.quality as base', 'hero.stars', 'ph.quality')
+			.join('heroes as hero', 'hero.id', 'ph.hero')
+			.where('ph.player', '=', player)
+	},
 }

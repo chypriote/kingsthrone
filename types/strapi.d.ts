@@ -34,9 +34,23 @@ export type Player = {
 
 	rankings?: KingdomRanking[]
 	alliance_members?: AllianceMembers[]
+	player_heroes?: PlayerHeroes[]
 
 	alliance?: Alliance
 	rank?: KingdomRanking
+	roster?: Hero[]
+}
+
+export type Hero = {
+	id?: number
+	name: string
+	quality: number
+	base: number
+	stars: number
+	focus: string
+
+	players: Player
+	player_heroes: PlayerHeroes
 }
 
 export type Alliance = {
@@ -56,4 +70,11 @@ export type AllianceMembers = {
 	active: boolean
 	leftAt: string
 	rank: number
+}
+
+export type PlayerHeroes = {
+	id?: number
+	player: Player
+	hero: Hero
+	quality: number
 }

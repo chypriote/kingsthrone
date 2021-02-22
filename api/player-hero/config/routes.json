@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/player-heroes",
+      "handler": "player-hero.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/player-heroes/count",
+      "handler": "player-hero.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/player-heroes/:id",
+      "handler": "player-hero.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/player-heroes",
+      "handler": "player-hero.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/player-heroes/:id",
+      "handler": "player-hero.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/player-heroes/:id",
+      "handler": "player-hero.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

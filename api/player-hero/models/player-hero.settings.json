@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "player_heroes",
+  "info": {
+    "name": "PlayerHero"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "quality": {
+      "type": "integer"
+    },
+    "player": {
+      "model": "player",
+      "via": "player_heroes"
+    },
+    "hero": {
+      "via": "player_heroes",
+      "model": "hero"
+    }
+  }
+}

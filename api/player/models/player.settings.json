@@ -24,12 +24,12 @@
       "required": true,
       "default": 0
     },
-		"power": {
-			"type": "biginteger"
-		},
-		"level": {
-			"type": "integer"
-		},
+    "power": {
+      "type": "biginteger"
+    },
+    "level": {
+      "type": "integer"
+    },
     "military": {
       "type": "biginteger"
     },
@@ -65,6 +65,10 @@
     "alliance_members": {
       "collection": "alliance-member",
       "via": "player"
+    },
+    "player_heroes": {
+      "via": "player",
+      "collection": "player-hero"
     }
   }
 }

@@ -1,0 +1,50 @@
+{
+  "kind": "collectionType",
+  "collectionName": "heroes",
+  "info": {
+    "name": "Hero",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "quality": {
+      "type": "integer"
+    },
+    "stars": {
+      "type": "integer"
+    },
+    "focus": {
+      "type": "enumeration",
+      "enum": [
+        "balanced",
+        "military",
+        "fortune",
+        "provisions",
+        "inspiration"
+      ],
+      "required": true
+    },
+		"picture": {
+			"model": "file",
+			"via": "related",
+			"allowedTypes": [
+				"images"
+			],
+			"plugin": "upload",
+			"required": false
+		},
+    "player_heroes": {
+      "collection": "player-hero",
+      "via": "hero"
+    }
+  }
+}

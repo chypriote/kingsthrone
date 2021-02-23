@@ -32,7 +32,16 @@ async function ratio(ctx) {
 	ctx.send(players)
 }
 
+async function roster(ctx) {
+	const { id } = ctx.params
+	const { getPlayerHeroes } = strapi.services.player
+	const roster = await getPlayerHeroes(id)
+
+	ctx.send(roster.map(h => ({ ...h.hero, quality: h.quality, base: h.hero.quality })))
+}
+
 module.exports = {
 	index,
 	ratio,
+	roster,
 }

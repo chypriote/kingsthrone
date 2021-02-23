@@ -14,8 +14,8 @@
       "type": "integer"
     },
     "player": {
-      "model": "player",
-      "via": "player_heroes"
+      "via": "player_heroes",
+      "model": "player"
     },
     "hero": {
       "via": "player_heroes",

@@ -20,12 +20,12 @@
     "points": {
       "type": "biginteger"
     },
-		"ratio": {
-			"type": "float"
-		},
+    "ratio": {
+      "type": "float"
+    },
     "player": {
-      "model": "player",
-      "via": "tourney_rankings"
+      "via": "tourney_rankings",
+      "model": "player"
     }
   }
 }

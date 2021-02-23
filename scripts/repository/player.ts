@@ -4,9 +4,11 @@ import { Player } from '~/types/strapi'
 import { client } from '../services/database'
 import { logger } from '../services/logger'
 
-export const createPlayer = async (gid: number, name: string, vip = 0): Promise<void> => {
+export const createPlayer = async (
+	gid: number, name: string, vip = 0, power = 0, heroes = 0
+): Promise<void> => {
 	await client('players').insert({
-		gid, name, vip,
+		gid, name, vip, power, heroes,
 		created_by: 1,
 		updated_by: 1,
 		created_at: formatISO(new Date()),

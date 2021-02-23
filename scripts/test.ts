@@ -19,7 +19,7 @@ export const findMissingPlayers = async (): Promise<void> => {
 export const parseProfiles = async (): Promise<void> => {
 	const missing = []
 
-	for (let i = 699000003; i < 699000004; i++) {
+	for (let i = 699004999; i < 699005000; i++) {
 		const player = await getPlayerByGID(i)
 		if (!player) {
 			missing.push(i)
@@ -27,14 +27,17 @@ export const parseProfiles = async (): Promise<void> => {
 	}
 
 	for (const id of missing) {
-		const profile = await client.getProfile(id)
-
-		if (profile && profile.hero_num > 14) {
-			await createPlayer(id, profile.name, profile.vip)
+		try {
+			const profile = await client.getProfile(id)
+			if (profile && profile.hero_num > 14) {
+				await createPlayer(id, profile.name, profile.vip, profile.shili, profile.hero_num)
+			}
+		} catch (e) {
+			console.log(e, id)
 		}
 	}
 
 	logger.success('Finished')
 }
 
-findMissingPlayers().then(() => process.exit())
+parseProfiles().then(() => process.exit())

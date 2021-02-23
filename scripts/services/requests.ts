@@ -93,7 +93,8 @@ export class GoatRequest {
 
 		if (response?.a?.system?.errror) {
 			logger.error(`RequestError: ${response?.a?.system?.errror.msg}`)
-			process.exit()
+			throw new Error(response?.a?.system?.errror.msg)
+			// process.exit()
 		}
 
 		return response

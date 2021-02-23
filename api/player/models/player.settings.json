@@ -54,9 +54,9 @@
     "heroes": {
       "type": "integer"
     },
-		"notes": {
-			"type": "text"
-		},
+    "notes": {
+      "type": "richtext"
+    },
     "kingdom_rankings": {
       "collection": "kingdom-ranking",
       "via": "player"

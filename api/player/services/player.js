@@ -51,4 +51,11 @@ module.exports = {
 	getPlayerHeroes: async (player) => {
 		return strapi.query('player-hero').find({ player }, ['hero', 'hero.picture'])
 	},
+	getPlayersRatio: async (limit = 0, order = 'asc', heroes = 0) => {
+		const knex = strapi.connections.default
+		let query = `select *, div(players.power, players.heroes) as ratio from players ${heroes ? `where players.heroes > ${heroes} ` : ''}order by ratio ${order} limit ${limit ? limit : 100}`
+
+		const result = await knex.raw(query)
+		return result.rows
+	},
 }

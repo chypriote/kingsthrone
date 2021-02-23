@@ -23,6 +23,16 @@ async function index(ctx) {
 	})
 }
 
+async function ratio(ctx) {
+	const { _limit, _order, _heroes } = ctx.request.query
+	const { getPlayersRatio } = strapi.services.player
+
+	const players = await getPlayersRatio(_limit, _order, _heroes)
+
+	ctx.send(players)
+}
+
 module.exports = {
 	index,
+	ratio,
 }

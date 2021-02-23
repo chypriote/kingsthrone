@@ -38,6 +38,7 @@ const updateProfile = async (player: Player): Promise<void> => {
 	logger.debug(`Updating ${player.name}`)
 	try {
 		const profile = await client.getProfile(player.gid)
+		if (!profile) {return}
 
 		await Promise.all([
 			updatePlayerDetails(player, profile),

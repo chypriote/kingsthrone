@@ -98,36 +98,35 @@ export class GoatRequest {
 		return response
 	}
 
-	async getProfile(gid: number): Promise<Profile>  {
-		console.log('getProfile')
+	async getProfile(gid: number): Promise<Profile|null>  {
 		const profile = await this.sendRequest({ user: { getFuserMember: { id: gid } },rsn: '5ypfaywvff' })
+
+		if (profile?.a?.system?.errror) {
+			return null
+		}
 
 		return profile.a.user.fuser
 	}
 
 	async getKingdomRankings(): Promise<KingdomRank[]> {
-		console.log('getKingdomRankings')
 		const ladder = await this.sendRequest({ ranking:{ paihang:{ type:0 } }, rsn:'2ynxlnaqyx' })
 
 		return ladder.a.ranking.shili
 	}
 
 	async getTourneyRankings(): Promise<TourneyRank[]> {
-		console.log('getTourneyRankings')
 		const tourney = await this.sendRequest({ yamen:{ getrank:[] }, rsn:'8jaaovjikee' })
 
 		return tourney.a.yamen.rank
 	}
 
 	async getAllianceLadder(): Promise<Club[]> {
-		console.log('getAllianceLadder')
 		const alliances = await this.sendRequest({ club:{ clubList:[] },rsn:'3zhpsspfrse' })
 
 		return alliances.a.club.clubList
 	}
 
 	async getEventTourneyLadder(): Promise<EventRank[]> {
-		console.log('getEventTourneyLadder')
 		const ladder = await this.sendRequest({ huodong:{ hd254Info:[] }, rsn:'3ekkszzrpf' })
 
 		return ladder.a.cbhuodong.yamenlist

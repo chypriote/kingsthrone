@@ -26,6 +26,14 @@
     },
     {
       "method": "GET",
+      "path": "/players/ratio",
+      "handler": "informations.ratio",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
       "path": "/players/:id",
       "handler": "player.findOne",
       "config": {

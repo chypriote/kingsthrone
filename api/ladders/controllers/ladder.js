@@ -1,32 +1,36 @@
-const orderBy = require('lodash/orderBy')
-
 const setPlayerAndAllianceForRanking = async (ranking) => {
-	const { getPlayer, getAlliance } = await strapi.services.player
-	const [player, alliance] = await Promise.all([getPlayer(ranking.player), getAlliance(ranking.player)])
+	const { getAlliance } = await strapi.services.player
+	const [alliance] = await Promise.all([getAlliance(ranking.player.id)])
 
-	return { ...ranking, player, alliance }
+	return { ...ranking, alliance }
 }
 
 async function kingdom(ctx) {
-	const { _limit } = ctx.request.query
-	const rankings = await strapi.services.ladder.getKingdom(_limit)
+	const latest = await strapi.query('kingdom-ranking').findOne({ _sort: 'date:desc' })
+	const rankings = await strapi.query('kingdom-ranking').find({
+		date: latest.date,
+		_limit: 100,
+		_sort: 'power:desc',
+		...ctx.request.query,
+	})
 	const results = []
 
 	for (const ranking of rankings) {
 		results.push(await setPlayerAndAllianceForRanking(ranking))
 	}
 
-	ctx.send(orderBy(results, (item) => (item.power ? parseInt(item.power) : 0), 'desc'))
+	ctx.send(results)
 }
 async function tourney(ctx) {
-	const rankings = await strapi.services.ladder.getTourney()
-	const results = []
+	const latest = await strapi.query('tourney-ranking').findOne({ _sort: 'date:desc' })
+	const rankings = await strapi.query('tourney-ranking').find({
+		date: latest.date,
+		_limit: 100,
+		_sort: 'points:desc',
+		...ctx.request.query,
+	}, ['player.player_heroes'])
 
-	for (const ranking of rankings) {
-		results.push(await setPlayerAndAllianceForRanking(ranking))
-	}
-
-	ctx.send(orderBy(results, (item) => (item.points ? parseInt(item.points) : 0), 'desc'))
+	ctx.send(rankings)
 }
 
 module.exports = {

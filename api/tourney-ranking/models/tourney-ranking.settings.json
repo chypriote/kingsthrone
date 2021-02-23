@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "rankings_tourney",
   "info": {
-    "name": "TourneyRanking"
+    "name": "TourneyRanking",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -19,9 +20,12 @@
     "points": {
       "type": "biginteger"
     },
+		"ratio": {
+			"type": "float"
+		},
     "player": {
-      "via": "tourney_rankings",
-      "model": "player"
+      "model": "player",
+      "via": "tourney_rankings"
     }
   }
 }

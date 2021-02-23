@@ -20,6 +20,7 @@ export const updateTourneyLadder = async(): Promise<void> => {
 			date: formatISO(now),
 			rank: rank.rid,
 			points: rank.num,
+			ratio: player.power / player.heroes,
 		})
 	}
 

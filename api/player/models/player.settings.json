@@ -59,8 +59,8 @@
       "via": "player"
     },
     "tourney_rankings": {
-      "collection": "tourney-ranking",
-      "via": "player"
+      "via": "player",
+      "collection": "tourney-ranking"
     },
     "alliance_members": {
       "collection": "alliance-member",

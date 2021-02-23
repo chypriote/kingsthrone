@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Club, Profile, KingdomRank, TourneyRank, EventRank } from '~/types/goat'
 import { logger } from '../services/logger'
+import { GameInfos } from '~/types/game.goat'
 
 const COOKIE = 'lyjxncc=2083c99339e8b46bf500d2d46ae68581'
 
@@ -130,6 +131,12 @@ export class GoatRequest {
 		const ladder = await this.sendRequest({ huodong:{ hd254Info:[] }, rsn:'3ekkszzrpf' })
 
 		return ladder.a.cbhuodong.yamenlist
+	}
+
+	async getGameInfos(): Promise<GameInfos> {
+		const game = await this.sendRequest({ rsn:'2ynbmhanlb',guide:{ login:{ language:1,platform:'gaotukc',ug:'' } } })
+
+		return game.a
 	}
 }
 

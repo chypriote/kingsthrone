@@ -27,22 +27,22 @@ export class GoatRequest {
 	async login(): Promise<any> {
 		console.log('logging in')
 		const response = await axios.post(this.base_url, {
-			'rsn':'4cfhvxxiim',
+			'rsn':'3hewzzhpsp',
 			'login':{
 				'loginAccount':{
 					'parm1':'WIFI',
 					'platform':'gaotukc',
 					'parm2':'GooglePlay',
-					'parm6':'fe3da078-88a4-3ccf-9249-5acf33d7765f',
+					'parm6':'2f12d907-56a9-3a46-9124-d4351e9fc878',
 					'parm3':'SM-G955F',
-					'openid':'563125632849524101',
-					'openkey':'9fa3348fcd6344060431a81d44a219d2c0a3a706',
+					'openid':'565939577188654916',
+					'openkey':'51ba25dcc6757726dec6ba4c737e3ca134c49fb3',
 				},
 			},
 		}, {
 			params: {
 				sevid: this.server,
-				ver: 'V1.3.497',
+				ver: 'V1.3.498',
 				uid: '',
 				token: '',
 				platform: 'gaotukc',
@@ -75,8 +75,8 @@ export class GoatRequest {
 		const response =  await axios.post(this.base_url, data, {
 			params: {
 				sevid: this.server,
-				ver: 'V1.3.497',
-				uid: '699002934',
+				ver: 'V1.3.498',
+				uid: '699005053',
 				token: this.token,
 				platform: 'gaotukc',
 				lang: 'en',

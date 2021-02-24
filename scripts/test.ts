@@ -40,4 +40,4 @@ export const parseProfiles = async (): Promise<void> => {
 	logger.success('Finished')
 }
 
-parseProfiles().then(() => process.exit())
+findMissingPlayers().then(() => process.exit())

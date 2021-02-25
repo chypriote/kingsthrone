@@ -5,6 +5,19 @@ import { GameInfos } from '~/types/game.goat'
 
 const COOKIE = 'lyjxncc=2083c99339e8b46bf500d2d46ae68581'
 
+const error = JSON.stringify({
+	system: {
+	  version: {
+			ver: 'V1.3.500',
+			force: 1,
+			status: 0,
+			iosUrl: 'https://www.facebook.com/Kings-Throne-Game-of-Lust-891740894496936/',
+			androidUrl: 'https://www.facebook.com/Kings-Throne-Game-of-Lust-891740894496936/',
+	  },
+	  sys: { time: 1614246286, nextTime: 1614297600 },
+	},
+})
+
 export class GoatRequest {
 	cookie: string
 	token: string|null = null
@@ -42,7 +55,7 @@ export class GoatRequest {
 		}, {
 			params: {
 				sevid: this.server,
-				ver: 'V1.3.498',
+				ver: 'V1.3.500',
 				uid: '',
 				token: '',
 				platform: 'gaotukc',
@@ -75,7 +88,7 @@ export class GoatRequest {
 		const response =  await axios.post(this.base_url, data, {
 			params: {
 				sevid: this.server,
-				ver: 'V1.3.498',
+				ver: 'V1.3.500',
 				uid: '699005053',
 				token: this.token,
 				platform: 'gaotukc',

@@ -8,7 +8,7 @@ export const findMissingPlayers = async (): Promise<void> => {
 	for (const player of players) {
 		const gid = parseInt(player.uid)
 		const found = getPlayerByGID(gid)
-		if (found) {continue}
+		if (found) { continue }
 
 		await createPlayer(gid, player.name)
 	}
@@ -23,7 +23,7 @@ export const parseProfiles = async (): Promise<void> => {
 		const player = await getPlayerByGID(i)
 		if (!player) {
 			missing.push(i)
-		 }
+		}
 	}
 
 	for (const id of missing) {

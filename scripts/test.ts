@@ -1,6 +1,6 @@
 import { client } from './services/requests'
 import { logger } from './services/logger'
-import { createPlayer, getPlayerByGID } from './repository/player'
+import { createPlayer, getPlayerByGID, getAllGID } from './repository/player'
 
 export const findMissingPlayers = async (): Promise<void> => {
 	const players = await client.getEventTourneyLadder()
@@ -18,12 +18,11 @@ export const findMissingPlayers = async (): Promise<void> => {
 
 export const parseProfiles = async (): Promise<void> => {
 	const missing = []
+	const gids = (await getAllGID()).map(it => parseInt(it.gid))
 
-	for (let i = 699004999; i < 699005000; i++) {
-		const player = await getPlayerByGID(i)
-		if (!player) {
-			missing.push(i)
-		}
+	for (let i = 699000001; i < 699005058; i++) {
+		if (gids.includes(i)) {continue}
+		missing.push(i)
 	}
 
 	for (const id of missing) {
@@ -40,4 +39,4 @@ export const parseProfiles = async (): Promise<void> => {
 	logger.success('Finished')
 }
 
-findMissingPlayers().then(() => process.exit())
+parseProfiles().then(() => process.exit())

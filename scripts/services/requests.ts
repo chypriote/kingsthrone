@@ -70,7 +70,7 @@ export class GoatRequest {
 				'Connection': 'Keep-Alive',
 			},
 		}).then(response => response.data)
-
+		
 		if (!response?.a?.loginMod?.loginAccount?.token) {
 			logger.error(`LoginError: ${response?.a?.system?.errror.msg}`)
 			process.exit()

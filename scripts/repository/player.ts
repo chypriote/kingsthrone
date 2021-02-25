@@ -69,3 +69,7 @@ export const getOrCreatePlayerFromGoat = async (rank: TourneyRank|KingdomRank): 
 
 	return player
 }
+
+export const getAllGID = async (): Promise<{gid: string}[]> => {
+	return client('players').select('gid')
+}

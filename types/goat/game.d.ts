@@ -1,4 +1,7 @@
-export enum Sex {
+import { Son, Wife } from './family'
+import { Hero } from './hero'
+
+declare enum Sex {
 	MALE= 2,
 	FEMALE= 1
 }
@@ -79,78 +82,9 @@ export interface User {
 	vipStatus: { status: number }
 	banben: { vipver: number }
 }
-export interface Hero {
-	id: number
-	level: number
-	class_level: number
-	senior: string
-	exp: number
-	zzexp: number
-	pkexp: number
-	epskill: { id: number, level: number, zz: number, slv: number }[]
-	pkskill: { id: number, level: number }[]
-	ghskill: []
-	hep: GameStats
-	banish: number
-	mount: number
-	zz: GameStats
-	zep: GameStats
-	wep: GameStats
-	gep: GameStats
-	eep: GameStats
-	cep: GameStats
-	aep: GameStats
-	zfight_num: number
-	gfight_num: number
-}
 export interface Item {
 	id: number
 	count: number
-}
-interface WifeSkill {
-	id: number
-	level: number
-	exp: number
-}
-export interface Wife {
-	id: number
-	love: number
-	flower: number
-	exp: number
-	skill: WifeSkill[]
-}
-interface Spouse {
-	fuid: number
-	fname: string
-	sname:  string
-	sonuid: number
-	honor: number
-	sex: Sex
-	ep: GameStats
-}
-export interface Son {
-	id: number
-	name: string
-	sex: Sex
-	mom: number
-	state: number
-	ep: GameStats
-	talent: number
-	cpoto: number
-	level: number
-	exp: number
-	power: number
-	cd: { next: number, label: string }
-	honor: number
-	tquid: number
-	tqitem: number
-	tqcd: { next: number, label: string }
-	sptime: number
-	spouse: Spouse
-	myqjadd: number
-	fqjadd: number
-	isxingqin: number
-	tc: number
 }
 export interface Ranking {
 	shili: number

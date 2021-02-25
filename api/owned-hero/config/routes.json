@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/owned-heroes",
+      "handler": "owned-hero.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/owned-heroes/count",
+      "handler": "owned-hero.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/owned-heroes/:id",
+      "handler": "owned-hero.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/owned-heroes",
+      "handler": "owned-hero.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/owned-heroes/:id",
+      "handler": "owned-hero.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/owned-heroes/:id",
+      "handler": "owned-hero.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

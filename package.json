@@ -13,8 +13,9 @@
     "ts:build": "tsc -b",
     "kingdom": "ts-node scripts/kingdom.ts",
     "tourney": "ts-node scripts/tourney.ts",
-    "alliance": "ts-node scripts/alliance.ts",
+    "alliances": "ts-node scripts/alliances.ts",
     "profiles": "ts-node scripts/profiles.ts",
+    "roster": "ts-node scripts/player.ts",
     "update": "ts-node scripts/update.ts",
     "test": "ts-node scripts/test.ts"
   },

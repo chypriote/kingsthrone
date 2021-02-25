@@ -1,6 +1,6 @@
 import { formatISO } from 'date-fns'
-import { KingdomRank, Profile, TourneyRank } from '~/types/goat'
 import { Player } from '~/types/strapi'
+import { KingdomRank, Profile, TourneyRank } from '../../types/goat/goat'
 import { client } from '../services/database'
 import { logger } from '../services/logger'
 

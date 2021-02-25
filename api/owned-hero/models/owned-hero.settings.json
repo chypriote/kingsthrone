@@ -1,0 +1,51 @@
+{
+  "kind": "collectionType",
+  "collectionName": "owned_heroes",
+  "info": {
+    "name": "OwnedHero"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "level": {
+      "type": "integer"
+    },
+    "quality": {
+      "type": "integer"
+    },
+    "military": {
+      "type": "biginteger"
+    },
+    "fortune": {
+      "type": "biginteger"
+    },
+    "provisions": {
+      "type": "biginteger"
+    },
+    "inspiration": {
+      "type": "biginteger"
+    },
+    "xp_quality": {
+      "type": "integer"
+    },
+    "xp_tourney": {
+      "type": "integer"
+    },
+    "ferocity": {
+      "type": "integer"
+    },
+    "brutality": {
+      "type": "integer"
+    },
+    "senior": {
+      "type": "integer"
+    },
+    "hero": {
+      "model": "hero",
+      "via": "owned_heroes"
+    }
+  }
+}

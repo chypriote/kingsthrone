@@ -11,6 +11,10 @@
     "draftAndPublish": false
   },
   "attributes": {
+    "hid": {
+      "type": "integer",
+      "unique": true
+    },
     "name": {
       "type": "string",
       "required": true,
@@ -33,18 +37,22 @@
       ],
       "required": true
     },
-		"picture": {
-			"model": "file",
-			"via": "related",
-			"allowedTypes": [
-				"images"
-			],
-			"plugin": "upload",
-			"required": false
-		},
+    "picture": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false
+    },
     "player_heroes": {
       "collection": "player-hero",
       "via": "hero"
+    },
+    "owned_heroes": {
+      "via": "hero",
+      "collection": "owned-hero"
     }
   }
 }

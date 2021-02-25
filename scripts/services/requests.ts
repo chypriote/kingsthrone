@@ -1,9 +1,11 @@
 import axios from 'axios'
-import { Club, Profile, KingdomRank, TourneyRank, EventRank } from '~/types/goat'
+import { Club, Profile, KingdomRank, TourneyRank, EventRank } from '~/types/goat/goat'
 import { logger } from '../services/logger'
-import { GameInfos } from '~/types/game.goat'
+import { GameInfos } from '~/types/goat/game'
 
 const COOKIE = 'lyjxncc=2083c99339e8b46bf500d2d46ae68581'
+const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'4cfhvxxiim','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'fe3da078-88a4-3ccf-9249-5acf33d7765f','parm3':'SM-G955F','openid':'563125632849524101','openkey':'9fa3348fcd6344060431a81d44a219d2c0a3a706' } } }
+const LOGIN_ACCOUNT_NAPOLEON = { 'rsn':'3hewzzhpsp','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'2f12d907-56a9-3a46-9124-d4351e9fc878','parm3':'SM-G955F','openid':'565939577188654916','openkey':'51ba25dcc6757726dec6ba4c737e3ca134c49fb3' } } }
 
 const error = JSON.stringify({
 	system: {
@@ -39,20 +41,7 @@ export class GoatRequest {
 
 	async login(): Promise<any> {
 		console.log('logging in')
-		const response = await axios.post(this.base_url, {
-			'rsn':'3hewzzhpsp',
-			'login':{
-				'loginAccount':{
-					'parm1':'WIFI',
-					'platform':'gaotukc',
-					'parm2':'GooglePlay',
-					'parm6':'2f12d907-56a9-3a46-9124-d4351e9fc878',
-					'parm3':'SM-G955F',
-					'openid':'565939577188654916',
-					'openkey':'51ba25dcc6757726dec6ba4c737e3ca134c49fb3',
-				},
-			},
-		}, {
+		const response = await axios.post(this.base_url, LOGIN_ACCOUNT_GAUTIER, {
 			params: {
 				sevid: this.server,
 				ver: 'V1.3.500',
@@ -70,7 +59,7 @@ export class GoatRequest {
 				'Connection': 'Keep-Alive',
 			},
 		}).then(response => response.data)
-		
+
 		if (!response?.a?.loginMod?.loginAccount?.token) {
 			logger.error(`LoginError: ${response?.a?.system?.errror.msg}`)
 			process.exit()
@@ -89,7 +78,7 @@ export class GoatRequest {
 			params: {
 				sevid: this.server,
 				ver: 'V1.3.500',
-				uid: '699005053',
+				uid: '699002934', //'699005053',
 				token: this.token,
 				platform: 'gaotukc',
 				lang: 'en',

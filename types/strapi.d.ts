@@ -79,3 +79,24 @@ export type PlayerHeroes = {
 	hero: Hero
 	quality: number
 }
+
+export type OwnedHero = {
+	id?: number
+	hid: number
+	level: number
+	hero?: Hero|number
+
+	quality: number
+
+	military: number
+	fortune: number
+	provisions: number
+	inspiration: number
+
+	xp_quality: number
+	xp_tourney: number
+
+	ferocity: number
+	brutality: number
+	senior: number
+}

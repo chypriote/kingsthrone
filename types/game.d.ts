@@ -1,5 +1,4 @@
-import { Son, Wife } from './family'
-import { Hero } from './hero'
+import { Hero } from '~/scripts/repository/roster'
 
 declare enum Sex {
 	MALE= 2,
@@ -82,6 +81,7 @@ export interface User {
 	vipStatus: { status: number }
 	banben: { vipver: number }
 }
+
 export interface Item {
 	id: number
 	count: number
@@ -157,6 +157,52 @@ interface Hanlin {
 	ruid: string
 	ctime: number
 	tip: number
+}
+
+interface WifeSkill {
+	id: number
+	level: number
+	exp: number
+}
+export interface Wife {
+	id: number
+	love: number
+	flower: number
+	exp: number
+	skill: WifeSkill[]
+}
+interface Spouse {
+	fuid: number
+	fname: string
+	sname:  string
+	sonuid: number
+	honor: number
+	sex: Sex
+	ep: GameStats
+}
+export interface Son {
+	id: number
+	name: string
+	sex: Sex
+	mom: number
+	state: number
+	ep: GameStats
+	talent: number
+	cpoto: number
+	level: number
+	exp: number
+	power: number
+	cd: { next: number, label: string }
+	honor: number
+	tquid: number
+	tqitem: number
+	tqcd: { next: number, label: string }
+	sptime: number
+	spouse: Spouse
+	myqjadd: number
+	fqjadd: number
+	isxingqin: number
+	tc: number
 }
 
 export type GameInfos = {

@@ -1,7 +1,7 @@
 import { config } from 'dotenv'
 config()
 import { chunk } from 'lodash'
-import { Profile } from '~/types/goat/goat'
+import { Profile } from '~/types/goat'
 import { Player } from '~/types/strapi'
 import { logger } from './services/logger'
 import { client } from './services/requests'

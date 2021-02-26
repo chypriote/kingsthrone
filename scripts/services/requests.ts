@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { Club, Profile, KingdomRank, TourneyRank, EventRank } from '~/types/goat/goat'
+import { Club, Profile, KingdomRank, TourneyRank, EventRank } from '~/types/goat'
 import { logger } from '../services/logger'
-import { GameInfos } from '~/types/goat/game'
+import { GameInfos } from '~/types/game'
 
 const COOKIE = 'lyjxncc=2083c99339e8b46bf500d2d46ae68581'
 const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'4cfhvxxiim','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'fe3da078-88a4-3ccf-9249-5acf33d7765f','parm3':'SM-G955F','openid':'563125632849524101','openkey':'9fa3348fcd6344060431a81d44a219d2c0a3a706' } } }

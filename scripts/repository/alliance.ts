@@ -1,5 +1,5 @@
 import { formatISO } from 'date-fns'
-import { Profile } from '~/types/goat/goat'
+import { Profile } from '~/types/goat'
 import { Alliance, Player } from '~/types/strapi'
 import { client } from '../services/database'
 import { logger } from '../services/logger'

@@ -2,8 +2,8 @@ import { logger } from './services/logger'
 import { client } from './services/requests'
 import { updateTourneyLadder } from './tourney'
 import { updateKingdomLadder } from './kingdom'
-import { updateAlliances } from './alliance'
 import { updateProfiles } from './profiles'
+import { updateAlliances } from './alliances'
 
 const updateAll = async (): Promise<void> => {
 	await client.login()

@@ -82,7 +82,6 @@ export type PlayerHeroes = {
 
 export type OwnedHero = {
 	id?: number
-	hid: number
 	level: number
 	hero?: Hero|number
 

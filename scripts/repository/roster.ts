@@ -123,6 +123,7 @@ export interface Hero {
 
 export const getMyHeroByHID = async (hid: number): Promise<OwnedHero|null> => {
 	const heroes = await client('owned_heroes')
+		.select('owned_heroes.*')
 		.join('heroes', 'heroes.id', 'owned_heroes.hero')
 		.where('heroes.hid', '=', hid)
 		.limit(1)

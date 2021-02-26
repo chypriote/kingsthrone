@@ -66,7 +66,7 @@ export const getPlayerAlliance = async (player: Player): Promise<Alliance> => {
 
 // Checks if sent alliance already exists and creates it if not, add player to alliance
 export const setPlayerAlliance = async (player: Player, ally: Profile): Promise<void> => {
-	logger.debug(`Joining alliance ${ally.clubname}`)
+	logger.success(`Joining alliance ${ally.clubname}`)
 	let alliance = await getAllianceByAID(ally.clubid)
 	if (!alliance) {
 		await createAlliance(ally.clubid, ally.clubname)

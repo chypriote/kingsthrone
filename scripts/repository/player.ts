@@ -1,4 +1,4 @@
-import { formatISO } from 'date-fns'
+import { differenceInHours, formatISO } from 'date-fns'
 import { KingdomRank, Profile, TourneyRank } from '~/types/goat'
 import { Player } from '~/types/strapi'
 import { client } from '../services/database'
@@ -51,6 +51,7 @@ export const updatePlayerDetails = async (player: Player, details: Profile): Pro
 			heroes: details.hero_num,
 			maidens: details.wife_num,
 			children: details.son_num,
+			updated_at: formatISO(new Date()),
 		})
 		.where('gid', '=', player.gid)
 		.limit(1)
@@ -72,4 +73,26 @@ export const getOrCreatePlayerFromGoat = async (rank: TourneyRank|KingdomRank): 
 
 export const getAllGID = async (): Promise<{gid: string}[]> => {
 	return client('players').select('gid')
+}
+
+export const checkInactivity = async (player: Player, profile: Profile): Promise<void> => {
+	let inactivity
+
+	if (differenceInHours(new Date(), new Date(player.updated_at)) < 3) { return }
+
+	if (player.power.toString() !== profile.shili.toString()) {
+		inactivity = false
+	}
+	if (player.power.toString() === profile.shili.toString() && player.inactive === false) {
+		inactivity = null
+		logger.warn('Marked to check inactivity')
+	}
+	if (player.power.toString() === profile.shili.toString() && player.inactive === null) {
+		inactivity = true
+		logger.error('Marked inactive')
+	}
+
+	await client('players')
+		.update({ inactive: inactivity })
+		.where({ id: player.id })
 }

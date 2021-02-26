@@ -7,6 +7,7 @@ import { logger } from './services/logger'
 import { client } from './services/requests'
 import { getPlayers, updatePlayerDetails } from './repository/player'
 import { getPlayerAlliance, leaveAlliance, setPlayerAlliance } from './repository/alliance'
+import { checkInactivity } from './repository/player'
 
 const updatePlayerAlliance = async (player: Player, ally: Profile): Promise<void> => {
 	//Check if player currently has alliance
@@ -43,6 +44,7 @@ const updateProfile = async (player: Player): Promise<void> => {
 		await Promise.all([
 			updatePlayerDetails(player, profile),
 			updatePlayerAlliance(player, profile),
+			checkInactivity(player, profile),
 		])
 	} catch (e) {
 		logger.error(`Error updating ${player.gid} (${player.name}): ${e.toString()}`)
@@ -53,6 +55,7 @@ export const updateProfiles = async (): Promise<void> => {
 	await client.login()
 	const players: Player[] = await getPlayers()
 	const chunks = chunk(players, 9)
+
 	for (const chunk of chunks) {
 		const promises: Promise<void>[] = []
 		chunk.forEach((player: Player) => promises.push(updateProfile(player)))

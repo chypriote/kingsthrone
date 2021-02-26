@@ -15,7 +15,7 @@ export type Profile = {
 		e3: number //Provision
 		e4: number //Inspiration
 	}
-	shili: number //kingdomPower
+	shili: string //kingdomPower
 	love: number //Intimacy
 	clubid: number
 	clubname: string

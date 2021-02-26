@@ -35,6 +35,7 @@ export type Player = {
 
 	notes: string
 	favorite: boolean
+	inactive: boolean|null
 
 	rankings?: KingdomRanking[]
 	alliance_members?: AllianceMembers[]
@@ -43,6 +44,8 @@ export type Player = {
 	alliance?: Alliance
 	rank?: KingdomRanking
 	roster?: Hero[]
+
+	updated_at: string
 }
 
 export type Hero = {

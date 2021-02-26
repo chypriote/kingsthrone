@@ -33,6 +33,9 @@ export type Player = {
 	children: number
 	intimacy: number
 
+	notes: string
+	favorite: boolean
+
 	rankings?: KingdomRanking[]
 	alliance_members?: AllianceMembers[]
 	player_heroes?: PlayerHeroes[]

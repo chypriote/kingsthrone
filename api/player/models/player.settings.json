@@ -57,6 +57,10 @@
     "notes": {
       "type": "richtext"
     },
+    "favorite": {
+      "type": "boolean",
+      "default": false
+    },
     "kingdom_rankings": {
       "collection": "kingdom-ranking",
       "via": "player"

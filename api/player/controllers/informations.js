@@ -18,7 +18,7 @@ async function index(ctx) {
 	ctx.send({
 		...player,
 		alliance,
-		roster: roster.map(h => ({ ...h.hero, quality: h.quality, base: h.hero.quality })),
+		roster: roster.map(h => ({ ...h.hero, quality: h.quality, base: h.hero.quality, id: h.id })),
 		rankings: { kingdom, tourney },
 	})
 }
@@ -37,7 +37,7 @@ async function roster(ctx) {
 	const { getPlayerHeroes } = strapi.services.player
 	const roster = await getPlayerHeroes(id)
 
-	ctx.send(roster.map(h => ({ ...h.hero, quality: h.quality, base: h.hero.quality })))
+	ctx.send(roster.map(h => ({ ...h.hero, quality: h.quality, base: h.hero.quality, id: h.id })))
 }
 
 module.exports = {

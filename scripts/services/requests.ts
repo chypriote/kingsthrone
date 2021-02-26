@@ -39,9 +39,9 @@ export class GoatRequest {
 		return this
 	}
 
-	async login(): Promise<any> {
+	async login(user = LOGIN_ACCOUNT_NAPOLEON): Promise<any> {
 		console.log('logging in')
-		const response = await axios.post(this.base_url, LOGIN_ACCOUNT_GAUTIER, {
+		const response = await axios.post(this.base_url, user, {
 			params: {
 				sevid: this.server,
 				ver: 'V1.3.500',
@@ -71,14 +71,14 @@ export class GoatRequest {
 		return response.a.loginMod.loginAccount
 	}
 
-	private async sendRequest(data: unknown): Promise<any> {
+	private async sendRequest(data: unknown, gid = '699005053'): Promise<any> {
 		if (!this.isLoggedIn) {await this.login()}
 
 		const response =  await axios.post(this.base_url, data, {
 			params: {
 				sevid: this.server,
 				ver: 'V1.3.500',
-				uid: '699002934', //'699005053',
+				uid: gid,
 				token: this.token,
 				platform: 'gaotukc',
 				lang: 'en',
@@ -137,7 +137,8 @@ export class GoatRequest {
 	}
 
 	async getGameInfos(): Promise<GameInfos> {
-		const game = await this.sendRequest({ rsn:'2ynbmhanlb',guide:{ login:{ language:1,platform:'gaotukc',ug:'' } } })
+		await this.login(LOGIN_ACCOUNT_GAUTIER)
+		const game = await this.sendRequest({ rsn:'2ynbmhanlb',guide:{ login:{ language:1,platform:'gaotukc',ug:'' } } }, '699002934')
 
 		return game.a
 	}

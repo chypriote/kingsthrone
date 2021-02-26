@@ -14,7 +14,8 @@ async function index(ctx) {
 		even: player.player_heroes.filter(h => h.quality <= quality +3 && h.quality>quality).length,
 		best: player.player_heroes.filter(h => h.quality > quality +3).length,
 		...player,
-	})), ['worst', 'favorite', 'ratio', 'event'], ['desc', 'desc', 'asc', 'desc']))
+		inactive: player.inactive ? 2 : (player.inactive === null ? 1 : 0),
+	})), ['worst', 'favorite', 'inactive', 'ratio', 'event', 'vip'], ['desc', 'desc', 'desc', 'asc', 'desc', 'asc']))
 }
 
 module.exports = {

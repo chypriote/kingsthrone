@@ -61,6 +61,10 @@
       "type": "boolean",
       "default": false
     },
+    "inactive": {
+      "type": "boolean",
+      "default": false
+    },
     "kingdom_rankings": {
       "collection": "kingdom-ranking",
       "via": "player"

@@ -18,14 +18,6 @@
     },
     {
       "method": "GET",
-      "path": "/players/ratio",
-      "handler": "informations.ratio",
-      "config": {
-        "policies": []
-      }
-    },
-    {
-      "method": "GET",
       "path": "/players/:id",
       "handler": "player.findOne",
       "config": {
@@ -35,15 +27,15 @@
 		{
 			"method": "GET",
 			"path": "/players/:id/roster",
-			"handler": "informations.roster",
+			"handler": "player.roster",
 			"config": {
 				"policies": []
 			}
 		},
 		{
 			"method": "GET",
-			"path": "/players/:id/informations",
-			"handler": "informations.index",
+			"path": "/players/:id/details",
+			"handler": "player.details",
 			"config": {
 				"policies": []
 			}
@@ -72,5 +64,5 @@
         "policies": []
       }
     }
-  ]
+	]
 }

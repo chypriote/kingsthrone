@@ -1,6 +1,8 @@
 const setPlayerAndAllianceForRanking = async (ranking) => {
-	const { getAlliance } = await strapi.services.player
-	const [alliance] = await Promise.all([getAlliance(ranking.player.id)])
+	const alliance = await strapi.query('alliance').findOne({
+		'alliance_members.player': ranking.player.id,
+		'alliance_members.active': true,
+	})
 
 	return { ...ranking, alliance }
 }

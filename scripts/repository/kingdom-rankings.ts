@@ -1,4 +1,4 @@
-import { differenceInHours, formatISO } from 'date-fns'
+import { differenceInHours, formatISO, isSameDay } from 'date-fns'
 import { Player, KingdomRanking } from '~/types/strapi'
 import { client } from '../services/database'
 import { logger } from '../services/logger'
@@ -12,6 +12,31 @@ export const getLatestKingdomRank = async (player: Player): Promise<KingdomRanki
 
 	return rankings.length ? rankings[0] : null
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/explicit-module-boundary-types
+export const deleteKingdomRanking = async (rank: any): Promise<void> => {
+	await client('rankings_kingdom').delete().where({ id: rank.id }).limit(1)
+}
+
+export const cleanUpKingdom = async (player: Player): Promise<number> => {
+	const rankings: KingdomRanking[] = await client('rankings_kingdom')
+		// @ts-ignore
+		.where('player', '=', player.id)
+		.orderBy('date', 'desc')
+
+	const promises: Promise<void>[] = []
+	rankings
+		.map(rank => ({ ...rank, date: new Date(rank.date) }))
+		.forEach((rank, index, array) => {
+			if (!index) { return }
+			if (isSameDay(rank.date, array[index - 1].date)) {
+				promises.push(deleteKingdomRanking(rank))
+			}
+		})
+	await Promise.all(promises)
+	return promises.length
+}
+
 
 export const createPlayerKingdomRank = async (rank: KingdomRanking): Promise<void> => {
 	const latest = await getLatestKingdomRank(rank.player)

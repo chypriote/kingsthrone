@@ -1,6 +1,10 @@
+import chalk from 'chalk'
+import { Player } from '~/types/strapi'
 import { client } from './services/requests'
 import { logger } from './services/logger'
-import { createPlayer, getPlayerByGID, getAllGID } from './repository/player'
+import { createPlayer, getPlayerByGID, getAllGID, getPlayers } from './repository/player'
+import { cleanUpTourney } from './repository/tourney-rankings'
+import { cleanUpKingdom } from './repository/kingdom-rankings'
 
 export const findMissingPlayers = async (): Promise<void> => {
 	const players = await client.getEventTourneyLadder()
@@ -29,7 +33,7 @@ export const parseProfiles = async (): Promise<void> => {
 		try {
 			const profile = await client.getProfile(id)
 			if (profile && profile.hero_num > 14) {
-				await createPlayer(id, profile.name, profile.vip, profile.shili, profile.hero_num)
+				await createPlayer(id, profile.name, profile.vip, parseInt(profile.shili), profile.hero_num)
 			}
 		} catch (e) {
 			console.log(e, id)
@@ -39,4 +43,16 @@ export const parseProfiles = async (): Promise<void> => {
 	logger.success('Finished')
 }
 
-parseProfiles().then(() => process.exit())
+export const cleanUpRank = async (): Promise<void> => {
+	const players: Player[] = await getPlayers()
+	for (const player of players) {
+		const [kingdom, tourney] = await Promise.all([
+			cleanUpKingdom(player),
+			cleanUpTourney(player),
+		])
+		logger.success(`Deleted ${kingdom} kingdom and ${tourney} tourney for ${chalk.bold(player.name)}`)
+	}
+}
+
+
+cleanUpRank().then(() => process.exit())

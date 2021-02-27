@@ -11,11 +11,20 @@
  */
 
 module.exports = {
-	/**
-   * Simple example.
-   * Every monday at 1am.
-   */
-	// '0 1 * * 1': () => {
-	//
-	// }
+	'5 1 * * *': {
+		task: async () => {
+			const { goat, update } = strapi.services
+
+			await goat.login()
+			await Promise.all([
+				update.kingdom(),
+				update.tourney(),
+				update.alliances(),
+			])
+			await update.profiles()
+		},
+		options: {
+			tz: 'Europe/Paris',
+		},
+	},
 }

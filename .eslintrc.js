@@ -41,5 +41,6 @@ module.exports = {
 		quotes: ['error', 'single'],
 		semi: ['error', 'never'],
 		'@typescript-eslint/ban-ts-comment': 'warn',
+		'@typescript-eslint/no-var-requires': 'off',
 	},
 }

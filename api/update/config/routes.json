@@ -1,0 +1,20 @@
+{
+  "routes": [
+		{
+			"method": "GET",
+			"path": "/update/trigger",
+			"handler": "update.trigger",
+			"config": {
+				"policies": []
+			}
+		},
+		{
+			"method": "GET",
+			"path": "/update/:id/trigger",
+			"handler": "update.single",
+			"config": {
+				"policies": []
+			}
+		}
+	]
+}

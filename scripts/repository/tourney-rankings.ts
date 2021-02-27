@@ -1,5 +1,5 @@
-import { differenceInHours, formatISO } from 'date-fns'
-import { Player, TourneyRanking } from '~/types/strapi'
+import { differenceInHours, formatISO, isSameDay } from 'date-fns'
+import { TourneyRanking, Player } from '~/types/strapi'
 import { client } from '../services/database'
 import { logger } from '../services/logger'
 
@@ -12,6 +12,31 @@ export const getLatestTourneyRank = async (player: Player): Promise<TourneyRanki
 
 	return rankings.length ? rankings[0] : null
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/explicit-module-boundary-types
+export const deleteTourneyRanking = async (rank: any): Promise<void> => {
+	await client('rankings_tourney').delete().where({ id: rank.id }).limit(1)
+}
+
+export const cleanUpTourney = async (player: Player): Promise<number> => {
+	const rankings: TourneyRanking[] = await client('rankings_tourney')
+		// @ts-ignore
+		.where('player', '=', player.id)
+		.orderBy('date', 'desc')
+
+	const promises: Promise<void>[] = []
+	rankings
+		.map(rank => ({ ...rank, date: new Date(rank.date) }))
+		.forEach((rank, index, array) => {
+			if (!index) { return }
+			if (isSameDay(rank.date, array[index - 1].date)) {
+				promises.push(deleteTourneyRanking(rank))
+			}
+		})
+	await Promise.all(promises)
+	return promises.length
+}
+
 
 export const createPlayerTourneyRank = async (rank: TourneyRanking): Promise<void> => {
 	const latest = await getLatestTourneyRank(rank.player)

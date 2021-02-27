@@ -20,7 +20,7 @@ module.exports = {
 		ctx.send({
 			...player,
 			alliance,
-			roster: roster.map(h => ({ ...h.hero, quality: h.quality, base: h.hero.quality, id: h.id })),
+			roster: roster.map(h => ({ ...h.hero, quality: h.quality, base: h.hero.quality, id: h.id, hero: h.hero.id })),
 		})
 	},
 	roster: async (ctx) => {

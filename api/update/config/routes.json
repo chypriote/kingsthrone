@@ -2,16 +2,48 @@
   "routes": [
 		{
 			"method": "GET",
-			"path": "/update/trigger",
-			"handler": "update.trigger",
+			"path": "/update/:id/player",
+			"handler": "update.player",
 			"config": {
 				"policies": []
 			}
 		},
 		{
 			"method": "GET",
-			"path": "/update/:id/trigger",
-			"handler": "update.single",
+			"path": "/update/alliances",
+			"handler": "update.alliances",
+			"config": {
+				"policies": []
+			}
+		},
+		{
+			"method": "GET",
+			"path": "/update/kingdom",
+			"handler": "update.kingdom",
+			"config": {
+				"policies": []
+			}
+		},
+		{
+			"method": "GET",
+			"path": "/update/tourney",
+			"handler": "update.tourney",
+			"config": {
+				"policies": []
+			}
+		},
+		{
+			"method": "GET",
+			"path": "/update/profiles",
+			"handler": "update.profiles",
+			"config": {
+				"policies": []
+			}
+		},
+		{
+			"method": "GET",
+			"path": "/update/trigger",
+			"handler": "update.trigger",
 			"config": {
 				"policies": []
 			}

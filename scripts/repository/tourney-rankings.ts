@@ -45,7 +45,7 @@ export const createPlayerTourneyRank = async (rank: TourneyRanking): Promise<voi
 		const old = new Date(latest.date)
 
 		if (differenceInHours(now, old) < 3) {
-			return logger.warn('Player rank already up to date')
+			return logger.warn('Player tourney rank already up to date')
 		}
 	}
 

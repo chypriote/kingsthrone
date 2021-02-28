@@ -17,7 +17,7 @@ module.exports = {
 			const old = new Date(latest.date)
 
 			if (differenceInHours(now, old) < 3) {
-				return logger.warn('Player rank already up to date')
+				return logger.warn('Player kingdom rank already up to date')
 			}
 		}
 

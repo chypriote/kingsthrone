@@ -53,12 +53,14 @@ module.exports = {
 		const { goat, logger, player } = strapi.services
 		logger.log(`Handling ${chalk.bold(profile.name)}`)
 
+		if (differenceInHours(new Date(), new Date(profile.updated_at)) < 3) { return logger.warn('Player profile already up to date') }
+
 		try {
 			const item = await goat.getProfile(profile.gid)
 			if (!item) {return}
 
+			await player.checkInactivity(profile, item)
 			await Promise.all([
-				player.checkInactivity(profile, item),
 				player.updatePlayerDetails(profile, item),
 				player.updatePlayerAlliance(profile, item),
 			])
@@ -81,6 +83,7 @@ module.exports = {
 				heroes: goat.hero_num,
 				maidens: goat.wife_num,
 				children: goat.son_num,
+				updated_at: formatISO(new Date()),
 			})
 			.where('gid', '=', player.gid)
 			.limit(1)
@@ -140,8 +143,6 @@ module.exports = {
 		const { logger } = strapi.services
 		const knex = strapi.connections.default
 		let inactivity
-
-		if (differenceInHours(new Date(), new Date(player.updated_at)) < 3) { return }
 
 		if (player.power.toString() !== goat.shili.toString()) {
 			inactivity = false

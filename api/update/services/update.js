@@ -4,15 +4,15 @@ const formatISO = require('date-fns/formatISO')
 
 module.exports = {
 	alliances: async () => {
-		const { goat, logger, alliances } = strapi.services
+		const { goat, logger, alliance } = strapi.services
 		const clubs = await goat.getAllianceLadder()
 
 		for (const club of clubs) {
 			logger.log(`Handling ${chalk.bold(club.name)}`)
 			const aid = parseInt(club.id)
-			const alliance = await strapi.query('alliance').findOne({ aid })
+			const existing = await strapi.query('alliance').findOne({ aid })
 
-			alliance ? await alliances.updateAlliance(alliance, club) : await alliances.createAlliance(club)
+			existing ? await alliance.updateAlliance(alliance, club) : await alliance.createAlliance(club)
 		}
 		logger.success('Alliances finished')
 	},

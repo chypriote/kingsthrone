@@ -6,9 +6,13 @@ export type Profile = {
 	job: number
 	exp: number
 	vip: number
-	bmap: number
-	mmap: number
-	smap: number
+	//Display: Drusilla Chap 97 (5), Afk 39 (5), Jin 105 (2)
+	bmap: number //campaign chapter// drusila 97 afk 39  jin 105
+	mmap: number //chapter completed // drusila 486 afk 195 jin 523
+	smap: number //battle in mission drusila 3880  afk 1557  jin 4176
+	// Current chapter: bmap
+	// Current mission: mmap - 5 * bmap : Drusila 1 afk 0 jin -2
+	// chap72map1=(mmap 356, smap 2840, bmap 72)
 	ep: {
 		e1: number //Military
 		e2: number //Gold
@@ -19,9 +23,9 @@ export type Profile = {
 	love: number //Intimacy
 	clubid: number
 	clubname: string
-	chenghao: number
+	chenghao: number //title
 	xuanyan: string
-	chlist: [
+	chlist: [ //titles list
 		{
 			id: number
 		}

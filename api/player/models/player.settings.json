@@ -54,6 +54,9 @@
     "heroes": {
       "type": "integer"
     },
+    "battle": {
+      "type": "integer"
+    },
     "notes": {
       "type": "richtext"
     },

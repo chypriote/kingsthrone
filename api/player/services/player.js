@@ -83,6 +83,7 @@ module.exports = {
 				heroes: goat.hero_num,
 				maidens: goat.wife_num,
 				children: goat.son_num,
+				battle: goat.smap,
 				updated_at: formatISO(new Date()),
 			})
 			.where('gid', '=', player.gid)
@@ -144,14 +145,14 @@ module.exports = {
 		const knex = strapi.connections.default
 		let inactivity
 
-		if (player.power.toString() !== goat.shili.toString()) {
+		if (player.battle === parseInt(goat.smap)) {
 			inactivity = false
 		}
-		if (player.power.toString() === goat.shili.toString() && player.inactive === false) {
+		if (player.battle === parseInt(goat.smap) && player.inactive === false) {
 			inactivity = null
 			logger.warn('Marked to check inactivity')
 		}
-		if (player.power.toString() === goat.shili.toString() && player.inactive === null) {
+		if (player.battle === parseInt(goat.smap) && player.inactive === null) {
 			inactivity = true
 			logger.error('Marked inactive')
 		}

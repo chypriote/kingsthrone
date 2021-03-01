@@ -22,6 +22,8 @@ export type Player = {
 	vip: number
 	level: number
 	power: number
+	battle: number
+	previous: number
 
 	military: number
 	fortune: number

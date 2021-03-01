@@ -27,6 +27,9 @@
     "power": {
       "type": "biginteger"
     },
+    "previous": {
+      "type": "biginteger"
+    },
     "level": {
       "type": "integer"
     },

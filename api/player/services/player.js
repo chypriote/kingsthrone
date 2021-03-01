@@ -59,11 +59,11 @@ module.exports = {
 			const item = await goat.getProfile(profile.gid)
 			if (!item) {return}
 
-			await player.checkInactivity(profile, item)
 			await Promise.all([
 				player.updatePlayerDetails(profile, item),
 				player.updatePlayerAlliance(profile, item),
 			])
+			await player.checkInactivity(profile)
 		} catch (e) {
 			logger.error(`Error updating ${player.gid} (${player.name}): ${e.toString()}`)
 		}
@@ -75,6 +75,8 @@ module.exports = {
 				vip: goat.vip,
 				level: goat.level,
 				power: goat.shili,
+				battle: goat.smap,
+				previous: player.power,
 				military: goat.ep.e1,
 				fortune: goat.ep.e2,
 				provisions: goat.ep.e3,
@@ -83,7 +85,6 @@ module.exports = {
 				heroes: goat.hero_num,
 				maidens: goat.wife_num,
 				children: goat.son_num,
-				battle: goat.smap,
 				updated_at: formatISO(new Date()),
 			})
 			.where('gid', '=', player.gid)
@@ -140,19 +141,19 @@ module.exports = {
 		await _this.leaveAlliance(player, current)
 		await _this.joinAlliance(player, goat)
 	},
-	checkInactivity: async (player, goat) => {
+	checkInactivity: async (player) => {
 		const { logger } = strapi.services
 		const knex = strapi.connections.default
 		let inactivity
 
-		if (player.battle === parseInt(goat.smap)) {
+		if (player.power === player.previous) {
 			inactivity = false
 		}
-		if (player.battle === parseInt(goat.smap) && player.inactive === false) {
+		if (player.power === player.previous && player.inactive === false) {
 			inactivity = null
 			logger.warn('Marked to check inactivity')
 		}
-		if (player.battle === parseInt(goat.smap) && player.inactive === null) {
+		if (player.power === player.previous && player.inactive === null) {
 			inactivity = true
 			logger.error('Marked inactive')
 		}

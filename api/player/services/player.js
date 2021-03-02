@@ -146,7 +146,7 @@ module.exports = {
 		const knex = strapi.connections.default
 		let inactivity
 
-		if (player.power === player.previous) {
+		if (player.power !== player.previous) {
 			inactivity = false
 		}
 		if (player.power === player.previous && player.inactive === false) {

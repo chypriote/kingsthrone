@@ -52,7 +52,7 @@ module.exports = {
 				date: formatISO(now),
 				rank: rank.rid,
 				points: rank.num,
-				ratio: player.power / player.heroes,
+				ratio: profile.power / profile.heroes,
 			})
 		}
 

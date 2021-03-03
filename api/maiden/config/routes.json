@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/maidens",
+      "handler": "maiden.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/maidens/count",
+      "handler": "maiden.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/maidens/:id",
+      "handler": "maiden.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/maidens",
+      "handler": "maiden.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/maidens/:id",
+      "handler": "maiden.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/maidens/:id",
+      "handler": "maiden.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

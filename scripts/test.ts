@@ -1,10 +1,10 @@
 import chalk from 'chalk'
-import { Player } from '~/types/strapi'
 import { client } from './services/requests'
 import { logger } from './services/logger'
 import { createPlayer, getPlayerByGID, getAllGID, getPlayers } from './repository/player'
 import { cleanUpTourney } from './repository/tourney-rankings'
 import { cleanUpKingdom } from './repository/kingdom-rankings'
+import { Player } from '~/types/Player'
 
 export const findMissingPlayers = async (): Promise<void> => {
 	const players = await client.getEventTourneyLadder()
@@ -24,7 +24,7 @@ export const parseProfiles = async (): Promise<void> => {
 	const missing = []
 	const gids = (await getAllGID()).map(it => parseInt(it.gid))
 
-	for (let i = 699000001; i < 699005058; i++) {
+	for (let i = 699005058; i < 699005200; i++) {
 		if (gids.includes(i)) {continue}
 		missing.push(i)
 	}
@@ -55,4 +55,4 @@ export const cleanUpRank = async (): Promise<void> => {
 }
 
 
-cleanUpRank().then(() => process.exit())
+parseProfiles().then(() => process.exit())

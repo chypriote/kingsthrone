@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "maidens",
+  "info": {
+    "name": "Maiden"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+		"mid": {
+			"type": "integer",
+			"unique": true
+		},
+    "name": {
+      "type": "string"
+    },
+    "naughty": {
+      "type": "integer"
+    },
+    "picture": {
+      "model": "file",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false
+    },
+    "hero": {
+      "model": "hero",
+      "via": "maiden"
+    },
+		"owned_maidens": {
+			"via": "maiden",
+			"collection": "owned-maiden"
+		}
+  }
+}

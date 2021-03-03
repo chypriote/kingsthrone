@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/owned-maidens",
+      "handler": "owned-maiden.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/owned-maidens/count",
+      "handler": "owned-maiden.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/owned-maidens/:id",
+      "handler": "owned-maiden.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/owned-maidens",
+      "handler": "owned-maiden.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/owned-maidens/:id",
+      "handler": "owned-maiden.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/owned-maidens/:id",
+      "handler": "owned-maiden.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

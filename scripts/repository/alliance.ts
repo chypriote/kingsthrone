@@ -1,8 +1,9 @@
 import { formatISO } from 'date-fns'
 import { Profile } from '~/types/goat'
-import { Alliance, Player } from '~/types/strapi'
 import { client } from '../services/database'
 import { logger } from '../services/logger'
+import { Alliance } from '~/types/Alliance'
+import { Player } from '~/types/Player'
 
 export const createAlliance = async (
 	aid: number,

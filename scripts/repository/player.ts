@@ -1,8 +1,8 @@
 import { differenceInHours, formatISO } from 'date-fns'
 import { KingdomRank, Profile, TourneyRank } from '~/types/goat'
-import { Player } from '~/types/strapi'
 import { client } from '../services/database'
 import { logger } from '../services/logger'
+import { Player } from '~/types/Player'
 
 export const createPlayer = async (
 	gid: number, name: string, vip = 0, power = 0, heroes = 0

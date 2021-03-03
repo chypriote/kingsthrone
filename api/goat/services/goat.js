@@ -120,12 +120,73 @@ class GoatRequest {
 
 		return ladder.a.cbhuodong.yamenlist
 	}
+	async getEventVirtueLadder() {
+		const ladder = await this.sendRequest({ 'huodong':{ 'hd1078Info':[] },'rsn':'6wxlgspgby' })
+		//{name, rid, score, uid}
+		return ladder.a.cbhuodong.zizhilist
+	}
 
-	async getGameInfos(){
+	/**
+	 * Returns the full game infos from player, see types/goat
+	 */
+	async getGameInfos() {
 		await this.login(LOGIN_ACCOUNT_GAUTIER)
 		const game = await this.sendRequest({ rsn:'2ynbmhanlb',guide:{ login:{ language:1,platform:'gaotukc',ug:'' } } }, '699002934')
 
 		return game.a
+	}
+
+	/**
+	 * {"next":1614718819,"num":1,"label":"jingli"}
+	 * next: timestamp for next visit
+	 * num: available visits
+	 * label ?
+	 */
+	async getMaidenVisits() {
+		await this.login(LOGIN_ACCOUNT_GAUTIER)
+		const maidens = await this.sendRequest({ 'user':{ 'refwife':[] },'rsn':'3hesfzewkf' }, '699002934')
+
+		return maidens.a.wife.jingLi
+	}
+
+	/**
+	 * {base: {allLove: 1574}} //total intimacy
+	 * wifeList: [
+	 * {"id":"2","love":70,"flower":35,"exp":404,
+	 * "skill":[{"id":7,"level":34,"exp":226},{"id":8,"level":39,"exp":642},{"id":9,"level":5,"exp":607},{"id":10,"level":0,"exp":0},{"id":11,"level":0,"exp":0},{"id":12,"level":0,"exp":0}],
+	 * "state":"1","num":"3","trans":-1,"banish":0}
+	 * ]
+	 * returns the updated wife
+	 */
+	async getRandomVisit() {
+		await this.login(LOGIN_ACCOUNT_GAUTIER)
+		const visit = await this.sendRequest({ 'wife':{ 'sjxo':[] },'rsn':'5jwwvvjaffr' }, '699002934')
+
+		return visit.u.wife.wifeList[0]
+	}
+
+	/**
+	 * {"num":1,"next":1614722244,"label":"xunfangtili"}
+	 * next: timestamp for next procession
+	 * num: available processions
+	 * label ?
+	 */
+	async getProcessionsAvailable() {
+		const processions = await this.sendRequest({ 'user':{ 'refxunfang':[] },'rsn':'4fibbbfifm' }, '699002934')
+
+		return processions.xunfang.xfInfo
+	}
+
+	/**
+	 * {"num":1,"next":1614722244,"label":"xunfangtili"}
+	 * next: timestamp for next procession
+	 * num: available processions
+	 * label ?
+	 */
+	async getRandomProcession() {
+		const procession = await this.sendRequest({ 'rsn':'6wxlggwupb','xunfang':{ 'xunfan':{ 'type':0 } } }, '699002934')
+
+		return procession.xunfang.xfInfo
 	}
 }
 

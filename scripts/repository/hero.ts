@@ -1,7 +1,9 @@
 import { client } from '../services/database'
-import { Hero, Player, PlayerHeroes } from '~/types/strapi'
+import { Hero } from '~/types/Hero'
+import { Player } from '~/types/Player'
+import { PlayerHero } from '~/types/PlayerHero'
 
-export const createOrUpdateHero = async (hero: Hero, player: Player): Promise<PlayerHeroes[]> => {
+export const createOrUpdateHero = async (hero: Hero, player: Player): Promise<PlayerHero[]> => {
 	return client('player_heroes as ph')
 		.join('heroes', 'heroes.id', 'ph.hero')
 		.where({ hero: hero.id, player: player.id })

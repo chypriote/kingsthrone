@@ -1,10 +1,10 @@
 import { formatISO } from 'date-fns'
 import { reduce } from 'lodash'
-import { OwnedHero } from '~/types/strapi'
 import { client } from '../services/database'
 import { logger } from '../services/logger'
 import { getHeroByHID } from '../repository/hero'
 import { GameStats } from '~/types/game'
+import { OwnedHero } from '~/types/OwnedHero'
 
 export enum HeroID {
 	SIR_OLIVER = 1,

@@ -2,12 +2,12 @@ import { config } from 'dotenv'
 config()
 import { chunk } from 'lodash'
 import { Profile } from '~/types/goat'
-import { Player } from '~/types/strapi'
 import { logger } from './services/logger'
 import { client } from './services/requests'
 import { getPlayers, updatePlayerDetails } from './repository/player'
 import { getPlayerAlliance, leaveAlliance, setPlayerAlliance } from './repository/alliance'
 import { checkInactivity } from './repository/player'
+import { Player } from '~/types/Player'
 
 const updatePlayerAlliance = async (player: Player, ally: Profile): Promise<void> => {
 	//Check if player currently has alliance

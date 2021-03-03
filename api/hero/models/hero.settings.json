@@ -46,6 +46,10 @@
       "plugin": "upload",
       "required": false
     },
+		"maiden": {
+			"via": "hero",
+			"model": "maiden"
+		},
     "player_heroes": {
       "collection": "player-hero",
       "via": "hero"

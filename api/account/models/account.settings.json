@@ -33,7 +33,7 @@
       "collection": "account-maiden"
     },
     "account_heroes": {
-      "via": "hero",
+      "via": "account",
       "collection": "account-hero"
     }
   }

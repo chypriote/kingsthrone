@@ -47,16 +47,16 @@
       "required": false
     },
     "maiden": {
-      "via": "hero",
-      "model": "maiden"
+			"model": "maiden",
+			"via": "hero"
     },
     "player_heroes": {
       "collection": "player-hero",
       "via": "hero"
     },
     "account_heroes": {
-      "via": "hero",
-      "collection": "account-hero"
+			"collection": "account-hero",
+			"via": "hero"
     }
   }
 }

@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "account_maidens",
+  "info": {
+    "name": "AccountMaiden",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "intimacy": {
+      "type": "integer"
+    },
+    "charm": {
+      "type": "integer"
+    },
+    "experience": {
+      "type": "integer"
+    },
+    "maiden": {
+      "model": "maiden",
+      "via": "account_maidens"
+    },
+    "account": {
+      "model": "account",
+      "via": "account_maidens"
+    }
+  }
+}

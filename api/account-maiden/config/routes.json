@@ -2,48 +2,48 @@
   "routes": [
     {
       "method": "GET",
-      "path": "/owned-maidens",
-      "handler": "owned-maiden.find",
+      "path": "/account-maidens",
+      "handler": "account-maiden.find",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/owned-maidens/count",
-      "handler": "owned-maiden.count",
+      "path": "/account-maidens/count",
+      "handler": "account-maiden.count",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/owned-maidens/:id",
-      "handler": "owned-maiden.findOne",
+      "path": "/account-maidens/:id",
+      "handler": "account-maiden.findOne",
       "config": {
         "policies": []
       }
     },
     {
       "method": "POST",
-      "path": "/owned-maidens",
-      "handler": "owned-maiden.create",
+      "path": "/account-maidens",
+      "handler": "account-maiden.create",
       "config": {
         "policies": []
       }
     },
     {
       "method": "PUT",
-      "path": "/owned-maidens/:id",
-      "handler": "owned-maiden.update",
+      "path": "/account-maidens/:id",
+      "handler": "account-maiden.update",
       "config": {
         "policies": []
       }
     },
     {
       "method": "DELETE",
-      "path": "/owned-maidens/:id",
-      "handler": "owned-maiden.delete",
+      "path": "/account-maidens/:id",
+      "handler": "account-maiden.delete",
       "config": {
         "policies": []
       }

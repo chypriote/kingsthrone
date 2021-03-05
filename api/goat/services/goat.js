@@ -172,6 +172,7 @@ class GoatRequest {
 	 * label ?
 	 */
 	async getProcessionsAvailable() {
+		await this.login(LOGIN_ACCOUNT_GAUTIER)
 		const processions = await this.sendRequest({ 'user':{ 'refxunfang':[] },'rsn':'4fibbbfifm' }, '699002934')
 
 		return processions.xunfang.xfInfo
@@ -184,6 +185,7 @@ class GoatRequest {
 	 * label ?
 	 */
 	async getRandomProcession() {
+		await this.login(LOGIN_ACCOUNT_GAUTIER)
 		const procession = await this.sendRequest({ 'rsn':'6wxlggwupb','xunfang':{ 'xunfan':{ 'type':0 } } }, '699002934')
 
 		return procession.xunfang.xfInfo

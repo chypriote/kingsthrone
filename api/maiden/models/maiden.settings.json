@@ -10,10 +10,10 @@
     "draftAndPublish": false
   },
   "attributes": {
-		"mid": {
-			"type": "integer",
-			"unique": true
-		},
+    "mid": {
+      "type": "integer",
+      "unique": true
+    },
     "name": {
       "type": "string"
     },
@@ -32,9 +32,9 @@
       "model": "hero",
       "via": "maiden"
     },
-		"owned_maidens": {
-			"via": "maiden",
-			"collection": "owned-maiden"
-		}
+    "account_maidens": {
+      "via": "maiden",
+      "collection": "account-maiden"
+    }
   }
 }

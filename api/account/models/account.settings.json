@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "accounts",
+  "info": {
+    "name": "Account"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "server": {
+      "type": "integer"
+    },
+    "uid": {
+      "type": "string"
+    },
+    "parameters": {
+      "type": "json"
+    },
+    "last_login": {
+      "type": "datetime"
+    },
+    "token": {
+      "type": "string"
+    },
+    "account_maidens": {
+      "via": "account",
+      "collection": "account-maiden"
+    },
+    "account_heroes": {
+      "via": "hero",
+      "collection": "account-hero"
+    }
+  }
+}

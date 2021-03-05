@@ -1,8 +1,8 @@
 {
   "kind": "collectionType",
-  "collectionName": "owned_heroes",
+  "collectionName": "account_heroes",
   "info": {
-    "name": "OwnedHero"
+    "name": "AccountHero"
   },
   "options": {
     "increments": true,
@@ -45,7 +45,11 @@
     },
     "hero": {
       "model": "hero",
-      "via": "owned_heroes"
-    }
+      "via": "account_heroes"
+    },
+		"account": {
+			"model": "account",
+			"via": "account_heroes"
+		}
   }
 }

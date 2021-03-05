@@ -65,9 +65,6 @@
   "author": {
     "name": "Chypriote"
   },
-  "strapi": {
-    "uuid": "bb26a18f-4111-46cb-8131-eaab061324c5"
-  },
   "engines": {
     "node": ">=12.0.0",
     "npm": ">=6.0.0"

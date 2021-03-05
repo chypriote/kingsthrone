@@ -2,48 +2,56 @@
   "routes": [
     {
       "method": "GET",
-      "path": "/owned-heroes",
-      "handler": "owned-hero.find",
+      "path": "/accounts",
+      "handler": "account.find",
+      "config": {
+        "policies": []
+      }
+    },
+		{
+			"method": "GET",
+			"path": "/accounts/:uid/load",
+			"handler": "account.load",
+			"config": {
+				"policies": []
+			}
+		},
+    {
+      "method": "GET",
+      "path": "/accounts/count",
+      "handler": "account.count",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/owned-heroes/count",
-      "handler": "owned-hero.count",
-      "config": {
-        "policies": []
-      }
-    },
-    {
-      "method": "GET",
-      "path": "/owned-heroes/:id",
-      "handler": "owned-hero.findOne",
+      "path": "/accounts/:id",
+      "handler": "account.findOne",
       "config": {
         "policies": []
       }
     },
     {
       "method": "POST",
-      "path": "/owned-heroes",
-      "handler": "owned-hero.create",
+      "path": "/accounts",
+      "handler": "account.create",
       "config": {
         "policies": []
       }
     },
     {
       "method": "PUT",
-      "path": "/owned-heroes/:id",
-      "handler": "owned-hero.update",
+      "path": "/accounts/:id",
+      "handler": "account.update",
       "config": {
         "policies": []
       }
     },
     {
       "method": "DELETE",
-      "path": "/owned-heroes/:id",
-      "handler": "owned-hero.delete",
+      "path": "/accounts/:id",
+      "handler": "account.delete",
       "config": {
         "policies": []
       }

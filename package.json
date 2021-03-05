@@ -30,9 +30,9 @@
   "dependencies": {
     "axios": "^0.21",
     "chalk": "^4.1",
-    "date-fns": "^2.18",
+    "date-fns": "^2.19",
     "dotenv": "^8.2",
-    "knex": "^0.21",
+    "knex": "^0.95",
     "lodash": "^4.17",
     "pg": "^8.5",
     "strapi": "^3.5",

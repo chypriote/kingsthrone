@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/hero-groups",
+      "handler": "hero-group.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/hero-groups/count",
+      "handler": "hero-group.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/hero-groups/:id",
+      "handler": "hero-group.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/hero-groups",
+      "handler": "hero-group.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/hero-groups/:id",
+      "handler": "hero-group.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/hero-groups/:id",
+      "handler": "hero-group.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

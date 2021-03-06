@@ -16,15 +16,15 @@
     },
     "name": {
       "type": "string",
-			"required": true,
-			"unique": true
+      "required": true,
+      "unique": true
     },
     "naughty": {
       "type": "integer"
     },
     "picture": {
       "model": "file",
-			"via": "related",
+      "via": "related",
       "allowedTypes": [
         "images"
       ],
@@ -32,12 +32,12 @@
       "required": false
     },
     "hero": {
-      "model": "hero",
-      "via": "maiden"
+      "via": "maiden",
+      "model": "hero"
     },
     "account_maidens": {
-			"collection": "account-maiden",
-			"via": "maiden"
+      "collection": "account-maiden",
+      "via": "maiden"
     }
   }
 }

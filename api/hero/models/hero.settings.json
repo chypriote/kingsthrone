@@ -47,16 +47,39 @@
       "required": false
     },
     "maiden": {
-			"model": "maiden",
-			"via": "hero"
+      "model": "maiden",
+      "via": "hero"
     },
     "player_heroes": {
       "collection": "player-hero",
       "via": "hero"
     },
     "account_heroes": {
-			"collection": "account-hero",
-			"via": "hero"
+      "collection": "account-hero",
+      "via": "hero"
+    },
+    "hero_groups": {
+      "collection": "hero-group",
+      "via": "heroes"
+    },
+    "unlock": {
+      "type": "enumeration",
+      "enum": [
+        "story",
+        "event",
+        "vip",
+        "kingdom"
+      ]
+    },
+    "paragons": {
+      "type": "component",
+      "repeatable": true,
+      "component": "attributes.paragon"
+    },
+    "quality_skills": {
+      "type": "component",
+      "repeatable": true,
+      "component": "attributes.quality-skill"
     }
   }
 }

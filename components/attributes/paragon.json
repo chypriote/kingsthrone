@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_attributes_paragons",
+  "info": {
+    "name": "Paragon",
+    "icon": "shield-alt"
+  },
+  "options": {},
+  "attributes": {
+    "pid": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    }
+  }
+}

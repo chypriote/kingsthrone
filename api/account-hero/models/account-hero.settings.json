@@ -45,8 +45,8 @@
       "type": "integer"
     },
     "hero": {
-      "model": "hero",
-      "via": "account_heroes"
+      "via": "account_heroes",
+      "model": "hero"
     },
     "account": {
       "model": "account",

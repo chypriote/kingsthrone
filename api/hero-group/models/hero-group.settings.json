@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "hero_groups",
+  "info": {
+    "name": "HeroGroup",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "heroes": {
+      "via": "hero_groups",
+      "collection": "hero",
+      "dominant": true
+    },
+    "attribute": {
+      "type": "string"
+    }
+  }
+}

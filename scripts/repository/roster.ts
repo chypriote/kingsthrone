@@ -4,7 +4,7 @@ import { client } from '../services/database'
 import { logger } from '../services/logger'
 import { getHeroByHID } from '../repository/hero'
 import { GameStats } from '~/types/game'
-import { OwnedHero } from '~/types/OwnedHero'
+import { AccountHero } from '~/types/AccountHero'
 
 export enum HeroID {
 	SIR_OLIVER = 1,
@@ -121,18 +121,18 @@ export interface Hero {
 	gfight_num: number
 }
 
-export const getMyHeroByHID = async (hid: number): Promise<OwnedHero|null> => {
-	const heroes = await client('owned_heroes')
-		.select('owned_heroes.*')
-		.join('heroes', 'heroes.id', 'owned_heroes.hero')
+export const getMyHeroByHID = async (hid: number): Promise<AccountHero|null> => {
+	const heroes = await client('account_heroes')
+		.select('account_heroes.*')
+		.join('heroes', 'heroes.id', 'account_heroes.hero')
 		.where('heroes.hid', '=', hid)
 		.limit(1)
 
 	return heroes.length ? heroes[0] : null
 }
 
-export const createMyHero = async (hero: OwnedHero): Promise<void> => {
-	await client('owned_heroes')
+export const createMyHero = async (hero: AccountHero): Promise<void> => {
+	await client('account_heroes')
 		.insert({
 			...hero,
 			created_by: 1,
@@ -142,12 +142,12 @@ export const createMyHero = async (hero: OwnedHero): Promise<void> => {
 		})
 	logger.debug(`Hero ${hero.hero} created`)
 }
-export const updateMyHero = async (hero: OwnedHero): Promise<void> => {
+export const updateMyHero = async (hero: AccountHero): Promise<void> => {
 	if (!hero.id) {
 		throw new Error(`Cant update non existing hero ${JSON.stringify(hero)}`)
 	}
 
-	await client('owned_heroes')
+	await client('account_heroes')
 		.where({ id: hero.id })
 		.update({
 			level: hero.level,
@@ -179,7 +179,7 @@ export const createOrUpdateMyHero = async (goatHero: Hero): Promise<void> => {
 	const ferocity = goatHero.pkskill.find(it => it.id === TSkills.FEROCITY)?.level || 0
 	const quality = reduce(goatHero.epskill, (q: number, skill: QualitySkill) => q + skill.zz, 0)
 
-	const myHero: OwnedHero = {
+	const myHero: AccountHero = {
 		hero: hero.id,
 		level: goatHero.level,
 		quality: quality,

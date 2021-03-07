@@ -1,6 +1,6 @@
 import { Hero } from './Hero'
 
-export type OwnedHero = {
+export type AccountHero = {
 	id?: number
 	level: number
 	hero?: Hero|number

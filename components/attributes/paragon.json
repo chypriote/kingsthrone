@@ -2,18 +2,13 @@
   "collectionName": "components_attributes_paragons",
   "info": {
     "name": "Paragon",
-    "icon": "shield-alt"
+    "icon": "shield-alt",
+    "description": ""
   },
   "options": {},
   "attributes": {
-    "pid": {
-      "type": "integer"
-    },
-    "name": {
-      "type": "string"
-    },
-    "description": {
-      "type": "string"
+    "paragon": {
+      "model": "paragon"
     }
   }
 }

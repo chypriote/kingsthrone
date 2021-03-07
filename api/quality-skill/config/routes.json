@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/quality-skills",
+      "handler": "quality-skill.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/quality-skills/count",
+      "handler": "quality-skill.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/quality-skills/:id",
+      "handler": "quality-skill.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/quality-skills",
+      "handler": "quality-skill.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/quality-skills/:id",
+      "handler": "quality-skill.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/quality-skills/:id",
+      "handler": "quality-skill.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

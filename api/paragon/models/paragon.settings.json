@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "paragons",
+  "info": {
+    "name": "Paragon"
+  },
+  "options": {
+    "increments": true,
+		"timestamps": false,
+		"draftAndPublish": false
+  },
+  "attributes": {
+    "pid": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    }
+  }
+}

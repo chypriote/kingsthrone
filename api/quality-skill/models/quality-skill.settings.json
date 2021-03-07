@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "quality_skills",
+  "info": {
+    "name": "Quality Skill",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": false,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "sid": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string",
+      "unique": true
+    },
+    "attribute": {
+      "type": "enumeration",
+      "enum": [
+        "balanced",
+        "military",
+        "fortune",
+        "provisions",
+        "inspiration"
+      ]
+    },
+    "stars": {
+      "type": "integer"
+    }
+  }
+}

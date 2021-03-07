@@ -15,6 +15,9 @@
       "type": "uid",
       "required": true
     },
+		"server": {
+			"type": "integer"
+		},
     "name": {
       "type": "string",
       "required": true

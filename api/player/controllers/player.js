@@ -1,5 +1,7 @@
 'use strict'
 
+const { sanitizeEntity } = require('strapi-utils')
+
 module.exports = {
 	details: async (ctx) => {
 		const { id } = ctx.params
@@ -28,5 +30,20 @@ module.exports = {
 		const roster = await strapi.query('player-hero').find({ player: id }, ['hero', 'hero.picture'])
 
 		ctx.send(roster.map(h => ({ ...h.hero, quality: h.quality, base: h.hero.quality, id: h.id })))
+	},
+	find: async (ctx) => {
+		let entities
+		if (ctx.query._q) {
+			entities = await strapi.services.player
+				.search(ctx.query, ['kingdom_rankings', 'tourney_rankings', 'alliance_members', 'player_heroes'])
+		} else {
+			entities = await strapi.services.player
+				.find(ctx.query, ['kingdom_rankings', 'tourney_rankings', 'alliance_members', 'player_heroes'])
+		}
+
+		return entities.map(entity => {
+			const sanitized = sanitizeEntity(entity, { model: strapi.models.player })
+			return { ...sanitized, ratio: sanitized.power / sanitized.heroes }
+		})
 	},
 }

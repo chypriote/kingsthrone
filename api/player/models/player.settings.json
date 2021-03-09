@@ -15,9 +15,9 @@
       "type": "uid",
       "required": true
     },
-		"server": {
-			"type": "integer"
-		},
+    "server": {
+      "type": "integer"
+    },
     "name": {
       "type": "string",
       "required": true
@@ -62,6 +62,9 @@
     },
     "battle": {
       "type": "integer"
+    },
+    "ratio": {
+      "type": "biginteger"
     },
     "notes": {
       "type": "richtext"

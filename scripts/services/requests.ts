@@ -10,7 +10,7 @@ const LOGIN_ACCOUNT_NAPOLEON = { 'rsn':'3hewzzhpsp','login':{ 'loginAccount':{ '
 const error = JSON.stringify({
 	system: {
 	  version: {
-			ver: 'V1.3.505',
+			ver: 'V1.3.506',
 			force: 1,
 			status: 0,
 			iosUrl: 'https://www.facebook.com/Kings-Throne-Game-of-Lust-891740894496936/',
@@ -44,7 +44,7 @@ export class GoatRequest {
 		const response = await axios.post(this.base_url, user, {
 			params: {
 				sevid: this.server,
-				ver: 'V1.3.505',
+				ver: 'V1.3.506',
 				uid: '',
 				token: '',
 				platform: 'gaotukc',
@@ -77,7 +77,7 @@ export class GoatRequest {
 		const response =  await axios.post(this.base_url, data, {
 			params: {
 				sevid: this.server,
-				ver: 'V1.3.505',
+				ver: 'V1.3.506',
 				uid: gid,
 				token: this.token,
 				platform: 'gaotukc',

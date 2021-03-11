@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import { client } from './services/requests'
+import { client, LOGIN_ACCOUNT_701 } from './services/requests'
 import { logger } from './services/logger'
 import { createPlayer, getPlayerByGID, getAllGID, getPlayers } from './repository/player'
 import { cleanUpTourney } from './repository/tourney-rankings'
@@ -24,7 +24,10 @@ export const parseProfiles = async (): Promise<void> => {
 	const missing = []
 	const gids = (await getAllGID()).map(it => parseInt(it.gid))
 
-	for (let i = 699005058; i < 699005200; i++) {
+	client.setServer('701')
+	await client.login(LOGIN_ACCOUNT_701)
+
+	for (let i = 701000001; i < 701005200; i++) {
 		if (gids.includes(i)) {continue}
 		missing.push(i)
 	}
@@ -32,8 +35,9 @@ export const parseProfiles = async (): Promise<void> => {
 	for (const id of missing) {
 		try {
 			const profile = await client.getProfile(id)
+
 			if (profile && profile.hero_num > 14) {
-				await createPlayer(id, profile.name, profile.vip, parseInt(profile.shili), profile.hero_num)
+				await createPlayer(id, profile.name, profile.vip, parseInt(profile.shili), profile.hero_num, 701)
 			}
 		} catch (e) {
 			console.log(e, id)

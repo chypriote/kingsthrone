@@ -17,7 +17,8 @@
     "profiles": "ts-node scripts/profiles.ts",
     "roster": "ts-node scripts/player.ts",
     "update": "ts-node scripts/update.ts",
-    "test": "ts-node scripts/test.ts"
+    "test": "ts-node scripts/test.ts",
+    "quests": "ts-node scripts/quester.ts"
   },
   "lint-staged": {
     "*.{js}": "eslint --ext \".js,.ts\" --ignore-path .gitignore ."

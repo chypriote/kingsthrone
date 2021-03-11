@@ -1,11 +1,26 @@
 import axios from 'axios'
-import { Club, Profile, KingdomRank, TourneyRank, EventRank } from '~/types/goat'
+import { Club, Profile, KingdomRank, TourneyRank, EventRank, CastleInfos } from '~/types/goat'
 import { logger } from '../services/logger'
 import { GameInfos } from '~/types/game'
 
 const COOKIE = 'lyjxncc=2083c99339e8b46bf500d2d46ae68581'
-const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'4cfhvxxiim','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'fe3da078-88a4-3ccf-9249-5acf33d7765f','parm3':'SM-G955F','openid':'563125632849524101','openkey':'9fa3348fcd6344060431a81d44a219d2c0a3a706' } } }
-const LOGIN_ACCOUNT_NAPOLEON = { 'rsn':'3hewzzhpsp','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'2f12d907-56a9-3a46-9124-d4351e9fc878','parm3':'SM-G955F','openid':'565939577188654916','openkey':'51ba25dcc6757726dec6ba4c737e3ca134c49fb3' } } }
+export const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'4cfhvxxiim','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'fe3da078-88a4-3ccf-9249-5acf33d7765f','parm3':'SM-G955F','openid':'563125632849524101','openkey':'9fa3348fcd6344060431a81d44a219d2c0a3a706' } } }
+export const LOGIN_ACCOUNT_NAPOLEON = { 'rsn':'3hewzzhpsp','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'2f12d907-56a9-3a46-9124-d4351e9fc878','parm3':'SM-G955F','openid':'565939577188654916','openkey':'51ba25dcc6757726dec6ba4c737e3ca134c49fb3' } } }
+export const LOGIN_ACCOUNT_701 = { 'rsn':'2maymbhnxnb','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'82557521-a0b4-3441-a774-840066252311','parm3':'ONEPLUS A5000','openid':'565939577188654916','openkey':'deb43d3a1b48b2f80d01ae6829834e9a309019f8' } } }
+
+
+export const CASTLES_RSN = {
+	castle_1: '5yprprvaae',
+	castle_2: '7cydydogyv',
+	castle_3: '6swwpwkwpxb',
+	castle_4: '6wxlxlugsx',
+	castle_5: '1kbibwuiri',
+	castle_6: '8amxmxrkjm',
+	castle_7: '3heseskfwp',
+	castle_8: '9mninbtbci',
+	castle_9: '6xukulblpx',
+	castle_10: '4cfxfximbb',
+}
 
 const error = JSON.stringify({
 	system: {
@@ -71,7 +86,7 @@ export class GoatRequest {
 		return response.a.loginMod.loginAccount
 	}
 
-	private async sendRequest(data: unknown, gid = '699005053'): Promise<any> {
+	private async sendRequest(data: unknown, gid = '699005053', ignoreError = false): Promise<any> {
 		if (!this.isLoggedIn) {await this.login()}
 
 		const response =  await axios.post(this.base_url, data, {
@@ -94,7 +109,7 @@ export class GoatRequest {
 		}).then(response => response.data)
 
 		if (response?.a?.system?.errror) {
-			logger.error(`RequestError: ${response?.a?.system?.errror.msg}`)
+			if (!ignoreError) {logger.error(`RequestError: ${response?.a?.system?.errror.msg}`)}
 			throw new Error(response?.a?.system?.errror.msg)
 			// process.exit()
 		}
@@ -103,7 +118,7 @@ export class GoatRequest {
 	}
 
 	async getProfile(gid: number): Promise<Profile|null>  {
-		const profile = await this.sendRequest({ user: { getFuserMember: { id: gid } },rsn: '5ypfaywvff' })
+		const profile = await this.sendRequest({ user: { getFuserMember: { id: gid } },rsn: '5ypfaywvff' }, '701005124')
 
 		if (profile?.a?.system?.errror) {
 			return null
@@ -137,10 +152,54 @@ export class GoatRequest {
 	}
 
 	async getGameInfos(): Promise<GameInfos> {
-		await this.login(LOGIN_ACCOUNT_GAUTIER)
-		const game = await this.sendRequest({ rsn:'2ynbmhanlb',guide:{ login:{ language:1,platform:'gaotukc',ug:'' } } }, '699002934')
+		const game = await this.sendRequest({ rsn:'2ynbmhanlb',guide:{ login:{ language:1,platform:'gaotukc',ug:'' } } })
 
 		return game.a
+	}
+
+	async getCastleRewards(id: number): Promise<CastleInfos|false> {
+		try {
+			// @ts-ignore
+			const reward = await this.sendRequest({ 'rsn': CASTLES_RSN[`castle_${id}`],'hangUpSystem':{ 'getRewards':{ 'type':'all','id':id } } }, null, true)
+
+			return reward.u.hangUpSystem.info[0]
+		} catch (e) {
+			return false
+		}
+	}
+	async claimAll(castleId: number): Promise<void> {
+		try {
+			await this.sendRequest({ 'rsn': '4acfahcffvm', 'hangUpSystem': { 'getSonDispatchRewards': { 'eventId': 'all', 'id': castleId } } })
+		}catch (e) {
+			console.log(`Failed at claimAll ${e.toString()}`)
+		}
+	}
+	async claimQuest(eventId: string, castleId: number): Promise<void> {
+		console.log(`Claim quest ${eventId} for castle ${castleId}`)
+		try {
+			await this.sendRequest({ 'rsn': '9zrmzjtbsjm','hangUpSystem': { 'getSonDispatchRewards': { 'eventId': eventId, 'id': castleId } } })
+		}catch (e) {
+			console.log(`Failed at claimQuest ${e.toString()}`)
+		}
+	}
+	async sendQuest(eventId: string, castleId: number, sonId: number): Promise<void> {
+		console.log(`Send son ${sonId} on quest ${eventId} for castle ${castleId}`)
+		try {
+			await this.sendRequest({ 'rsn': '9rztbmjirc','hangUpSystem': { 'sonDispatch': { 'son_slot': [{ 'slot': 1, 'sonId': sonId }],'isDouble': 0,'eventId': eventId,'id': castleId } } })
+		}catch (e) {
+			console.log(`Failed at sendQuest ${e.toString()}`)
+		}
+	}
+	async refreshQuests(castleId: number): Promise<CastleInfos|false> {
+		console.log(`Refreshing quests for castle ${castleId}`)
+		try{
+			const refresh = await this.sendRequest({ 'rsn':'3hzpseshen','hangUpSystem':{ 'refreshEvent':{ 'type':0,'id':castleId } } })
+
+			return refresh.hangUpSystem.info[0]
+		}catch (e) {
+			console.log(`Failed at refreshQuests ${e.toString()}`)
+			return false
+		}
 	}
 }
 

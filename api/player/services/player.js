@@ -18,6 +18,7 @@ module.exports = {
 
 		await knex('players').insert({
 			gid, name, vip, power, heroes,
+			ratio: Math.round(power / heroes),
 			created_by: 1,
 			updated_by: 1,
 			created_at: formatISO(new Date()),
@@ -85,6 +86,7 @@ module.exports = {
 				heroes: goat.hero_num,
 				maidens: goat.wife_num,
 				children: goat.son_num,
+				ratio: Math.round(goat.shili / goat.hero_num),
 				updated_at: formatISO(new Date()),
 			})
 			.where('gid', '=', player.gid)

@@ -1,4 +1,5 @@
 import { Hero } from '~/scripts/repository/roster'
+import { CastleInfos } from '~/types/goat'
 
 declare enum Sex {
 	MALE= 2,
@@ -203,6 +204,7 @@ export interface Son {
 	fqjadd: number
 	isxingqin: number
 	tc: number
+	available: boolean
 }
 
 export type GameInfos = {
@@ -214,7 +216,7 @@ export type GameInfos = {
 	czlbhuodong: unknown //packs
 	order: unknown
 	fuli: unknown
-	hangUpSystem: unknown //Kingdom
+	hangUpSystem: { info: CastleInfos[] } //Kingdom
 	weeklyrank: unknown
 	yamen: unknown
 	warHorse: unknown

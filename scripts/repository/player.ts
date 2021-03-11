@@ -5,10 +5,12 @@ import { logger } from '../services/logger'
 import { Player } from '~/types/Player'
 
 export const createPlayer = async (
-	gid: number, name: string, vip = 0, power = 0, heroes = 0
+	gid: number, name: string, vip = 0, power = 0, heroes = 0, server = 699
 ): Promise<void> => {
 	await client('players').insert({
 		gid, name, vip, power, heroes,
+		server,
+		ratio: Math.round(power / heroes),
 		created_by: 1,
 		updated_by: 1,
 		created_at: formatISO(new Date()),
@@ -51,6 +53,7 @@ export const updatePlayerDetails = async (player: Player, details: Profile): Pro
 			heroes: details.hero_num,
 			maidens: details.wife_num,
 			children: details.son_num,
+			ratio: Math.round(parseInt(details.shili) / details.hero_num),
 			updated_at: formatISO(new Date()),
 		})
 		.where('gid', '=', player.gid)

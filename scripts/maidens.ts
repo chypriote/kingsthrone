@@ -1,9 +1,11 @@
-import { client, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
+import { client, LOGIN_ACCOUNT_NAPOLEON, LOGIN_ACCOUNT_GAUTIER } from './services/requests'
 import { logger } from './services/logger'
 import { find, reduce } from 'lodash'
 
 const account = LOGIN_ACCOUNT_NAPOLEON
 const visitsPerDraught = 4
+const draughtsToKeep = 100
+
 const MAIDENS = [
 	{ mid: 7, name: 'Gwyneth', visits: 0 },
 	{ mid: 6, name: 'Mavia', visits: 0 },
@@ -59,7 +61,7 @@ export const visitMaidens = async (): Promise<void> => {
 		availableVisits--
 		console.log(`Visited wife ${maiden.name} (${wife.id})`)
 
-		if (availableVisits === 0 && availableDraught > 0) {
+		if (availableVisits === 0 && availableDraught > draughtsToKeep) {
 			availableDraught = (await client.useStaminaDraught()).count
 			usedDraught++
 			availableVisits += visitsPerDraught

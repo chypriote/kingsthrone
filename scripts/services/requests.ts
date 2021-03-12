@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { Club, Profile, KingdomRank, TourneyRank, EventRank, CastleInfos } from '~/types/goat'
 import { logger } from '../services/logger'
-import { GameInfos } from '~/types/game'
+import { GameInfos, Wife } from '~/types/game'
 
 const COOKIE = 'lyjxncc=2083c99339e8b46bf500d2d46ae68581'
 export const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'4cfhvxxiim','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'fe3da078-88a4-3ccf-9249-5acf33d7765f','parm3':'SM-G955F','openid':'563125632849524101','openkey':'9fa3348fcd6344060431a81d44a219d2c0a3a706' } } }
@@ -157,6 +157,7 @@ export class GoatRequest {
 		return game.a
 	}
 
+	//Kingdom
 	async getCastleRewards(id: number): Promise<CastleInfos|false> {
 		try {
 			// @ts-ignore
@@ -200,6 +201,24 @@ export class GoatRequest {
 			console.log(`Failed at refreshQuests ${e.toString()}`)
 			return false
 		}
+	}
+
+	//Maidens
+	async visitRandomMaiden(): Promise<Wife> {
+		const visit = await this.sendRequest({ 'wife':{ 'sjxo':[] },'rsn':'9rzrtbtsrs' })
+
+		return visit.u.wife.wifeList[0]
+	}
+	async useStaminaDraught(): Promise<{ count: number, id: number }> {
+		console.log('Using stamina draught')
+		const items = await this.sendRequest({ 'wife':{ 'weige':[] },'rsn':'7xcygxvyygp' })
+
+		return items.u.item.itemList[0]
+	}
+	async getAvailableVisits(): Promise<{num: number, next: number}> {
+		const next = await this.sendRequest({ 'user':{ 'refwife':[] },'rsn':'4acfmahhcgm' })
+
+		return next.a.wife.jingLi
 	}
 }
 

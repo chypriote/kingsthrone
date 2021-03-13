@@ -24,10 +24,10 @@ export const parseProfiles = async (): Promise<void> => {
 	const missing = []
 	const gids = (await getAllGID()).map(it => parseInt(it.gid))
 
-	client.setServer('701')
-	await client.login(LOGIN_ACCOUNT_701)
-
-	for (let i = 701000001; i < 701005200; i++) {
+	// client.setServer('701')
+	// await client.login(LOGIN_ACCOUNT_701)
+	await client.login()
+	for (let i = 699000001; i < 699005200; i++) {
 		if (gids.includes(i)) {continue}
 		missing.push(i)
 	}

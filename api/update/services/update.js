@@ -63,7 +63,7 @@ module.exports = {
 		await goat.login()
 		const profiles = await strapi.connections.default('players').where({ server: 699 })
 
-		const chunks = chunk(profiles, 10)
+		const chunks = chunk(profiles, 8)
 
 		for (const chunk of chunks) {
 			const promises = []

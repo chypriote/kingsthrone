@@ -1,11 +1,11 @@
 import axios from 'axios'
-import { Club, Profile, KingdomRank, TourneyRank, EventRank, CastleInfos } from '~/types/goat'
+import { Club, Profile, KingdomRank, TourneyRank, CastleInfos } from '~/types/goat'
 import { logger } from '../services/logger'
 import { GameInfos, Wife } from '~/types/game'
 
-const COOKIE = 'lyjxncc=2083c99339e8b46bf500d2d46ae68581'
+const COOKIE = 'lyjxncc=61807df8e4b62e93df38a13783e6513b'
 export const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'4cfhvxxiim','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'fe3da078-88a4-3ccf-9249-5acf33d7765f','parm3':'SM-G955F','openid':'563125632849524101','openkey':'9fa3348fcd6344060431a81d44a219d2c0a3a706' } } }
-export const LOGIN_ACCOUNT_NAPOLEON = { 'rsn':'3hewzzhpsp','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'2f12d907-56a9-3a46-9124-d4351e9fc878','parm3':'SM-G955F','openid':'565939577188654916','openkey':'51ba25dcc6757726dec6ba4c737e3ca134c49fb3' } } }
+export const LOGIN_ACCOUNT_NAPOLEON = { 'rsn':'5wjwfeefhf','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'82557521-a0b4-3441-a774-840066252311','parm3':'ONEPLUS A5000','openid':'565939577188654916','openkey':'3af6112ebee552af12f624b08a71699d7cd15bfd' } } }
 export const LOGIN_ACCOUNT_701 = { 'rsn':'2maymbhnxnb','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'82557521-a0b4-3441-a774-840066252311','parm3':'ONEPLUS A5000','openid':'565939577188654916','openkey':'deb43d3a1b48b2f80d01ae6829834e9a309019f8' } } }
 
 
@@ -38,6 +38,7 @@ const error = JSON.stringify({
 export class GoatRequest {
 	cookie: string
 	token: string|null = null
+	gid: string|null = null
 	server: string
 	base_url: string
 
@@ -68,7 +69,7 @@ export class GoatRequest {
 			headers: {
 				'Accept-Encoding': 'identity',
 				'Content-Type': 'application/x-www-form-urlencoded',
-				'User-Agent': 'Dalvik/2.1.0 (Linux; U; Android 7.1.2; SM-G955F Build/NRD90M)',
+				'User-Agent': 'Dalvik/2.1.0 (Linux; U; Android 7.1.1; ONEPLUS A5000 Build/NMF26X)',
 				'Host': 'zsjefunbm.zwformat.com',
 				'Cookie': this.cookie,
 				'Connection': 'Keep-Alive',
@@ -81,19 +82,20 @@ export class GoatRequest {
 		}
 
 		this.token = response?.a?.loginMod?.loginAccount?.token
+		this.gid = response?.a?.loginMod?.loginAccount?.uid
 		this.isLoggedIn = true
 
 		return response.a.loginMod.loginAccount
 	}
 
-	private async sendRequest(data: unknown, gid = '699005053', ignoreError = false): Promise<any> {
+	private async sendRequest(data: unknown, ignoreError = false): Promise<any> {
 		if (!this.isLoggedIn) {await this.login()}
 
 		const response =  await axios.post(this.base_url, data, {
 			params: {
 				sevid: this.server,
 				ver: 'V1.3.507',
-				uid: gid,
+				uid: this.gid,
 				token: this.token,
 				platform: 'gaotukc',
 				lang: 'en',
@@ -111,14 +113,14 @@ export class GoatRequest {
 		if (response?.a?.system?.errror) {
 			if (!ignoreError) {logger.error(`RequestError: ${response?.a?.system?.errror.msg}`)}
 			throw new Error(response?.a?.system?.errror.msg)
-			// process.exit()
+			process.exit()
 		}
 
 		return response
 	}
 
 	async getProfile(gid: number): Promise<Profile|null>  {
-		const profile = await this.sendRequest({ user: { getFuserMember: { id: gid } },rsn: '5ypfaywvff' }, '701005124')
+		const profile = await this.sendRequest({ user: { getFuserMember: { id: gid } }, rsn: '5ypfaywvff' })
 
 		if (profile?.a?.system?.errror) {
 			return null
@@ -129,7 +131,7 @@ export class GoatRequest {
 
 	async getKingdomRankings(): Promise<KingdomRank[]> {
 		const ladder = await this.sendRequest({ ranking:{ paihang:{ type:0 } }, rsn:'2ynxlnaqyx' })
-		console.log(ladder.a)
+
 		return ladder.a.ranking.shili
 	}
 
@@ -145,12 +147,6 @@ export class GoatRequest {
 		return alliances.a.club.clubList
 	}
 
-	async getEventTourneyLadder(): Promise<EventRank[]> {
-		const ladder = await this.sendRequest({ huodong:{ hd254Info:[] }, rsn:'3ekkszzrpf' })
-
-		return ladder.a.cbhuodong.yamenlist
-	}
-
 	async getGameInfos(): Promise<GameInfos> {
 		const game = await this.sendRequest({ rsn:'2ynbmhanlb',guide:{ login:{ language:1,platform:'gaotukc',ug:'' } } })
 
@@ -161,7 +157,7 @@ export class GoatRequest {
 	async getCastleRewards(id: number): Promise<CastleInfos|false> {
 		try {
 			// @ts-ignore
-			const reward = await this.sendRequest({ 'rsn': CASTLES_RSN[`castle_${id}`],'hangUpSystem':{ 'getRewards':{ 'type':'all','id':id } } }, null, true)
+			const reward = await this.sendRequest({ 'rsn': CASTLES_RSN[`castle_${id}`],'hangUpSystem':{ 'getRewards':{ 'type':'all','id':id } } }, true)
 
 			return reward.u.hangUpSystem.info[0]
 		} catch (e) {

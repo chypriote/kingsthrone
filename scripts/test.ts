@@ -1,24 +1,10 @@
 import chalk from 'chalk'
 import { client, LOGIN_ACCOUNT_701 } from './services/requests'
 import { logger } from './services/logger'
-import { createPlayer, getPlayerByGID, getAllGID, getPlayers } from './repository/player'
+import { createPlayer, getAllGID, getPlayers } from './repository/player'
 import { cleanUpTourney } from './repository/tourney-rankings'
 import { cleanUpKingdom } from './repository/kingdom-rankings'
 import { Player } from '~/types/Player'
-
-export const findMissingPlayers = async (): Promise<void> => {
-	const players = await client.getEventTourneyLadder()
-
-	for (const player of players) {
-		const gid = parseInt(player.uid)
-		const found = getPlayerByGID(gid)
-		if (found) { continue }
-
-		await createPlayer(gid, player.name)
-	}
-
-	logger.success('Finished')
-}
 
 export const parseProfiles = async (): Promise<void> => {
 	const missing = []
@@ -27,17 +13,19 @@ export const parseProfiles = async (): Promise<void> => {
 	// client.setServer('701')
 	// await client.login(LOGIN_ACCOUNT_701)
 	await client.login()
-	for (let i = 699000001; i < 699005200; i++) {
+	for (let i = 699000000; i < 699001000; i++) {
 		if (gids.includes(i)) {continue}
 		missing.push(i)
 	}
-
+	console.log(`found ${missing.length} potential players`)
 	for (const id of missing) {
 		try {
 			const profile = await client.getProfile(id)
 
 			if (profile && profile.hero_num > 14) {
-				await createPlayer(id, profile.name, profile.vip, parseInt(profile.shili), profile.hero_num, 701)
+				await createPlayer(id, profile.name, profile.vip, parseInt(profile.shili), profile.hero_num, 699)
+			} else {
+				console.log(`Ignoring ${id}`)
 			}
 		} catch (e) {
 			console.log(e, id)

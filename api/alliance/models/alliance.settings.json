@@ -33,9 +33,23 @@
     "motto": {
       "type": "string"
     },
-		"alliance_members": {
-			"via": "alliance",
-			"collection": "alliance-member"
-		}
+		"server": {
+			"type": "integer"
+		},
+		"cross": {
+			"type": "boolean",
+			"default": false
+		},
+		"opponent": {
+			"type": "boolean",
+			"default": false
+		},
+		"battletime": {
+			"type": "datetime"
+		},
+    "alliance_members": {
+      "collection": "alliance-member",
+      "via": "alliance"
+    }
   }
 }

@@ -18,4 +18,5 @@ export type AccountHero = {
 	ferocity: number
 	brutality: number
 	senior: number
+	military_quality: number
 }

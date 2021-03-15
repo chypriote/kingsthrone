@@ -161,3 +161,25 @@ export type CastleInfos = {
 	GarrisonInfo: GarrisonInfo
 	task: TaskInfo
 }
+
+export type XSAlliance = {
+	rid: number //rank
+	icon: string
+	cname: string //name
+	num: number //members
+	mzName: string //leader
+	allShiLi: number //power
+	maxNum: number //max members
+	cid: number //id
+	worship: number //boost
+	win: number
+	sev: number //server
+}
+
+export type XSOpponent = {
+	fcid: number,
+	isWin: boolean,
+	time: number,
+	turn: number,
+	type: number,
+}

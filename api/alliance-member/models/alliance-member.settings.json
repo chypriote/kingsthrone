@@ -12,8 +12,8 @@
   },
   "attributes": {
     "alliance": {
-      "model": "alliance",
-      "via": "alliance_members"
+      "via": "alliance_members",
+      "model": "alliance"
     },
     "player": {
       "via": "alliance_members",

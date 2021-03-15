@@ -5,6 +5,12 @@ import { createPlayer, getAllGID, getPlayers } from './repository/player'
 import { cleanUpTourney } from './repository/tourney-rankings'
 import { cleanUpKingdom } from './repository/kingdom-rankings'
 import { Player } from '~/types/Player'
+import {
+	createForCross,
+	getAllianceByAID,
+	resetCrossAlliance, setOpponent,
+	updateExistingForCross
+} from './repository/alliance'
 
 export const parseProfiles = async (): Promise<void> => {
 	const missing = []
@@ -46,5 +52,26 @@ export const cleanUpRank = async (): Promise<void> => {
 	}
 }
 
+export const crossServerAlliances = async (): Promise<void> => {
+	const alliances = await client.getXSAlliances()
+	await resetCrossAlliance()
 
-parseProfiles().then(() => process.exit())
+	for (const alliance of alliances) {
+		let ally
+		const existing = await getAllianceByAID(alliance.cid)
+
+		if (existing) {
+			ally = await updateExistingForCross(existing, alliance)
+			console.log(`Alliance ${ally.name} updated for crossserver`)
+		} else {
+			ally = await createForCross(alliance)
+			console.log(`Alliance ${ally.name} added to crossserver`)
+		}
+		const opponents = await client.getCrossOpponents(6990001)
+		for (const opponent of opponents) {
+			await setOpponent(opponent)
+		}
+	}
+}
+
+crossServerAlliances().then(() => process.exit())

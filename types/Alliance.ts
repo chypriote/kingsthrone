@@ -8,4 +8,6 @@ export type Alliance = {
 	level?: number
 	reputation?: number
 	members?: AllianceMember[]
+	server: number
+	cross: boolean
 }

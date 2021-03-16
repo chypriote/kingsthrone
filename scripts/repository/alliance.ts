@@ -102,6 +102,7 @@ export const updateExistingForCross = async (existing: Alliance, alliance: XSAll
 		.update({
 			power: alliance.allShiLi,
 			cross: true,
+			wins: alliance.win,
 			updated_at: formatISO(new Date()),
 		})
 		.where({ aid: existing.aid })

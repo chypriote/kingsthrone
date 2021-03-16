@@ -47,6 +47,9 @@
 		"battletime": {
 			"type": "datetime"
 		},
+		"wins": {
+			"type": "integer"
+		},
     "alliance_members": {
       "collection": "alliance-member",
       "via": "alliance"

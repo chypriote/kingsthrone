@@ -29,7 +29,7 @@ class GoatRequest {
 		const response = await axios.post(this.base_url, user, {
 			params: {
 				sevid: this.server,
-				ver: 'V1.3.507',
+				ver: 'V1.3.510',
 				uid: '',
 				token: '',
 				platform: 'gaotukc',
@@ -62,7 +62,7 @@ class GoatRequest {
 		const response =  await axios.post(this.base_url, data, {
 			params: {
 				sevid: this.server,
-				ver: 'V1.3.507',
+				ver: 'V1.3.510',
 				uid: gid,
 				token: this.token,
 				platform: 'gaotukc',

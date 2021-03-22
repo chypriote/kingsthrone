@@ -74,8 +74,8 @@ export const getOrCreatePlayerFromGoat = async (rank: TourneyRank|KingdomRank): 
 	return player
 }
 
-export const getAllGID = async (): Promise<{gid: string}[]> => {
-	return client('players').select('gid')
+export const getAllGID = async (params= {}): Promise<{gid: string}[]> => {
+	return client('players').select('gid').where(params)
 }
 
 export const checkInactivity = async (player: Player, profile: Profile): Promise<void> => {

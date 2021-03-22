@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import { client, LOGIN_ACCOUNT_701 } from './services/requests'
+import { client, LOGIN_ACCOUNT_RAYMUNDUS } from './services/requests'
 import { logger } from './services/logger'
 import { createPlayer, getAllGID, getPlayers } from './repository/player'
 import { cleanUpTourney } from './repository/tourney-rankings'
@@ -14,12 +14,12 @@ import {
 
 export const parseProfiles = async (): Promise<void> => {
 	const missing = []
-	const gids = (await getAllGID()).map(it => parseInt(it.gid))
+	const gids = (await getAllGID({ server: 775 })).map(it => parseInt(it.gid))
 
-	// client.setServer('701')
-	// await client.login(LOGIN_ACCOUNT_701)
-	await client.login()
-	for (let i = 699000000; i < 699001000; i++) {
+	client.setServer('775')
+	await client.login(LOGIN_ACCOUNT_RAYMUNDUS)
+	// await client.login()
+	for (let i = 775003000; i < 775004000; i++) {
 		if (gids.includes(i)) {continue}
 		missing.push(i)
 	}
@@ -29,7 +29,7 @@ export const parseProfiles = async (): Promise<void> => {
 			const profile = await client.getProfile(id)
 
 			if (profile && profile.hero_num > 14) {
-				await createPlayer(id, profile.name, profile.vip, parseInt(profile.shili), profile.hero_num, 699)
+				await createPlayer(id, profile.name, profile.vip, parseInt(profile.shili), profile.hero_num, 775)
 			} else {
 				console.log(`Ignoring ${id}`)
 			}
@@ -74,4 +74,4 @@ export const crossServerAlliances = async (): Promise<void> => {
 	}
 }
 
-crossServerAlliances().then(() => process.exit())
+parseProfiles().then(() => process.exit())

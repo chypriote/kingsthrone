@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Club, Profile, KingdomRank, TourneyRank, CastleInfos, XSAlliance, XSOpponent } from '~/types/goat'
+import { Club, Profile, KingdomRank, TourneyRank, CastleInfos, XSAlliance, XSOpponent, InLaw } from '~/types/goat'
 import { logger } from '../services/logger'
 import { GameInfos, Wife } from '~/types/game'
 import { Alliance } from '~/types/Alliance'
@@ -8,6 +8,7 @@ const COOKIE = 'lyjxncc=61807df8e4b62e93df38a13783e6513b'
 export const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'4cfhvxxiim','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'fe3da078-88a4-3ccf-9249-5acf33d7765f','parm3':'SM-G955F','openid':'563125632849524101','openkey':'9fa3348fcd6344060431a81d44a219d2c0a3a706' } } }
 export const LOGIN_ACCOUNT_NAPOLEON = { 'rsn':'5wjwfeefhf','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'82557521-a0b4-3441-a774-840066252311','parm3':'ONEPLUS A5000','openid':'565939577188654916','openkey':'3af6112ebee552af12f624b08a71699d7cd15bfd' } } }
 export const LOGIN_ACCOUNT_701 = { 'rsn':'2maymbhnxnb','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'82557521-a0b4-3441-a774-840066252311','parm3':'ONEPLUS A5000','openid':'565939577188654916','openkey':'deb43d3a1b48b2f80d01ae6829834e9a309019f8' } } }
+export const LOGIN_ACCOUNT_RAYMUNDUS = { 'rsn':'7xcxcypvslg','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'2630f405-13ed-3867-90e5-325059450d8e','parm3':'ONEPLUS A5000','openid':'573218842929144928','openkey':'78c249945d8d450de2111c2eebaa653b697f40c1' } } }
 
 
 export const CASTLES_RSN = {
@@ -26,7 +27,7 @@ export const CASTLES_RSN = {
 const error = JSON.stringify({
 	system: {
 	  version: {
-			ver: 'V1.3.510',
+			ver: 'V1.3.512',
 			force: 1,
 			status: 0,
 			iosUrl: 'https://www.facebook.com/Kings-Throne-Game-of-Lust-891740894496936/',
@@ -61,7 +62,7 @@ export class GoatRequest {
 		const response = await axios.post(this.base_url, user, {
 			params: {
 				sevid: this.server,
-				ver: 'V1.3.510',
+				ver: 'V1.3.512',
 				uid: '',
 				token: '',
 				platform: 'gaotukc',
@@ -95,7 +96,7 @@ export class GoatRequest {
 		const response =  await axios.post(this.base_url, data, {
 			params: {
 				sevid: this.server,
-				ver: 'V1.3.510',
+				ver: 'V1.3.512',
 				uid: this.gid,
 				token: this.token,
 				platform: 'gaotukc',
@@ -218,6 +219,18 @@ export class GoatRequest {
 		return next.a.wife.jingLi
 	}
 
+	//InLaws
+	async getInLaws(): Promise<InLaw[]> {
+		const friends = await this.sendRequest({ 'friends':{ 'getPrivateChatData':[] },'rsn':'7yvovxpxyp' })
+
+		return friends.a.friends.qjlist
+	}
+
+	async visitInLaw(uid: string): Promise<void> {
+		await this.sendRequest({ 'friends':{ 'qjvisit':{ 'fuid': uid } },'rsn':'3hzewhwzkp' })
+	}
+
+	//Alliance Championship
 	async getXSAlliances(): Promise<XSAlliance[]> {
 		const alliances = await this.sendRequest({ 'rsn':'7yvxyypsgp','qxzb':{ 'qxzbInfo':[] } })
 

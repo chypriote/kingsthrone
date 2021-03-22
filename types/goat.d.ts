@@ -183,3 +183,28 @@ export type XSOpponent = {
 	turn: number,
 	type: number,
 }
+
+export type InLaw = {
+	uid: string
+	name: string
+	job: number
+	sex: number
+	level: number
+	vip: number
+	chenghao: number
+	headframe: number
+	headType: number
+	headId: number
+	vipStatus: number
+	shili: number
+	clubid: number
+	clubname: string
+	frame: number
+	head: number
+	chatframe: number
+	num: number //likeability
+	num2: number //married
+	num3: number //last connection
+	tip: number
+}
+

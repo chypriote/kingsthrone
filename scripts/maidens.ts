@@ -1,10 +1,10 @@
-import { client, LOGIN_ACCOUNT_NAPOLEON, LOGIN_ACCOUNT_GAUTIER } from './services/requests'
+import { client, LOGIN_ACCOUNT_NAPOLEON, LOGIN_ACCOUNT_GAUTIER, LOGIN_ACCOUNT_RAYMUNDUS } from './services/requests'
 import { logger } from './services/logger'
 import { find, reduce } from 'lodash'
 
-const account = LOGIN_ACCOUNT_NAPOLEON
+const account = LOGIN_ACCOUNT_RAYMUNDUS
 const visitsPerDraught = 4
-const draughtsToKeep = 100
+const draughtsToKeep = 80
 
 const MAIDENS = [
 	{ mid: 7, name: 'Gwyneth', visits: 0 },
@@ -19,6 +19,7 @@ const MAIDENS = [
 	{ mid: 4, name: 'Katerina', visits: 0 },
 	{ mid: 3, name: 'Isabella', visits: 0 },
 	{ mid: 30, name: 'Helen', visits: 0 },
+	{ mid: 35, name: 'Morrigan', visits: 0 },
 	{ mid: 17, name: 'Vivienne', visits: 0 },
 	{ mid: 1, name: 'Marian', visits: 0 },
 	{ mid: 8, name: 'Constance', visits: 0 },
@@ -41,6 +42,7 @@ function getMaiden(id: number): {mid:number, name: string, visits: number} {
 }
 
 export const visitMaidens = async (): Promise<void> => {
+	client.setServer('775')
 	await client.login(account)
 	const available = await client.getAvailableVisits()
 	let availableVisits = available.num

@@ -1,9 +1,10 @@
-import { client, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
+import { client, LOGIN_ACCOUNT_GAUTIER, LOGIN_ACCOUNT_NAPOLEON, LOGIN_ACCOUNT_RAYMUNDUS } from './services/requests'
 import { logger } from './services/logger'
 
-const account = LOGIN_ACCOUNT_NAPOLEON
+const account = LOGIN_ACCOUNT_RAYMUNDUS
 
 export const visitInLaws = async (): Promise<void> => {
+	client.setServer('775')
 	await client.login(account)
 	const inLaws = await client.getInLaws()
 

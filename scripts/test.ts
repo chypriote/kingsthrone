@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import { client, LOGIN_ACCOUNT_RAYMUNDUS } from './services/requests'
+import { client, LOGIN_ACCOUNT_NAPOLEON, LOGIN_ACCOUNT_RAYMUNDUS } from './services/requests'
 import { logger } from './services/logger'
 import { createPlayer, getAllGID, getPlayers } from './repository/player'
 import { cleanUpTourney } from './repository/tourney-rankings'
@@ -12,14 +12,17 @@ import {
 	updateExistingForCross
 } from './repository/alliance'
 
+const account = LOGIN_ACCOUNT_RAYMUNDUS
+const server = 775
+
 export const parseProfiles = async (): Promise<void> => {
 	const missing = []
-	const gids = (await getAllGID({ server: 775 })).map(it => parseInt(it.gid))
+	const gids = (await getAllGID({ server })).map(it => parseInt(it.gid))
 
-	client.setServer('775')
-	await client.login(LOGIN_ACCOUNT_RAYMUNDUS)
+	client.setServer(server.toString())
+	await client.login(account)
 	// await client.login()
-	for (let i = 775003000; i < 775004000; i++) {
+	for (let i = 775000001; i < 775006000; i++) {
 		if (gids.includes(i)) {continue}
 		missing.push(i)
 	}
@@ -29,9 +32,9 @@ export const parseProfiles = async (): Promise<void> => {
 			const profile = await client.getProfile(id)
 
 			if (profile && profile.hero_num > 14) {
-				await createPlayer(id, profile.name, profile.vip, parseInt(profile.shili), profile.hero_num, 775)
+				await createPlayer(id, profile.name, profile.vip, parseInt(profile.shili), profile.hero_num, server)
 			} else {
-				console.log(`Ignoring ${id}`)
+				console.log(`Ignoring ${id} ${ profile ? profile.hero_num : ''}`)
 			}
 		} catch (e) {
 			console.log(e, id)
@@ -39,17 +42,6 @@ export const parseProfiles = async (): Promise<void> => {
 	}
 
 	logger.success('Finished')
-}
-
-export const cleanUpRank = async (): Promise<void> => {
-	const players: Player[] = await getPlayers()
-	for (const player of players) {
-		const [kingdom, tourney] = await Promise.all([
-			cleanUpKingdom(player),
-			cleanUpTourney(player),
-		])
-		logger.success(`Deleted ${kingdom} kingdom and ${tourney} tourney for ${chalk.bold(player.name)}`)
-	}
 }
 
 export const crossServerAlliances = async (): Promise<void> => {

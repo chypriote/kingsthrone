@@ -19,8 +19,8 @@ export const createPlayer = async (
 	logger.debug(`Player ${name} created`)
 }
 
-export const getPlayers = async (): Promise<Player[]> => {
-	return client('players')
+export const getPlayers = async (params = {}): Promise<Player[]> => {
+	return client('players').where(params)
 }
 
 export const getPlayerByGID = async (gid: number): Promise<Player> => {
@@ -38,22 +38,24 @@ export const updatePlayer = async (player: Player, name: string, vip: number): P
 	logger.debug('Player updated')
 }
 
-export const updatePlayerDetails = async (player: Player, details: Profile): Promise<void> => {
+export const updatePlayerDetails = async (player: Player, goat: Profile): Promise<void> => {
 	await client('players')
 		.update({
-			name: details.name,
-			vip: details.vip,
-			level: details.level,
-			power: details.shili,
-			military: details.ep.e1,
-			fortune: details.ep.e2,
-			provisions: details.ep.e3,
-			inspiration: details.ep.e4,
-			intimacy: details.love,
-			heroes: details.hero_num,
-			maidens: details.wife_num,
-			children: details.son_num,
-			ratio: Math.round(parseInt(details.shili) / details.hero_num),
+			name: goat.name,
+			vip: goat.vip,
+			level: goat.level,
+			power: goat.shili,
+			battle: goat.smap,
+			previous: player.power,
+			military: goat.ep.e1,
+			fortune: goat.ep.e2,
+			provisions: goat.ep.e3,
+			inspiration: goat.ep.e4,
+			intimacy: goat.love,
+			heroes: goat.hero_num,
+			maidens: goat.wife_num,
+			children: goat.son_num,
+			ratio: Math.round(parseInt(goat.shili) / goat.hero_num),
 			updated_at: formatISO(new Date()),
 		})
 		.where('gid', '=', player.gid)
@@ -78,24 +80,22 @@ export const getAllGID = async (params= {}): Promise<{gid: string}[]> => {
 	return client('players').select('gid').where(params)
 }
 
-export const checkInactivity = async (player: Player, profile: Profile): Promise<void> => {
+export const checkInactivity = async (player: Player): Promise<void> => {
 	let inactivity
 
-	if (differenceInHours(new Date(), new Date(player.updated_at)) < 3) { return }
-
-	if (player.power.toString() !== profile.shili.toString()) {
+	if (player.power !== player.previous) {
 		inactivity = false
 	}
-	if (player.power.toString() === profile.shili.toString() && player.inactive === false) {
+	if (player.power === player.previous && player.inactive === false) {
 		inactivity = null
 		logger.warn('Marked to check inactivity')
 	}
-	if (player.power.toString() === profile.shili.toString() && player.inactive === null) {
+	if (player.power === player.previous && player.inactive === null) {
 		inactivity = true
 		logger.error('Marked inactive')
 	}
 
 	await client('players')
-		.update({ inactive: inactivity })
+		.update({ inactive: inactivity, updated_at: formatISO(new Date()) })
 		.where({ id: player.id })
 }

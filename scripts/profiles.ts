@@ -3,7 +3,7 @@ config()
 import { chunk } from 'lodash'
 import { Profile } from '~/types/goat'
 import { logger } from './services/logger'
-import { client } from './services/requests'
+import { client, LOGIN_ACCOUNT_RAYMUNDUS } from './services/requests'
 import { getPlayers, updatePlayerDetails } from './repository/player'
 import { getPlayerAlliance, leaveAlliance, setPlayerAlliance } from './repository/alliance'
 import { checkInactivity } from './repository/player'
@@ -35,25 +35,26 @@ const updatePlayerAlliance = async (player: Player, ally: Profile): Promise<void
 	await setPlayerAlliance(player, ally)
 }
 
-const updateProfile = async (player: Player): Promise<void> => {
-	logger.debug(`Updating ${player.name}`)
+const updateProfile = async (profile: Player): Promise<void> => {
+	logger.debug(`Updating ${profile.name}`)
 	try {
-		const profile = await client.getProfile(player.gid)
-		if (!profile) {return}
+		const item = await client.getProfile(profile.gid)
+		if (!item) {return}
 
 		await Promise.all([
-			updatePlayerDetails(player, profile),
-			updatePlayerAlliance(player, profile),
-			checkInactivity(player, profile),
+			updatePlayerDetails(profile, item),
+			updatePlayerAlliance(profile, item),
 		])
+		await checkInactivity(profile)
 	} catch (e) {
-		logger.error(`Error updating ${player.gid} (${player.name}): ${e.toString()}`)
+		logger.error(`Error updating ${profile.gid} (${profile.name}): ${e.toString()}`)
 	}
 }
 
 export const updateProfiles = async (): Promise<void> => {
-	await client.login()
-	const players: Player[] = await getPlayers()
+	client.setServer('775')
+	await client.login(LOGIN_ACCOUNT_RAYMUNDUS)
+	const players: Player[] = await getPlayers({ server: 775 })
 	const chunks = chunk(players, 9)
 
 	for (const chunk of chunks) {

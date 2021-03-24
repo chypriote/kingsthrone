@@ -22,7 +22,7 @@ export const parseProfiles = async (): Promise<void> => {
 	client.setServer(server.toString())
 	await client.login(account)
 	// await client.login()
-	for (let i = 775000001; i < 775006000; i++) {
+	for (let i = 775004001; i < 775006000; i++) {
 		if (gids.includes(i)) {continue}
 		missing.push(i)
 	}

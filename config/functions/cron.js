@@ -16,11 +16,7 @@ module.exports = {
 			const { goat, update } = strapi.services
 
 			await goat.login()
-			await Promise.all([
-				update.kingdom(),
-				update.tourney(),
-				update.alliances(),
-			])
+			await update.alliances()
 			await update.profiles()
 		},
 		options: {

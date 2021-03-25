@@ -27,7 +27,7 @@ export const CASTLES_RSN = {
 const error = JSON.stringify({
 	system: {
 	  version: {
-			ver: 'V1.3.515',
+			ver: 'V1.3.516',
 			force: 1,
 			status: 0,
 			iosUrl: 'https://www.facebook.com/Kings-Throne-Game-of-Lust-891740894496936/',
@@ -62,7 +62,7 @@ export class GoatRequest {
 		const response = await axios.post(this.base_url, user, {
 			params: {
 				sevid: this.server,
-				ver: 'V1.3.515',
+				ver: 'V1.3.516',
 				uid: '',
 				token: '',
 				platform: 'gaotukc',
@@ -96,7 +96,7 @@ export class GoatRequest {
 		const response =  await axios.post(this.base_url, data, {
 			params: {
 				sevid: this.server,
-				ver: 'V1.3.515',
+				ver: 'V1.3.516',
 				uid: this.gid,
 				token: this.token,
 				platform: 'gaotukc',

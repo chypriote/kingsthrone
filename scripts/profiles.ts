@@ -27,7 +27,7 @@ const updatePlayerAlliance = async (player: Player, ally: Profile): Promise<void
 	}
 	//Leave if new alliance is 0
 	if (ally.clubid === 0) {
-		logger.error(player.id, 'Left alliance')
+		logger.error(`${player.name} left alliance ${ally.name}`)
 		return await leaveAlliance(player)
 	}
 	//Leave and join new if clubid changed

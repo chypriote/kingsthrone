@@ -11,9 +11,24 @@ import {
 	resetCrossAlliance, setOpponent,
 	updateExistingForCross
 } from './repository/alliance'
+import { chunk } from 'lodash'
 
 const account = LOGIN_ACCOUNT_RAYMUNDUS
 const server = 775
+
+export const handleMissing = async (id: number): Promise<void> => {
+	try {
+		const profile = await client.getProfile(id)
+
+		if (profile && profile.hero_num > 14) {
+			await createPlayer(id, profile.name, profile.vip, parseInt(profile.shili), profile.hero_num, server)
+		} else {
+			console.log(`Ignoring ${id} ${ profile ? profile.hero_num : ''}`)
+		}
+	} catch (e) {
+		console.log(e, id)
+	}
+}
 
 export const parseProfiles = async (): Promise<void> => {
 	const missing = []
@@ -22,23 +37,17 @@ export const parseProfiles = async (): Promise<void> => {
 	client.setServer(server.toString())
 	await client.login(account)
 	// await client.login()
-	for (let i = 775004001; i < 775006000; i++) {
+	for (let i = 775000001; i < 775004000; i++) {
 		if (gids.includes(i)) {continue}
 		missing.push(i)
 	}
 	console.log(`found ${missing.length} potential players`)
-	for (const id of missing) {
-		try {
-			const profile = await client.getProfile(id)
 
-			if (profile && profile.hero_num > 14) {
-				await createPlayer(id, profile.name, profile.vip, parseInt(profile.shili), profile.hero_num, server)
-			} else {
-				console.log(`Ignoring ${id} ${ profile ? profile.hero_num : ''}`)
-			}
-		} catch (e) {
-			console.log(e, id)
-		}
+	const chunkedMissing = chunk(missing, 20)
+	for (const missing of chunkedMissing) {
+		const promises: Promise<void>[] = []
+		missing.forEach(id => { promises.push(handleMissing(id))})
+		await Promise.all(promises)
 	}
 
 	logger.success('Finished')

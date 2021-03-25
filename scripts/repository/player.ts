@@ -1,4 +1,4 @@
-import { differenceInHours, formatISO } from 'date-fns'
+import { formatISO } from 'date-fns'
 import { KingdomRank, Profile, TourneyRank } from '~/types/goat'
 import { client } from '../services/database'
 import { logger } from '../services/logger'
@@ -16,7 +16,7 @@ export const createPlayer = async (
 		created_at: formatISO(new Date()),
 		updated_at: formatISO(new Date()),
 	})
-	logger.debug(`Player ${name} created`)
+	logger.success(`Player ${name} created`)
 }
 
 export const getPlayers = async (params = {}): Promise<Player[]> => {

@@ -37,13 +37,13 @@ export const parseProfiles = async (): Promise<void> => {
 	client.setServer(server.toString())
 	await client.login(account)
 	// await client.login()
-	for (let i = 775000001; i < 775004000; i++) {
+	for (let i = 775000001; i < 775005000; i++) {
 		if (gids.includes(i)) {continue}
 		missing.push(i)
 	}
 	console.log(`found ${missing.length} potential players`)
 
-	const chunkedMissing = chunk(missing, 20)
+	const chunkedMissing = chunk(missing, 15)
 	for (const missing of chunkedMissing) {
 		const promises: Promise<void>[] = []
 		missing.forEach(id => { promises.push(handleMissing(id))})

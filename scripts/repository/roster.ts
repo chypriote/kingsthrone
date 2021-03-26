@@ -192,6 +192,7 @@ export const createOrUpdateMyHero = async (goatHero: Hero): Promise<void> => {
 		ferocity: ferocity,
 		brutality: brutality,
 		senior: goatHero.senior,
+		military_quality: existing?.military_quality || 0,
 	}
 
 	existing?.id ? await updateMyHero({ ...myHero, id: existing.id }) : await createMyHero(myHero)

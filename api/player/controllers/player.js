@@ -7,10 +7,10 @@ module.exports = {
 		let entities
 		if (ctx.query._q) {
 			entities = await strapi.services.player
-				.search(ctx.query, ['alliance_members', 'alliance_members.alliance'])
+				.search(ctx.query, ['alliance_members', 'alliance_members.alliance', 'player_heroes'])
 		} else {
 			entities = await strapi.services.player
-				.find(ctx.query, ['alliance_members', 'alliance_members.alliance'])
+				.find(ctx.query, ['alliance_members', 'alliance_members.alliance', 'player_heroes'])
 		}
 
 		return entities

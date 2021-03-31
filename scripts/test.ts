@@ -1,10 +1,7 @@
-import chalk from 'chalk'
 import { client, LOGIN_ACCOUNT_NAPOLEON, LOGIN_ACCOUNT_RAYMUNDUS } from './services/requests'
 import { logger } from './services/logger'
-import { createPlayer, getAllGID, getPlayers } from './repository/player'
-import { cleanUpTourney } from './repository/tourney-rankings'
-import { cleanUpKingdom } from './repository/kingdom-rankings'
-import { Player } from '~/types/Player'
+import { createPlayer, getAllGID } from './repository/player'
+
 import {
 	createForCross,
 	getAllianceByAID,

@@ -1,4 +1,3 @@
-import { KingdomRanking } from './KingdomRanking'
 import { AllianceMember } from './AllianceMember'
 import { PlayerHero } from './PlayerHero'
 import { Alliance } from './Alliance'
@@ -28,12 +27,10 @@ export type Player = {
 	favorite: boolean
 	inactive: boolean|null
 
-	rankings?: KingdomRanking[]
 	alliance_members?: AllianceMember[]
 	player_heroes?: PlayerHero[]
 
 	alliance?: Alliance
-	rank?: KingdomRanking
 	roster?: Hero[]
 
 	updated_at: string

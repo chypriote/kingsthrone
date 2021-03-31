@@ -18,22 +18,6 @@
 		},
 		{
 			"method": "GET",
-			"path": "/update/kingdom",
-			"handler": "update.kingdom",
-			"config": {
-				"policies": []
-			}
-		},
-		{
-			"method": "GET",
-			"path": "/update/tourney",
-			"handler": "update.tourney",
-			"config": {
-				"policies": []
-			}
-		},
-		{
-			"method": "GET",
 			"path": "/update/profiles",
 			"handler": "update.profiles",
 			"config": {

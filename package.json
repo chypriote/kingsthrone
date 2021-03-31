@@ -11,8 +11,6 @@
     "lint": "eslint --ext \".js,.ts\" --ignore-path .gitignore .",
     "lint:fix": "yarn lint --fix",
     "ts:build": "tsc -b",
-    "kingdom": "ts-node scripts/kingdom.ts",
-    "tourney": "ts-node scripts/tourney.ts",
     "alliances": "ts-node scripts/alliances.ts",
     "profiles": "ts-node scripts/profiles.ts",
     "roster": "ts-node scripts/player.ts",

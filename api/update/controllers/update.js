@@ -3,11 +3,7 @@ module.exports = {
 		const { goat, update } = strapi.services
 
 		await goat.login()
-		await Promise.all([
-			update.kingdom(),
-			update.tourney(),
-			update.alliances(),
-		])
+		await update.alliances()
 		await update.profiles()
 
 		return ctx.send(null, 204)
@@ -29,16 +25,6 @@ module.exports = {
 	},
 	alliances: async (ctx) => {
 		await strapi.services.update.alliances()
-
-		return ctx.send(null, 204)
-	},
-	kingdom: async (ctx) => {
-		await strapi.services.update.kingdom()
-
-		return ctx.send(null, 204)
-	},
-	tourney: async (ctx) => {
-		await strapi.services.update.tourney()
 
 		return ctx.send(null, 204)
 	},

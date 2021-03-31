@@ -77,14 +77,6 @@
       "type": "boolean",
       "default": false
     },
-    "kingdom_rankings": {
-      "collection": "kingdom-ranking",
-      "via": "player"
-    },
-    "tourney_rankings": {
-      "collection": "tourney-ranking",
-      "via": "player"
-    },
     "alliance_members": {
       "collection": "alliance-member",
       "via": "player"

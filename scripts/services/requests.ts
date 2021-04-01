@@ -2,7 +2,6 @@ import axios from 'axios'
 import { Club, Profile, KingdomRank, TourneyRank, CastleInfos, XSAlliance, XSOpponent, InLaw } from '~/types/goat'
 import { logger } from '../services/logger'
 import { GameInfos, Wife } from '~/types/game'
-import { Alliance } from '~/types/Alliance'
 
 const COOKIE = 'lyjxncc=61807df8e4b62e93df38a13783e6513b'
 export const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'4cfhvxxiim','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'fe3da078-88a4-3ccf-9249-5acf33d7765f','parm3':'SM-G955F','openid':'563125632849524101','openkey':'9fa3348fcd6344060431a81d44a219d2c0a3a706' } } }

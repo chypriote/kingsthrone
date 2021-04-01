@@ -3,7 +3,7 @@ config()
 import { chunk } from 'lodash'
 import { Profile } from '~/types/goat'
 import { logger } from './services/logger'
-import { client, LOGIN_ACCOUNT_RAYMUNDUS } from './services/requests'
+import { client, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
 import { getPlayers, updatePlayerDetails } from './repository/player'
 import { getPlayerAlliance, leaveAlliance, setPlayerAlliance } from './repository/alliance'
 import { checkInactivity } from './repository/player'
@@ -52,9 +52,8 @@ const updateProfile = async (profile: Player): Promise<void> => {
 }
 
 export const updateProfiles = async (): Promise<void> => {
-	client.setServer('775')
-	await client.login(LOGIN_ACCOUNT_RAYMUNDUS)
-	const players: Player[] = await getPlayers({ server: 775 })
+	await client.login(LOGIN_ACCOUNT_NAPOLEON)
+	const players: Player[] = await getPlayers({ server: 699 })
 	const chunks = chunk(players, 9)
 
 	for (const chunk of chunks) {

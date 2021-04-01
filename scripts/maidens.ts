@@ -1,10 +1,10 @@
-import { client, LOGIN_ACCOUNT_NAPOLEON, LOGIN_ACCOUNT_GAUTIER, LOGIN_ACCOUNT_RAYMUNDUS } from './services/requests'
+import { client, LOGIN_ACCOUNT_NAPOLEON, LOGIN_ACCOUNT_GAUTIER } from './services/requests'
 import { logger } from './services/logger'
 import { find, reduce } from 'lodash'
 
-const account = LOGIN_ACCOUNT_RAYMUNDUS
-const visitsPerDraught = 4
-const draughtsToKeep = 80
+const account = LOGIN_ACCOUNT_GAUTIER
+const visitsPerDraught = 3
+const draughtsToKeep = 100
 
 const MAIDENS = [
 	{ mid: 7, name: 'Gwyneth', visits: 0 },

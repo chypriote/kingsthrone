@@ -1,4 +1,4 @@
-import { client, LOGIN_ACCOUNT_NAPOLEON, LOGIN_ACCOUNT_RAYMUNDUS } from './services/requests'
+import { client, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
 import { logger } from './services/logger'
 import { createPlayer, getAllGID } from './repository/player'
 
@@ -10,21 +10,30 @@ import {
 } from './repository/alliance'
 import { chunk } from 'lodash'
 
-const account = LOGIN_ACCOUNT_RAYMUNDUS
-const server = 775
+const account = LOGIN_ACCOUNT_NAPOLEON
+const server = 699
 
-export const handleMissing = async (id: number): Promise<void> => {
+export const handleMissing = async (id: number, retry = true): Promise<string|null> => {
 	try {
 		const profile = await client.getProfile(id)
 
 		if (profile && profile.hero_num > 14) {
 			await createPlayer(id, profile.name, profile.vip, parseInt(profile.shili), profile.hero_num, server)
+			return profile.name
 		} else {
 			console.log(`Ignoring ${id} ${ profile ? profile.hero_num : ''}`)
 		}
 	} catch (e) {
-		console.log(e, id)
+		if (retry && e.message.indexOf('server_is_busyuser') > -1) {
+			logger.debug(`waiting ${id}`)
+			await new Promise(resolve => setTimeout(resolve, 2000))
+			logger.debug(`retrying ${id}`)
+
+			return await handleMissing(id, false)
+		}
+		console.log(e.message)
 	}
+	return null
 }
 
 export const parseProfiles = async (): Promise<void> => {
@@ -33,21 +42,22 @@ export const parseProfiles = async (): Promise<void> => {
 
 	client.setServer(server.toString())
 	await client.login(account)
-	// await client.login()
-	for (let i = 775000001; i < 775005000; i++) {
+	for (let i = 699000500; i < 699005000; i++) {
 		if (gids.includes(i)) {continue}
 		missing.push(i)
 	}
 	console.log(`found ${missing.length} potential players`)
 
-	const chunkedMissing = chunk(missing, 15)
+	const chunkedMissing = chunk(missing, 10)
+	let created: (string|null)[] = []
 	for (const missing of chunkedMissing) {
-		const promises: Promise<void>[] = []
+		const promises: Promise<string|null>[] = []
 		missing.forEach(id => { promises.push(handleMissing(id))})
-		await Promise.all(promises)
+		created = await Promise.all(promises)
 	}
 
-	logger.success('Finished')
+	logger.success(created.filter(Boolean).join(', '))
+	logger.success(`Finished ${missing.length}`)
 }
 
 export const crossServerAlliances = async (): Promise<void> => {

@@ -11,7 +11,7 @@
  */
 
 module.exports = {
-	'5 1 * * *': {
+	'5 2 * * *': {
 		task: async () => {
 			const { goat, update } = strapi.services
 

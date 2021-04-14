@@ -18,11 +18,12 @@
     "test": "ts-node scripts/test.ts",
     "quests": "ts-node scripts/quester.ts",
     "visit-maidens": "ts-node scripts/visit-maidens.ts",
+    "processions": "ts-node scripts/processions.ts",
     "inlaws": "ts-node scripts/inlaws.ts",
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.{js}": "eslint --ext \".js,.ts\" --ignore-path .gitignore ."
+    "*.{js,ts}": "eslint --ext \".js,.ts\" --ignore-path .gitignore ."
   },
   "dependencies": {
     "axios": "^0.21",

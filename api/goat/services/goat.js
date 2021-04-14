@@ -1,22 +1,28 @@
 const axios = require('axios')
 const logger = require('../../logger/services/logger')
 
+const VERSION = 'V1.3.521'
 const COOKIE = 'lyjxncc=2083c99339e8b46bf500d2d46ae68581'
 const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'4cfhvxxiim','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'fe3da078-88a4-3ccf-9249-5acf33d7765f','parm3':'SM-G955F','openid':'563125632849524101','openkey':'9fa3348fcd6344060431a81d44a219d2c0a3a706' } } }
 const LOGIN_ACCOUNT_NAPOLEON = { 'rsn':'3hewzzhpsp','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'2f12d907-56a9-3a46-9124-d4351e9fc878','parm3':'SM-G955F','openid':'565939577188654916','openkey':'51ba25dcc6757726dec6ba4c737e3ca134c49fb3' } } }
+const OLD_HOST = 'zsjefunbm.zwformat.com'
+const NEW_HOST = 'ksrus.gtbackoverseas.com'
 
 class GoatRequest {
 	cookie
 	token = null
 	server
+	host
 	base_url
 
 	isLoggedIn = false
 
-	constructor(server = '699', cookie = COOKIE) {
+	constructor(server = '699', cookie = COOKIE, host = NEW_HOST) {
 		this.cookie = cookie
 		this.server = server
 		this.base_url = `http://zsjefunbm.zwformat.com/servers/s${server}.php`
+		this.host = [OLD_HOST, NEW_HOST].includes(host) ? host : NEW_HOST
+		this.base_url = `http://${host}/servers/s${server}.php`
 	}
 
 	setServer(server) {
@@ -29,7 +35,7 @@ class GoatRequest {
 		const response = await axios.post(this.base_url, user, {
 			params: {
 				sevid: this.server,
-				ver: 'V1.3.520',
+				ver: VERSION,
 				uid: '',
 				token: '',
 				platform: 'gaotukc',
@@ -38,8 +44,8 @@ class GoatRequest {
 			headers: {
 				'Accept-Encoding': 'identity',
 				'Content-Type': 'application/x-www-form-urlencoded',
-				'User-Agent': 'Dalvik/2.1.0 (Linux; U; Android 7.1.2; SM-G955F Build/NRD90M)',
-				'Host': 'zsjefunbm.zwformat.com',
+				'User-Agent': 'Dalvik/2.1.0 (Linux; U; Android 7.1.1; ONEPLUS A5000 Build/NMF26X)',
+				'Host': this.host,
 				'Cookie': this.cookie,
 				'Connection': 'Keep-Alive',
 			},
@@ -62,7 +68,7 @@ class GoatRequest {
 		const response =  await axios.post(this.base_url, data, {
 			params: {
 				sevid: this.server,
-				ver: 'V1.3.520',
+				ver: VERSION,
 				uid: gid,
 				token: this.token,
 				platform: 'gaotukc',
@@ -71,8 +77,8 @@ class GoatRequest {
 			headers: {
 				'Accept-Encoding': 'identity',
 				'Content-Type': 'application/x-www-form-urlencoded',
-				'User-Agent': 'Dalvik/2.1.0 (Linux; U; Android 7.1.2; SM-G955F Build/NRD90M)',
-				'Host': 'zsjefunbm.zwformat.com',
+				'User-Agent': 'Dalvik/2.1.0 (Linux; U; Android 7.1.1; ONEPLUS A5000 Build/NMF26X)',
+				'Host': this.host,
 				'Cookie': this.cookie,
 				'Connection': 'Keep-Alive',
 			},

@@ -1,9 +1,20 @@
 import axios from 'axios'
-import { Club, Profile, KingdomRank, TourneyRank, CastleInfos, XSAlliance, XSOpponent, InLaw } from '~/types/goat'
+import {
+	Club,
+	Profile,
+	KingdomRank,
+	TourneyRank,
+	CastleInfos,
+	XSAlliance,
+	XSOpponent,
+	InLaw,
+	LuckStatus, ProcessionsStatus, ProcessionGain, ProcessionResult
+} from '~/types/goat'
 import { logger } from '../services/logger'
 import { GameInfos, Wife } from '~/types/game'
 
-const COOKIE = 'lyjxncc=61807df8e4b62e93df38a13783e6513b'
+const VERSION = 'V1.3.521'
+const COOKIE = 'lyjxncc=fa3c2e7123aa51bdafd473520405ed0d'
 export const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'4cfhvxxiim','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'fe3da078-88a4-3ccf-9249-5acf33d7765f','parm3':'SM-G955F','openid':'563125632849524101','openkey':'9fa3348fcd6344060431a81d44a219d2c0a3a706' } } }
 export const LOGIN_ACCOUNT_NAPOLEON = { 'rsn':'5wjwfeefhf','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'82557521-a0b4-3441-a774-840066252311','parm3':'ONEPLUS A5000','openid':'565939577188654916','openkey':'3af6112ebee552af12f624b08a71699d7cd15bfd' } } }
 export const LOGIN_ACCOUNT_701 = { 'rsn':'2maymbhnxnb','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'82557521-a0b4-3441-a774-840066252311','parm3':'ONEPLUS A5000','openid':'565939577188654916','openkey':'deb43d3a1b48b2f80d01ae6829834e9a309019f8' } } }
@@ -26,7 +37,7 @@ export const CASTLES_RSN = {
 const error = JSON.stringify({
 	system: {
 	  version: {
-			ver: 'V1.3.520',
+			ver: 'V1.3.521',
 			force: 1,
 			status: 0,
 			iosUrl: 'https://www.facebook.com/Kings-Throne-Game-of-Lust-891740894496936/',
@@ -36,19 +47,23 @@ const error = JSON.stringify({
 	},
 })
 
+const OLD_HOST = 'zsjefunbm.zwformat.com'
+const NEW_HOST = 'ksrus.gtbackoverseas.com'
 export class GoatRequest {
 	cookie: string
 	token: string|null = null
 	gid: string|null = null
-	server: string
+	host: string
 	base_url: string
+	server: string
 
 	isLoggedIn = false
 
-	constructor(server = '699', cookie = COOKIE) {
+	constructor(server = '699', cookie = COOKIE, host = NEW_HOST) {
 		this.cookie = cookie
 		this.server = server
-		this.base_url = `http://zsjefunbm.zwformat.com/servers/s${server}.php`
+		this.host = [OLD_HOST, NEW_HOST].includes(host) ? host : NEW_HOST
+		this.base_url = `http://${host}/servers/s${server}.php`
 	}
 
 	setServer(server: string): this {
@@ -61,7 +76,7 @@ export class GoatRequest {
 		const response = await axios.post(this.base_url, user, {
 			params: {
 				sevid: this.server,
-				ver: 'V1.3.520',
+				ver: VERSION,
 				uid: '',
 				token: '',
 				platform: 'gaotukc',
@@ -71,7 +86,7 @@ export class GoatRequest {
 				'Accept-Encoding': 'identity',
 				'Content-Type': 'application/x-www-form-urlencoded',
 				'User-Agent': 'Dalvik/2.1.0 (Linux; U; Android 7.1.1; ONEPLUS A5000 Build/NMF26X)',
-				'Host': 'zsjefunbm.zwformat.com',
+				'Host': this.host,
 				'Cookie': this.cookie,
 				'Connection': 'Keep-Alive',
 			},
@@ -95,7 +110,7 @@ export class GoatRequest {
 		const response =  await axios.post(this.base_url, data, {
 			params: {
 				sevid: this.server,
-				ver: 'V1.3.520',
+				ver: VERSION,
 				uid: this.gid,
 				token: this.token,
 				platform: 'gaotukc',
@@ -104,8 +119,8 @@ export class GoatRequest {
 			headers: {
 				'Accept-Encoding': 'identity',
 				'Content-Type': 'application/x-www-form-urlencoded',
-				'User-Agent': 'Dalvik/2.1.0 (Linux; U; Android 7.1.2; SM-G955F Build/NRD90M)',
-				'Host': 'zsjefunbm.zwformat.com',
+				'User-Agent': 'Dalvik/2.1.0 (Linux; U; Android 7.1.1; ONEPLUS A5000 Build/NMF26X)',
+				'Host': this.host,
 				'Cookie': this.cookie,
 				'Connection': 'Keep-Alive',
 			},
@@ -213,10 +228,46 @@ export class GoatRequest {
 		return items.u.item.itemList[0]
 	}
 	async getAvailableVisits(): Promise<{num: number, next: number}> {
-		const next = await this.sendRequest({ 'user':{ 'refwife':[] },'rsn':'4acfmahhcgm' })
+		const next = await this.sendRequest({ 'user':{ 'refwife':[] },'rsn':'3zhfrhfehhe' })
 
 		return next.a.wife.jingLi
 	}
+
+	//Processions
+	async getAvailableProcessions(): Promise<ProcessionsStatus> {
+		const next = await this.sendRequest({ 'user':{ 'refxunfang':[] },'rsn':'7cxvsdxvlp' })
+
+		return next.a.xunfang.xfInfo
+	}
+	async startProcession(): Promise<ProcessionResult> {
+		//kind 2= gold id2= gold
+		const visit = await this.sendRequest({ 'rsn':'1tqrewqiru','xunfang':{ 'xunfan':{ 'type':0 } } })
+
+		const result: ProcessionGain = visit.a.xunfang.win.xfAll[0]
+		const luck: LuckStatus = visit.a.xunfang.recover
+		const status: ProcessionsStatus  = visit.a.xunfang.xfInfo
+
+		return { result, status, luck }
+	}
+	async useGoodwillDraught(): Promise<{ count: number, id: number }> { //id 72 goodwill
+		console.log('Using goodwill draught')
+		const items = await this.sendRequest({ 'rsn':'2ambwlxaxy','xunfang':{ 'recover':[] } })
+
+		return items.u.item.itemList[0]
+	}
+	async setAutoDonation(value = 82, grain: boolean, gold: boolean): Promise<LuckStatus> {
+		//num = current luck, ySet = min luck
+		console.log(`Setting auto donation to ${value}`)
+
+		const status = await this.sendRequest({ 'rsn':'4fhaibbigb','xunfang':{ 'yunshi':{
+			auto3: grain ? 1 : 0,
+			auto2: gold ? 1 : 0,
+			ysSet: value,
+		} } })
+
+		return status.xunfang.recover
+	}
+
 
 	//InLaws
 	async getInLaws(): Promise<InLaw[]> {

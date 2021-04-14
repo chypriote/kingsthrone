@@ -208,3 +208,39 @@ export type InLaw = {
 	tip: number
 }
 
+export type LuckStatus = {
+	auto2: number, //grain donation on
+	auto3: number, //gold donation on
+	ySet: number, //minimum luck
+	num: number //current luck
+}
+
+export type ProcessionsStatus = {
+	num: number //available
+	next: number
+	label: string
+}
+
+//2: gold
+//3: grain
+//4: soldiers
+//type1= npc?
+//type5= maiden ?
+export enum PROCESSIONS {
+	NPC= 1,
+	MAIDEN= 5
+}
+//haogan 5
+//haogan 0 ???
+export type ProcessionGain = {
+	haogan: number
+	items: {count: number, id: number}[]
+	npcid: 24
+	type: PROCESSIONS
+}
+
+export type ProcessionResult= {
+	result: ProcessionGain
+	status: ProcessionsStatus
+	luck: LuckStatus
+}

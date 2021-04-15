@@ -8,12 +8,22 @@ const draughtsToKeep = 840
 
 const NPCS = [
 	{ nid: 3, name: 'Lonely Tom', visits: 0 },
+	{ nid: 6, name: 'Robert', visits: 0 },
+	{ nid: 15, name: 'Gretchen', visits: 0 },
+	{ nid: 17, name: 'Emissary ad-Din', visits: 0 },
 	{ nid: 24, name: 'Nikolai', visits: 0 },
+	{ nid: 26, name: 'Vernan Twill', visits: 0 },
 	{ nid: 31, name: 'George', visits: 0 },
 	{ nid: 32, name: 'Geoffrey', visits: 0 },
 	{ nid: 41, name: 'Bill', visits: 0 },
+	{ nid: 42, name: 'Nicholas', visits: 0 },
 	{ nid: 101, name: 'Theodora', visits: 0 },
+	{ nid: 102, name: 'Yolanda', visits: 0 },
+	{ nid: 112, name: 'Carmilla', visits: 0 },
 	{ nid: 114, name: 'Gwyneth', visits: 0 },
+	{ nid: 116, name: 'Titania', visits: 0 },
+	{ nid: 117, name: 'Christine', visits: 0 },
+	{ nid: 120, name: 'Hildegard', visits: 0 },
 	{ nid: 121, name: 'Eleanor', visits: 0 },
 ]
 function getItem(id: number): string {

@@ -1,13 +1,7 @@
 import { client, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
 import { logger } from './services/logger'
-import { createPlayer, getAllGID } from './repository/player'
-
-import {
-	createForCross,
-	getAllianceByAID,
-	resetCrossAlliance, setOpponent,
-	updateExistingForCross
-} from './repository/alliance'
+import { createPlayer, getAllGID, getPlayerByGID } from './repository/player'
+import { createForCross, getAllianceByAID, resetCrossAlliance, setOpponent, updateExistingForCross } from './repository/alliance'
 import { chunk } from 'lodash'
 
 const account = LOGIN_ACCOUNT_NAPOLEON
@@ -82,4 +76,19 @@ export const crossServerAlliances = async (): Promise<void> => {
 	}
 }
 
-parseProfiles().then(() => process.exit())
+export const crossServerTourney = async (): Promise<void> => {
+	const players = await client.getXSTourney()
+
+	for (const player of players) {
+		const existing = await getPlayerByGID(player.uid)
+
+		if (existing) { logger.log(`Existing ${player.name}`); continue }
+		const profile = await client.getXSPlayer(player.uid)
+		await createPlayer(profile.id, profile.name, profile.vip, parseInt(profile.shili), profile.hero_num, parseInt(profile.id.toString().substr(0, 3)))
+	}
+
+	logger.success('Finished')
+}
+
+
+crossServerTourney().then(() => process.exit())

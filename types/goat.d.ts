@@ -162,6 +162,56 @@ export type CastleInfos = {
 	task: TaskInfo
 }
 
+export type XSPlayerRank = {
+	uid: number
+	name: string
+	job: number
+	sex: number
+	level: number
+	vip: number
+	chenghao: number
+	headframe: number
+	headType: number
+	headId: number
+	vipStatus: number
+	shili: number
+	clubid: number
+	clubname: string
+	frame: number
+	head: number
+	chatframe: number
+	rid: number
+	num: number
+}
+
+export type XSPlayer = {
+	id: number
+	uid: number
+	name: string
+	level: number
+	sex: number
+	job: number
+	exp: number
+	vip: number
+	bmap: number
+	mmap: number
+	smap: number
+	ep: {e1: number, e2: number, e3: number, e4: number}
+	shili: string
+	love: number
+	clubid: number
+	clubname: string
+	chenghao: number
+	xuanyan: string
+	chlist: []
+	son_num: number
+	wife_num: number
+	hero_num: number
+	headType: number
+	headId: number
+	vipStatus: number
+}
+
 export type XSAlliance = {
 	rid: number //rank
 	icon: string

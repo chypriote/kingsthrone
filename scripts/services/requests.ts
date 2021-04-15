@@ -8,12 +8,12 @@ import {
 	XSAlliance,
 	XSOpponent,
 	InLaw,
-	LuckStatus, ProcessionsStatus, ProcessionGain, ProcessionResult
+	LuckStatus, ProcessionsStatus, ProcessionGain, ProcessionResult, XSPlayerRank, XSPlayer
 } from '~/types/goat'
 import { logger } from '../services/logger'
 import { GameInfos, Wife } from '~/types/game'
 
-const VERSION = 'V1.3.521'
+const VERSION = 'V1.3.523'
 const COOKIE = 'lyjxncc=fa3c2e7123aa51bdafd473520405ed0d'
 export const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'4cfhvxxiim','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'fe3da078-88a4-3ccf-9249-5acf33d7765f','parm3':'SM-G955F','openid':'563125632849524101','openkey':'9fa3348fcd6344060431a81d44a219d2c0a3a706' } } }
 export const LOGIN_ACCOUNT_NAPOLEON = { 'rsn':'5wjwfeefhf','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'82557521-a0b4-3441-a774-840066252311','parm3':'ONEPLUS A5000','openid':'565939577188654916','openkey':'3af6112ebee552af12f624b08a71699d7cd15bfd' } } }
@@ -291,6 +291,18 @@ export class GoatRequest {
 		const opponents = await this.sendRequest({ 'rsn':'2amabymqwx','qxzb':{ 'qxzbMatchByCid':{ 'cid':aid } } })
 
 		return opponents.a.qxzb.qxzbfMatch.match
+	}
+
+	//Tourney Championship
+	async getXSTourney(): Promise<XSPlayerRank[]> {
+		const tourney = await this.sendRequest({ 'kuayamen':{ 'getRank':[] },'rsn':'3zhfrfnwhke' })
+
+		return tourney.a.kuayamen.scoreRank
+	}
+	async getXSPlayer(gid: number): Promise<XSPlayer> {
+		const player = await this.sendRequest({ 'kuayamen':{ 'findzhuisha':{ 'fuid': gid } },'rsn':'1tqrireark' })
+
+		return player.a.kuayamen.zhuisha.fuser
 	}
 }
 

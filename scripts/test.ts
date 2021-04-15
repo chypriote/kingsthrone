@@ -91,4 +91,5 @@ export const crossServerTourney = async (): Promise<void> => {
 }
 
 
-crossServerTourney().then(() => process.exit())
+client.createAccount('612').then(() => process.exit())
+

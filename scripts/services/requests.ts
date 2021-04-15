@@ -15,10 +15,24 @@ import { GameInfos, Wife } from '~/types/game'
 
 const VERSION = 'V1.3.523'
 const COOKIE = 'lyjxncc=fa3c2e7123aa51bdafd473520405ed0d'
-export const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'4cfhvxxiim','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'fe3da078-88a4-3ccf-9249-5acf33d7765f','parm3':'SM-G955F','openid':'563125632849524101','openkey':'9fa3348fcd6344060431a81d44a219d2c0a3a706' } } }
-export const LOGIN_ACCOUNT_NAPOLEON = { 'rsn':'5wjwfeefhf','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'82557521-a0b4-3441-a774-840066252311','parm3':'ONEPLUS A5000','openid':'565939577188654916','openkey':'3af6112ebee552af12f624b08a71699d7cd15bfd' } } }
+export const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'4cfhvxxiim','login':{ 'loginAccount':{
+	 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay',
+	 'parm6':'fe3da078-88a4-3ccf-9249-5acf33d7765f','parm3':'SM-G955F',
+	 'openid':'563125632849524101','openkey':'9fa3348fcd6344060431a81d44a219d2c0a3a706' } } }
+export const LOGIN_ACCOUNT_NAPOLEON = { 'rsn':'5wjwfeefhf','login':{ 'loginAccount':{
+	'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay',
+	'parm6':'82557521-a0b4-3441-a774-840066252311','parm3':'ONEPLUS A5000',
+	'openid':'565939577188654916','openkey':'3af6112ebee552af12f624b08a71699d7cd15bfd' } } }
 export const LOGIN_ACCOUNT_701 = { 'rsn':'2maymbhnxnb','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'82557521-a0b4-3441-a774-840066252311','parm3':'ONEPLUS A5000','openid':'565939577188654916','openkey':'deb43d3a1b48b2f80d01ae6829834e9a309019f8' } } }
 export const LOGIN_ACCOUNT_RAYMUNDUS = { 'rsn':'7xcxcypvslg','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'2630f405-13ed-3867-90e5-325059450d8e','parm3':'ONEPLUS A5000','openid':'573218842929144928','openkey':'78c249945d8d450de2111c2eebaa653b697f40c1' } } }
+export const LOGIN_ACCOUNT_532 = { 'rsn':'7cxvdsodcp','login':{ 'loginAccount':{
+	'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay',
+	'parm6':'82557521-a0b4-3441-a774-840066252311','parm3':'ONEPLUS A5000',
+	'openid':'565939577188654916','openkey':'d7dac673e4add09c1f05229871f0db0d29a28877' } } }
+export const LOGIN_ACCOUNT_619 = { 'rsn':'9zrsjbrsmcs','login':{ 'loginAccount':{
+	'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay',
+	'parm6':'82557521-a0b4-3441-a774-840066252311','parm3':'ONEPLUS A5000',
+	'openid':'565939577188654916','openkey':'3687d9f4a28b471c0e41076e87ccc58a3feacf0a' } } }
 
 
 export const CASTLES_RSN = {
@@ -72,7 +86,7 @@ export class GoatRequest {
 	}
 
 	async login(user = LOGIN_ACCOUNT_NAPOLEON): Promise<any> {
-		console.log('logging in')
+		console.log(`logging in ${this.server}`)
 		const response = await axios.post(this.base_url, user, {
 			params: {
 				sevid: this.server,
@@ -100,6 +114,7 @@ export class GoatRequest {
 		this.token = response?.a?.loginMod?.loginAccount?.token
 		this.gid = response?.a?.loginMod?.loginAccount?.uid
 		this.isLoggedIn = true
+		console.log(response.a.loginMod.loginAccount)
 
 		return response.a.loginMod.loginAccount
 	}
@@ -127,7 +142,7 @@ export class GoatRequest {
 		}).then(response => response.data)
 
 		if (response?.a?.system?.errror) {
-			if (!ignoreError) {logger.error(`RequestError: ${response?.a?.system?.errror.msg}`)}
+			if (ignoreError) {logger.error(`RequestError: ${response?.a?.system?.errror.msg}`); return}
 			throw new Error(response?.a?.system?.errror.msg)
 			process.exit()
 		}
@@ -303,6 +318,86 @@ export class GoatRequest {
 		const player = await this.sendRequest({ 'kuayamen':{ 'findzhuisha':{ 'fuid': gid } },'rsn':'1tqrireark' })
 
 		return player.a.kuayamen.zhuisha.fuser
+	}
+
+	//Account creation
+	async createAccount(server: string): Promise<void> {
+		this.setServer(server)
+		const player = await this.getGameInfos()
+
+		if (player.user.user.name) {
+			throw new Error(`Found existing player named ${player.user.user.name} on server ${server}`)
+		}
+		const name = await this.setName(`Raymundus ${server}`)
+		if (!name) {process.exit()}
+		console.log('Skipping guide')
+		await this.sendRequest({ 'user':{ 'adok':{ 'label':'' } },'rsn':'8ajixearke' })
+		console.log(1)
+		await this.sendRequest({ 'fuli':{ 'answer':{ 'code':'tg' } },'rsn':'6wsylkxbug' })
+		console.log(2)
+		await this.sendRequest({ 'rsn':'9zrsjbmimms','guide':{ 'guideUpguan':[] } })
+		console.log(3)
+		await this.sendRequest({ 'rsn':'8mvjxiivxm','guide':{ 'guide':{ 'gnew':1 } } })
+
+		console.log('Getting levies')
+		await this.sendRequest({ 'rsn':'5yvjaevaeh','guide':{ 'guide':{ 'gnew':2 } } })
+		console.log('a')
+		await this.sendRequest({ 'fuli':{ 'auto_supreme':[] },'rsn':'8ajixejxxe' })
+		console.log('b')
+		await this.sendRequest({ 'user':{ 'refjingying':[] },'rsn':'1tqrwiautk' })
+		console.log('c')
+		await this.sendRequest({ 'user':{ 'jingYing':{ 'jyid':2 } },'rsn':'6wsylkxyxx' })
+		console.log('d')
+		await this.sendRequest({ 'rsn':'2maxwlmbmay','guide':{ 'guide':{ 'gnew':3 } } })
+		console.log('e')
+		await this.sendRequest({ 'user':{ 'jingYing':{ 'jyid':3 } },'rsn':'6xpslyusbk' })
+		console.log('f')
+		await this.sendRequest({ 'rsn':'1tqrwiatqu','guide':{ 'guide':{ 'gnew':4 } } })
+		console.log('g')
+		await this.sendRequest({ 'user':{ 'jingYing':{ 'jyid':4 } },'rsn':'4acmhxagbgb' })
+		console.log('h')
+		await this.sendRequest({ 'rsn':'3hznswfhrf','guide':{ 'guide':{ 'gnew':5 } } })
+		console.log('i')
+		await this.sendRequest({ 'user':{ 'adok':{ 'label':'' } },'rsn':'8ajixekaxi' })
+		console.log('j')
+		await this.sendRequest({ 'user':{ 'adok':{ 'label':'jingying' } },'rsn':'2maxwlmbhqq' })
+		console.log('k')
+		await this.sendRequest({ 'rsn':'6wsylkgxxx','guide':{ 'guide':{ 'smap':0,'bmap':1,'mmap':1 } } })
+
+		console.log('Campaign')
+		await this.sendRequest({ 'user':{ 'pve':[] },'rsn':'5jwfvajwyyf' })
+		await this.sendRequest({ 'rsn':'8mvjxiekxm','guide':{ 'guide':{ 'gnew':6 } } })
+		await this.sendRequest({ 'user':{ 'adok':{ 'label':'jingying' } },'rsn':'3hznswfeke' })
+		await this.sendRequest({ 'user':{ 'adok':{ 'label':'' } },'rsn':'4cavxbmfhv' })
+		await this.sendRequest({ 'user':{ 'adok':{ 'label':'jingying' } },'rsn':'5yvjaerpay' })
+		await this.sendRequest({ 'rsn':'5yvjaereyf','guide':{ 'guide':{ 'gnew':7 } } })
+
+		console.log('Upgrade Gerard')
+		await this.sendRequest({ 'hero':{ 'upgrade':{ 'id':2 } },'rsn':'1qtaewqtqwk' })
+		await this.sendRequest({ 'rsn':'5yvjaereyf','guide':{ 'guide':{ 'gnew':7 } } })
+		await this.sendRequest({ 'user':{ 'adok':{ 'label':'' } },'rsn':'8ajixekkoe' })
+
+
+		console.log('Fight Boss')
+		await this.sendRequest({ 'user':{ 'pvb':{ 'is_guide':1,'id':2 } },'rsn':'4acmhxacvgb' })
+		await this.sendRequest({ 'user':{ 'adok':{ 'label':'' } },'rsn':'5jwfvajvrhh' })
+		await this.sendRequest({ 'user':{ 'adok':{ 'label':'' } },'rsn':'9zrsjbzjics' })
+
+		console.log('Collect quest 1')
+		await this.sendRequest({ 'task':{ 'taskdo':{ 'id':1 } },'rsn':'6swgplswlux' })
+		await this.sendRequest({ 'rsn':'5jwfvajvaff','guide':{ 'guide':{ 'gnew':8 } } })
+
+		logger.success(`Created ${name} on server ${server}`)
+	}
+	async getGeneratedName(): Promise<string> {
+		const name = await this.sendRequest({ 'rsn':'6xpsluwksy','guide':{ 'randName':{ 'sex':1 } } })
+
+		return name.a.system.randname.name
+	}
+	async setName(name: string): Promise<string> {
+		this.sendRequest({ 'rsn':'6xpsluwkyk','guide':{ 'setUinfo':{ 'sex':1,name,'job':7 } } })
+
+		return name
 	}
 }
 

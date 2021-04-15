@@ -28,6 +28,7 @@ const MAIDENS = [
 	{ mid: 19, name: 'Theodora', visits: 0 },
 	{ mid: 30, name: 'Helen', visits: 0 },
 	{ mid: 35, name: 'Morrigan', visits: 0 },
+	{ mid: 37, name: 'Ginchiyo', visits: 0 },
 ]
 
 function getMaiden(id: number): {mid:number, name: string, visits: number} {

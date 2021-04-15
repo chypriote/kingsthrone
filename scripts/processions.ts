@@ -17,14 +17,17 @@ const NPCS = [
 	{ nid: 32, name: 'Geoffrey', visits: 0 },
 	{ nid: 41, name: 'Bill', visits: 0 },
 	{ nid: 42, name: 'Nicholas', visits: 0 },
+	{ nid: 49, name: 'Alexei', visits: 0 },
 	{ nid: 101, name: 'Theodora', visits: 0 },
 	{ nid: 102, name: 'Yolanda', visits: 0 },
+	{ nid: 109, name: 'Amala', visits: 0 },
 	{ nid: 112, name: 'Carmilla', visits: 0 },
 	{ nid: 114, name: 'Gwyneth', visits: 0 },
 	{ nid: 116, name: 'Titania', visits: 0 },
 	{ nid: 117, name: 'Christine', visits: 0 },
 	{ nid: 120, name: 'Hildegard', visits: 0 },
 	{ nid: 121, name: 'Eleanor', visits: 0 },
+	{ nid: 124, name: 'Helen', visits: 0 },
 ]
 function getItem(id: number): string {
 	switch (id) {

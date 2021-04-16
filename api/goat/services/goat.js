@@ -1,8 +1,8 @@
 const axios = require('axios')
 const logger = require('../../logger/services/logger')
 
-const VERSION = 'V1.3.523'
-const COOKIE = 'lyjxncc=2083c99339e8b46bf500d2d46ae68581'
+const VERSION = 'V1.3.524'
+const COOKIE = 'lyjxncc=fa3c2e7123aa51bdafd473520405ed0d'
 const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'4cfhvxxiim','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'fe3da078-88a4-3ccf-9249-5acf33d7765f','parm3':'SM-G955F','openid':'563125632849524101','openkey':'9fa3348fcd6344060431a81d44a219d2c0a3a706' } } }
 const LOGIN_ACCOUNT_NAPOLEON = { 'rsn':'3hewzzhpsp','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'2f12d907-56a9-3a46-9124-d4351e9fc878','parm3':'SM-G955F','openid':'565939577188654916','openkey':'51ba25dcc6757726dec6ba4c737e3ca134c49fb3' } } }
 const OLD_HOST = 'zsjefunbm.zwformat.com'
@@ -11,31 +11,38 @@ const NEW_HOST = 'ksrus.gtbackoverseas.com'
 class GoatRequest {
 	cookie
 	token = null
-	server
+	gid = null
 	host
 	base_url
+	server
+	version
 
 	isLoggedIn = false
 
 	constructor(server = '699', cookie = COOKIE, host = NEW_HOST) {
 		this.cookie = cookie
 		this.server = server
-		this.base_url = `http://zsjefunbm.zwformat.com/servers/s${server}.php`
 		this.host = [OLD_HOST, NEW_HOST].includes(host) ? host : NEW_HOST
 		this.base_url = `http://${host}/servers/s${server}.php`
+		this.version = VERSION
 	}
 
 	setServer(server) {
 		this.server = server
 		return this
 	}
+	setVersion(version) {
+		this.version = version
+		logger.warn(`Set version to ${version}`)
+		return this
+	}
 
 	async login(user = LOGIN_ACCOUNT_NAPOLEON) {
-		console.log('logging in')
+		console.log(`logging in ${this.server}`)
 		const response = await axios.post(this.base_url, user, {
 			params: {
 				sevid: this.server,
-				ver: VERSION,
+				ver: this.version,
 				uid: '',
 				token: '',
 				platform: 'gaotukc',
@@ -57,19 +64,20 @@ class GoatRequest {
 		}
 
 		this.token = response?.a?.loginMod?.loginAccount?.token
+		this.gid = response?.a?.loginMod?.loginAccount?.uid
 		this.isLoggedIn = true
 
 		return response.a.loginMod.loginAccount
 	}
 
-	async sendRequest(data, gid = '699005053') {
+	async sendRequest(data, ignoreError = false) {
 		if (!this.isLoggedIn) {await this.login()}
 
 		const response =  await axios.post(this.base_url, data, {
 			params: {
 				sevid: this.server,
-				ver: VERSION,
-				uid: gid,
+				ver: this.version,
+				uid: this.gid,
 				token: this.token,
 				platform: 'gaotukc',
 				lang: 'en',
@@ -85,9 +93,13 @@ class GoatRequest {
 		}).then(response => response.data)
 
 		if (response?.a?.system?.errror) {
-			logger.error(`RequestError: ${response?.a?.system?.errror.msg}`)
+			if (ignoreError) {logger.error(`RequestError: ${response?.a?.system?.errror.msg}`); return}
 			throw new Error(response?.a?.system?.errror.msg)
-			// process.exit()
+		}
+
+		if (response?.a?.system?.version) {
+			this.setVersion(response.a.system.version.ver)
+			return await this.sendRequest(data)
 		}
 
 		return response

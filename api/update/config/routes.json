@@ -2,7 +2,7 @@
   "routes": [
 		{
 			"method": "GET",
-			"path": "/update/:id/player",
+			"path": "/update/player/:gid",
 			"handler": "update.player",
 			"config": {
 				"policies": []

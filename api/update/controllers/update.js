@@ -9,10 +9,10 @@ module.exports = {
 		return ctx.send(null, 204)
 	},
 	player: async (ctx) => {
-		const { id } = ctx.params
+		const { gid } = ctx.params
 		const knex = strapi.connections.default
 		const player = (await knex('players')
-			.where({ id })
+			.where({ gid })
 			.limit(1)).pop()
 
 		if (!player) {

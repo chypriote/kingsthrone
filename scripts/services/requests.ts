@@ -13,7 +13,7 @@ import {
 import { logger } from '../services/logger'
 import { GameInfos, Wife } from '~/types/game'
 
-const VERSION = 'V1.3.523'
+const VERSION = 'V1.3.524'
 const COOKIE = 'lyjxncc=fa3c2e7123aa51bdafd473520405ed0d'
 export const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'4cfhvxxiim','login':{ 'loginAccount':{
 	 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay',
@@ -25,15 +25,6 @@ export const LOGIN_ACCOUNT_NAPOLEON = { 'rsn':'5wjwfeefhf','login':{ 'loginAccou
 	'openid':'565939577188654916','openkey':'3af6112ebee552af12f624b08a71699d7cd15bfd' } } }
 export const LOGIN_ACCOUNT_701 = { 'rsn':'2maymbhnxnb','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'82557521-a0b4-3441-a774-840066252311','parm3':'ONEPLUS A5000','openid':'565939577188654916','openkey':'deb43d3a1b48b2f80d01ae6829834e9a309019f8' } } }
 export const LOGIN_ACCOUNT_RAYMUNDUS = { 'rsn':'7xcxcypvslg','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'2630f405-13ed-3867-90e5-325059450d8e','parm3':'ONEPLUS A5000','openid':'573218842929144928','openkey':'78c249945d8d450de2111c2eebaa653b697f40c1' } } }
-export const LOGIN_ACCOUNT_532 = { 'rsn':'7cxvdsodcp','login':{ 'loginAccount':{
-	'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay',
-	'parm6':'82557521-a0b4-3441-a774-840066252311','parm3':'ONEPLUS A5000',
-	'openid':'565939577188654916','openkey':'d7dac673e4add09c1f05229871f0db0d29a28877' } } }
-export const LOGIN_ACCOUNT_619 = { 'rsn':'9zrsjbrsmcs','login':{ 'loginAccount':{
-	'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay',
-	'parm6':'82557521-a0b4-3441-a774-840066252311','parm3':'ONEPLUS A5000',
-	'openid':'565939577188654916','openkey':'3687d9f4a28b471c0e41076e87ccc58a3feacf0a' } } }
-
 
 export const CASTLES_RSN = {
 	castle_1: '5yprprvaae',
@@ -48,19 +39,6 @@ export const CASTLES_RSN = {
 	castle_10: '4cfxfximbb',
 }
 
-const error = JSON.stringify({
-	system: {
-	  version: {
-			ver: 'V1.3.521',
-			force: 1,
-			status: 0,
-			iosUrl: 'https://www.facebook.com/Kings-Throne-Game-of-Lust-891740894496936/',
-			androidUrl: 'https://www.facebook.com/Kings-Throne-Game-of-Lust-891740894496936/',
-	  },
-	  sys: { time: 1614246286, nextTime: 1614297600 },
-	},
-})
-
 const OLD_HOST = 'zsjefunbm.zwformat.com'
 const NEW_HOST = 'ksrus.gtbackoverseas.com'
 export class GoatRequest {
@@ -70,6 +48,7 @@ export class GoatRequest {
 	host: string
 	base_url: string
 	server: string
+	version: string
 
 	isLoggedIn = false
 
@@ -78,10 +57,16 @@ export class GoatRequest {
 		this.server = server
 		this.host = [OLD_HOST, NEW_HOST].includes(host) ? host : NEW_HOST
 		this.base_url = `http://${host}/servers/s${server}.php`
+		this.version = VERSION
 	}
 
 	setServer(server: string): this {
 		this.server = server
+		return this
+	}
+	setVersion(version: string): this {
+		this.version = version
+		logger.warn(`Set version to ${version}`)
 		return this
 	}
 
@@ -90,7 +75,7 @@ export class GoatRequest {
 		const response = await axios.post(this.base_url, user, {
 			params: {
 				sevid: this.server,
-				ver: VERSION,
+				ver: this.version,
 				uid: '',
 				token: '',
 				platform: 'gaotukc',
@@ -114,7 +99,6 @@ export class GoatRequest {
 		this.token = response?.a?.loginMod?.loginAccount?.token
 		this.gid = response?.a?.loginMod?.loginAccount?.uid
 		this.isLoggedIn = true
-		console.log(response.a.loginMod.loginAccount)
 
 		return response.a.loginMod.loginAccount
 	}
@@ -125,7 +109,7 @@ export class GoatRequest {
 		const response =  await axios.post(this.base_url, data, {
 			params: {
 				sevid: this.server,
-				ver: VERSION,
+				ver: this.version,
 				uid: this.gid,
 				token: this.token,
 				platform: 'gaotukc',
@@ -144,7 +128,10 @@ export class GoatRequest {
 		if (response?.a?.system?.errror) {
 			if (ignoreError) {logger.error(`RequestError: ${response?.a?.system?.errror.msg}`); return}
 			throw new Error(response?.a?.system?.errror.msg)
-			process.exit()
+		}
+		if (response?.a?.system?.version) {
+			this.setVersion(response.a.system.version.ver)
+			return await this.sendRequest(data)
 		}
 
 		return response

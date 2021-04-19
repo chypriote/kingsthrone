@@ -62,6 +62,7 @@ export class GoatRequest {
 
 	setServer(server: string): this {
 		this.server = server
+		console.log('Server set')
 		return this
 	}
 	setVersion(version: string): this {
@@ -308,13 +309,13 @@ export class GoatRequest {
 	}
 
 	//Account creation
-	async createAccount(server: string): Promise<void> {
+	async createAccount(server: string): Promise<void|GameInfos> {
 		this.setServer(server)
 		const player = await this.getGameInfos()
 
 		if (player.user.user.name) {
-			return logger.warn(`Found existing player named ${player.user.user.name} on server ${server}`)
-			throw new Error(`Found existing player named ${player.user.user.name} on server ${server}`)
+			logger.warn(`Found existing player named ${player.user.user.name} on server ${server}`)
+			return player
 		}
 
 		const name = await this.setName(`Raymundus ${server}`)
@@ -370,7 +371,7 @@ export class GoatRequest {
 		return name.a.system.randname.name
 	}
 	async setName(name: string): Promise<string> {
-		this.sendRequest({ 'rsn':'6xpsluwkyk','guide':{ 'setUinfo':{ 'sex':1,name,'job':7 } } })
+		await this.sendRequest({ 'rsn':'6xpsluwkyk','guide':{ 'setUinfo':{ 'sex':1,name,'job':7 } } })
 
 		return name
 	}

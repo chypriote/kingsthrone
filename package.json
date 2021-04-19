@@ -20,6 +20,7 @@
     "visit-maidens": "ts-node scripts/visit-maidens.ts",
     "processions": "ts-node scripts/processions.ts",
     "inlaws": "ts-node scripts/inlaws.ts",
+    "deathmatch": "ts-node scripts/deathmatch.ts",
     "prepare": "husky install"
   },
   "lint-staged": {

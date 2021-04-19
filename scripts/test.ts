@@ -90,17 +90,4 @@ export const crossServerTourney = async (): Promise<void> => {
 	logger.success('Finished')
 }
 
-export const deathmatch = async (): Promise<void> => {
-	const servers = [
-		'222',
-	]
-
-	for (const server of servers) {
-		await client.createAccount(server)
-		client.isLoggedIn = false
-	}
-}
-
-
-deathmatch().then(() => process.exit())
-
+parseProfiles().then(() => process.exit())

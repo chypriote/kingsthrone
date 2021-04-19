@@ -9,7 +9,7 @@ import { getPlayerAlliance, leaveAlliance, setPlayerAlliance } from './repositor
 import { checkInactivity } from './repository/player'
 import { Player } from '~/types/Player'
 
-const updatePlayerAlliance = async (player: Player, ally: Profile): Promise<void> => {
+export const updatePlayerAlliance = async (player: Player, ally: Profile): Promise<void> => {
 	//Check if player currently has alliance
 	const current = await getPlayerAlliance(player)
 
@@ -35,35 +35,35 @@ const updatePlayerAlliance = async (player: Player, ally: Profile): Promise<void
 	await setPlayerAlliance(player, ally)
 }
 
-const updateProfile = async (profile: Player): Promise<void> => {
-	logger.debug(`Updating ${profile.name}`)
-	try {
-		const item = await client.getProfile(profile.gid)
-		if (!item) {return}
+// const updateProfile = async (profile: Player): Promise<void> => {
+// 	logger.debug(`Updating ${profile.name}`)
+// 	try {
+// 		const item = await client.getProfile(profile.gid)
+// 		if (!item) {return}
+//
+// 		await Promise.all([
+// 			updatePlayerDetails(profile, item),
+// 			updatePlayerAlliance(profile, item),
+// 		])
+// 		// await checkInactivity(profile)
+// 	} catch (e) {
+// 		logger.error(`Error updating ${profile.gid} (${profile.name}): ${e.toString()}`)
+// 	}
+// }
+//
+// export const updateProfiles = async (): Promise<void> => {
+// 	await client.login(LOGIN_ACCOUNT_NAPOLEON)
+// 	const players: Player[] = await getPlayers({ server: 699 })
+// 	const chunks = chunk(players, 9)
+//
+// 	for (const chunk of chunks) {
+// 		const promises: Promise<void>[] = []
+// 		chunk.forEach((player: Player) => promises.push(updateProfile(player)))
+// 		await Promise.all(promises)
+// 		await new Promise(resolve => setTimeout(resolve, 1000))
+// 	}
+//
+// 	logger.success('Finished')
+// }
 
-		await Promise.all([
-			updatePlayerDetails(profile, item),
-			updatePlayerAlliance(profile, item),
-		])
-		await checkInactivity(profile)
-	} catch (e) {
-		logger.error(`Error updating ${profile.gid} (${profile.name}): ${e.toString()}`)
-	}
-}
-
-export const updateProfiles = async (): Promise<void> => {
-	await client.login(LOGIN_ACCOUNT_NAPOLEON)
-	const players: Player[] = await getPlayers({ server: 699 })
-	const chunks = chunk(players, 9)
-
-	for (const chunk of chunks) {
-		const promises: Promise<void>[] = []
-		chunk.forEach((player: Player) => promises.push(updateProfile(player)))
-		await Promise.all(promises)
-		await new Promise(resolve => setTimeout(resolve, 1000))
-	}
-
-	logger.success('Finished')
-}
-
-updateProfiles().then(() => process.exit())
+// updateProfiles().then(() => process.exit())

@@ -7,7 +7,15 @@ import { Player } from '../types/Player'
 import { Profile } from '../types/goat'
 
 const SERVERS = [
-	'691','692','693','694','695','696','697','698','699',
+	'691',
+	'692',
+	'693',
+	'694',
+	'695',
+	'696',
+	'697',
+	'698',
+	'699',
 ]
 
 const getMin = (server: string): number => parseInt(server + '000001')

@@ -60,7 +60,7 @@ class GoatRequest {
 
 		if (!response?.a?.loginMod?.loginAccount?.token) {
 			logger.error(`LoginError: ${response?.a?.system?.errror.msg}`)
-			process.exit()
+			throw new Error(`LoginError: ${response?.a?.system?.errror.msg}`)
 		}
 
 		this.token = response?.a?.loginMod?.loginAccount?.token

@@ -16,8 +16,8 @@ module.exports = {
 			const { goat, update } = strapi.services
 
 			await goat.login()
-			await update.alliances()
 			await update.profiles()
+			await update.alliances()
 		},
 		options: {
 			tz: 'Europe/Paris',

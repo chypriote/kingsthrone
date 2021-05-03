@@ -16,8 +16,7 @@ module.exports = {
 		logger.success('Alliances finished')
 	},
 	profiles: async () => {
-		const { goat, logger, player } = strapi.services
-		await goat.login()
+		const { logger, player } = strapi.services
 		const profiles = await strapi.connections.default('players').where({ server: 699 })
 
 		const chunks = chunk(profiles, 8)

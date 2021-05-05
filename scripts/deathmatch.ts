@@ -6,17 +6,7 @@ import { updatePlayerAlliance } from './profiles'
 import { Player } from '../types/Player'
 import { Profile } from '../types/goat'
 
-const SERVERS = [
-	'691',
-	'692',
-	'693',
-	'694',
-	'695',
-	'696',
-	'697',
-	'698',
-	'699',
-]
+const SERVERS = ['690']
 
 const getMin = (server: string): number => parseInt(server + '000001')
 const getMax = (server: string): number => parseInt(server + '005000')
@@ -68,8 +58,8 @@ export const deathmatch = async (): Promise<void> => {
 		console.log(server)
 		client.isLoggedIn = false
 		client.setServer(server)
-		await client.login()
-		// await client.createAccount(server)
+		// await client.login()
+		await client.createAccount(server)
 
 		const missing = []
 		const gids = (await getAllGID({ server })).map(it => parseInt(it.gid))

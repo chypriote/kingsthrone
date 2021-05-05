@@ -44,9 +44,9 @@
     "senior": {
       "type": "integer"
     },
-		"military_quality": {
-			"type": "integer"
-		},
+    "military_quality": {
+      "type": "integer"
+    },
     "hero": {
       "via": "account_heroes",
       "model": "hero"

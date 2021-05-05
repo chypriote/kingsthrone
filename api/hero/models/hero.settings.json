@@ -44,7 +44,8 @@
         "images"
       ],
       "plugin": "upload",
-      "required": false
+      "required": false,
+      "pluginOptions": {}
     },
     "maiden": {
       "model": "maiden",
@@ -80,6 +81,15 @@
       "type": "component",
       "repeatable": true,
       "component": "attributes.quality-skill"
+    },
+    "second_focus": {
+      "type": "enumeration",
+      "enum": [
+        "military",
+        "fortune",
+        "provisions",
+        "inspiration"
+      ]
     }
   }
 }

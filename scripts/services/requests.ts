@@ -13,7 +13,7 @@ import {
 import { logger } from '../services/logger'
 import { GameInfos, Wife } from '~/types/game'
 
-const VERSION = 'V1.3.526'
+const VERSION = 'V1.3.531'
 const COOKIE = 'lyjxncc=fa3c2e7123aa51bdafd473520405ed0d'
 export const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'4cfhvxxiim','login':{ 'loginAccount':{
 	 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay',

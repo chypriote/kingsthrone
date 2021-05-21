@@ -2,48 +2,48 @@
   "routes": [
     {
       "method": "GET",
-      "path": "/hero-skins",
-      "handler": "hero-skin.find",
+      "path": "/skins",
+      "handler": "skin.find",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/hero-skins/count",
-      "handler": "hero-skin.count",
+      "path": "/skins/count",
+      "handler": "skin.count",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/hero-skins/:id",
-      "handler": "hero-skin.findOne",
+      "path": "/skins/:id",
+      "handler": "skin.findOne",
       "config": {
         "policies": []
       }
     },
     {
       "method": "POST",
-      "path": "/hero-skins",
-      "handler": "hero-skin.create",
+      "path": "/skins",
+      "handler": "skin.create",
       "config": {
         "policies": []
       }
     },
     {
       "method": "PUT",
-      "path": "/hero-skins/:id",
-      "handler": "hero-skin.update",
+      "path": "/skins/:id",
+      "handler": "skin.update",
       "config": {
         "policies": []
       }
     },
     {
       "method": "DELETE",
-      "path": "/hero-skins/:id",
-      "handler": "hero-skin.delete",
+      "path": "/skins/:id",
+      "handler": "skin.delete",
       "config": {
         "policies": []
       }

@@ -38,6 +38,10 @@
     "account_maidens": {
       "collection": "account-maiden",
       "via": "maiden"
+    },
+    "skins": {
+      "via": "maiden",
+      "collection": "skin"
     }
   }
 }

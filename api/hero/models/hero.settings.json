@@ -84,9 +84,9 @@
     "quality_skills": {
       "collection": "quality-skill"
     },
-    "hero_skins": {
+    "skins": {
       "via": "hero",
-      "collection": "hero-skin"
+      "collection": "skin"
     }
   }
 }

@@ -72,16 +72,6 @@
         "kingdom"
       ]
     },
-    "paragons": {
-      "type": "component",
-      "repeatable": true,
-      "component": "attributes.paragon"
-    },
-    "quality_skills": {
-      "type": "component",
-      "repeatable": true,
-      "component": "attributes.quality-skill"
-    },
     "second_focus": {
       "type": "enumeration",
       "enum": [
@@ -90,6 +80,9 @@
         "provisions",
         "inspiration"
       ]
+    },
+    "quality_skills": {
+      "collection": "quality-skill"
     }
   }
 }

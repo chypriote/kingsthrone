@@ -5,7 +5,7 @@ import { createForCross, getAllianceByAID, resetCrossAlliance, setOpponent, upda
 import { chunk } from 'lodash'
 
 const account = LOGIN_ACCOUNT_NAPOLEON
-const server = 699
+const server = 691
 
 export const handleMissing = async (id: number, retry = true): Promise<string|null> => {
 	try {
@@ -36,7 +36,7 @@ export const parseProfiles = async (): Promise<void> => {
 
 	client.setServer(server.toString())
 	await client.login(account)
-	for (let i = 699000500; i < 699005000; i++) {
+	for (let i = 691000001; i < 691005000; i++) {
 		if (gids.includes(i)) {continue}
 		missing.push(i)
 	}

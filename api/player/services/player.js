@@ -66,7 +66,7 @@ module.exports = {
 			])
 			await player.checkInactivity(profile)
 		} catch (e) {
-			logger.error(`Error updating ${player.gid} (${player.name}): ${e.toString()}`)
+			logger.error(`Error updating ${profile.gid} (${profile.name}): ${e.toString()}`)
 		}
 	},
 	updatePlayerDetails: async (player, goat) => {

@@ -13,8 +13,8 @@ import {
 import { logger } from '../services/logger'
 import { GameInfos, Wife } from '~/types/game'
 
-const VERSION = 'V1.3.531'
-const COOKIE = 'lyjxncc=fa3c2e7123aa51bdafd473520405ed0d'
+const VERSION = 'V1.3.533'
+const COOKIE = 'lyjxncc=c3ac4e77dff349b66c7aeed276e3eb6c'
 export const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'4cfhvxxiim','login':{ 'loginAccount':{
 	 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay',
 	 'parm6':'fe3da078-88a4-3ccf-9249-5acf33d7765f','parm3':'SM-G955F',
@@ -62,12 +62,16 @@ export class GoatRequest {
 
 	setServer(server: string): this {
 		this.server = server
-		console.log('Server set')
+		logger.warn(`Set server to ${server}`)
 		return this
 	}
 	setVersion(version: string): this {
 		this.version = version
 		logger.warn(`Set version to ${version}`)
+		return this
+	}
+	setGid(gid: string): this {
+		this.gid = gid === '691005139' ? '691005130' : gid
 		return this
 	}
 
@@ -98,7 +102,7 @@ export class GoatRequest {
 		}
 
 		this.token = response?.a?.loginMod?.loginAccount?.token
-		this.gid = response?.a?.loginMod?.loginAccount?.uid
+		this.setGid(response?.a?.loginMod?.loginAccount?.uid.toString())
 		this.isLoggedIn = true
 
 		return response.a.loginMod.loginAccount
@@ -128,7 +132,7 @@ export class GoatRequest {
 
 		if (response?.a?.system?.errror) {
 			if (ignoreError) {logger.error(`RequestError: ${response?.a?.system?.errror.msg}`); return}
-			throw new Error(response?.a?.system?.errror.msg)
+			throw new Error(`RequestError: ${response?.a?.system?.errror.msg}`)
 		}
 		if (response?.a?.system?.version) {
 			this.setVersion(response.a.system.version.ver)
@@ -139,7 +143,7 @@ export class GoatRequest {
 	}
 
 	async getProfile(gid: number): Promise<Profile|null>  {
-		const profile = await this.sendRequest({ user: { getFuserMember: { id: gid } }, rsn: '5ypfaywvff' })
+		const profile = await this.sendRequest({ user: { getFuserMember: { id: gid } }, rsn: '1taquiwekk' })
 
 		if (profile?.a?.system?.errror) {
 			return null

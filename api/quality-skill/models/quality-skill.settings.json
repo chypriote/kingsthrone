@@ -30,6 +30,10 @@
     },
     "stars": {
       "type": "integer"
+    },
+    "unlockable": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

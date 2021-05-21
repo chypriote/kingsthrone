@@ -60,8 +60,8 @@
       "via": "hero"
     },
     "hero_groups": {
-      "collection": "hero-group",
-      "via": "heroes"
+      "via": "heroes",
+      "collection": "hero-group"
     },
     "unlock": {
       "type": "enumeration",
@@ -81,12 +81,16 @@
         "inspiration"
       ]
     },
+		"skins": {
+			"via": "hero",
+			"collection": "skin"
+		},
     "quality_skills": {
       "collection": "quality-skill"
     },
-    "skins": {
-      "via": "hero",
-      "collection": "skin"
+    "paragons": {
+      "via": "heroes",
+      "collection": "paragon"
     }
   }
 }

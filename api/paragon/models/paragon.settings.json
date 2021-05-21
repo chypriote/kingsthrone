@@ -2,12 +2,13 @@
   "kind": "collectionType",
   "collectionName": "paragons",
   "info": {
-    "name": "Paragon"
+    "name": "Paragon",
+    "description": ""
   },
   "options": {
     "increments": true,
-		"timestamps": false,
-		"draftAndPublish": false
+    "timestamps": false,
+    "draftAndPublish": false
   },
   "attributes": {
     "pid": {
@@ -16,8 +17,35 @@
     "name": {
       "type": "string"
     },
-    "description": {
+    "item": {
       "type": "string"
+    },
+    "cost": {
+      "type": "integer"
+    },
+    "levels": {
+      "type": "integer"
+    },
+    "military": {
+      "type": "float"
+    },
+    "fortune": {
+      "type": "float"
+    },
+    "provisions": {
+      "type": "float"
+    },
+    "inspiration": {
+      "type": "float"
+    },
+    "heroes": {
+      "collection": "hero",
+      "via": "paragons",
+      "dominant": true
+    },
+    "hero_groups": {
+      "via": "paragons",
+      "collection": "hero-group"
     }
   }
 }

@@ -19,8 +19,10 @@
       "collection": "hero",
       "dominant": true
     },
-    "attribute": {
-      "type": "string"
+    "paragons": {
+      "collection": "paragon",
+      "via": "hero_groups",
+      "dominant": true
     }
   }
 }

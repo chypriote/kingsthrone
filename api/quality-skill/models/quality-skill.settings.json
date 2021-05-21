@@ -34,6 +34,10 @@
     "unlockable": {
       "type": "boolean",
       "default": false
+    },
+    "hero_skins": {
+      "via": "quality_skill",
+      "collection": "hero-skin"
     }
   }
 }

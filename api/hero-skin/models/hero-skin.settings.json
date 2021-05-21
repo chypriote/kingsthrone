@@ -1,0 +1,47 @@
+{
+  "kind": "collectionType",
+  "collectionName": "hero_skins",
+  "info": {
+    "name": "HeroSkin"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "rarity": {
+      "type": "enumeration",
+      "enum": [
+        "rare",
+        "epic",
+        "limited",
+        "legendary"
+      ],
+      "required": true
+    },
+		"picture": {
+			"model": "file",
+			"via": "related",
+			"allowedTypes": [
+				"images"
+			],
+			"plugin": "upload",
+			"required": false,
+			"pluginOptions": {}
+		},
+    "hero": {
+      "model": "hero",
+      "via": "hero_skins"
+    },
+    "quality_skill": {
+      "model": "quality-skill",
+      "via": "hero_skins"
+    }
+  }
+}

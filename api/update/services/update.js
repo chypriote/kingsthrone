@@ -17,7 +17,7 @@ module.exports = {
 	},
 	profiles: async () => {
 		const { logger, player, goat } = strapi.services
-		goat.setServer(691)
+		goat.setServer(699)
 		const profiles = await strapi.connections.default('players').where({ server: goat.server })
 
 		const chunks = chunk(profiles, 8)

@@ -29,8 +29,8 @@
   "dependencies": {
     "axios": "^0.21",
     "chalk": "^4.1",
-    "date-fns": "^2.21",
-    "dotenv": "^9.0",
+    "date-fns": "^2.22",
+    "dotenv": "^10.0",
     "knex": "^0.95",
     "lodash": "^4.17",
     "pg": "^8.6",
@@ -44,22 +44,22 @@
     "strapi-plugin-users-permissions": "^3.6",
     "strapi-provider-upload-cloudinary": "https://github.com/chypriote/strapi-provider-upload-cloudinary.git",
     "strapi-utils": "^3.6",
-    "typescript": "^4.2"
+    "typescript": "^4.3"
   },
   "devDependencies": {
     "@types/axios": "^0.14",
     "@types/lodash": "^4.14",
-    "@types/node": "^15.0",
+    "@types/node": "^15.6",
     "@types/pg": "^8.6",
-    "@typescript-eslint/eslint-plugin": "^4.22",
-    "@typescript-eslint/parser": "^4.22",
-    "eslint": "^7.25",
+    "@typescript-eslint/eslint-plugin": "^4.25",
+    "@typescript-eslint/parser": "^4.25",
+    "eslint": "^7.27",
     "eslint-config-prettier": "^8.3",
     "eslint-plugin-prettier": "^3.4",
     "husky": "^6.0",
     "lint-staged": "^11.0",
-    "prettier": "^2.2",
-    "ts-node": "^9.1"
+    "prettier": "^2.3",
+    "ts-node": "^10.0"
   },
   "author": {
     "name": "Chypriote"

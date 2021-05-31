@@ -2,7 +2,7 @@ import { client, LOGIN_ACCOUNT_NAPOLEON, LOGIN_ACCOUNT_GAUTIER } from './service
 import { logger } from './services/logger'
 import { find, reduce } from 'lodash'
 
-const account = LOGIN_ACCOUNT_NAPOLEON
+const account = LOGIN_ACCOUNT_GAUTIER
 const visitsPerDraught = 3
 const draughtsToKeep = 300
 
@@ -47,7 +47,7 @@ function getMaiden(id: number): {mid:number, name: string, visits: number} {
 export const visitMaidens = async (): Promise<void> => {
 	await client.login(account)
 	// const available = await client.getAvailableVisits()
-	let availableVisits = 100 //available.num
+	let availableVisits = 60 //available.num
 	let availableDraught = 300
 	let usedDraught = 0
 

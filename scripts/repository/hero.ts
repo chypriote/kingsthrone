@@ -16,3 +16,7 @@ export const getHeroByHID = async (hid: number): Promise<Hero|null> => {
 
 	return heroes.length ? heroes[0] : null
 }
+
+export const getHeroesList = async (): Promise<Hero[]> => {
+	return client.select().table('heroes')
+}

@@ -162,8 +162,8 @@ export type CastleInfos = {
 	task: TaskInfo
 }
 
-export type XSPlayerRank = {
-	uid: number
+export type User = {
+	uid: string
 	name: string
 	job: number
 	sex: number

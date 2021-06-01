@@ -8,10 +8,16 @@ import {
 	XSAlliance,
 	XSOpponent,
 	InLaw,
-	LuckStatus, ProcessionsStatus, ProcessionGain, ProcessionResult, XSPlayerRank, XSPlayer
+	LuckStatus,
+	ProcessionsStatus,
+	ProcessionGain,
+	ProcessionResult,
+	User,
+	XSPlayer
 } from '~/types/goat'
 import { logger } from '../services/logger'
 import { GameInfos, Wife } from '~/types/game'
+import { FHero, FShop, OngoingFight, TourneyReward } from '~/types/tourney'
 
 const VERSION = 'V1.3.535'
 const COOKIE = 'lyjxncc=c3ac4e77dff349b66c7aeed276e3eb6c'
@@ -301,7 +307,7 @@ export class GoatRequest {
 	}
 
 	//Tourney Championship
-	async getXSTourney(): Promise<XSPlayerRank[]> {
+	async getXSTourney(): Promise<User[]> {
 		const tourney = await this.sendRequest({ 'kuayamen':{ 'getRank':[] },'rsn':'3zhfrfnwhke' })
 
 		return tourney.a.kuayamen.scoreRank
@@ -378,6 +384,49 @@ export class GoatRequest {
 		await this.sendRequest({ 'rsn':'6xpsluwkyk','guide':{ 'setUinfo':{ 'sex':1,name,'job':7 } } })
 
 		return name
+	}
+
+	//Tourney
+	async getTourneyInfos(): Promise<OngoingFight> {
+		const data = await this.sendRequest({ 'yamen':{ 'yamen':[] },'rsn':'1qtiuqurtia' })
+
+		return data.a.yamen
+	}
+	async getTourneyAdok(): Promise<OngoingFight> {
+		const data = await this.sendRequest({ 'user':{ 'adok':{ 'label':'yamen' } },'rsn':'6swkbswywgg' })
+
+		return data.a.warHorse
+	}
+	async startTourneyFight(): Promise<OngoingFight> {
+		console.log('starting fight')
+		const data = await this.sendRequest({ 'yamen':{ 'pizun':[] },'rsn':'3esphksnsn' })
+
+		return data.a.yamen
+	}
+	async startTokenTourneyFight(): Promise<OngoingFight> {
+		const data = await this.sendRequest({ 'yamen':{ 'chushi':[] },'rsn':'3espeerwpw' })
+
+		return data.a.yamen
+	}
+	async buyTourneyBoost(item: FShop): Promise<OngoingFight> {
+		const data = await this.sendRequest({ 'yamen':{ 'seladd':{ id: item.id } },'rsn':'2ylqabmbqq' }, true)
+
+		return data.a.yamen
+	}
+	async fightHero(hero: FHero): Promise<OngoingFight> {
+		const data = await this.sendRequest({ 'yamen':{ 'fight':{ 'id': hero.id } },'rsn':'3zhwpzzrphn' })
+
+		return data.a.yamen
+	}
+	async getReward(): Promise<TourneyReward> {
+		const data = await this.sendRequest({ 'yamen':{ 'getrwd':[] },'rsn':'1tabuiiqwa' })
+
+		return data.a.yamen.win.rwd
+	}
+	async challengeOpponent(uid: string, hid: number): Promise<OngoingFight> {
+		const data = await this.sendRequest({ 'yamen':{ 'zhuisha':{ 'fuid':uid,'hid':hid } },'rsn':'8mxoaeekoe' })
+
+		return data.a.yamen
 	}
 }
 

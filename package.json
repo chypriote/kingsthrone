@@ -21,6 +21,7 @@
     "processions": "ts-node scripts/processions.ts",
     "inlaws": "ts-node scripts/inlaws.ts",
     "deathmatch": "ts-node scripts/deathmatch.ts",
+    "tourney": "ts-node scripts/tourney.ts",
     "prepare": "husky install"
   },
   "lint-staged": {

@@ -1,5 +1,6 @@
 import { Hero } from '~/scripts/repository/roster'
 import { CastleInfos } from '~/types/goat'
+import { TourneyInfos } from '~/types/tourney'
 
 declare enum Sex {
 	MALE= 2,
@@ -218,7 +219,7 @@ export type GameInfos = {
 	fuli: unknown
 	hangUpSystem: { info: CastleInfos[] } //Kingdom
 	weeklyrank: unknown
-	yamen: unknown
+	yamen: TourneyInfos //Tourney
 	warHorse: unknown
 	jingYing: unknown
 	school: unknown

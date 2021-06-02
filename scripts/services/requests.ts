@@ -82,7 +82,7 @@ export class GoatRequest {
 	}
 
 	async login(user = LOGIN_ACCOUNT_NAPOLEON): Promise<any> {
-		console.log(`logging in ${this.server}`)
+		logger.log(`logging in ${this.server}`)
 		const response = await axios.post(this.base_url, user, {
 			params: {
 				sevid: this.server,
@@ -197,33 +197,33 @@ export class GoatRequest {
 		try {
 			await this.sendRequest({ 'rsn': '4acfahcffvm', 'hangUpSystem': { 'getSonDispatchRewards': { 'eventId': 'all', 'id': castleId } } })
 		}catch (e) {
-			console.log(`Failed at claimAll ${e.toString()}`)
+			logger.error(`Failed at claimAll ${e.toString()}`)
 		}
 	}
 	async claimQuest(eventId: string, castleId: number): Promise<void> {
-		console.log(`Claim quest ${eventId} for castle ${castleId}`)
+		logger.log(`Claim quest ${eventId} for castle ${castleId}`)
 		try {
 			await this.sendRequest({ 'rsn': '9zrmzjtbsjm','hangUpSystem': { 'getSonDispatchRewards': { 'eventId': eventId, 'id': castleId } } })
 		}catch (e) {
-			console.log(`Failed at claimQuest ${e.toString()}`)
+			logger.error(`Failed at claimQuest ${e.toString()}`)
 		}
 	}
 	async sendQuest(eventId: string, castleId: number, sonId: number): Promise<void> {
-		console.log(`Send son ${sonId} on quest ${eventId} for castle ${castleId}`)
+		logger.log(`Send son ${sonId} on quest ${eventId} for castle ${castleId}`)
 		try {
 			await this.sendRequest({ 'rsn': '9rztbmjirc','hangUpSystem': { 'sonDispatch': { 'son_slot': [{ 'slot': 1, 'sonId': sonId }],'isDouble': 0,'eventId': eventId,'id': castleId } } })
 		}catch (e) {
-			console.log(`Failed at sendQuest ${e.toString()}`)
+			logger.error(`Failed at sendQuest ${e.toString()}`)
 		}
 	}
 	async refreshQuests(castleId: number): Promise<CastleInfos|false> {
-		console.log(`Refreshing quests for castle ${castleId}`)
+		logger.log(`Refreshing quests for castle ${castleId}`)
 		try{
 			const refresh = await this.sendRequest({ 'rsn':'3hzpseshen','hangUpSystem':{ 'refreshEvent':{ 'type':0,'id':castleId } } })
 
 			return refresh.hangUpSystem.info[0]
 		}catch (e) {
-			console.log(`Failed at refreshQuests ${e.toString()}`)
+			logger.error(`Failed at refreshQuests ${e.toString()}`)
 			return false
 		}
 	}
@@ -235,7 +235,6 @@ export class GoatRequest {
 		return visit.u.wife.wifeList[0]
 	}
 	async useStaminaDraught(): Promise<{ count: number, id: number }> {
-		console.log('Using stamina draught')
 		const items = await this.sendRequest({ 'wife':{ 'weige':[] },'rsn':'7xcygxvyygp' })
 
 		return items.u.item.itemList[0]
@@ -263,14 +262,13 @@ export class GoatRequest {
 		return { result, status, luck }
 	}
 	async useGoodwillDraught(): Promise<{ count: number, id: number }> { //id 72 goodwill
-		console.log('Using goodwill draught')
 		const items = await this.sendRequest({ 'rsn':'2ambwlxaxy','xunfang':{ 'recover':[] } })
 
 		return items.u.item.itemList[0]
 	}
 	async setAutoDonation(value = 82, grain: boolean, gold: boolean): Promise<LuckStatus> {
 		//num = current luck, ySet = min luck
-		console.log(`Setting auto donation to ${value}`)
+		logger.log(`Setting auto donation to ${value}`)
 
 		const status = await this.sendRequest({ 'rsn':'4fhaibbigb','xunfang':{ 'yunshi':{
 			auto3: grain ? 1 : 0,
@@ -330,13 +328,13 @@ export class GoatRequest {
 
 		const name = await this.setName(`Raymundus ${server}`)
 		if (!name) {process.exit()}
-		console.log('Skipping guide')
+		logger.debug('Skipping guide')
 		await this.sendRequest({ 'user':{ 'adok':{ 'label':'' } },'rsn':'8ajixearke' })
 		await this.sendRequest({ 'fuli':{ 'answer':{ 'code':'tg' } },'rsn':'6wsylkxbug' })
 		await this.sendRequest({ 'rsn':'9zrsjbmimms','guide':{ 'guideUpguan':[] } })
 		await this.sendRequest({ 'rsn':'8mvjxiivxm','guide':{ 'guide':{ 'gnew':1 } } })
 
-		console.log('Getting levies')
+		logger.debug('Getting levies')
 		await this.sendRequest({ 'rsn':'5yvjaevaeh','guide':{ 'guide':{ 'gnew':2 } } })
 		await this.sendRequest({ 'fuli':{ 'auto_supreme':[] },'rsn':'8ajixejxxe' })
 		await this.sendRequest({ 'user':{ 'refjingying':[] },'rsn':'1tqrwiautk' })
@@ -350,7 +348,7 @@ export class GoatRequest {
 		await this.sendRequest({ 'user':{ 'adok':{ 'label':'jingying' } },'rsn':'2maxwlmbhqq' })
 		await this.sendRequest({ 'rsn':'6wsylkgxxx','guide':{ 'guide':{ 'smap':0,'bmap':1,'mmap':1 } } })
 
-		console.log('Campaign')
+		logger.debug('Campaign')
 		await this.sendRequest({ 'user':{ 'pve':[] },'rsn':'5jwfvajwyyf' })
 		await this.sendRequest({ 'rsn':'8mvjxiekxm','guide':{ 'guide':{ 'gnew':6 } } })
 		await this.sendRequest({ 'user':{ 'adok':{ 'label':'jingying' } },'rsn':'3hznswfeke' })
@@ -358,18 +356,18 @@ export class GoatRequest {
 		await this.sendRequest({ 'user':{ 'adok':{ 'label':'jingying' } },'rsn':'5yvjaerpay' })
 		await this.sendRequest({ 'rsn':'5yvjaereyf','guide':{ 'guide':{ 'gnew':7 } } })
 
-		console.log('Upgrade Gerard')
+		logger.debug('Upgrade Gerard')
 		await this.sendRequest({ 'hero':{ 'upgrade':{ 'id':2 } },'rsn':'1qtaewqtqwk' })
 		await this.sendRequest({ 'rsn':'5yvjaereyf','guide':{ 'guide':{ 'gnew':7 } } })
 		await this.sendRequest({ 'user':{ 'adok':{ 'label':'' } },'rsn':'8ajixekkoe' })
 
 
-		console.log('Fight Boss')
+		logger.debug('Fight Boss')
 		await this.sendRequest({ 'user':{ 'pvb':{ 'is_guide':1,'id':2 } },'rsn':'4acmhxacvgb' })
 		await this.sendRequest({ 'user':{ 'adok':{ 'label':'' } },'rsn':'5jwfvajvrhh' })
 		await this.sendRequest({ 'user':{ 'adok':{ 'label':'' } },'rsn':'9zrsjbzjics' })
 
-		console.log('Collect quest 1')
+		logger.debug('Collect quest 1')
 		await this.sendRequest({ 'task':{ 'taskdo':{ 'id':1 } },'rsn':'6swgplswlux' })
 		await this.sendRequest({ 'rsn':'5jwfvajvaff','guide':{ 'guide':{ 'gnew':8 } } })
 
@@ -398,7 +396,6 @@ export class GoatRequest {
 		return data.a.warHorse
 	}
 	async startTourneyFight(): Promise<OngoingFight> {
-		console.log('starting fight')
 		const data = await this.sendRequest({ 'yamen':{ 'pizun':[] },'rsn':'3esphksnsn' })
 
 		return data.a.yamen

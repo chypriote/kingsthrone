@@ -1,6 +1,7 @@
 import { client } from '../services/database'
-import { Hero } from '../../types/Hero'
-import { Player } from '../../types/Player'
+import { Hero } from '~/types/Hero'
+import { Player } from '~/types/Player'
+import { PlayerHero } from '~/types/PlayerHero'
 
 export const updatePlayerHero = async (hid: number, gid: string, quality: number): Promise<void> => {
 	const hero: Hero = (await client('heroes').where({ hid }).limit(1))[0]
@@ -9,11 +10,19 @@ export const updatePlayerHero = async (hid: number, gid: string, quality: number
 	if (!hero || !player) {
 		throw new Error(`Invalid values: hero ${hid} player ${gid}`)
 	}
-	const existing = await client('player_heroes as ph').where({ player: player.id, hero: hero.id }).limit(1)
+	const existing = await client('player_heroes').where({ player: player.id, hero: hero.id }).limit(1)
 
 	if (existing.length) {
 		await client('player_heroes').update({ quality }).where({ player: player.id, hero: hero.id })
 	} else {
-		await client('player_heroes as ph').insert({ quality, player: player.id, hero: hero.id })
+		await client('player_heroes').insert({ quality, player: player.id, hero: hero.id })
 	}
+}
+
+export const loadOpponent = async (gid: string): Promise<(PlayerHero & {hid: number})[]> => {
+	return client('player_heroes as ph')
+		.select('ph.*', 'heroes.hid')
+		.join('players', 'players.id', 'ph.player')
+		.join('heroes', 'heroes.id','ph.hero')
+		.where({ gid })
 }

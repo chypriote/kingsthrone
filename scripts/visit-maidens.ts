@@ -52,7 +52,7 @@ export const visitMaidens = async (): Promise<void> => {
 	let usedDraught = 0
 
 	if (!availableVisits) {
-		console.log('No visits available, using draught')
+		logger.warn('No visits available, using draught')
 		availableDraught = (await client.useStaminaDraught()).count
 		usedDraught++
 		availableVisits += visitsPerDraught
@@ -63,7 +63,7 @@ export const visitMaidens = async (): Promise<void> => {
 		const maiden = getMaiden(wife.id)
 		maiden.visits++
 		availableVisits--
-		console.log(`Visited wife ${maiden.name} (${wife.id})`)
+		logger.log(`Visited wife ${maiden.name} (${wife.id})`)
 
 		if (availableVisits === 0 && availableDraught > draughtsToKeep) {
 			availableDraught = (await client.useStaminaDraught()).count

@@ -4,6 +4,6 @@ import { Hero } from './Hero'
 export type PlayerHero = {
 	id?: number
 	quality: number
-	player: Player
-	hero: Hero
+	player: Player|number
+	hero: Hero|number
 }

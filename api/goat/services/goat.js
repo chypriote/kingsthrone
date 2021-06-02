@@ -28,7 +28,7 @@ class GoatRequest {
 	}
 
 	setServer(server) {
-		console.log(`Set server to ${server}`)
+		logger.log(`Set server to ${server}`)
 		this.server = server
 		return this
 	}
@@ -39,7 +39,7 @@ class GoatRequest {
 	}
 
 	async login(user = LOGIN_ACCOUNT_NAPOLEON) {
-		console.log(`logging in ${this.server}`)
+		logger.log(`logging in ${this.server}`)
 		const response = await axios.post(this.base_url, user, {
 			params: {
 				sevid: this.server,

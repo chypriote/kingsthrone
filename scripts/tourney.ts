@@ -1,15 +1,16 @@
+import chalk from 'chalk'
 import { format, fromUnixTime } from 'date-fns'
 import { clone, find, orderBy, sample } from 'lodash'
+import { User } from '~/types/goat'
 import { FHero, FHeroStats, FShop, OngoingFight, TourneyFight, TourneyRewardItem } from '~/types/tourney'
 import { Hero } from '~/types/Hero'
+import { PlayerHero } from '~/types/PlayerHero'
 import { Hero as GHero } from '~/scripts/repository/roster'
 
 import { client, LOGIN_ACCOUNT_GAUTIER, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
 import { logger } from './services/logger'
 import { getHeroesList } from './repository/hero'
-import { updatePlayerHero } from './repository/player-heroes'
-import chalk from 'chalk'
-import { User } from '~/types/goat'
+import { loadOpponent, updatePlayerHero } from './repository/player-heroes'
 
 let heroes: Hero[]
 
@@ -52,6 +53,7 @@ interface IState {
 	fought: FHeroStats[]
 	rewards: TourneyRewardItem[]
 	status: HerosStatus
+	opponentRoster: (PlayerHero & {hid: number})[]
 }
 const state: IState = {
 	totalHeroes: 0,
@@ -59,6 +61,7 @@ const state: IState = {
 	currentFight: 1,
 	fought: [],
 	rewards: [],
+	opponentRoster: [],
 	status: new HerosStatus(),
 }
 
@@ -89,7 +92,7 @@ const buyShop = async (shop: FShop[]): Promise<void> => {
 	const items = orderBy(shop, 'id', 'desc')
 
 	if (state.easyFight && state.currentFight > 1) {
-		if (state.currentFight === 2) console.log('Easy fight, not buying')
+		if (state.currentFight === 2) logger.log('Easy fight, not buying')
 		return
 	}
 
@@ -110,10 +113,16 @@ const buyShop = async (shop: FShop[]): Promise<void> => {
 		}
 	}
 
-	return console.log('not buying')
+	return logger.log('not buying')
 }
 const selectHero = (heroes: FHero[]): FHero => {
-	const sorted = orderBy(heroes, ['senior', 'heroLv', 'skin'])
+	heroes = heroes.map(h => {
+		const found = find(state.opponentRoster, ph => ph.hid == h.id)
+		return { ...h, quality: found?.quality || 99999 }
+	})
+
+	const sorted = orderBy(heroes, ['quality', 'senior', 'heroLv', 'skin'], ['asc', 'asc', 'asc', 'asc'])
+
 	return sorted[0]
 }
 const findAvailableHero = async (): Promise<GHero|null> => {
@@ -140,7 +149,7 @@ const displayStatus = (fight: TourneyFight) => {
 }
 
 const doFight = async (status: OngoingFight) => {
-	if (!state.opponent) { return console.log('no opponent') }
+	if (!state.opponent) { return logger.error('no opponent') }
 
 	logger.log('---------------------------------------')
 	const fight = status.fight
@@ -162,13 +171,12 @@ const doFight = async (status: OngoingFight) => {
 	if (!opStats) {
 		logger.error(JSON.stringify(battle.win.fight.base))
 	} else {
-		console.log(`${op.name} has ${opStats.azz} quality`)
 		state.fought.push(opStats)
 		await updatePlayerHero(opStats.hid, state.opponent?.uid, opStats.azz)
 	}
 
 	// Getting rewards
-	if (battle.win.fight.winnum % 3 === 0) {
+	if (battle.win.fight.winnum && battle.win.fight.winnum % 3 === 0) {
 		const reward = (await client.getReward()).items[0]
 		state.rewards.push(reward)
 		logger.success(`Got reward ${getReward(reward)}`)
@@ -178,7 +186,7 @@ const doFight = async (status: OngoingFight) => {
 	if (battle.win.over?.isover) {
 		return battle.win.over.win ?
 			logger.success(`Fight with ${state.opponent?.name} over, won ${state.currentFight} fights`) :
-			logger.error(`Lost the battle with ${state.opponent?.name} after ${state.currentFight + 1} fights`)
+			logger.error(`Lost the battle with ${state.opponent?.name} after ${state.currentFight} fights`)
 	}
 	if (!battle.fight.fheronum) {
 		return logger.success(`Fight with ${state.opponent?.name} over, won ${state.currentFight} fights`)
@@ -189,18 +197,18 @@ const doFight = async (status: OngoingFight) => {
 	await doFight(battle)
 }
 
-const prepareFight = async (opponent: string|null): Promise<OngoingFight> => {
+const prepareFight = async (opponent: string|null, hid: number|null): Promise<OngoingFight> => {
 	const status = await client.getTourneyInfos()
 	const state = status.info.state
 
-	if (state === 11 || state === 12) {
-		console.log('fight already started')
+	if (state === 11 || state === 12 || state === 15) {
+		logger.warn('fight already started')
 		if (opponent) {logger.error(`can't challenge ${opponent}`); process.exit(0)}
 		return status
 	}
 
 	if (opponent) {
-		const hero = await findAvailableHero()
+		const hero = hid ? { id: hid } : await findAvailableHero()
 		return await client.challengeOpponent(opponent, hero?.id || 0)
 	}
 
@@ -210,7 +218,7 @@ const prepareFight = async (opponent: string|null): Promise<OngoingFight> => {
 	}
 
 	if (state === 3) {
-		console.log('Daily fights over, using token')
+		logger.log('Daily fights over, using token')
 		return await client.startTokenTourneyFight()
 	}
 
@@ -227,10 +235,10 @@ const prepareFight = async (opponent: string|null): Promise<OngoingFight> => {
 	return await client.startTourneyFight()
 }
 
-export const doTourney = async (opponent: string|null = null): Promise<void> => {
+export const doTourney = async (opponent: string|null = null, hid: string|null = null): Promise<void> => {
 	await client.login(LOGIN_ACCOUNT_NAPOLEON)
 
-	const status = await prepareFight(opponent)
+	const status = await prepareFight(opponent, hid ? parseInt(hid) : null)
 
 	heroes = await getHeroesList()
 	const hero = find(heroes, h => h.hid == status.fight.hid)
@@ -240,9 +248,10 @@ export const doTourney = async (opponent: string|null = null): Promise<void> => 
 	state.totalHeroes = clone(status.fight.fheronum)
 	state.easyFight = status.fight.fuser.shili < 10000000
 	state.status.updateFromFight(status.fight)
+	state.opponentRoster = await loadOpponent(status.fight.fuser.uid)
 
-	console.log(`Fighting ${chalk.cyan(status.fight.fuser.name)} (${status.fight.fuser.uid}) with ${chalk.yellow(hero?.name || status.fight.hid)} against ${status.fight.fheronum} heroes`)
+	logger.log(`Fighting ${chalk.cyan(status.fight.fuser.name)} (${status.fight.fuser.uid}) with ${chalk.yellow(hero?.name || status.fight.hid)} against ${status.fight.fheronum} heroes`)
 	await doFight(status)
 }
 
-doTourney(process.argv[2]).then(() => process.exit())
+doTourney(process.argv[2], process.argv[3]).then(() => process.exit())

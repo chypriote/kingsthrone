@@ -81,10 +81,19 @@ const boughtItems = [
 ]
 
 const getReward =(reward: TourneyRewardItem): string => {
-	switch (reward.id) {
-	case 17: return `${reward.count} tourney xp`
-	case 18: return `${reward.count} quality points`
-	case 123: return `${reward.count} challenge tokens`
+	switch (true) {
+	case reward.id === 4:
+	case reward.id === 6:
+	case reward.id === 17:
+	case reward.id === 7 && reward.kind === 6:
+	case reward.kind === 6:
+		return `${reward.count} tourney xp`
+	case reward.id === 18:
+	case reward.id ===27:
+	case reward.id === 7 && reward.kind === 5:
+	case reward.kind === 5:
+		return `${reward.count} quality points`
+	case reward.id ===123: return `${reward.count} challenge tokens`
 	default: return `unknown ${JSON.stringify(reward)}`
 	}
 }
@@ -185,16 +194,20 @@ const doFight = async (status: OngoingFight) => {
 	// Handling fight result
 	if (battle.win.over?.isover) {
 		return battle.win.over.win ?
-			logger.success(`Fight with ${state.opponent?.name} over, won ${state.currentFight} fights`) :
-			logger.error(`Lost the battle with ${state.opponent?.name} after ${state.currentFight} fights`)
+			logger.success(`Fight with ${chalk.bold(state.opponent?.name)} over, won ${state.currentFight} fights`) :
+			logger.error(`Lost the battle with ${chalk.bold(state.opponent?.name)} after ${state.currentFight} fights`)
 	}
 	if (!battle.fight.fheronum) {
-		return logger.success(`Fight with ${state.opponent?.name} over, won ${state.currentFight} fights`)
+		return logger.success(`Fight with ${chalk.bold(state.opponent?.name)} over, won ${state.currentFight} fights`)
 	}
 
 	state.currentFight++
-	// Fighting again
-	await doFight(battle)
+	try {
+		// Fighting again
+		await doFight(battle)
+	} catch (e) {
+		console.log(JSON.stringify(battle))
+	}
 }
 
 const prepareFight = async (opponent: string|null, hid: number|null): Promise<OngoingFight> => {

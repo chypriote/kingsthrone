@@ -235,8 +235,8 @@ const prepareFight = async (opponent: string|null, hid: number|null): Promise<On
 	return await client.startTourneyFight()
 }
 
-export const doTourney = async (opponent: string|null = null, hid: string|null = null): Promise<void> => {
-	await client.login(LOGIN_ACCOUNT_NAPOLEON)
+export const doTourney = async (account: string, opponent: string|null = null, hid: string|null = null): Promise<void> => {
+	await client.login(account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
 
 	const status = await prepareFight(opponent, hid ? parseInt(hid) : null)
 
@@ -254,4 +254,4 @@ export const doTourney = async (opponent: string|null = null, hid: string|null =
 	await doFight(status)
 }
 
-doTourney(process.argv[2], process.argv[3]).then(() => process.exit())
+doTourney(process.argv[2], process.argv[3], process.argv[4]).then(() => process.exit())

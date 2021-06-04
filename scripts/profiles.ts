@@ -1,9 +1,9 @@
 import { config } from 'dotenv'
 config()
 import { chunk } from 'lodash'
-import { Profile } from '~/types/goat'
+import { Profile } from '~/types/goatGeneric'
 import { logger } from './services/logger'
-import { client, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
+import { goat, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
 import { getPlayers, updatePlayerDetails } from './repository/player'
 import { getPlayerAlliance, leaveAlliance, setPlayerAlliance } from './repository/alliance'
 import { Player } from '~/types/Player'
@@ -37,7 +37,7 @@ export const updatePlayerAlliance = async (player: Player, ally: Profile): Promi
 const updateProfile = async (profile: Player): Promise<void> => {
 	logger.debug(`Updating ${profile.name}`)
 	try {
-		const item = await client.getProfile(profile.gid)
+		const item = await goat.getProfile(profile.gid)
 		if (!item) {return}
 
 		await Promise.all([
@@ -51,7 +51,7 @@ const updateProfile = async (profile: Player): Promise<void> => {
 }
 
 export const updateProfiles = async (): Promise<void> => {
-	await client.login(LOGIN_ACCOUNT_NAPOLEON)
+	await goat.login(LOGIN_ACCOUNT_NAPOLEON)
 	const players: Player[] = await getPlayers({ server: 699 })
 	const chunks = chunk(players, 9)
 

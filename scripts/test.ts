@@ -1,4 +1,4 @@
-import { client, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
+import { goat, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
 import { logger } from './services/logger'
 import { createPlayer, getAllGID, getPlayerByGID } from './repository/player'
 import { createForCross, getAllianceByAID, resetCrossAlliance, setOpponent, updateExistingForCross } from './repository/alliance'
@@ -9,7 +9,7 @@ const server = 691
 
 export const handleMissing = async (id: number, retry = true): Promise<string|null> => {
 	try {
-		const profile = await client.getProfile(id)
+		const profile = await goat.getProfile(id)
 
 		if (profile && profile.hero_num > 14) {
 			await createPlayer(id, profile.name, profile.vip, parseInt(profile.shili), profile.hero_num, server)
@@ -34,8 +34,8 @@ export const parseProfiles = async (): Promise<void> => {
 	const missing = []
 	const gids = (await getAllGID({ server })).map(it => parseInt(it.gid))
 
-	client.setServer(server.toString())
-	await client.login(account)
+	goat.setServer(server.toString())
+	await goat.login(account)
 	for (let i = 691000001; i < 691005000; i++) {
 		if (gids.includes(i)) {continue}
 		missing.push(i)
@@ -55,7 +55,7 @@ export const parseProfiles = async (): Promise<void> => {
 }
 
 export const crossServerAlliances = async (): Promise<void> => {
-	const alliances = await client.getXSAlliances()
+	const alliances = await goat.getXSAlliances()
 	await resetCrossAlliance()
 
 	for (const alliance of alliances) {
@@ -69,7 +69,7 @@ export const crossServerAlliances = async (): Promise<void> => {
 			ally = await createForCross(alliance)
 			console.log(`Alliance ${ally.name} added to crossserver`)
 		}
-		const opponents = await client.getCrossOpponents(6990001)
+		const opponents = await goat.getCrossOpponents(6990001)
 		for (const opponent of opponents) {
 			await setOpponent(opponent)
 		}
@@ -77,13 +77,13 @@ export const crossServerAlliances = async (): Promise<void> => {
 }
 
 export const crossServerTourney = async (): Promise<void> => {
-	const players = await client.getXSTourney()
+	const players = await goat.getXSTourney()
 
 	for (const player of players) {
 		const existing = await getPlayerByGID(player.uid)
 
 		if (existing) { logger.log(`Existing ${player.name}`); continue }
-		const profile = await client.getXSPlayer(player.uid)
+		const profile = await goat.getXSPlayer(player.uid)
 		await createPlayer(profile.id, profile.name, profile.vip, parseInt(profile.shili), profile.hero_num, parseInt(profile.id.toString().substr(0, 3)))
 	}
 

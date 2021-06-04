@@ -8,16 +8,22 @@ import {
 	XSAlliance,
 	XSOpponent,
 	InLaw,
-	LuckStatus,
-	ProcessionsStatus,
-	ProcessionGain,
-	ProcessionResult,
 	User,
-	XSPlayer
-} from '~/types/goat'
+	XSPlayer, HallOfFamer, AllianceBossInfo, ExpeditionInfo
+} from '~/types/goatGeneric'
 import { logger } from '../services/logger'
 import { GameInfos, Wife } from '~/types/game'
 import { FHero, FShop, OngoingFight, TourneyReward } from '~/types/tourney'
+import { PunishmentResult } from '~/types/goat/PunishmentResult'
+import {
+	GoodwillResult,
+	LuckStatus,
+	ProcessionResult,
+	ProcessionsStatus
+} from '~/types/goat/Processions'
+import { StaminaResult, VisitsStatus } from '~/types/goat/Maidens'
+import { FeastDetails, FeastInfo, FeastShop, FeastStatus, OngoingFeast } from '~/types/goat/Feasts'
+import { DECREE_TYPE } from '~/types/goat/Generic'
 
 const VERSION = 'V1.3.539'
 const COOKIE = 'lyjxncc=c3ac4e77dff349b66c7aeed276e3eb6c'
@@ -234,37 +240,43 @@ export class GoatRequest {
 
 		return visit.u.wife.wifeList[0]
 	}
-	async useStaminaDraught(): Promise<{ count: number, id: number }> {
-		const items = await this.sendRequest({ 'wife':{ 'weige':[] },'rsn':'7xcygxvyygp' })
+	async useStaminaDraught(num = 1): Promise<StaminaResult> {
+		const items = await this.sendRequest({ 'wife':{ 'weige':{ num } },'rsn':'3zhwezreeef' })
 
-		return items.u.item.itemList[0]
+		return {
+			items: items.u.item.itemList[0],
+			status: items.a.wife.jingLi,
+		}
 	}
-	async getAvailableVisits(): Promise<{num: number, next: number}> {
-		const next = await this.sendRequest({ 'user':{ 'refwife':[] },'rsn':'3zhfrhfehhe' })
+	async getAvailableVisits(): Promise<VisitsStatus> {
+		const next = await this.sendRequest({ 'user':{ 'refwife':[] },'rsn':'9zrimzcbbis' })
 
 		return next.a.wife.jingLi
 	}
 
 	//Processions
 	async getAvailableProcessions(): Promise<ProcessionsStatus> {
-		const next = await this.sendRequest({ 'user':{ 'refxunfang':[] },'rsn':'7cxvsdxvlp' })
+		const next = await this.sendRequest({ 'user':{ 'refxunfang':[] },'rsn':'4cmiixghbg' })
 
 		return next.a.xunfang.xfInfo
 	}
 	async startProcession(): Promise<ProcessionResult> {
 		//kind 2= gold id2= gold
-		const visit = await this.sendRequest({ 'rsn':'1tqrewqiru','xunfang':{ 'xunfan':{ 'type':0 } } })
+		const visit = await this.sendRequest({ 'rsn':'9rsnniiijc','xunfang':{ 'xunfan':{ 'type':0 } } })
 
-		const result: ProcessionGain = visit.a.xunfang.win.xfAll[0]
-		const luck: LuckStatus = visit.a.xunfang.recover
-		const status: ProcessionsStatus  = visit.a.xunfang.xfInfo
-
-		return { result, status, luck }
+		return  {
+			result: visit.a.xunfang.win.xfAll[0],
+			luck: visit.a.xunfang.recover,
+			status: visit.a.xunfang.xfInfo,
+		}
 	}
-	async useGoodwillDraught(): Promise<{ count: number, id: number }> { //id 72 goodwill
-		const items = await this.sendRequest({ 'rsn':'2ambwlxaxy','xunfang':{ 'recover':[] } })
+	async useGoodwillDraught(num = 1): Promise<GoodwillResult> { //id 72 goodwill
+		const items = await this.sendRequest({ 'rsn':'9mbrrjbsrc','xunfang':{ 'recover':{ num } } })
 
-		return items.u.item.itemList[0]
+		return  {
+			items: items.u.item.itemList[0],
+			status: items.a.xunfang.xfInfo,
+		}
 	}
 	async setAutoDonation(value = 82, grain: boolean, gold: boolean): Promise<LuckStatus> {
 		//num = current luck, ySet = min luck
@@ -425,6 +437,130 @@ export class GoatRequest {
 
 		return data.a.yamen
 	}
+	async getTourneyReward(id: number): Promise<void> {
+		await this.sendRequest({ 'yamen':{ 'getdilyrwd':{ id } },'rsn':'5yawyvphhr' })
+	}
+
+	//General
+	async punishPrisoner(): Promise<PunishmentResult> {
+		const data = await this.sendRequest({ 'rsn':'9rsnniccct','laofang':{ 'bianDa':{ 'type':1 } } })
+
+		return data.a.laofang
+	}
+	async raiseAllSons(): Promise<boolean> {
+		try {
+			await this.sendRequest({ 'rsn':'3hfkkwrshp','son':{ 'allplay':[] } })
+		} catch (e) {
+			return false
+		}
+		return true
+	}
+	async getAllLevies(): Promise<void> {
+		await this.sendRequest({ 'user':{ 'jingYingAll':[] },'rsn':'1tabbiiurr' })
+	}
+	async getAllDecreesResources(type: DECREE_TYPE): Promise<void> {
+		await this.sendRequest({ 'user':{ 'yjZhengWu':{ 'act': type } },'rsn':'1tabbiitbi' })
+	}
+	async claimLoginReward(): Promise<void> {
+		await this.sendRequest({ 'fuli':{ 'qiandao':[] },'rsn':'6wguukkgpk' })
+	}
+	async readAllMail(): Promise<void> {
+		await this.sendRequest({ 'rsn':'6swkxspslyk','mail':{ 'redAllMails':[] } })
+	}
+	async deleteAllMail(): Promise<void> {
+		await this.sendRequest({ 'rsn':'7xcpyxsxdsv','mail':{ 'delMails':[] } })
+	}
+	async finishTraining(): Promise<boolean> {
+		try {
+			await this.sendRequest({ 'rsn':'9zrimzjntjm','school':{ 'allover':[] } })
+		} catch (e) {
+			return false
+		}
+		return true
+	}
+	async startTraining(): Promise<void> {
+		await this.sendRequest({ 'rsn':'6wguulskgy','school':{ 'allstart':[] } })
+	}
+	/** @experimental */
+	async getHoFInfo(): Promise<HallOfFamer[]> {
+		const data = await this.sendRequest({ 'rsn':'5jwryjrwjje','huanggong':{ 'getNewInfo':[] } })
+
+		return data.a.huanggong.Info
+	}
+	async getHoFTitle(): Promise<HallOfFamer[]> {
+		const data = await this.sendRequest({ 'rsn':'3zhwezwzknw','huanggong':{ 'getInfoByWid':{ 'wid':2 } } })
+
+		return data.a.huanggong.widInfo
+	}
+	async payHomage(): Promise<void> {
+		await this.sendRequest({ 'rsn':'6wguulyyyy','huanggong':{ 'qingAn':{ 'fuid':699002934,'chenghao':2 } } })
+	}
+	async claimHomage(): Promise<void> {
+		await this.sendRequest({ 'rsn':'4fxccxgmfm','chenghao':{ 'wyrwd':[] } })
+	}
+
+	//Alliance
+	async contributeAlliance(): Promise<void> {
+		await this.sendRequest({ 'club':{ 'dayGongXian':{ 'dcid':5 } },'rsn':'3hfkksnwfn' })
+	}
+	async getAllianceBossInfo(): Promise<AllianceBossInfo[]> {
+		const data = await this.sendRequest({ 'club':{ 'clubBossInfo':[] },'rsn':'5wfppaeavy' })
+
+		return data.a.club.bossInfo
+	}
+	async fightAllianceBoss(boss: number, hero: number): Promise<void> {
+		await this.sendRequest({ 'club':{ 'clubBossPK':{ 'cbid': boss,'id':hero } },'rsn':'4acbfaxfaxf' })
+	}
+
+	//Feasts
+	async getFeastsInfo(): Promise<FeastInfo> {
+		const data = await this.sendRequest({ 'jiulou':{ 'jlInfo':[] },'rsn':'3zhwezswfze' })
+
+		return data.a.jiulou
+	}
+	async getFeast(uid: string): Promise<FeastDetails> {
+		const data = await this.sendRequest({ 'jiulou':{ 'yhGo':{ 'fuid':uid } },'rsn':'2ylayqahmb' })
+
+		return data.a.jiulou.yhInfo
+	}
+	async openFeast(): Promise<void> {
+		await this.sendRequest({ 'jiulou':{ 'yhHold':{ 'type':1,'isPush':1,'isOpen':true } },'rsn':'8akriooeom' })
+	}
+	async joinFeast(uid: string): Promise<{ jfly: FeastStatus, jlShop: FeastShop, yhInfo: OngoingFeast[] }> {
+		const data = await this.sendRequest({ 'jiulou':{ 'yhChi':{ 'type':3,'xwid':4,'fuid': uid } },'rsn':'9rsnctrnrt' })
+
+		const { jfly, jlShop, yhInfo } = data.a.jiulou
+		return { jfly, jlShop, yhInfo }
+	}
+
+	//Rankings
+	async payHomageKP(): Promise<void> {
+		await this.sendRequest({ 'rsn':'5jwryfwjhjy','ranking':{ 'mobai':{ 'type':1 } } })
+	}
+	async payHomageCampaign(): Promise<void> {
+		await this.sendRequest({ 'rsn':'3hfknpzerw','ranking':{ 'mobai':{ 'type':2 } } })
+	}
+	async payHomageIntimacy(): Promise<void> {
+		await this.sendRequest({ 'rsn':'4cmivgafxm','ranking':{ 'mobai':{ 'type':3 } } })
+	}
+
+	async merchantVentures(count: number): Promise<void> {
+		await this.sendRequest({ 'silkroad':{ 'rootPlay':{ 'gid':count } },'rsn':'5yawyhvjrr' })
+	}
+	async multipleExpeditions(count: number): Promise<ExpeditionInfo> {
+		const data = await this.sendRequest({ 'rsn':'1tabruqibu','taofa':{ 'rootPlay':{ 'gid':count } } })
+
+		return data.a.taofa.playInfo
+	}
+	async doExpedition(id: number): Promise<ExpeditionInfo> {
+		const data = await this.sendRequest({ 'rsn':'9mbrmtbrmt','taofa':{ 'play':{ id } } })
+
+		return data.a.taofa.playInfo
+	}
+
+	async getDailyReward(id: number): Promise<void> {
+		await this.sendRequest({ 'daily':{ 'getrwd':{ id } },'rsn':'2axnbamnxy' })
+	}
 }
 
-export const client = new GoatRequest()
+export const goat = new GoatRequest()

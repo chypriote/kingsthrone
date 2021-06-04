@@ -1,13 +1,13 @@
 import chalk from 'chalk'
 import { format, fromUnixTime } from 'date-fns'
 import { clone, find, orderBy, sample } from 'lodash'
-import { User } from '~/types/goat'
+import { User } from '~/types/goatGeneric'
 import { FHero, FHeroStats, FShop, OngoingFight, TourneyFight, TourneyRewardItem } from '~/types/tourney'
 import { Hero } from '~/types/Hero'
 import { PlayerHero } from '~/types/PlayerHero'
 import { Hero as GHero } from '~/scripts/repository/roster'
 
-import { client, LOGIN_ACCOUNT_GAUTIER, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
+import { goat, LOGIN_ACCOUNT_GAUTIER, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
 import { logger } from './services/logger'
 import { getHeroesList } from './repository/hero'
 import { loadOpponent, updatePlayerHero } from './repository/player-heroes'
@@ -117,7 +117,7 @@ const buyShop = async (shop: FShop[]): Promise<void> => {
 
 		if (buyable) {
 			logger.warn(`Buying item ${buyable.name} (+${item.add})`)
-			state.status.updateFromFight((await client.buyTourneyBoost(item)).fight)
+			state.status.updateFromFight((await goat.buyTourneyBoost(item)).fight)
 			return
 		}
 	}
@@ -135,7 +135,7 @@ const selectHero = (heroes: FHero[]): FHero => {
 	return sorted[0]
 }
 const findAvailableHero = async (): Promise<GHero|null> => {
-	const info = await client.getGameInfos()
+	const info = await goat.getGameInfos()
 	const heroes = info.hero.heroList
 	const used = info.yamen.fclist.map(u => u.id)
 
@@ -173,7 +173,7 @@ const doFight = async (status: OngoingFight) => {
 	const op = selectHero(fight.fheros)
 	op.name = find(heroes, h => h.hid == op.id)?.name || op.id
 	logger.warn(`Challenging ${op.name}`)
-	const battle = await client.fightHero(op)
+	const battle = await goat.fightHero(op)
 
 	// Handling opponent's stats
 	const opStats = find(battle.win.fight.base, h => h.hid == op.id && h.level == op.heroLv && h.skin == op.skin)
@@ -186,7 +186,7 @@ const doFight = async (status: OngoingFight) => {
 
 	// Getting rewards
 	if (battle.win.fight.winnum && battle.win.fight.winnum % 3 === 0) {
-		const reward = (await client.getReward()).items[0]
+		const reward = (await goat.getReward()).items[0]
 		state.rewards.push(reward)
 		logger.success(`Got reward ${getReward(reward)}`)
 	}
@@ -211,7 +211,7 @@ const doFight = async (status: OngoingFight) => {
 }
 
 const prepareFight = async (opponent: string|null, hid: number|null): Promise<OngoingFight> => {
-	const status = await client.getTourneyInfos()
+	const status = await goat.getTourneyInfos()
 	const state = status.info.state
 
 	if (state === 11 || state === 12 || state === 15) {
@@ -222,7 +222,7 @@ const prepareFight = async (opponent: string|null, hid: number|null): Promise<On
 
 	if (opponent) {
 		const hero = hid ? { id: hid } : await findAvailableHero()
-		return await client.challengeOpponent(opponent, hero?.id || 0)
+		return await goat.challengeOpponent(opponent, hero?.id || 0)
 	}
 
 	if (state === 1) {
@@ -232,7 +232,7 @@ const prepareFight = async (opponent: string|null, hid: number|null): Promise<On
 
 	if (state === 3) {
 		logger.log('Daily fights over, using token')
-		return await client.startTokenTourneyFight()
+		return await goat.startTokenTourneyFight()
 	}
 
 	if (state === 4) {
@@ -245,11 +245,11 @@ const prepareFight = async (opponent: string|null, hid: number|null): Promise<On
 		process.exit(0)
 	}
 
-	return await client.startTourneyFight()
+	return await goat.startTourneyFight()
 }
 
 export const doTourney = async (account: string, opponent: string|null = null, hid: string|null = null): Promise<void> => {
-	await client.login(account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
+	await goat.login(account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
 
 	const status = await prepareFight(opponent, hid ? parseInt(hid) : null)
 

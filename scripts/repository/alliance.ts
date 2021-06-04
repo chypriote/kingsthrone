@@ -1,5 +1,5 @@
 import { formatISO, fromUnixTime } from 'date-fns'
-import { Profile, XSAlliance, XSOpponent } from '~/types/goat'
+import { Profile, XSAlliance, XSOpponent } from '~/types/goatGeneric'
 import { client } from '../services/database'
 import { logger } from '../services/logger'
 import { Alliance } from '~/types/Alliance'

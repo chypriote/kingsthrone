@@ -1,5 +1,5 @@
 import { Hero } from '~/scripts/repository/roster'
-import { CastleInfos } from '~/types/goat'
+import { CastleInfos } from '~/types/goatGeneric'
 import { TourneyInfos } from '~/types/tourney'
 
 declare enum Sex {

@@ -1,5 +1,5 @@
 import { formatISO } from 'date-fns'
-import { KingdomRank, Profile, TourneyRank } from '~/types/goat'
+import { KingdomRank, Profile, TourneyRank } from '~/types/goatGeneric'
 import { client } from '../services/database'
 import { logger } from '../services/logger'
 import { Player } from '~/types/Player'

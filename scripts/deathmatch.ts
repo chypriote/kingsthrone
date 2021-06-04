@@ -1,10 +1,10 @@
 import { chunk } from 'lodash'
-import { client } from './services/requests'
+import { goat } from './services/requests'
 import { logger } from './services/logger'
 import { createPlayer, getAllGID, getPlayerByGID, updatePlayerDetails } from './repository/player'
 import { updatePlayerAlliance } from './profiles'
 import { Player } from '../types/Player'
-import { Profile } from '../types/goat'
+import { Profile } from '../types/goatGeneric'
 
 const SERVERS = ['690']
 
@@ -13,7 +13,7 @@ const getMax = (server: string): number => parseInt(server + '005000')
 
 export const createPlayerIfExists = async (profile: Profile): Promise<Player> => {
 	const gid = parseInt(profile.id)
-	await createPlayer(gid, profile.name, profile.vip, parseInt(profile.shili), profile.hero_num, parseInt(client.server))
+	await createPlayer(gid, profile.name, profile.vip, parseInt(profile.shili), profile.hero_num, parseInt(goat.server))
 
 	logger.success(`Created ${profile.name}`)
 	return await getPlayerByGID(gid)
@@ -22,7 +22,7 @@ export const createPlayerIfExists = async (profile: Profile): Promise<Player> =>
 export const handleGID = async (id: number, retry = true): Promise<string|null> => {
 	try {
 		let player: Player|null = await getPlayerByGID(id)
-		const profile = await client.getProfile(id)
+		const profile = await goat.getProfile(id)
 
 		if (!profile || profile.hero_num < 15 || !profile.clubid) {
 			console.log(`Ignoring ${id} ${ profile ? profile.hero_num : ''}`)
@@ -56,10 +56,10 @@ export const handleGID = async (id: number, retry = true): Promise<string|null> 
 export const deathmatch = async (): Promise<void> => {
 	for (const server of SERVERS) {
 		console.log(server)
-		client.isLoggedIn = false
-		client.setServer(server)
+		goat.isLoggedIn = false
+		goat.setServer(server)
 		// await client.login()
-		await client.createAccount(server)
+		await goat.createAccount(server)
 
 		const missing = []
 		const gids = (await getAllGID({ server })).map(it => parseInt(it.gid))

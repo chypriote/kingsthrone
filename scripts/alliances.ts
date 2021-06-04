@@ -2,11 +2,11 @@ import { config } from 'dotenv'
 config()
 import chalk from 'chalk'
 import { logger } from './services/logger'
-import { client } from './services/requests'
+import { goat } from './services/requests'
 import { createAlliance, getAllianceByAID, updateAlliance } from './repository/alliance'
 
 export const updateAlliances = async(): Promise<void> => {
-	const clubs = await client.getAllianceLadder()
+	const clubs = await goat.getAllianceLadder()
 
 	for (const club of clubs) {
 		logger.log(`Handling ${chalk.bold(club.name)}`)

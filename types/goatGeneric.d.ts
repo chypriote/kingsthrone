@@ -258,39 +258,62 @@ export type InLaw = {
 	tip: number
 }
 
-export type LuckStatus = {
-	auto2: number, //grain donation on
-	auto3: number, //gold donation on
-	ySet: number, //minimum luck
-	num: number //current luck
+export type HallOfFamer = {
+	id: 3,
+	uid: string
+	name: string
+	level: number
+	sex: number
+	job: number
+	exp: number
+	vip: number
+	bmap: number
+	mmap: number
+	smap: number
+	ep: {
+		e1: number
+		e2: number
+		e3: number
+		e4: number
+	},
+	shili: number
+	love: number
+	clubid: number
+	clubname: string
+	chenghao: number
+	xuanyan: string
+	chlist: {id: number}[]
+	son_num: number
+	wife_num: number
+	hero_num: number
+	headType: number
+	headId: number
+	vipStatus: number
 }
 
-export type ProcessionsStatus = {
-	num: number //available
-	next: number
-	label: string
+export type AllianceBossInfo = {
+	count: number
+	hp: number
+	id: number
+	ltime: {
+		label: string
+		next: number
+	}
+	money: number
+	type: number
 }
 
-//2: gold
-//3: grain
-//4: soldiers
-//type1= npc?
-//type5= maiden ?
-export enum PROCESSIONS {
-	NPC= 1,
-	MAIDEN= 5
+type Expedition = {
+	army: number
+	id: number
+	rwd: {
+		count: number
+		id: number
+		kind: number
+	}[]
 }
-//haogan 5
-//haogan 0 ???
-export type ProcessionGain = {
-	haogan: number
-	items: {count: number, id: number}[]
-	npcid: 24
-	type: PROCESSIONS
-}
-
-export type ProcessionResult= {
-	result: ProcessionGain
-	status: ProcessionsStatus
-	luck: LuckStatus
+export type ExpeditionInfo = {
+	gid: number //current status
+	heishu: number
+	data: Expedition[]
 }

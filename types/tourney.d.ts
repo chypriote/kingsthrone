@@ -1,4 +1,4 @@
-import { User } from './goat'
+import { User } from './goatGeneric'
 
 export type TourneyInfos = {
 	info: {

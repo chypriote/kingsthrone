@@ -1,6 +1,6 @@
 import { find, reduce } from 'lodash'
-import { CastleInfos, EventInfo } from '~/types/goat'
-import { client, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
+import { CastleInfos, EventInfo } from '~/types/goatGeneric'
+import { goat, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
 import { logger } from './services/logger'
 import { Son } from '~/types/game'
 import { differenceInMinutes, fromUnixTime } from 'date-fns'
@@ -29,7 +29,7 @@ export const manualQuesting = async (quests: EventInfo[], castle: number): Promi
 		}
 
 		if (!quest.isCheck && !quest.status && quest.startTime) { //terminée non claim 00
-			await client.claimQuest(quest.eventId, castle)
+			await goat.claimQuest(quest.eventId, castle)
 			updateSonsAvailability(quest, true)
 			claimed++
 			continue
@@ -38,7 +38,7 @@ export const manualQuesting = async (quests: EventInfo[], castle: number): Promi
 		if (!quest.isCheck && !quest.status) { //non commencée 00
 			const available = sons.filter(s => s.available)
 			if (!available.length) {continue}
-			await client.sendQuest(quest.eventId, castle, available[0].id)
+			await goat.sendQuest(quest.eventId, castle, available[0].id)
 			available[0].available = false
 			continue
 		}
@@ -54,7 +54,7 @@ export const manualQuesting = async (quests: EventInfo[], castle: number): Promi
 
 export const handleCastle = async (castle: CastleInfos): Promise<void> => {
 	logger.warn(`Handling castle ${castle.id}`)
-	const castleInfos = await client.getCastleRewards(castle.id)
+	const castleInfos = await goat.getCastleRewards(castle.id)
 	if (!castleInfos) {console.log('No rewards')} else {console.log('Claimed maiden rewards')}
 
 	const quests = castle.task.event
@@ -62,7 +62,7 @@ export const handleCastle = async (castle: CastleInfos): Promise<void> => {
 
 	if (status === 6) { //toutes finies et claimed
 		if (castle.task.refreshNum === 8) {console.log('No more refreshes'); return}
-		const refresh = await client.refreshQuests(castle.id)
+		const refresh = await goat.refreshQuests(castle.id)
 
 		quests.forEach(event => {
 			if (!event.son_slot.length) { return }
@@ -80,11 +80,11 @@ export const handleCastle = async (castle: CastleInfos): Promise<void> => {
 }
 
 export const runAllQuests = async (): Promise<void> => {
-	await client.login(LOGIN_ACCOUNT_NAPOLEON)
-	const goat = await client.getGameInfos()
+	await goat.login(LOGIN_ACCOUNT_NAPOLEON)
+	const goat = await goat.getGameInfos()
 	// const status = goat.hangUpSystem
 	const castles = goat.hangUpSystem.info
-	sons = goat.son.sonList.map(son => ({ ...son, available: true }))
+	sons = goat.son.sonList.map(son => ({ ...son, availableProcessions: true }))
 
 	castles.forEach(castle => {
 		castle.task.event.forEach(event => {

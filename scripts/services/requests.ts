@@ -88,7 +88,6 @@ export class GoatRequest {
 	}
 
 	async login(user = LOGIN_ACCOUNT_NAPOLEON): Promise<any> {
-		logger.log(`logging in ${this.server}`)
 		const response = await axios.post(this.base_url, user, {
 			params: {
 				sevid: this.server,
@@ -116,6 +115,7 @@ export class GoatRequest {
 		this.token = response?.a?.loginMod?.loginAccount?.token
 		this.setGid(response?.a?.loginMod?.loginAccount?.uid.toString())
 		this.isLoggedIn = true
+		logger.warn(`Logged in on ${this.server} as ${this.gid}`)
 
 		return response.a.loginMod.loginAccount
 	}
@@ -144,7 +144,7 @@ export class GoatRequest {
 
 		if (response?.a?.system?.errror) {
 			if (ignoreError) {logger.error(`RequestError: ${response?.a?.system?.errror.msg}`); return}
-			throw new Error(`RequestError: ${response?.a?.system?.errror.msg}`)
+			throw new Error(response?.a?.system?.errror.msg || JSON.stringify(response))
 		}
 		if (response?.a?.system?.version) {
 			this.setVersion(response.a.system.version.ver)

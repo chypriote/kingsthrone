@@ -15,24 +15,25 @@ const punishPrisoners = async () => {
 		}
 		logger.success('Prisoners punished')
 	} catch (e) {
-		logger.log(e)
-		logger.error('Error while punishing prisoners')
+		logger.error(`[PRISONERS] ${e}`)
 	}
 }
-
 const readAndDeleteMail = async () => {
 	try {
 		await goat.readAllMail()
 		await goat.deleteAllMail()
 		logger.success('Mail handled')
 	} catch (e) {
-		logger.log(e)
-		logger.error('Error while handling mail')
+		logger.error(`[MAIL] ${e}`)
 	}
 }
 const raiseSons = async () => {
-	if (await goat.raiseAllSons())
-		logger.success('Children raised')
+	try {
+		if (await goat.raiseAllSons())
+			logger.success('Children raised')
+	} catch (e) {
+		logger.error(`[CHILDREN] ${e}`)
+	}
 }
 const refreshTraining = async () => {
 	try {
@@ -41,7 +42,7 @@ const refreshTraining = async () => {
 			logger.success('Training refreshed')
 		}
 	} catch (e) {
-		logger.error(`Error while doing training: ${e}`)
+		logger.error(`[TRAINING] ${e}`)
 	}
 }
 const HallOfFame = async () => {
@@ -50,11 +51,9 @@ const HallOfFame = async () => {
 		await goat.claimHomage()
 		logger.success('Hall of fame done')
 	} catch (e) {
-		logger.log(e)
-		logger.error('Error while doing hall of fame')
+		logger.error(`[HOF] ${e}`)
 	}
 }
-
 const contributeAlliance = async () => {
 	try {
 		await goat.contributeAlliance()
@@ -66,11 +65,9 @@ const contributeAlliance = async () => {
 		}
 		logger.success('Alliance contributed')
 	} catch (e) {
-		logger.log(e)
-		logger.error('Error while doing alliance contribution')
+		logger.error(`[ALLIANCE] ${e}`)
 	}
 }
-
 const attendFeasts = async () => {
 	try {
 		const feasts = (await goat.getFeastsInfo()).lbList
@@ -79,11 +76,9 @@ const attendFeasts = async () => {
 		}
 		logger.success('Feasts attended')
 	} catch (e) {
-		logger.log(e)
-		logger.error('Error while attending feasts')
+		logger.error(`[FEASTS] ${e}`)
 	}
 }
-
 const payHomage = async () => {
 	try {
 		await Promise.all([
@@ -93,12 +88,10 @@ const payHomage = async () => {
 		])
 		logger.success('Homage in rankings paid')
 	} catch (e) {
-		logger.log(e)
-		logger.error('Error while paying homage in rankings')
+		logger.error(`[RANKINGS] ${e}`)
 	}
 }
-
-const getDailyRewards= async () => {
+const getDailyRewards = async () => {
 	try {
 		await goat.getDailyReward(1)
 		await goat.getDailyReward(2)
@@ -107,24 +100,38 @@ const getDailyRewards= async () => {
 		await goat.getDailyReward(5)
 		logger.success('Daily rewards claimed')
 	} catch (e) {
-		logger.log(e)
-		logger.error('Error while getting daily rewards')
+		logger.error(`[REWARDS] ${e}`)
 	}
 }
-
-const chores = async () => {
-	await goat.login(LOGIN_ACCOUNT_GAUTIER)
+const getLoginRewards = async () => {
+	try {
+		await goat.claimLoginReward()
+		logger.success('Got login reward')
+	} catch (e) {
+		logger.error(e)
+	}
+}
+const getThroneRoom = async () => {
 	try {
 		await goat.getAllLevies()
 		await goat.getAllDecreesResources(DECREE_TYPE.RESOURCES)
+		logger.success('Emptied throne room')
+	} catch (e) {
+		logger.error(e)
+	}
+}
+
+const chores = async (account: string): Promise<void> => {
+	await goat.login(account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
+	try {
+		await getThroneRoom()
 		await doProcessions()
 		await visitMaidens()
 		await refreshTraining()
 		await raiseSons()
 		logger.success('Chores done')
 	} catch (e) {
-		logger.log(e)
-		logger.error('Error while doing chores')
+		logger.error(e)
 	}
 }
 
@@ -135,14 +142,14 @@ const state: AccountState = {
 	heroes: [],
 }
 
-const dailyChores = async (): Promise<void> => {
-	await goat.login(LOGIN_ACCOUNT_GAUTIER)
+const dailyChores = async (account: string): Promise<void> => {
+	await goat.login(account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
 	const info = await goat.getGameInfos()
 	state.heroes = info.hero.heroList
 
 	try {
-		await chores()
-		await goat.claimLoginReward()
+		await getLoginRewards()
+		await getThroneRoom()
 		await readAndDeleteMail()
 		await punishPrisoners()
 		await HallOfFame()
@@ -151,12 +158,12 @@ const dailyChores = async (): Promise<void> => {
 		await doProcessions(30)
 		await visitMaidens(20)
 		await contributeAlliance()
-		await doExpeditions(50)
+		await doExpeditions(account === 'gautier' ? 50 : 40)
 		await getDailyRewards()
 	} catch (e) {
 		logger.error(e)
 	}
 }
 
-// dailyChores().then(() => {process.exit()})
-chores().then(() => {process.exit()})
+// dailyChores(process.argv[2]).then(() => {process.exit()})
+chores(process.argv[2]).then(() => {process.exit()})

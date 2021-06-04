@@ -18,7 +18,7 @@ const state = {
 	availableVisits: 0,
 	usedDraught: 0,
 	visits: 0,
-	availableDraught: 1,
+	availableDraught: 0,
 }
 
 const useDraught = async (count= 1): Promise<void> => {
@@ -52,5 +52,7 @@ export const visitMaidens = async (count = 0): Promise<void> => {
 	}
 
 	// console.log(MAIDENS)
-	logger.success(`Finished visited ${state.visits} maidens and used ${state.usedDraught} draughts (${state.availableDraught} left)`)
+	if (state.visits > 0)
+		logger.success(`Visited ${state.visits} maidens and used ${state.usedDraught} draughts (${state.availableDraught} left)`)
+
 }

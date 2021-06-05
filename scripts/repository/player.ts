@@ -3,6 +3,7 @@ import { KingdomRank, Profile, TourneyRank } from '~/types/goatGeneric'
 import { client } from '../services/database'
 import { logger } from '../services/logger'
 import { Player } from '~/types/Player'
+import { goat } from '../services/requests'
 
 export const createPlayer = async (
 	gid: number, name: string, vip = 0, power = 0, heroes = 0, server = 699
@@ -62,18 +63,22 @@ export const updatePlayerDetails = async (player: Player, goat: Profile): Promis
 		.limit(1)
 }
 
-export const getOrCreatePlayerFromGoat = async (rank: TourneyRank|KingdomRank): Promise<Player> => {
-	const uid = parseInt(rank.uid)
-	let player = await getPlayerByGID(uid)
+export const getOrCreatePlayerFromGoat = async (uid: number): Promise<Player> => {
+	const player = await getPlayerByGID(uid)
 
-	if (!player) {
-		await createPlayer(uid, rank.name, rank.vip)
-		player = await getPlayerByGID(uid)
-	} else if (player.name !== rank.name || player.vip !== rank.vip) {
-		await updatePlayer(player, rank.name, rank.vip)
+	if (player) {
+		return player
 	}
 
-	return player
+	const profile = await goat.getProfile(uid)
+
+	if (!profile) {
+		throw new Error(`Player with id ${uid} not found`)
+	}
+
+	await createPlayer(uid, profile.name, profile.vip, parseInt(profile.shili), profile.hero_num, parseInt(profile.id.toString().substr(0, 3)))
+
+	return await getPlayerByGID(uid)
 }
 
 export const getAllGID = async (params= {}): Promise<{gid: string}[]> => {

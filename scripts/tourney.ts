@@ -10,7 +10,8 @@ import { Hero as GHero } from '~/scripts/repository/roster'
 import { goat, LOGIN_ACCOUNT_GAUTIER, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
 import { logger } from './services/logger'
 import { getHeroesList } from './repository/hero'
-import { loadOpponent, updatePlayerHero } from './repository/player-heroes'
+import { getRoster, updatePlayerHero } from './repository/player-heroes'
+import { getOrCreatePlayerFromGoat } from './repository/player'
 
 let heroes: Hero[]
 
@@ -247,6 +248,17 @@ const prepareFight = async (opponent: string|null, hid: number|null): Promise<On
 	return await goat.startTourneyFight()
 }
 
+export const loadOpponent = async (fight: TourneyFight) => {
+	const uid = parseInt(fight.fuser.uid)
+	await getOrCreatePlayerFromGoat(uid)
+
+	state.opponent = clone(fight.fuser)
+	state.totalHeroes = clone(fight.fheronum)
+	state.easyFight = fight.fuser.shili < 10000000
+	state.status.updateFromFight(fight)
+	state.opponentRoster = await getRoster(uid)
+}
+
 export const doTourney = async (account: string, opponent: string|null = null, hid: string|null = null): Promise<void> => {
 	await goat.login(account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
 
@@ -256,11 +268,7 @@ export const doTourney = async (account: string, opponent: string|null = null, h
 	const hero = find(heroes, h => h.hid == status.fight.hid)
 
 	state.hero = clone(hero)
-	state.opponent = clone(status.fight.fuser)
-	state.totalHeroes = clone(status.fight.fheronum)
-	state.easyFight = status.fight.fuser.shili < 10000000
-	state.status.updateFromFight(status.fight)
-	state.opponentRoster = await loadOpponent(status.fight.fuser.uid)
+	await loadOpponent(status.fight)
 
 	logger.log(`Fighting ${chalk.cyan(status.fight.fuser.name)} (${status.fight.fuser.uid}) with ${chalk.yellow(hero?.name || status.fight.hid)} against ${status.fight.fheronum} heroes`)
 	await doFight(status)

@@ -121,8 +121,6 @@ const buyShop = async (shop: FShop[]): Promise<void> => {
 			return
 		}
 	}
-
-	return logger.log('not buying')
 }
 const selectHero = (heroes: FHero[]): FHero => {
 	heroes = heroes.map(h => {
@@ -206,6 +204,7 @@ const doFight = async (status: OngoingFight) => {
 		// Fighting again
 		await doFight(battle)
 	} catch (e) {
+		console.log(e)
 		console.log(JSON.stringify(battle))
 	}
 }

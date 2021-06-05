@@ -100,6 +100,7 @@ const getDailyRewards = async () => {
 		await goat.getDailyReward(5)
 		logger.success('Daily rewards claimed')
 	} catch (e) {
+		logger.log(e)
 		logger.error(`[REWARDS] ${e}`)
 	}
 }
@@ -165,5 +166,5 @@ const dailyChores = async (account: string): Promise<void> => {
 	}
 }
 
-// dailyChores(process.argv[2]).then(() => {process.exit()})
+//dailyChores(process.argv[2]).then(() => {process.exit()})
 chores(process.argv[2]).then(() => {process.exit()})

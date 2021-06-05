@@ -21,14 +21,17 @@ const selectExpedition = (expeditions: Expedition[]): number => {
 
 export const doExpeditions = async (count: number): Promise<void> => {
 	try {
-		await goat.merchantVentures(50)
-		while (state.expeditions < count) {
+		const tesa = await goat.merchantVentures(count)
+		const test = await goat.multipleExpeditions(count)
+		console.log(tesa, test)
+		/**while (state.expeditions < count) {
 			const multiple = await goat.multipleExpeditions(state.expeditions + 8)
 			await goat.doExpedition(selectExpedition(multiple.data))
 			const current = await goat.doExpedition(selectExpedition(multiple.data))
 			state.expeditions = current.gid - 1
-		}
+		}**/
 	} catch (e) {
+		logger.log(e)
 		logger.error('Error while doing expeditions & merchant ventures')
 	}
 }

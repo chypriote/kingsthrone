@@ -302,18 +302,3 @@ export type AllianceBossInfo = {
 	money: number
 	type: number
 }
-
-type Expedition = {
-	army: number
-	id: number
-	rwd: {
-		count: number
-		id: number
-		kind: number
-	}[]
-}
-export type ExpeditionInfo = {
-	gid: number //current status
-	heishu: number
-	data: Expedition[]
-}

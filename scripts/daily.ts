@@ -1,10 +1,11 @@
+import { find } from 'lodash'
 import { DECREE_TYPE } from '../types/goat/Generic'
 import { goat, LOGIN_ACCOUNT_GAUTIER, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
 import { logger } from './services/logger'
 import { Hero } from './repository/roster'
 import { doProcessions } from './actions/processions'
 import { visitMaidens } from './actions/visit-maidens'
-import { doExpeditions } from './actions/expeditions'
+import { doExpedition, doMerchant } from './actions/expeditions'
 
 const punishPrisoners = async () => {
 	try {
@@ -70,10 +71,21 @@ const contributeAlliance = async () => {
 }
 const attendFeasts = async () => {
 	try {
-		const feasts = (await goat.getFeastsInfo()).lbList
-		for (let i = 0; i < 3; i++) {
-			await goat.joinFeast(feasts[i].uid)
+		const data = await goat.getFeastsInfo()
+		const feasts = data.yhshow
+		let done = data.jlfy.fynum
+		const mine = find(feasts, f => [6999005053, 699002934].includes(parseInt(f.uid)))
+
+		if (mine) {
+			await goat.joinFeast(mine.uid)
+			done++
 		}
+		for (let i = 0; done < data.jlfy.fymax && i < feasts.length; i++) {
+			await goat.joinFeast(feasts[i].uid)
+			done++
+		}
+
+		await goat.openFeast()
 		logger.success('Feasts attended')
 	} catch (e) {
 		logger.error(`[FEASTS] ${e}`)
@@ -93,6 +105,7 @@ const payHomage = async () => {
 }
 const getDailyRewards = async () => {
 	try {
+		await goat.claimDailyPoints()
 		await goat.getDailyReward(1)
 		await goat.getDailyReward(2)
 		await goat.getDailyReward(3)
@@ -104,12 +117,28 @@ const getDailyRewards = async () => {
 		logger.error(`[REWARDS] ${e}`)
 	}
 }
+const getWeeklyRewards = async () => {
+	try {
+		await goat.claimWeeklyPoints()
+		await goat.getWeeklyReward(1)
+		await goat.getWeeklyReward(2)
+		await goat.getWeeklyReward(3)
+		await goat.getWeeklyReward(4)
+		await goat.getWeeklyReward(5)
+		logger.success('Weekly rewards claimed')
+	} catch (e) {
+		logger.log(e)
+		logger.error(`[REWARDS] ${e}`)
+	}
+}
 const getLoginRewards = async () => {
 	try {
 		await goat.claimLoginReward()
 		logger.success('Got login reward')
+		return true
 	} catch (e) {
 		logger.error(e)
+		return false
 	}
 }
 const getThroneRoom = async () => {
@@ -121,16 +150,10 @@ const getThroneRoom = async () => {
 		logger.error(e)
 	}
 }
-
-const chores = async (account: string): Promise<void> => {
-	await goat.login(account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
+const visitInLaws = async () => {
 	try {
-		await getThroneRoom()
-		await doProcessions()
-		await visitMaidens()
-		await refreshTraining()
-		await raiseSons()
-		logger.success('Chores done')
+		await goat.visitInLaws()
+		logger.success('Visited in laws')
 	} catch (e) {
 		logger.error(e)
 	}
@@ -149,22 +172,29 @@ const dailyChores = async (account: string): Promise<void> => {
 	state.heroes = info.hero.heroList
 
 	try {
-		await getLoginRewards()
+		if (await getLoginRewards()) {
+			await readAndDeleteMail()
+			await punishPrisoners()
+			await HallOfFame()
+			await attendFeasts()
+			await payHomage()
+			await doProcessions(30)
+			await visitMaidens(20)
+			await contributeAlliance()
+			await doMerchant(account === 'gautier' ? 50 : 40)
+			await doExpedition(account === 'gautier' ? 50 : 40)
+			await visitInLaws()
+		}
 		await getThroneRoom()
-		await readAndDeleteMail()
-		await punishPrisoners()
-		await HallOfFame()
-		await attendFeasts()
-		await payHomage()
-		await doProcessions(30)
-		await visitMaidens(20)
-		await contributeAlliance()
-		await doExpeditions(account === 'gautier' ? 50 : 40)
+		await refreshTraining()
+		await raiseSons()
+		await doProcessions()
+		await visitMaidens()
 		await getDailyRewards()
+		await getWeeklyRewards()
 	} catch (e) {
 		logger.error(e)
 	}
 }
 
-//dailyChores(process.argv[2]).then(() => {process.exit()})
-chores(process.argv[2]).then(() => {process.exit()})
+dailyChores(process.argv[2]).then(() => {process.exit()})

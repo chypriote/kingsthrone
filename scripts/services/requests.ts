@@ -1,29 +1,27 @@
 import axios from 'axios'
 import {
-	Club,
-	Profile,
-	KingdomRank,
-	TourneyRank,
+	AllianceBossInfo,
 	CastleInfos,
+	Club,
+	HallOfFamer,
+	InLaw,
+	KingdomRank,
+	Profile,
+	TourneyRank,
+	User,
 	XSAlliance,
 	XSOpponent,
-	InLaw,
-	User,
-	XSPlayer, HallOfFamer, AllianceBossInfo, ExpeditionInfo
+	XSPlayer
 } from '~/types/goatGeneric'
 import { logger } from '../services/logger'
 import { GameInfos, Wife } from '~/types/game'
 import { FHero, FShop, OngoingFight, TourneyReward } from '~/types/tourney'
 import { PunishmentResult } from '~/types/goat/PunishmentResult'
-import {
-	GoodwillResult,
-	LuckStatus,
-	ProcessionResult,
-	ProcessionsStatus
-} from '~/types/goat/Processions'
+import { GoodwillResult, LuckStatus, ProcessionResult, ProcessionsStatus } from '~/types/goat/Processions'
 import { StaminaResult, VisitsStatus } from '~/types/goat/Maidens'
 import { FeastDetails, FeastInfo, FeastShop, FeastStatus, OngoingFeast } from '~/types/goat/Feasts'
 import { DECREE_TYPE } from '~/types/goat/Generic'
+import { ExpeditionInfo, KingdomExpInfo, MerchantInfos } from '~/types/goat/Expeditions'
 
 const VERSION = 'V1.3.539'
 const COOKIE = 'lyjxncc=c3ac4e77dff349b66c7aeed276e3eb6c'
@@ -509,7 +507,7 @@ export class GoatRequest {
 		return data.a.club.bossInfo
 	}
 	async fightAllianceBoss(boss: number, hero: number): Promise<void> {
-		await this.sendRequest({ 'club':{ 'clubBossPK':{ 'cbid': boss,'id':hero } },'rsn':'4acbfaxfaxf' })
+		await this.sendRequest({ 'club':{ 'clubBossPK':{ 'cbid': boss,'id':hero } },'rsn':'4acbfaxfaxf' }, true)
 	}
 
 	//Feasts
@@ -544,8 +542,17 @@ export class GoatRequest {
 		await this.sendRequest({ 'rsn':'4cmivgafxm','ranking':{ 'mobai':{ 'type':3 } } })
 	}
 
+	async getMerchantStatus(): Promise<MerchantInfos> {
+		const data = await this.sendRequest({ 'silkroad':{ 'trade':[] },'rsn':'7ydyyyoccv' })
+		return data.a.trade.Info
+	}
 	async merchantVentures(count: number): Promise<void> {
-		await this.sendRequest({ 'silkroad':{ 'rootPlay':{ 'gid':count } },'rsn':'5yawyhvjrr' })
+		if (!count) { return }
+		await this.sendRequest({ 'silkroad': { 'rootPlay': { 'gid': count } }, 'rsn': '5yawyhvjrr' })
+	}
+	async getExpeditionsStatus(): Promise<ExpeditionInfo> {
+		const data = await this.sendRequest({ 'rsn':'5wfewwyayr','taofa':{ 'taofa':[] } })
+		return data.a.taofa.playInfo
 	}
 	async multipleExpeditions(count: number): Promise<ExpeditionInfo> {
 		const data = await this.sendRequest({ 'rsn':'1tabruqibu','taofa':{ 'rootPlay':{ 'gid':count } } })
@@ -557,9 +564,47 @@ export class GoatRequest {
 
 		return data.a.taofa.playInfo
 	}
+	async getKingdomExpStatus(): Promise<KingdomExpInfo> {
+		const data = await this.sendRequest({ 'huodong':{ 'hd1268Info':[] },'rsn':'4cmvcfmmam' })
 
+		return data.a.kingdomExpedition.info
+	}
+	async sendKingdomExp(): Promise<void> {
+		const data =await this.sendRequest({ 'huodong':{ 'hd1268Play':{
+			'heros':[
+				{ 'pos':1,'power':20643749,'hid':41 },
+				{ 'pos':2,'power':5812876,'hid':3 },
+				{ 'pos':3,'power':1208779,'hid':8 },
+				{ 'pos':4,'power':11040659,'hid':58 },
+				{ 'pos':5,'power':4245030,'hid':52 },
+			],'id':1700004 } },'rsn':'9zrissbbjmi' })
+
+		return data.a.kingdomExpedition.info
+	}
+
+	async claimDailyPoints(): Promise<void> {
+		await this.sendRequest({ 'daily':{ 'getAlltask':[] },'rsn':'9zrizbjjmcs' })
+	}
+	async claimWeeklyPoints(): Promise<void> {
+		await this.sendRequest({ 'weekly':{ 'getAlltask':[] },'rsn':'4acbaxhhvaf' })
+	}
 	async getDailyReward(id: number): Promise<void> {
-		await this.sendRequest({ 'daily':{ 'getrwd':{ id } },'rsn':'2axnbamnxy' })
+		try {
+			await this.sendRequest({ 'daily': { 'getrwd': { id } }, 'rsn': '2axnbamnxy' })
+		}catch (e) {/*We want to ignore completely*/}
+	}
+	async getWeeklyReward(id: number): Promise<void> {
+		try {
+			await this.sendRequest({ 'weekly': { 'getrwd': { id } }, 'rsn': '2axnbamnxy' })
+		}catch (e) {/*We want to ignore completely*/}
+	}
+
+	async hostCouncil(num = 3): Promise<void> {
+		await this.sendRequest({ 'rsn':'3eseehnzfw','hanlin':{ 'opendesk':{ num,'isPush':1 } } })
+	}
+
+	async visitInLaws(): Promise<void> {
+		await this.sendRequest({ 'friends':{ 'qjvisit':{ 'fuid':0 } },'rsn':'4acbmmxgfmg' })
 	}
 }
 

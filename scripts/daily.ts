@@ -78,10 +78,12 @@ const attendFeasts = async () => {
 
 		if (mine) {
 			await goat.joinFeast(mine.uid)
+			logger.success(`attended feast ${mine.uid}`)
 			done++
 		}
 		for (let i = 0; done < data.jlfy.fymax && i < feasts.length; i++) {
 			await goat.joinFeast(feasts[i].uid)
+			logger.success(`attended feast ${feasts[i].uid}`)
 			done++
 		}
 

@@ -248,7 +248,7 @@ const prepareFight = async (opponent: string|null, hid: number|null): Promise<On
 	return await goat.startTourneyFight()
 }
 
-export const loadOpponent = async (fight: TourneyFight) => {
+export const loadOpponent = async (fight: TourneyFight): Promise<void> => {
 	const uid = parseInt(fight.fuser.uid)
 	await getOrCreatePlayerFromGoat(uid)
 

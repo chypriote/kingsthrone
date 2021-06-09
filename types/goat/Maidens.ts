@@ -24,6 +24,7 @@ export const MAIDENS = [
 	{ mid: 35, name: 'Morrigan', visits: 0 },
 	{ mid: 36, name: 'Mulan', visits: 0 },
 	{ mid: 37, name: 'Ginchiyo', visits: 0 },
+	{ mid: 204, name: 'Adira', visits: 0 },
 ]
 
 export type VisitsStatus = {

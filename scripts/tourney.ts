@@ -98,6 +98,16 @@ const getReward =(reward: TourneyRewardItem): string => {
 	default: return `unknown ${JSON.stringify(reward)}`
 	}
 }
+const inferQuality = (hero: FHero): number => {
+	switch (true) {
+	case hero.heroLv >= 400: return 1000
+	case hero.heroLv >= 350: return 600
+	case hero.heroLv >= 300: return 200
+	case hero.heroLv >= 250: return 100
+	case hero.heroLv >= 200: return 40
+	default: return 20
+ 	}
+}
 const buyShop = async (shop: FShop[]): Promise<void> => {
 	const items = orderBy(shop, 'id', 'desc')
 
@@ -126,7 +136,7 @@ const buyShop = async (shop: FShop[]): Promise<void> => {
 const selectHero = (heroes: FHero[]): FHero => {
 	heroes = heroes.map(h => {
 		const found = find(state.opponentRoster, ph => ph.hid == h.id)
-		return { ...h, quality: found?.quality || 99999 }
+		return { ...h, quality: found?.quality || inferQuality(h) }
 	})
 
 	const sorted = orderBy(heroes, ['quality', 'senior', 'heroLv', 'skin'], ['asc', 'asc', 'asc', 'asc'])

@@ -23,7 +23,7 @@ import { FeastDetails, FeastInfo, FeastShop, FeastStatus, OngoingFeast } from '~
 import { DECREE_TYPE } from '~/types/goat/Generic'
 import { ExpeditionInfo, KingdomExpInfo, MerchantInfos } from '~/types/goat/Expeditions'
 
-const VERSION = 'V1.3.539'
+const VERSION = 'V1.3.545'
 const COOKIE = 'lyjxncc=c3ac4e77dff349b66c7aeed276e3eb6c'
 export const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'4cfhvxxiim','login':{ 'loginAccount':{
 	 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay',
@@ -296,7 +296,6 @@ export class GoatRequest {
 
 		return friends.a.friends.qjlist
 	}
-
 	async visitInLaw(uid: string): Promise<void> {
 		await this.sendRequest({ 'friends':{ 'qjvisit':{ 'fuid': uid } },'rsn':'3hzewhwzkp' })
 	}
@@ -307,7 +306,6 @@ export class GoatRequest {
 
 		return alliances.a.qxzb.rank
 	}
-
 	async getCrossOpponents(aid: number): Promise<XSOpponent[]> {
 		const opponents = await this.sendRequest({ 'rsn':'2amabymqwx','qxzb':{ 'qxzbMatchByCid':{ 'cid':aid } } })
 

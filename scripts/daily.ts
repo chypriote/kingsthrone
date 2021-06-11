@@ -76,7 +76,7 @@ const attendFeasts = async () => {
 		let done = data.jlfy.fynum
 		const mine = find(feasts, f => [6999005053, 699002934].includes(parseInt(f.uid)))
 
-		if (mine) {
+		if (mine && mine.uid !== goat.gid) {
 			await goat.joinFeast(mine.uid)
 			logger.success(`attended feast ${mine.uid}`)
 			done++

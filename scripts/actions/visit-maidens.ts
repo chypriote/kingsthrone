@@ -1,6 +1,6 @@
 import { find } from 'lodash'
 import { MAIDENS } from '../../types/goat/Maidens'
-import { goat } from '../services/requests'
+import { goat, LOGIN_ACCOUNT_GAUTIER } from '../services/requests'
 import { logger } from '../services/logger'
 
 function getMaiden(id: number): {mid:number, name: string, visits: number} {
@@ -30,6 +30,7 @@ const useDraught = async (count= 1): Promise<void> => {
 }
 
 export const visitMaidens = async (count = 0): Promise<void> => {
+	// await goat.login(LOGIN_ACCOUNT_GAUTIER)
 	const available = await goat.getAvailableVisits()
 	state.availableVisits = available.num
 

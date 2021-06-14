@@ -6,6 +6,7 @@ import { Hero } from './repository/roster'
 import { doProcessions } from './actions/processions'
 import { visitMaidens } from './actions/visit-maidens'
 import { doExpedition, doMerchant } from './actions/expeditions'
+import { attendFeasts } from './actions/feasts'
 
 const punishPrisoners = async () => {
 	try {
@@ -67,30 +68,6 @@ const contributeAlliance = async () => {
 		logger.success('Alliance contributed')
 	} catch (e) {
 		logger.error(`[ALLIANCE] ${e}`)
-	}
-}
-const attendFeasts = async () => {
-	try {
-		const data = await goat.getFeastsInfo()
-		const feasts = data.yhshow
-		let done = data.jlfy.fynum
-		const mine = find(feasts, f => [6999005053, 699002934].includes(parseInt(f.uid)))
-
-		if (mine && mine.uid !== goat.gid) {
-			await goat.joinFeast(mine.uid)
-			logger.success(`attended feast ${mine.uid}`)
-			done++
-		}
-		for (let i = 0; done < data.jlfy.fymax && i < feasts.length; i++) {
-			await goat.joinFeast(feasts[i].uid)
-			logger.success(`attended feast ${feasts[i].uid}`)
-			done++
-		}
-
-		await goat.openFeast()
-		logger.success('Feasts attended')
-	} catch (e) {
-		logger.error(`[FEASTS] ${e}`)
 	}
 }
 const payHomage = async () => {

@@ -1,7 +1,6 @@
 import axios from 'axios'
 import {
 	AllianceBossInfo,
-	CastleInfos,
 	Club,
 	HallOfFamer,
 	InLaw,
@@ -22,17 +21,20 @@ import { StaminaResult, VisitsStatus } from '~/types/goat/Maidens'
 import { FeastDetails, FeastInfo, FeastShop, FeastStatus, OngoingFeast } from '~/types/goat/Feasts'
 import { DECREE_TYPE } from '~/types/goat/Generic'
 import { ExpeditionInfo, KingdomExpInfo, MerchantInfos } from '~/types/goat/Expeditions'
+import { CastleInfos } from '~/types/goat/Kingdom'
 
-const VERSION = 'V1.3.545'
+const VERSION = 'V1.3.546'
 const COOKIE = 'lyjxncc=c3ac4e77dff349b66c7aeed276e3eb6c'
-export const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'4cfhvxxiim','login':{ 'loginAccount':{
-	 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay',
-	 'parm6':'fe3da078-88a4-3ccf-9249-5acf33d7765f','parm3':'SM-G955F',
-	 'openid':'563125632849524101','openkey':'9fa3348fcd6344060431a81d44a219d2c0a3a706' } } }
-export const LOGIN_ACCOUNT_NAPOLEON = { 'rsn':'5wjwfeefhf','login':{ 'loginAccount':{
-	'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay',
-	'parm6':'82557521-a0b4-3441-a774-840066252311','parm3':'ONEPLUS A5000',
-	'openid':'565939577188654916','openkey':'3af6112ebee552af12f624b08a71699d7cd15bfd' } } }
+export const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'2ylxannmqx','login':{ 'loginAccount':{
+	'parm1':'WIFI','platform':'gaotukc',
+	'parm2':'GooglePlay','parm6':'4c4fbcab-ab57-3f8c-8447-f675203edc15',
+	'parm3':'ONEPLUS A5000','openid':'563125632849524101',
+	'openkey':'6b66102c0d0e963ee2f6ebe96a2344917c3faca4' } } }
+export const LOGIN_ACCOUNT_NAPOLEON = { 'rsn':'2axwqwhxyx','login':{ 'loginAccount':{
+	'parm1':'WIFI','platform':'gaotukc',
+	'parm2':'GooglePlay','parm6':'4c4fbcab-ab57-3f8c-8447-f675203edc15',
+	'parm3':'ONEPLUS A5000','openid':'565939577188654916',
+	'openkey':'b4d47e9c7beaf15e97f899c8cd4f2bbc4f31c3bc' } } }
 export const LOGIN_ACCOUNT_701 = { 'rsn':'2maymbhnxnb','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'82557521-a0b4-3441-a774-840066252311','parm3':'ONEPLUS A5000','openid':'565939577188654916','openkey':'deb43d3a1b48b2f80d01ae6829834e9a309019f8' } } }
 export const LOGIN_ACCOUNT_RAYMUNDUS = { 'rsn':'7xcxcypvslg','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'2630f405-13ed-3867-90e5-325059450d8e','parm3':'ONEPLUS A5000','openid':'573218842929144928','openkey':'78c249945d8d450de2111c2eebaa653b697f40c1' } } }
 
@@ -187,11 +189,16 @@ export class GoatRequest {
 	}
 
 	//Kingdom
+	async getChapterRwdList(): Promise<void> {
+		const data = await this.sendRequest({ 'user':{ 'getChapterRwdList':[] },'rsn':'9zriizmmnmt' })
+
+		return data
+	}
 	async getCastleRewards(id: number): Promise<CastleInfos|false> {
 		try {
 			// @ts-ignore
-			const reward = await this.sendRequest({ 'rsn': CASTLES_RSN[`castle_${id}`],'hangUpSystem':{ 'getRewards':{ 'type':'all','id':id } } }, true)
-
+			const reward = await this.sendRequest({ 'rsn': CASTLES_RSN[`castle_${id}`],'hangUpSystem':{ 'getRewards':{ 'type':'all','id':id } } })
+			console.log('Claimed maiden rewards')
 			return reward.u.hangUpSystem.info[0]
 		} catch (e) {
 			return false
@@ -212,10 +219,18 @@ export class GoatRequest {
 			logger.error(`Failed at claimQuest ${e.toString()}`)
 		}
 	}
-	async sendQuest(eventId: string, castleId: number, sonId: number): Promise<void> {
-		logger.log(`Send son ${sonId} on quest ${eventId} for castle ${castleId}`)
+	async sendQuest(eventId: string, castleId: number, sons: number[]): Promise<void> {
 		try {
-			await this.sendRequest({ 'rsn': '9rztbmjirc','hangUpSystem': { 'sonDispatch': { 'son_slot': [{ 'slot': 1, 'sonId': sonId }],'isDouble': 0,'eventId': eventId,'id': castleId } } })
+			const sonsSlots: {slot: number, sonId: number}[] = []
+			sons.forEach((sonId, index) => sonsSlots.push({ slot: index + 1, sonId: sonId }))
+			logger.log(`Send son(s) ${sons} on quest ${eventId} for castle ${castleId}`)
+
+			await this.sendRequest({ 'rsn': '9rztbmjirc','hangUpSystem': { 'sonDispatch': {
+				'son_slot': sonsSlots,
+				'isDouble': 0,
+				'eventId': eventId,
+				'id': castleId,
+			} } })
 		}catch (e) {
 			logger.error(`Failed at sendQuest ${e.toString()}`)
 		}
@@ -225,7 +240,7 @@ export class GoatRequest {
 		try{
 			const refresh = await this.sendRequest({ 'rsn':'3hzpseshen','hangUpSystem':{ 'refreshEvent':{ 'type':0,'id':castleId } } })
 
-			return refresh.hangUpSystem.info[0]
+			return refresh.u.hangUpSystem.info[0]
 		}catch (e) {
 			logger.error(`Failed at refreshQuests ${e.toString()}`)
 			return false
@@ -288,7 +303,6 @@ export class GoatRequest {
 
 		return status.xunfang.recover
 	}
-
 
 	//InLaws
 	async getInLaws(): Promise<InLaw[]> {
@@ -514,7 +528,7 @@ export class GoatRequest {
 
 		return data.a.jiulou
 	}
-	async getFeast(uid: string): Promise<FeastDetails> {
+	async getFeast(uid: string|null): Promise<FeastDetails> {
 		const data = await this.sendRequest({ 'jiulou':{ 'yhGo':{ 'fuid':uid } },'rsn':'2ylayqahmb' })
 
 		return data.a.jiulou.yhInfo
@@ -522,8 +536,8 @@ export class GoatRequest {
 	async openFeast(): Promise<void> {
 		await this.sendRequest({ 'jiulou':{ 'yhHold':{ 'type':1,'isPush':1,'isOpen':true } },'rsn':'8akriooeom' })
 	}
-	async joinFeast(uid: string): Promise<{ jfly: FeastStatus, jlShop: FeastShop, yhInfo: OngoingFeast[] }> {
-		const data = await this.sendRequest({ 'jiulou':{ 'yhChi':{ 'type':3,'xwid':4,'fuid': uid } },'rsn':'9rsnctrnrt' })
+	async joinFeast(uid: string, seat: number): Promise<{ jfly: FeastStatus, jlShop: FeastShop, yhInfo: OngoingFeast[] }> {
+		const data = await this.sendRequest({ 'jiulou':{ 'yhChi':{ 'type':3,'xwid':seat,'fuid': uid } },'rsn':'9rsnctrnrt' })
 
 		const { jfly, jlShop, yhInfo } = data.a.jiulou
 		return { jfly, jlShop, yhInfo }

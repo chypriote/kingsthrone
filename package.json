@@ -12,15 +12,14 @@
     "lint:fix": "yarn lint --fix",
     "ts:build": "tsc -b",
     "daily": "ts-node scripts/daily.ts",
+    "tourney": "ts-node scripts/tourney.ts",
+    "kingdom": "ts-node scripts/kingdom.ts",
     "alliances": "ts-node scripts/alliances.ts",
     "profiles": "ts-node scripts/profiles.ts",
     "roster": "ts-node scripts/player.ts",
     "update": "ts-node scripts/update.ts",
     "test": "ts-node scripts/test.ts",
-    "quests": "ts-node scripts/quester.ts",
-    "inlaws": "ts-node scripts/inlaws.ts",
     "deathmatch": "ts-node scripts/deathmatch.ts",
-    "tourney": "ts-node scripts/tourney.ts",
     "prepare": "husky install"
   },
   "lint-staged": {

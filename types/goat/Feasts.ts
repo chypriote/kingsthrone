@@ -91,6 +91,19 @@ export type FeastInfo = {
 	lbList: OngoingFeast[]
 }
 
+export type Seat = {
+	uid: string,
+	type: number
+	id: number
+	clubId: string
+	name: string
+	job: number
+	sex: number
+	chenghao: number
+	headType: number
+	headId: number
+}
+
 export type FeastDetails = {
 	id: number
 	uid: string
@@ -109,16 +122,5 @@ export type FeastDetails = {
 	headId: number
 	num: number
 	maxnum: number
-	list: {
-		uid: string,
-		type: number
-		id: number
-		clubId: string
-		name: string
-		job: number
-		sex: number
-		chenghao: number
-		headType: number
-		headId: number
-	}[]
+	list: Seat[]
 }

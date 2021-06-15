@@ -6,6 +6,8 @@ import { Seat } from '~/types/goat/Feasts'
 const selectSeat = async (fid: string): Promise<Seat|undefined> => {
 	const feast = await goat.getFeast(fid)
 
+	if (find(feast.list, (seat: Seat) => seat.uid == goat.gid)) {return}
+
 	return find(feast.list, (seat: Seat) => seat.type === 0)
 }
 

@@ -1,4 +1,3 @@
-import { find } from 'lodash'
 import { DECREE_TYPE } from '../types/goat/Generic'
 import { goat, LOGIN_ACCOUNT_GAUTIER, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
 import { logger } from './services/logger'

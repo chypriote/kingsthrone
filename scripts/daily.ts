@@ -6,6 +6,7 @@ import { doProcessions } from './actions/processions'
 import { visitMaidens } from './actions/visit-maidens'
 import { doExpedition, doMerchant } from './actions/expeditions'
 import { attendFeasts } from './actions/feasts'
+import { doKingdomExpeditions } from './actions/kexpeditions'
 
 const punishPrisoners = async () => {
 	try {
@@ -83,13 +84,16 @@ const payHomage = async () => {
 }
 const getDailyRewards = async () => {
 	try {
+		let result = false
 		await goat.claimDailyPoints()
-		await goat.getDailyReward(1)
-		await goat.getDailyReward(2)
-		await goat.getDailyReward(3)
-		await goat.getDailyReward(4)
-		await goat.getDailyReward(5)
-		logger.success('Daily rewards claimed')
+		result = await goat.getDailyReward(1) ? true : result
+		result = await goat.getDailyReward(2) ? true : result
+		result = await goat.getDailyReward(3) ? true : result
+		result = await goat.getDailyReward(4) ? true : result
+		result = await goat.getDailyReward(5) ? true : result
+		if (result) {
+			logger.success('Daily rewards claimed')
+		}
 	} catch (e) {
 		logger.log(e)
 		logger.error(`[REWARDS] ${e}`)
@@ -97,13 +101,16 @@ const getDailyRewards = async () => {
 }
 const getWeeklyRewards = async () => {
 	try {
+		let result = false
 		await goat.claimWeeklyPoints()
-		await goat.getWeeklyReward(1)
-		await goat.getWeeklyReward(2)
-		await goat.getWeeklyReward(3)
-		await goat.getWeeklyReward(4)
-		await goat.getWeeklyReward(5)
-		logger.success('Weekly rewards claimed')
+		result = await goat.getWeeklyReward(1) ? true : result
+		result = await goat.getWeeklyReward(2) ? true : result
+		result = await goat.getWeeklyReward(3) ? true : result
+		result = await goat.getWeeklyReward(4) ? true : result
+		result = await goat.getWeeklyReward(5) ? true : result
+		if (result) {
+			logger.success('Weekly rewards claimed')
+		}
 	} catch (e) {
 		logger.log(e)
 		logger.error(`[REWARDS] ${e}`)
@@ -154,13 +161,13 @@ const dailyChores = async (account: string): Promise<void> => {
 			await readAndDeleteMail()
 			await punishPrisoners()
 			await HallOfFame()
-			await attendFeasts()
 			await payHomage()
 			await doProcessions(30)
 			await visitMaidens(20)
 			await contributeAlliance()
 			await doMerchant(account === 'gautier' ? 50 : 40)
 			await doExpedition(account === 'gautier' ? 50 : 40)
+			await doKingdomExpeditions()
 			await visitInLaws()
 		}
 		await getThroneRoom()
@@ -168,6 +175,7 @@ const dailyChores = async (account: string): Promise<void> => {
 		await raiseSons()
 		await doProcessions()
 		await visitMaidens()
+		await attendFeasts()
 		await getDailyRewards()
 		await getWeeklyRewards()
 	} catch (e) {

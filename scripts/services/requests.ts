@@ -23,7 +23,7 @@ import { DECREE_TYPE } from '~/types/goat/Generic'
 import { ExpeditionInfo, KingdomExpInfo, MerchantInfos } from '~/types/goat/Expeditions'
 import { CastleInfos } from '~/types/goat/Kingdom'
 
-const VERSION = 'V1.3.546'
+const VERSION = 'V1.3.548'
 const COOKIE = 'lyjxncc=c3ac4e77dff349b66c7aeed276e3eb6c'
 export const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'2ylxannmqx','login':{ 'loginAccount':{
 	'parm1':'WIFI','platform':'gaotukc',
@@ -542,6 +542,9 @@ export class GoatRequest {
 		const { jfly, jlShop, yhInfo } = data.a.jiulou
 		return { jfly, jlShop, yhInfo }
 	}
+	async buyFeastItem(id: number): Promise<void> {
+		await this.sendRequest({ 'jiulou':{ 'shopChange':{ id } },'rsn':'5wfvrfphye' })
+	}
 
 	//Rankings
 	async payHomageKP(): Promise<void> {
@@ -554,6 +557,7 @@ export class GoatRequest {
 		await this.sendRequest({ 'rsn':'4cmivgafxm','ranking':{ 'mobai':{ 'type':3 } } })
 	}
 
+	//Merchants & Expeditions
 	async getMerchantStatus(): Promise<MerchantInfos> {
 		const data = await this.sendRequest({ 'silkroad':{ 'trade':[] },'rsn':'7ydyyyoccv' })
 		return data.a.trade.Info
@@ -576,45 +580,57 @@ export class GoatRequest {
 
 		return data.a.taofa.playInfo
 	}
+
 	async getKingdomExpStatus(): Promise<KingdomExpInfo> {
-		const data = await this.sendRequest({ 'huodong':{ 'hd1268Info':[] },'rsn':'4cmvcfmmam' })
+		const data = await this.sendRequest({ 'huodong':{ 'hd1268Info':[] },'rsn':'6wgpksxxky' })
 
 		return data.a.kingdomExpedition.info
 	}
-	async sendKingdomExp(): Promise<void> {
-		const data =await this.sendRequest({ 'huodong':{ 'hd1268Play':{
-			'heros':[
-				{ 'pos':1,'power':20643749,'hid':41 },
-				{ 'pos':2,'power':5812876,'hid':3 },
-				{ 'pos':3,'power':1208779,'hid':8 },
-				{ 'pos':4,'power':11040659,'hid':58 },
-				{ 'pos':5,'power':4245030,'hid':52 },
-			],'id':1700004 } },'rsn':'9zrissbbjmi' })
+	async sendKingdomExp(level: number): Promise<KingdomExpInfo> {
+		const heroes = goat.gid === '699002934' ? [
+			{ 'pos':1,'power':999999999,'hid':41 },
+			{ 'pos':2,'power':999999999,'hid':3 },
+			{ 'pos':3,'power':999999999,'hid':8 },
+			{ 'pos':4,'power':999999999,'hid':58 },
+			{ 'pos':5,'power':999999999,'hid':52 },
+		] : [
+			{ 'pos':1,'power':999999999,'hid':41 },
+			{ 'pos':2,'power':999999999,'hid':3 },
+			{ 'pos':3,'power':999999999,'hid':18 },
+			{ 'pos':4,'power':999999999,'hid':58 },
+			{ 'pos':5,'power':999999999,'hid':204 },
+		]
+		const data = await this.sendRequest({ 'huodong':{ 'hd1268Play':{
+			'heros': heroes,'id': level } },'rsn':'1kwbrrruqr' })
 
 		return data.a.kingdomExpedition.info
 	}
 
+	//Daily rewards
 	async claimDailyPoints(): Promise<void> {
 		await this.sendRequest({ 'daily':{ 'getAlltask':[] },'rsn':'9zrizbjjmcs' })
 	}
 	async claimWeeklyPoints(): Promise<void> {
 		await this.sendRequest({ 'weekly':{ 'getAlltask':[] },'rsn':'4acbaxhhvaf' })
 	}
-	async getDailyReward(id: number): Promise<void> {
+	async getDailyReward(id: number): Promise<boolean> {
 		try {
 			await this.sendRequest({ 'daily': { 'getrwd': { id } }, 'rsn': '2axnbamnxy' })
+			return true
 		}catch (e) {/*We want to ignore completely*/}
+		return false
 	}
-	async getWeeklyReward(id: number): Promise<void> {
+	async getWeeklyReward(id: number): Promise<boolean> {
 		try {
 			await this.sendRequest({ 'weekly': { 'getrwd': { id } }, 'rsn': '2axnbamnxy' })
+			return true
 		}catch (e) {/*We want to ignore completely*/}
+		return false
 	}
 
 	async hostCouncil(num = 3): Promise<void> {
 		await this.sendRequest({ 'rsn':'3eseehnzfw','hanlin':{ 'opendesk':{ num,'isPush':1 } } })
 	}
-
 	async visitInLaws(): Promise<void> {
 		await this.sendRequest({ 'friends':{ 'qjvisit':{ 'fuid':0 } },'rsn':'4acbmmxgfmg' })
 	}

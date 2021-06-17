@@ -62,10 +62,11 @@ export type FeastShop = {
 }
 
 export type FeastStatus = {
-	fynum: number //available feasts
+	fynum: number
 	fymax: number //max feasts
 	buyNum: number //feasts bought
-	has_buy_fynum: number
+	buffNum: number
+	freeNum: number //available feasts
 }
 
 export type Feast = {

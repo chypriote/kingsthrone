@@ -68,10 +68,10 @@ const state: IState = {
 
 const boughtItems = [
 	{ id: 1, name: 'Adrenaline Boost', min: 49 },
-	{ id: 4, name: 'Endurance Boost I', min: 6 },
+	{ id: 4, name: 'Endurance Boost I', min: 5 },
 	{ id: 5, name: 'Expertise Boost I', min: 10 },
 	{ id: 6, name: 'Adrenaline Boost I', min: 9 },
-	{ id: 7, name: 'Endurance Boost II', min: 10 },
+	{ id: 7, name: 'Endurance Boost II', min: 9 },
 	{ id: 8, name: 'Expertise Boost II', min: 15 },
 	{ id: 9, name: 'Adrenaline Boost II', min: 14 },
 	//2, //+100 attack, 50gems
@@ -112,7 +112,7 @@ const buyShop = async (shop: FShop[]): Promise<void> => {
 	const items = orderBy(shop, 'id', 'desc')
 
 	if (state.easyFight && state.currentFight > 1) {
-		if (state.currentFight === 2) logger.log('Easy fight, not buying')
+		if (state.currentFight === 2) logger.log(chalk.cyan('Easy fight, not buying'))
 		return
 	}
 
@@ -120,7 +120,7 @@ const buyShop = async (shop: FShop[]): Promise<void> => {
 	for (const item of items) {
 		const buyable = find(boughtItems, it => {
 			if (item.id == 4 || item.id == 7) {
-				return (status.hp / status.hpmax * 100) < item.add
+				return 100 - (status.hp / status.hpmax * 100) > item.add && item.add >= it.min
 			}
 
 			return it.id == item.id && item.add >= it.min
@@ -282,6 +282,7 @@ export const doTourney = async (account: string, opponent: string|null = null, h
 
 	logger.log(`Fighting ${chalk.cyan(status.fight.fuser.name)} (${status.fight.fuser.uid}) with ${chalk.yellow(hero?.name || status.fight.hid)} against ${status.fight.fheronum} heroes`)
 	await doFight(status)
+	logger.debug(format(new Date(), 'HH:mm'))
 }
 
-doTourney(process.argv[2], process.argv[3], process.argv[4]).then(() => process.exit())
+doTourney(process.argv[2], process.argv[3], process.argv[4]).then(() => {process.exit()})

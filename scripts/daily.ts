@@ -1,3 +1,4 @@
+import { format } from 'date-fns'
 import { DECREE_TYPE } from '../types/goat/Generic'
 import { goat, LOGIN_ACCOUNT_GAUTIER, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
 import { logger } from './services/logger'
@@ -181,6 +182,7 @@ const dailyChores = async (account: string): Promise<void> => {
 	} catch (e) {
 		logger.error(e)
 	}
+	logger.debug(format(new Date(), 'HH:mm'))
 }
 
 dailyChores(process.argv[2]).then(() => {process.exit()})

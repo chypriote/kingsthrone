@@ -1,5 +1,5 @@
 import { find } from 'lodash'
-import { differenceInMinutes, fromUnixTime } from 'date-fns'
+import { format, differenceInMinutes, fromUnixTime } from 'date-fns'
 import { Son } from '~/types/game'
 import { CastleInfos, EventInfo } from '~/types/goat/Kingdom'
 import { goat,  LOGIN_ACCOUNT_GAUTIER, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
@@ -137,6 +137,7 @@ export const doKingdom = async (account: string): Promise<void> => {
 	} catch (e) {
 		console.log(e)
 	}
+	logger.debug(format(new Date(), 'HH:mm'))
 }
 
 

@@ -8,6 +8,7 @@ import { visitMaidens } from './actions/visit-maidens'
 import { doExpedition, doMerchant } from './actions/expeditions'
 import { attendFeasts } from './actions/feasts'
 import { doKingdomExpeditions } from './actions/kexpeditions'
+import { doWorldBoss } from './actions/worldboss'
 
 const punishPrisoners = async () => {
 	try {
@@ -117,6 +118,21 @@ const getWeeklyRewards = async () => {
 		logger.error(`[REWARDS] ${e}`)
 	}
 }
+const getTourneyRewards = async () => {
+	try {
+		let result = false
+		result = await goat.getTourneyReward(1) ? true : result
+		result = await goat.getTourneyReward(2) ? true : result
+		result = await goat.getTourneyReward(3) ? true : result
+		result = await goat.getTourneyReward(4) ? true : result
+		if (result) {
+			logger.success('Tourney rewards claimed')
+		}
+	} catch (e) {
+		logger.log(e)
+		logger.error(`[REWARDS] ${e}`)
+	}
+}
 const getLoginRewards = async () => {
 	try {
 		await goat.claimLoginReward()
@@ -177,6 +193,8 @@ const dailyChores = async (account: string): Promise<void> => {
 		await doProcessions()
 		await visitMaidens()
 		await attendFeasts()
+		await doWorldBoss()
+		await getTourneyRewards()
 		await getDailyRewards()
 		await getWeeklyRewards()
 	} catch (e) {

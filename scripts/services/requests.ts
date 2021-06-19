@@ -23,7 +23,7 @@ import { DECREE_TYPE } from '~/types/goat/Generic'
 import { ExpeditionInfo, KingdomExpInfo, MerchantInfos } from '~/types/goat/Expeditions'
 import { CastleInfos } from '~/types/goat/Kingdom'
 
-const VERSION = 'V1.3.548'
+const VERSION = 'V1.3.549'
 const COOKIE = 'lyjxncc=c3ac4e77dff349b66c7aeed276e3eb6c'
 export const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'2ylxannmqx','login':{ 'loginAccount':{
 	'parm1':'WIFI','platform':'gaotukc',
@@ -447,8 +447,12 @@ export class GoatRequest {
 
 		return data.a.yamen
 	}
-	async getTourneyReward(id: number): Promise<void> {
-		await this.sendRequest({ 'yamen':{ 'getdilyrwd':{ id } },'rsn':'5yawyvphhr' })
+	async getTourneyReward(id: number): Promise<boolean> {
+		try {
+			await this.sendRequest({ 'yamen':{ 'getdilyrwd':{ id } },'rsn':'5yawyvphhr' })
+			return true
+		}catch (e) {/*We want to ignore completely*/}
+		return false
 	}
 
 	//General
@@ -626,6 +630,22 @@ export class GoatRequest {
 			return true
 		}catch (e) {/*We want to ignore completely*/}
 		return false
+	}
+
+	async attackMinion(id: number): Promise<void> {
+		try {
+			await this.sendRequest({ 'wordboss':{ 'hitmenggu':{ id } },'rsn':'4fxvghbbxf' })
+		} catch (e) {
+			console.log(e)
+		}
+	}
+	async attackBoss(id: number): Promise<void> {
+		try {
+			await this.sendRequest({ 'wordboss':{ 'hitgeerdan':{ id } },'rsn':'8mxiaxameo' })
+		} catch (e) {
+			console.log(e)
+		}
+
 	}
 
 	async hostCouncil(num = 3): Promise<void> {

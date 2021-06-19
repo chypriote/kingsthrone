@@ -8,6 +8,8 @@ const BOUGHT_ITEMS = [
 	{ name: 'Gold Dowry', id: 102 },
 	{ name: 'Inspiration Tome IV', id: 44 },
 	{ name: 'Fortune Tome IV', id: 24 },
+	{ name: 'Military Tome IV', id: 14 },
+	{ name: 'Provisions Tome IV', id: 34 },
 	{ name: 'Superior Experience Pack', id: 78 },
 ]
 

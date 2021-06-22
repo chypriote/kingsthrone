@@ -46,7 +46,7 @@ class HerosStatus {
 	}
 }
 interface IState {
-	hero?: Hero
+	hero?: any
 	opponent?: User
 	totalHeroes: number
 	easyFight: boolean
@@ -272,17 +272,21 @@ export const loadOpponent = async (fight: TourneyFight): Promise<void> => {
 export const doTourney = async (account: string, opponent: string|null = null, hid: string|null = null): Promise<void> => {
 	await goat.login(account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
 
-	const status = await prepareFight(opponent, hid ? parseInt(hid) : null)
-
 	heroes = await getHeroesList()
-	const hero = find(heroes, h => h.hid == status.fight.hid)
+	const test = (await goat.getGameInfos()).hero.heroList
+	for (const he of test) {
+		const status = await prepareFight('699000065', he.id)
+		const hero = find(heroes, h => h.hid == status.fight.hid)
 
-	state.hero = clone(hero)
-	await loadOpponent(status.fight)
+		state.hero = clone(hero)
+		state.fought = 0
+		await loadOpponent(status.fight)
 
-	logger.log(`Fighting ${chalk.cyan(status.fight.fuser.name)} (${status.fight.fuser.uid}) with ${chalk.yellow(hero?.name || status.fight.hid)} against ${status.fight.fheronum} heroes`)
-	await doFight(status)
-	logger.debug(format(new Date(), 'HH:mm'))
+		logger.log(`Fighting ${chalk.cyan(status.fight.fuser.name)} (${status.fight.fuser.uid}) with ${chalk.yellow(hero?.name || status.fight.hid)} against ${status.fight.fheronum} heroes`)
+		await doFight(status)
+		logger.debug(format(new Date(), 'HH:mm'))
+	}
+
 }
 
 doTourney(process.argv[2], process.argv[3], process.argv[4]).then(() => {process.exit()})

@@ -224,7 +224,7 @@ const prepareFight = async (opponent: string|null, hid: number|null): Promise<On
 	const status = await goat.getTourneyInfos()
 	const state = status.info.state
 
-	if (state === 11 || state === 12 || state === 15) {
+	if (state === 11 || state === 12 || state === 14 || state === 15) {
 		logger.warn('fight already started')
 		if (opponent) {logger.error(`can't challenge ${opponent}`); process.exit(0)}
 		return status

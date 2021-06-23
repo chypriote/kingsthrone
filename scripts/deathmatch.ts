@@ -6,12 +6,12 @@ import { updatePlayerAlliance } from './profiles'
 import { Player } from '../types/Player'
 import { Profile } from '../types/goatGeneric'
 
-const SERVERS = ['690']
+const SERVERS = ['637']
 
 const getMin = (server: string): number => parseInt(server + '000001')
 const getMax = (server: string): number => parseInt(server + '005000')
 
-export const createPlayerIfExists = async (profile: Profile): Promise<Player> => {
+const createPlayerIfExists = async (profile: Profile): Promise<Player> => {
 	const gid = parseInt(profile.id)
 	await createPlayer(gid, profile.name, profile.vip, parseInt(profile.shili), profile.hero_num, parseInt(goat.server))
 
@@ -19,12 +19,12 @@ export const createPlayerIfExists = async (profile: Profile): Promise<Player> =>
 	return await getPlayerByGID(gid)
 }
 
-export const handleGID = async (id: number, retry = true): Promise<string|null> => {
+const handleGID = async (id: number, retry = true): Promise<string|null> => {
 	try {
 		let player: Player|null = await getPlayerByGID(id)
 		const profile = await goat.getProfile(id)
 
-		if (!profile || profile.hero_num < 15 || !profile.clubid) {
+		if (!profile || profile.hero_num < 25) {
 			console.log(`Ignoring ${id} ${ profile ? profile.hero_num : ''}`)
 			return null
 		}
@@ -57,8 +57,6 @@ export const deathmatch = async (): Promise<void> => {
 	for (const server of SERVERS) {
 		console.log(server)
 		goat.isLoggedIn = false
-		goat.setServer(server)
-		// await client.login()
 		await goat.createAccount(server)
 
 		const missing = []
@@ -69,7 +67,7 @@ export const deathmatch = async (): Promise<void> => {
 		}
 		console.log(`found ${missing.length} potential players`)
 
-		const chunkedMissing = chunk(missing, 10)
+		const chunkedMissing = chunk(missing, 8)
 		let created: (string|null)[] = []
 		for (const missing of chunkedMissing) {
 			const promises: Promise<string|null>[] = []
@@ -82,4 +80,4 @@ export const deathmatch = async (): Promise<void> => {
 	}
 }
 
-deathmatch().then(() => process.exit())
+deathmatch().then(() => {process.exit()})

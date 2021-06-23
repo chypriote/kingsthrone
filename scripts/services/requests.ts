@@ -348,8 +348,11 @@ export class GoatRequest {
 			return player
 		}
 
-		const name = await this.setName(`Raymundus ${server}`)
-		if (!name) {process.exit()}
+		let name = `Raymundus ${server}`
+		try {
+			name = await this.setName(name)
+			if (!name) {process.exit()}
+		} catch (e) { console.log('catching name error') }
 		logger.debug('Skipping guide')
 		await this.sendRequest({ 'user':{ 'adok':{ 'label':'' } },'rsn':'8ajixearke' })
 		await this.sendRequest({ 'fuli':{ 'answer':{ 'code':'tg' } },'rsn':'6wsylkxbug' })

@@ -22,6 +22,7 @@ import { FeastDetails, FeastInfo, FeastShop, FeastStatus, OngoingFeast } from '~
 import { DECREE_TYPE } from '~/types/goat/Generic'
 import { ExpeditionInfo, KingdomExpInfo, MerchantInfos } from '~/types/goat/Expeditions'
 import { CastleInfos } from '~/types/goat/Kingdom'
+import { XSOngoingFight, XSTourneyFight, XSTourneyInfos, XSTourneyReward } from '~/types/goat/XSTourney'
 
 const VERSION = 'V1.3.549'
 const COOKIE = 'lyjxncc=c3ac4e77dff349b66c7aeed276e3eb6c'
@@ -451,6 +452,50 @@ export class GoatRequest {
 		return data.a.yamen
 	}
 	async getTourneyReward(id: number): Promise<boolean> {
+		try {
+			await this.sendRequest({ 'yamen':{ 'getdilyrwd':{ id } },'rsn':'5yawyvphhr' })
+			return true
+		}catch (e) {/*We want to ignore completely*/}
+		return false
+	}
+
+	//XSTourney
+	async xsGetTourneyInfos(): Promise<XSOngoingFight> {
+		const data = await this.sendRequest({ 'kuayamen':{ 'yamen':[] },'rsn':'2malnlahyqq' })
+
+		return data.a.kuayamen
+	}
+	async xsStartTourneyFight(): Promise<XSOngoingFight> {
+		const data = await this.sendRequest({ 'kuayamen':{ 'pizun':[] },'rsn':'3esphksnsn' })
+
+		return data.a.kuayamen
+	}
+	async xsStartTokenTourneyFight(): Promise<XSOngoingFight> {
+		const data = await this.sendRequest({ 'kuayamen':{ 'chushi':[] },'rsn':'3espeerwpw' })
+
+		return data.a.kuayamen
+	}
+	async xsBuyTourneyBoost(item: FShop): Promise<XSOngoingFight> {
+		const data = await this.sendRequest({ 'kuayamen':{ 'seladd':{ 'id':item.id } },'rsn':'5wfrarhwer' }, true)
+
+		return data.a.kuayamen
+	}
+	async xsFightHero(hero: FHero): Promise<XSOngoingFight> {
+		const data = await this.sendRequest({ 'kuayamen':{ 'fight':{ 'id':hero.id } },'rsn':'6wgklkbxkx' })
+
+		return data.a.kuayamen
+	}
+	async xsGetReward(): Promise<XSTourneyReward> {
+		const data = await this.sendRequest({ 'kuayamen':{ 'getrwd':[] },'rsn':'2axhlhqxbh' })
+
+		return data.a.kuayamen.win.rwd
+	}
+	async xsChallengeOpponent(uid: string, hid: number): Promise<XSOngoingFight> {
+		const data = await this.sendRequest({ 'kuayamen':{ 'zhuisha':{ 'fuid':uid,'hid':hid } },'rsn':'5yavaehwer' })
+
+		return data.a.kuayamen
+	}
+	async xsGetTourneyReward(id: number): Promise<boolean> {
 		try {
 			await this.sendRequest({ 'yamen':{ 'getdilyrwd':{ id } },'rsn':'5yawyvphhr' })
 			return true

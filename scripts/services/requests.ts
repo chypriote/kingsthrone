@@ -352,11 +352,11 @@ export class GoatRequest {
 		let name = `Raymundus ${server}`
 		try {
 			name = await this.setName(name)
-			if (!name) {process.exit()}
+			if (!name) {console.log('exiting'); process.exit()}
 		} catch (e) { console.log('catching name error') }
 		logger.debug('Skipping guide')
 		await this.sendRequest({ 'user':{ 'adok':{ 'label':'' } },'rsn':'8ajixearke' })
-		await this.sendRequest({ 'fuli':{ 'answer':{ 'code':'tg' } },'rsn':'6wsylkxbug' })
+		await this.sendRequest({ 'fuli':{ 'answer':{ 'code':'tg' } },'rsn':'2ylhaxxbwy' })
 		await this.sendRequest({ 'rsn':'9zrsjbmimms','guide':{ 'guideUpguan':[] } })
 		await this.sendRequest({ 'rsn':'8mvjxiivxm','guide':{ 'guide':{ 'gnew':1 } } })
 

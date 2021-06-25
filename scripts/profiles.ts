@@ -65,4 +65,4 @@ export const updateProfiles = async (): Promise<void> => {
 	logger.success('Finished')
 }
 
-updateProfiles().then(() => process.exit())
+//updateProfiles().then(() => process.exit())

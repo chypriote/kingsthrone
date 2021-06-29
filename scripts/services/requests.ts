@@ -22,7 +22,8 @@ import { FeastDetails, FeastInfo, FeastShop, FeastStatus, OngoingFeast } from '~
 import { DECREE_TYPE } from '~/types/goat/Generic'
 import { ExpeditionInfo, KingdomExpInfo, MerchantInfos } from '~/types/goat/Expeditions'
 import { CastleInfos } from '~/types/goat/Kingdom'
-import { XSOngoingFight, XSTourneyFight, XSTourneyInfos, XSTourneyReward } from '~/types/goat/XSTourney'
+import { XSOngoingFight, XSTourneyReward } from '~/types/goat/XSTourney'
+import { DMOngoingFight, DMTourneyReward } from '~/types/goat/DMTourney'
 
 const VERSION = 'V1.3.549'
 const COOKIE = 'lyjxncc=c3ac4e77dff349b66c7aeed276e3eb6c'
@@ -502,6 +503,45 @@ export class GoatRequest {
 		}catch (e) {/*We want to ignore completely*/}
 		return false
 	}
+
+	//Deathmatch
+	async dmGetTourneyInfos(): Promise<DMOngoingFight> {
+		const data = await this.sendRequest({ 'kuayamen':{ 'jdComeHd':[] },'rsn':'3esswfnhew' })
+
+		return data.a.jdyamen
+	}
+	async dmStartTourneyFight(): Promise<DMOngoingFight> {
+		await this.sendRequest({ 'kuayamen':{ 'jdSjtz':[] },'rsn':'1qtwwrwewku' })
+		const data = await this.sendRequest({ 'kuayamen':{ 'jdPiZhun':[] },'rsn':'6xllkgklyg' })
+
+		return data.a.jdyamen
+	}
+	async dmStartTokenTourneyFight(): Promise<DMOngoingFight> {
+		const data = await this.sendRequest({ 'kuayamen':{ 'jdChushi':[] },'rsn':'4cmxxihghg' })
+
+		return data.a.jdyamen
+	}
+	async dmBuyTourneyBoost(item: FShop): Promise<DMOngoingFight> {
+		const data = await this.sendRequest({ 'kuayamen':{ 'jdSeladd':{ 'id':item.id } },'rsn':'7yddpollxv' }, true)
+
+		return data.a.jdyamen
+	}
+	async dmFightHero(hero: FHero): Promise<DMOngoingFight> {
+		const data = await this.sendRequest({ 'kuayamen':{ 'jdFight':{ 'id':hero.id } },'rsn':'2yllhnqywb' })
+
+		return data.a.jdyamen
+	}
+	async dmGetReward(): Promise<DMTourneyReward> {
+		const data = await this.sendRequest({ 'kuayamen':{ 'jdGetrwd':[] },'rsn':'5wfaaypfer' })
+
+		return data.a.jdyamen.win.rwd
+	}
+	async dmChallengeOpponent(uid: string, hid: number): Promise<DMOngoingFight> {
+		const data = await this.sendRequest({ 'kuayamen':{ 'jdZhuiSha':{ 'fuid':uid,'hid':hid } },'rsn':'7xcddslcgvg' })
+
+		return data.a.jdyamen
+	}
+
 
 	//General
 	async punishPrisoner(): Promise<PunishmentResult> {

@@ -1,12 +1,12 @@
 import { formatISO } from 'date-fns'
-import { KingdomRank, Profile, TourneyRank } from '~/types/goatGeneric'
+import { Profile } from '~/types/goatGeneric'
 import { client } from '../services/database'
 import { logger } from '../services/logger'
 import { Player } from '~/types/Player'
 import { goat } from '../services/requests'
 
 export const createPlayer = async (
-	gid: number, name: string, vip = 0, power = 0, heroes = 0, server = 699
+	gid: string, name: string, vip = 0, power = 0, heroes = 0, server = 699
 ): Promise<void> => {
 	await client('players').insert({
 		gid, name, vip, power, heroes,
@@ -24,7 +24,7 @@ export const getPlayers = async (params = {}): Promise<Player[]> => {
 	return client('players').where(params)
 }
 
-export const getPlayerByGID = async (gid: number): Promise<Player> => {
+export const getPlayerByGID = async (gid: string): Promise<Player> => {
 	const players = await client('players')
 		.where('gid', '=', gid)
 		.limit(1)
@@ -63,7 +63,7 @@ export const updatePlayerDetails = async (player: Player, goat: Profile): Promis
 		.limit(1)
 }
 
-export const getOrCreatePlayerFromGoat = async (uid: number): Promise<Player> => {
+export const getOrCreatePlayerFromGoat = async (uid: string): Promise<Player> => {
 	const player = await getPlayerByGID(uid)
 
 	if (player) {

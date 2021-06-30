@@ -156,7 +156,7 @@ export class GoatRequest {
 		return response
 	}
 
-	async getProfile(gid: number): Promise<Profile|null>  {
+	async getProfile(gid: string): Promise<Profile|null>  {
 		const profile = await this.sendRequest({ user: { getFuserMember: { id: gid } }, rsn: '1taquiwekk' })
 
 		if (profile?.a?.system?.errror) {
@@ -332,9 +332,9 @@ export class GoatRequest {
 	async getXSTourney(): Promise<User[]> {
 		const tourney = await this.sendRequest({ 'kuayamen':{ 'getRank':[] },'rsn':'3zhfrfnwhke' })
 
-		return tourney.a.kuayamen.scoreRank
+		return tourney.a.kuayamen
 	}
-	async getXSPlayer(gid: number): Promise<XSPlayer> {
+	async getXSPlayer(gid: string): Promise<XSPlayer> {
 		const player = await this.sendRequest({ 'kuayamen':{ 'findzhuisha':{ 'fuid': gid } },'rsn':'1tqrireark' })
 
 		return player.a.kuayamen.zhuisha.fuser

@@ -12,14 +12,14 @@ const getMin = (server: string): number => parseInt(server + '000001')
 const getMax = (server: string): number => parseInt(server + '005000')
 
 const createPlayerIfExists = async (profile: Profile): Promise<Player> => {
-	const gid = parseInt(profile.id)
+	const gid = profile.id
 	await createPlayer(gid, profile.name, profile.vip, parseInt(profile.shili), profile.hero_num, parseInt(goat.server))
 
 	logger.success(`Created ${profile.name}`)
 	return await getPlayerByGID(gid)
 }
 
-const handleGID = async (id: number, retry = true): Promise<string|null> => {
+const handleGID = async (id: string, retry = true): Promise<string|null> => {
 	try {
 		let player: Player|null = await getPlayerByGID(id)
 		const profile = await goat.getProfile(id)
@@ -71,7 +71,7 @@ export const missing = async (): Promise<void> => {
 		let created: (string|null)[] = []
 		for (const missing of chunkedMissing) {
 			const promises: Promise<string|null>[] = []
-			missing.forEach(id => { promises.push(handleGID(id))})
+			missing.forEach(id => { promises.push(handleGID(id.toString()))})
 			created = await Promise.all(promises)
 		}
 

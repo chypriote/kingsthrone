@@ -1,13 +1,14 @@
 import { goat, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
 import { logger } from './services/logger'
-import { createPlayer, getAllGID, getPlayerByGID } from './repository/player'
+import { createPlayer, getAllGID, getPlayerByGID,updatePlayerDetails } from './repository/player'
 import { createForCross, getAllianceByAID, resetCrossAlliance, setOpponent, updateExistingForCross } from './repository/alliance'
-import { chunk } from 'lodash'
+import { chunk, orderBy } from 'lodash'
+import { updatePlayerAlliance } from './profiles'
 
 const account = LOGIN_ACCOUNT_NAPOLEON
 const server = 691
 
-export const handleMissing = async (id: number, retry = true): Promise<string|null> => {
+export const handleMissing = async (id: string, retry = true): Promise<string|null> => {
 	try {
 		const profile = await goat.getProfile(id)
 
@@ -46,7 +47,7 @@ export const parseProfiles = async (): Promise<void> => {
 	let created: (string|null)[] = []
 	for (const missing of chunkedMissing) {
 		const promises: Promise<string|null>[] = []
-		missing.forEach(id => { promises.push(handleMissing(id))})
+		missing.forEach(id => { promises.push(handleMissing(id.toString()))})
 		created = await Promise.all(promises)
 	}
 
@@ -90,4 +91,35 @@ export const crossServerTourney = async (): Promise<void> => {
 	logger.success('Finished')
 }
 
-parseProfiles().then(() => process.exit())
+// parseProfiles().then(() => process.exit())
+
+
+const logDeathmatch = async (): Promise<void> => {
+	const users = (await goat.dmGetTourneyInfos()).userList
+	const opponents = []
+
+	for (const user of users) {
+		if (user.u == goat.gid) { continue }
+		const existing = await getPlayerByGID(user.u)
+		const profile = await goat.getXSPlayer(user.u)
+
+		// await Promise.all([
+		// 	updatePlayerDetails(existing, profile),
+		// 	updatePlayerAlliance(existing, profile),
+		// ])
+		// logger.success(`Updated ${profile.name}`)
+		opponents.push({
+			gid: existing.gid,
+			name: existing.name,
+			power: existing.power,
+			heroes: existing.heroes,
+			vip: existing.vip,
+			ratio: Math.round(existing.power / existing.heroes),
+			ally: profile.clubname,
+		})
+	}
+
+	console.log(JSON.stringify(orderBy(opponents.filter(op => op.heroes > 40), 'ratio', 'asc')))
+}
+
+logDeathmatch().then(() => {process.exit()})

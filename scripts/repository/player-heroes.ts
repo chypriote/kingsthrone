@@ -19,7 +19,7 @@ export const updatePlayerHero = async (hid: number, gid: string, quality: number
 	}
 }
 
-export const getRoster = async (gid: number): Promise<(PlayerHero & {hid: number})[]> => {
+export const getRoster = async (gid: string): Promise<(PlayerHero & {hid: number})[]> => {
 	return client('player_heroes as ph')
 		.select('ph.*', 'heroes.hid')
 		.join('players', 'players.id', 'ph.player')

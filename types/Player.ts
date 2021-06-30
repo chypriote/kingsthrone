@@ -5,7 +5,7 @@ import { Hero } from './Hero'
 
 export type Player = {
 	id?: number
-	gid: number
+	gid: string
 	name: string
 	vip: number
 	level: number

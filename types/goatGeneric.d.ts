@@ -25,18 +25,14 @@ export type Profile = {
 	clubname: string
 	chenghao: number //title
 	xuanyan: string
-	chlist: [ //titles list
-		{
-			id: number
-		}
-	]
+	chlist: {id: number}[] //titles list
 	son_num: number //Children
 	wife_num: number //Maidens
 	hero_num: number //Heroes
 	headType: number
 	headId: number
 	vipStatus: number
-	set: number
+	set?: number
 }
 
 export type KingdomRank = {
@@ -134,8 +130,8 @@ export type User = {
 }
 
 export type XSPlayer = {
-	id: number
-	uid: number
+	id: string
+	uid: string
 	name: string
 	level: number
 	sex: number
@@ -152,7 +148,7 @@ export type XSPlayer = {
 	clubname: string
 	chenghao: number
 	xuanyan: string
-	chlist: []
+	chlist: {id: number}[]
 	son_num: number
 	wife_num: number
 	hero_num: number

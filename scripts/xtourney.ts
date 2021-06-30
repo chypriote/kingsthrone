@@ -260,7 +260,7 @@ const prepareFight = async (opponent: string|null, hid: number|null): Promise<On
 }
 
 export const loadOpponent = async (fight: TourneyFight): Promise<void> => {
-	const uid = parseInt(fight.fuser.uid)
+	const uid = fight.fuser.uid
 	await getOrCreatePlayerFromGoat(uid)
 
 	state.opponent = clone(fight.fuser)

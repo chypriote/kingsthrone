@@ -1,9 +1,9 @@
 import { goat, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
+import { client } from './services/database'
 import { logger } from './services/logger'
-import { createPlayer, getAllGID, getPlayerByGID,updatePlayerDetails } from './repository/player'
+import { createPlayer, getAllGID, getPlayerByGID } from './repository/player'
 import { createForCross, getAllianceByAID, resetCrossAlliance, setOpponent, updateExistingForCross } from './repository/alliance'
 import { chunk, orderBy } from 'lodash'
-import { updatePlayerAlliance } from './profiles'
 
 const account = LOGIN_ACCOUNT_NAPOLEON
 const server = 691
@@ -95,31 +95,32 @@ export const crossServerTourney = async (): Promise<void> => {
 
 
 const logDeathmatch = async (): Promise<void> => {
-	const users = (await goat.dmGetTourneyInfos()).userList
+	const users = (await goat.dmGetRankings()).scorelist
 	const opponents = []
 
-	for (const user of users) {
-		if (user.u == goat.gid) { continue }
-		const existing = await getPlayerByGID(user.u)
-		const profile = await goat.getXSPlayer(user.u)
+	await client('players').update({ cross: false })
 
-		// await Promise.all([
-		// 	updatePlayerDetails(existing, profile),
-		// 	updatePlayerAlliance(existing, profile),
-		// ])
-		// logger.success(`Updated ${profile.name}`)
+	for (const user of users) {
+		if (user.uid == goat.gid) { continue }
+		const existing = await getPlayerByGID(user.uid)
+		const profile = await goat.getXSPlayer(user.uid)
+		const ratio = Math.round(parseInt(profile.shili) / profile.hero_num)
+
+		await client('players')
+			.where({ gid: user.uid })
+			.update({ cross: true, ratio: ratio })
+
 		opponents.push({
 			gid: existing.gid,
 			name: existing.name,
-			power: existing.power,
-			heroes: existing.heroes,
+			power: profile.shili,
+			heroes: profile.hero_num,
 			vip: existing.vip,
-			ratio: Math.round(existing.power / existing.heroes),
-			ally: profile.clubname,
+			ratio: ratio,
 		})
 	}
 
-	console.log(JSON.stringify(orderBy(opponents.filter(op => op.heroes > 40), 'ratio', 'asc')))
+	console.log(JSON.stringify(orderBy(opponents, 'ratio', 'asc')))
 }
 
 logDeathmatch().then(() => {process.exit()})

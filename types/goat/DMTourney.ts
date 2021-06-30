@@ -127,4 +127,20 @@ export type DMTourneyReward = {
 	items: TourneyRewardItem[]
 	jiade: TourneyRewardItem[]
 }
-
+type DMRank = {
+	cid: string
+	name: string
+	rid: number
+	score: number
+	uid: string
+}
+export type DMRanking = {
+	clubRankList: {
+		cid: string
+		name: string
+		rid: number
+		score: number
+	}
+	dielist: DMRank[]
+	scorelist: DMRank[]
+}

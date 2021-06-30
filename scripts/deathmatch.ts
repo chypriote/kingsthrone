@@ -141,7 +141,7 @@ const selectHero = (heroes: FHero[]): FHero => {
 		return { ...h, quality: found?.quality || inferQuality(h) }
 	})
 
-	const sorted = orderBy(heroes, ['quality', 'senior', 'heroLv', 'skin'], ['asc', 'asc', 'asc', 'asc'])
+	const sorted = orderBy(heroes, ['quality', 'senior', 'heroLv', 'hid', 'skin'], ['asc', 'asc', 'asc', 'asc', 'asc'])
 
 	return sorted[0]
 }

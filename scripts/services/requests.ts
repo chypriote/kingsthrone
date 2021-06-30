@@ -23,7 +23,7 @@ import { DECREE_TYPE } from '~/types/goat/Generic'
 import { ExpeditionInfo, KingdomExpInfo, MerchantInfos } from '~/types/goat/Expeditions'
 import { CastleInfos } from '~/types/goat/Kingdom'
 import { XSOngoingFight, XSTourneyReward } from '~/types/goat/XSTourney'
-import { DMOngoingFight, DMTourneyReward } from '~/types/goat/DMTourney'
+import { DMOngoingFight, DMRanking, DMTourneyReward } from '~/types/goat/DMTourney'
 
 const VERSION = 'V1.3.549'
 const COOKIE = 'lyjxncc=c3ac4e77dff349b66c7aeed276e3eb6c'
@@ -538,6 +538,11 @@ export class GoatRequest {
 	}
 	async dmChallengeOpponent(uid: string, hid: number): Promise<DMOngoingFight> {
 		const data = await this.sendRequest({ 'kuayamen':{ 'jdZhuiSha':{ 'fuid':uid,'hid':hid } },'rsn':'7xcddslcgvg' })
+
+		return data.a.jdyamen
+	}
+	async dmGetRankings (): Promise<DMRanking> {
+		const data = await this.sendRequest({ 'kuayamen':{ 'jdGetRank':{ 'type':1 } },'rsn':'3zeppnfzhse' })
 
 		return data.a.jdyamen
 	}

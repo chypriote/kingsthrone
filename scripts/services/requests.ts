@@ -725,20 +725,27 @@ export class GoatRequest {
 		return false
 	}
 
-	async attackMinion(id: number): Promise<void> {
+	async attackMinion(id: number): Promise<boolean> {
 		try {
 			await this.sendRequest({ 'wordboss':{ 'hitmenggu':{ id } },'rsn':'4fxvghbbxf' })
 		} catch (e) {
+			const msg = e.toString()
+			if (msg === 'Error: The battle has ended') { return false }
+			if (msg === 'Error: The hero is resting') { return true }
 			console.log(e)
 		}
+		return true
 	}
-	async attackBoss(id: number): Promise<void> {
+	async attackBoss(id: number): Promise<boolean> {
 		try {
 			await this.sendRequest({ 'wordboss':{ 'hitgeerdan':{ id } },'rsn':'8mxiaxameo' })
 		} catch (e) {
+			const msg = e.toString()
+			if (msg === 'Error: The battle has ended') { return false }
+			if (msg === 'Error: The hero is resting') { return true }
 			console.log(e)
 		}
-
+		return true
 	}
 
 	async hostCouncil(num = 3): Promise<void> {

@@ -8,7 +8,7 @@ export const doMinions = async (): Promise<void> => {
 
 	for (const hero of sorted) {
 		try {
-			await goat.attackMinion(hero.id)
+			if (!await goat.attackMinion(hero.id)) { return }
 			logger.debug(`Attacked minion with hero ${hero.id}`)
 		} catch (e) {/*do nothing*/}
 	}
@@ -20,7 +20,7 @@ export const doBoss = async (): Promise<void> => {
 
 	for (const hero of sorted) {
 		try {
-			await goat.attackBoss(hero.id)
+			if (!await goat.attackBoss(hero.id)) { return }
 			logger.debug(`Attacked boss with hero ${hero.id}`)
 		} catch (e) {/*do nothing*/}
 	}

@@ -60,13 +60,13 @@ const HallOfFame = async () => {
 }
 const contributeAlliance = async () => {
 	try {
-		await goat.contributeAlliance()
 		const bosses = (await goat.getAllianceBossInfo()).filter(boss => boss.hp > 0)
 		if (!bosses.length) return
 
 		for (const hero of state.heroes) {
 			await goat.fightAllianceBoss(bosses[0].id, hero.id)
 		}
+		await goat.contributeAlliance()
 		logger.success('Alliance contributed')
 	} catch (e) {
 		logger.error(`[ALLIANCE] ${e}`)
@@ -160,6 +160,14 @@ const visitInLaws = async () => {
 		logger.error(e)
 	}
 }
+const hostCouncil = async () => {
+	try {
+		await goat.hostCouncil(3)
+		logger.success('Hosted a council')
+	} catch (e) {
+		logger.error(e)
+	}
+}
 
 interface AccountState {
 	heroes: Hero[]
@@ -193,6 +201,7 @@ const dailyChores = async (account: string): Promise<void> => {
 		await doProcessions()
 		await visitMaidens()
 		await attendFeasts()
+		await hostCouncil()
 		await doWorldBoss()
 		await getTourneyRewards()
 		await getDailyRewards()

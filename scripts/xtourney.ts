@@ -272,17 +272,24 @@ export const loadOpponent = async (fight: TourneyFight): Promise<void> => {
 
 export const doTourney = async (account: string, opponent: string|null = null, hid: string|null = null): Promise<void> => {
 	await goat.login(account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
-
-	const status = await prepareFight(opponent, hid ? parseInt(hid) : null)
+	const heroList = (await goat.getGameInfos()).hero.heroList
 
 	heroes = await getHeroesList()
-	const hero = find(heroes, h => h.hid == status.fight.hid)
+	for (const hh of heroList) {
+		try {
+			const status = await prepareFight(opponent, hh.id)
+			const hero = find(heroes, h => h.hid == status.fight.hid)
+		
+			state.hero = clone(hero)
+			await loadOpponent(status.fight)
+		
+			logger.log(`Fighting ${chalk.cyan(status.fight.fuser.name)} (${status.fight.fuser.uid}) with ${chalk.yellow(hero?.name || status.fight.hid)} against ${status.fight.fheronum} heroes`)
+			await doFight(status)
 
-	state.hero = clone(hero)
-	await loadOpponent(status.fight)
-
-	logger.log(`Fighting ${chalk.cyan(status.fight.fuser.name)} (${status.fight.fuser.uid}) with ${chalk.yellow(hero?.name || status.fight.hid)} against ${status.fight.fheronum} heroes`)
-	await doFight(status)
+		} catch (e) {
+			console.log(e.toString())
+		}
+	}
 	logger.debug(format(new Date(), 'HH:mm'))
 }
 

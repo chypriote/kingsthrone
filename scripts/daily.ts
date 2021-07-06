@@ -163,6 +163,9 @@ const visitInLaws = async () => {
 const hostCouncil = async () => {
 	try {
 		await goat.visitCouncil()
+	} catch (e) {/* do nothing */}
+
+	try {
 		await goat.hostCouncil(3)
 		logger.success('Hosted a council')
 	} catch (e) {
@@ -179,34 +182,43 @@ const state: AccountState = {
 
 const dailyChores = async (account: string): Promise<void> => {
 	await goat.login(account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
-	const info = await goat.getGameInfos()
-	state.heroes = info.hero.heroList
+	// const info = await goat.getGameInfos()
+	// state.heroes = info.hero.heroList
 
 	try {
-		if (await getLoginRewards()) {
-			await readAndDeleteMail()
-			await punishPrisoners()
-			await HallOfFame()
-			await payHomage()
-			await doProcessions(30)
-			await visitMaidens(20)
-			await contributeAlliance()
-			await doMerchant(account === 'gautier' ? 50 : 40)
-			await doExpedition(account === 'gautier' ? 50 : 40)
-			await doKingdomExpeditions()
-			await visitInLaws()
+		// if (await getLoginRewards()) {
+		// 	await readAndDeleteMail()
+		// 	await punishPrisoners()
+		// 	await HallOfFame()
+		// 	await payHomage()
+		// 	await doProcessions(30)
+		// 	await visitMaidens(20)
+		// 	await contributeAlliance()
+		// 	await doMerchant(account === 'gautier' ? 50 : 40)
+		// 	await doExpedition(account === 'gautier' ? 50 : 40)
+		// 	await doKingdomExpeditions()
+		// 	await visitInLaws()
+		// }
+		// await getThroneRoom()
+		// await refreshTraining()
+		// await raiseSons()
+		// await doProcessions()
+		// await visitMaidens()
+		// await attendFeasts()
+		// await hostCouncil()
+		// await doWorldBoss()
+		// await getTourneyRewards()
+		// await getDailyRewards()
+		// await getWeeklyRewards()
+		if (account === 'gautier') {
+			let i = 0
+			// eslint-disable-next-line no-constant-condition
+			while (true) {
+				console.log(55 * (i++))
+				await goat.events().castle.getEgg()
+				await goat.events().castle.claimEgg()
+			}
 		}
-		await getThroneRoom()
-		await refreshTraining()
-		await raiseSons()
-		await doProcessions()
-		await visitMaidens()
-		await attendFeasts()
-		await hostCouncil()
-		await doWorldBoss()
-		await getTourneyRewards()
-		await getDailyRewards()
-		await getWeeklyRewards()
 	} catch (e) {
 		logger.error(e)
 	}

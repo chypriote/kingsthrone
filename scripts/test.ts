@@ -1,4 +1,4 @@
-import { goat, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
+import { goat, LOGIN_ACCOUNT_GAUTIER, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
 import { client } from './services/database'
 import { logger } from './services/logger'
 import { createPlayer, getAllGID, getPlayerByGID } from './repository/player'
@@ -123,4 +123,16 @@ const logDeathmatch = async (): Promise<void> => {
 	console.log(JSON.stringify(orderBy(opponents, 'ratio', 'asc')))
 }
 
-logDeathmatch().then(() => {process.exit()})
+const getEggs = async (): Promise<void> => {
+	await goat.login(LOGIN_ACCOUNT_GAUTIER)
+
+	let i = 0
+	// eslint-disable-next-line no-constant-condition
+	while (true) {
+		console.log(55 * (i++))
+		await (goat.events()).castle.findEgg()
+		await (goat.events()).castle.claimEgg()
+	}
+}
+
+getEggs().then(() => {process.exit()})

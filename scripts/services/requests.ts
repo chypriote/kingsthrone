@@ -762,7 +762,7 @@ export class GoatRequest {
 	events(): any {
 		return {
 			castle: {
-				getEgg: async (): Promise<void> => {
+				findEgg: async (): Promise<void> => {
 					await this.sendRequest({ 'user': { 'inner_egg': [] }, 'rsn': '1ktukkqqkuu' })
 				},
 				claimEgg: async (): Promise<void> => {

@@ -186,39 +186,30 @@ const dailyChores = async (account: string): Promise<void> => {
 	// state.heroes = info.hero.heroList
 
 	try {
-		// if (await getLoginRewards()) {
-		// 	await readAndDeleteMail()
-		// 	await punishPrisoners()
-		// 	await HallOfFame()
-		// 	await payHomage()
-		// 	await doProcessions(30)
-		// 	await visitMaidens(20)
-		// 	await contributeAlliance()
-		// 	await doMerchant(account === 'gautier' ? 50 : 40)
-		// 	await doExpedition(account === 'gautier' ? 50 : 40)
-		// 	await doKingdomExpeditions()
-		// 	await visitInLaws()
-		// }
-		// await getThroneRoom()
-		// await refreshTraining()
-		// await raiseSons()
-		// await doProcessions()
-		// await visitMaidens()
-		// await attendFeasts()
-		// await hostCouncil()
-		// await doWorldBoss()
-		// await getTourneyRewards()
-		// await getDailyRewards()
-		// await getWeeklyRewards()
-		if (account === 'gautier') {
-			let i = 0
-			// eslint-disable-next-line no-constant-condition
-			while (true) {
-				console.log(55 * (i++))
-				await goat.events().castle.getEgg()
-				await goat.events().castle.claimEgg()
-			}
+		if (await getLoginRewards()) {
+			await readAndDeleteMail()
+			await punishPrisoners()
+			await HallOfFame()
+			await payHomage()
+			await doProcessions(30)
+			await visitMaidens(20)
+			await contributeAlliance()
+			await doMerchant(account === 'gautier' ? 50 : 40)
+			await doExpedition(account === 'gautier' ? 50 : 40)
+			await doKingdomExpeditions()
+			await visitInLaws()
 		}
+		await getThroneRoom()
+		await refreshTraining()
+		await raiseSons()
+		await doProcessions()
+		await visitMaidens()
+		await attendFeasts()
+		await hostCouncil()
+		await doWorldBoss()
+		await getTourneyRewards()
+		await getDailyRewards()
+		await getWeeklyRewards()
 	} catch (e) {
 		logger.error(e)
 	}

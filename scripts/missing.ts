@@ -6,7 +6,7 @@ import { updatePlayerAlliance } from './profiles'
 import { Player } from '../types/Player'
 import { Profile } from '../types/goatGeneric'
 
-const SERVERS = ['708']
+const SERVERS = ['691', '741', '760', '809']
 
 const getMin = (server: string): number => parseInt(server + '000001')
 const getMax = (server: string): number => parseInt(server + '005000')

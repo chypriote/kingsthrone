@@ -24,6 +24,8 @@ import { ExpeditionInfo, KingdomExpInfo, MerchantInfos } from '~/types/goat/Expe
 import { CastleInfos } from '~/types/goat/Kingdom'
 import { XSOngoingFight, XSTourneyReward } from '~/types/goat/XSTourney'
 import { DMOngoingFight, DMRanking, DMTourneyReward } from '~/types/goat/DMTourney'
+import { TreasureHunt } from '~/types/goat/events/TreasureHunt'
+import { Picnic } from '~/types/goat/events/Picnic'
 
 const VERSION = 'V1.3.555'
 const COOKIE = 'lyjxncc=c3ac4e77dff349b66c7aeed276e3eb6c'
@@ -55,6 +57,7 @@ export const CASTLES_RSN = {
 
 const OLD_HOST = 'zsjefunbm.zwformat.com'
 const NEW_HOST = 'ksrus.gtbackoverseas.com'
+
 export class GoatRequest {
 	cookie: string
 	token: string|null = null
@@ -192,9 +195,7 @@ export class GoatRequest {
 
 	//Kingdom
 	async getChapterRwdList(): Promise<void> {
-		const data = await this.sendRequest({ 'user':{ 'getChapterRwdList':[] },'rsn':'9zriizmmnmt' })
-
-		return data
+		return  await this.sendRequest({ 'user':{ 'getChapterRwdList':[] },'rsn':'9zriizmmnmt' })
 	}
 	async getCastleRewards(id: number): Promise<CastleInfos|false> {
 		try {
@@ -748,11 +749,50 @@ export class GoatRequest {
 		return true
 	}
 
+	async visitCouncil(): Promise<void> {
+		await this.sendRequest({ 'rsn':'4fcgffigihv','hanlin':{ 'comein':{ 'fuid': this.gid } } })
+	}
 	async hostCouncil(num = 3): Promise<void> {
 		await this.sendRequest({ 'rsn':'3eseehnzfw','hanlin':{ 'opendesk':{ num,'isPush':1 } } })
 	}
 	async visitInLaws(): Promise<void> {
 		await this.sendRequest({ 'friends':{ 'qjvisit':{ 'fuid':0 } },'rsn':'4acbmmxgfmg' })
+	}
+
+	events(): any {
+		return {
+			castle: {
+				getEgg: async (): Promise<void> => {
+					await this.sendRequest({ 'user': { 'inner_egg': [] }, 'rsn': '1ktukkqqkuu' })
+				},
+				claimEgg: async (): Promise<void> => {
+					await this.sendRequest({ 'user':{ 'inner_rwd':[] },'rsn':'1ktukkqiewk' })
+				},
+			},
+			treasureHunt: {
+				eventInfos: async (): Promise<TreasureHunt> => {
+					const data = await this.sendRequest({ 'huodong':{ 'hd296Info':[] },'rsn':'2myqxxhaxab' })
+					return data.a.wbhuodong.wabao
+				},
+				claimShovels: async (): Promise<void> => {
+					for (let i = 1; i < 15; i++) {
+						await this.sendRequest({ 'huodong':{ 'hd296Task':{ 'id': i } },'rsn':'5wpwwyhwhf' })
+					}
+				},
+				dig: async (): Promise<void> => {
+					await this.sendRequest({ 'huodong':{ 'hd296Wa':[] },'rsn':'5wpwwyhjyy' })
+				},
+			},
+			picnic: {
+				eventInfos: async (): Promise<Picnic> => {
+					const data = await this.sendRequest({ 'huodong':{ 'hd1028Info':[] },'rsn':'4ciccfcvff' })
+					return data.a.gehuodong
+				},
+				claimQuest: async (id: number): Promise<void> => {
+					await this.sendRequest({ 'huodong':{ 'hd1028Task':{ 'id': id } },'rsn':'9zmtssbtjct' })
+				},
+			},
+		}
 	}
 }
 

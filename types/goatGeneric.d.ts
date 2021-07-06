@@ -34,7 +34,11 @@ export type Profile = {
 	vipStatus: number
 	set?: number
 }
-
+export type Item = {
+	count: number
+	id: number
+	kind: number
+}
 export type KingdomRank = {
 	uid: string
 	name: string

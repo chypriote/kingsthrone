@@ -162,6 +162,7 @@ const visitInLaws = async () => {
 }
 const hostCouncil = async () => {
 	try {
+		await goat.visitCouncil()
 		await goat.hostCouncil(3)
 		logger.success('Hosted a council')
 	} catch (e) {

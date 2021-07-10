@@ -61,12 +61,14 @@ const HallOfFame = async () => {
 const contributeAlliance = async () => {
 	try {
 		const bosses = (await goat.getAllianceBossInfo()).filter(boss => boss.hp > 0)
-		if (!bosses.length) return
-
-		for (const hero of state.heroes) {
-			await goat.fightAllianceBoss(bosses[0].id, hero.id)
+		if (bosses.length) {
+			for (const hero of state.heroes) {
+				await goat.fightAllianceBoss(bosses[0].id, hero.id)
+			}
 		}
+
 		await goat.contributeAlliance()
+
 		logger.success('Alliance contributed')
 	} catch (e) {
 		logger.error(`[ALLIANCE] ${e}`)

@@ -196,8 +196,8 @@ const dailyChores = async (account: string): Promise<void> => {
 			await doProcessions(30)
 			await visitMaidens(20)
 			await contributeAlliance()
-			await doMerchant(account === 'gautier' ? 50 : 40)
-			await doExpedition(account === 'gautier' ? 50 : 40)
+			await doMerchant(account === 'gautier' ? 60 : 40)
+			await doExpedition(account === 'gautier' ? 60 : 40)
 			await doKingdomExpeditions()
 			await visitInLaws()
 		}

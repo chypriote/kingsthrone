@@ -36,17 +36,27 @@
       "required": false,
       "pluginOptions": {}
     },
+		"naughty_picture": {
+			"model": "file",
+			"via": "related",
+			"allowedTypes": [
+				"images"
+			],
+			"plugin": "upload",
+			"required": false,
+			"pluginOptions": {}
+		},
     "hero": {
       "via": "skins",
       "model": "hero"
     },
-    "quality_skill": {
-      "model": "quality-skill",
-      "via": "skins"
-    },
     "maiden": {
       "via": "skins",
       "model": "maiden"
-    }
+    },
+		"quality_skill": {
+			"model": "quality-skill",
+			"via": "skins"
+		}
   }
 }

@@ -1,6 +1,8 @@
 import { Hero } from '~/scripts/repository/roster'
 import { TourneyInfos } from '~/types/tourney'
 import { CastleInfos } from '~/types/goat/Kingdom'
+import { RegularTasks } from '~/types/goat/RegularTasks'
+import { Club } from '~/types/goat/Club'
 
 declare enum Sex {
 	MALE= 2,
@@ -97,57 +99,6 @@ export interface Ranking {
 	heroKua: number
 	loveKua: number
 }
-interface ClubMember {
-	id: number
-	name: string
-	post: number
-	sex: Sex
-	job: string
-	shili: number
-	level: number
-	gx: number
-	allGx: number
-	chenghao: number
-	headType: number
-	headId: number
-	vipStatus: number
-	vip: number
-	jianshe: number
-	loginTime: number
-	inTime: { next: number, label: string }
-}
-export interface Club {
-	memberInfo: {
-		cid: number
-		allgx: number
-		leftgx: number
-		dcid: number
-		post: number
-		ltime: { next: number, label: string }
-	}
-	clubInfo: {
-		id: number
-		name: string
-		level: number
-		exp: number
-		fund: number
-		qq: number
-		laoma: string
-		outmsg: string
-		notice: string
-		members: ClubMember[]
-		isJoin: string
-		mzUID: number
-		icon: string
-		goldLimit: number
-		money: number
-		userShili: number
-		userLevel: number
-		password: number
-		clubLog: []
-		bossinfo: []
-	}
-}
 interface Task {
 	id: number
 	num: number
@@ -208,44 +159,102 @@ export interface Son {
 	available: boolean
 }
 
+interface SpecialOfferPack {
+	dc: number
+	items: Item[]
+	itemText: string
+	showHero: {id: number, type: number}
+}
+interface ShopPack {
+	alreadybuy: number //packs bought
+	biaohao: string //name
+	bid: number
+	diamond: number //gems
+	discout: number //shown % discount
+	id: number //pack id
+	items: Item[]
+	limit: number //max packs
+	name: string //name
+	need: number //price
+	tips: string //
+	type: number
+	vipexp: number //exp won
+}
+interface ShopPackTip {
+	description: string
+	item: Item
+	type: number
+}
+interface PurchaseReward {
+	info: {
+		_act_id: number
+		eTime: number //end time
+		id: number
+		pindex: number
+		showTime: number
+		sTime: number //start time
+		title: string //name
+		type: number
+		ycdc: number
+	}
+	msg: string
+	rwd: {id: number, items: Item[], need: number /*vipexp needed*/}
+}
+
 export type GameInfos = {
-	user: User
-	hero: { heroList: Hero[] }
-	item: { itemList: Item[] }
-	wife: { wifeList: Wife[] }
-	son: { sonList: Son[] }
-	czlbhuodong: unknown //packs
-	order: unknown
+	banish: { heroList: unknown }
+	chat: {  blacklist: unknown }
+	chenghao: {
+		chInfo: {setid: number, list: {checked: number, chid: number, endT: number, getT: number}[]}
+		wyrwd: {get: number}
+	}
+	chengjiu: { cjlist: {id: number, num: number, rwd: number}[] }
+	club: Club
+	CombinedSevContinuous: {
+		info: unknown
+		cfg: SpecialOfferPack[]
+	}
+	czhuodong: {
+		day: { cfg: PurchaseReward, cons: number, rwd: number }
+		leitian: { cfg: PurchaseReward, cons: number, rwd: number }
+		total: { cfg: PurchaseReward, cons: number, rwd: number }
+	}
+	czlbhuodong: {
+		list: ShopPack[] //recommended
+		listTwo: ShopPack[] //special
+		typeInfo: ShopPackTip[]
+		typeInfoTwo: ShopPackTip[]
+	}
+	dadian: { counter: {id: number, name: string, num: number}[] } //main quest status
+	daily: RegularTasks
+	derail: unknown
+	friends: unknown
 	fuli: unknown
 	hangUpSystem: { info: CastleInfos[] } //Kingdom
-	weeklyrank: unknown
-	yamen: TourneyInfos //Tourney
-	warHorse: unknown
-	jingYing: unknown
-	school: unknown
-	ranking: { mobai: Ranking }
-	huanggong: unknown
-	laofang: unknown
-	chenghao: unknown
-	xunfang: unknown
-	wordboss: unknown
-	club: Club
-	mail: unknown
-	daily: unknown
-	weekly: unknown
-	dadian: unknown
-	chengjiu: unknown
-	task: { tmain: Task }
 	hanlin: { info: Hanlin }
-	friends: unknown
+	hero: { heroList: Hero[] }
+	huanggong: { qingAn: {type: number} }
 	huodonglist: unknown
-	derail: unknown
-	chat: unknown
-	banish: unknown
-	sevenSign: unknown
-	czhuodong: unknown
-	xingqin: unknown
-	shop: unknown
+	item: { itemList: Item[] }
+	jingYing: unknown
+	laofang: unknown
 	loginMod: unknown
+	mail: unknown
+	order: unknown
+	ranking: { mobai: Ranking }
+	school: unknown
+	sevenSign: unknown
+	shop: unknown
+	son: { sonList: Son[] }
 	system: unknown
+	task: { tmain: Task }
+	user: User
+	warHorse: unknown
+	weekly: RegularTasks
+	weeklyrank: unknown
+	wife: { wifeList: Wife[] }
+	wordboss: unknown
+	xingqin: unknown
+	xunfang: unknown
+	yamen: TourneyInfos //Tourney
 }

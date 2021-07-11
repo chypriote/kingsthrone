@@ -23,8 +23,8 @@
     "slug": {
       "type": "uid",
       "targetField": "name",
-			"required": true,
-			"unique": true
+      "required": true,
+      "unique": true
     },
     "quality": {
       "type": "integer"

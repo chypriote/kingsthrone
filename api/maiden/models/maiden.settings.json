@@ -15,17 +15,15 @@
       "type": "integer",
       "unique": true
     },
-		"name": {
-			"type": "string",
-			"required": true,
-			"unique": true
-		},
-		"slug": {
-			"type": "uid",
-			"targetField": "name",
-			"required": true,
-			"unique": true
-		},
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name"
+    },
     "naughty": {
       "type": "integer"
     },
@@ -39,17 +37,27 @@
       "required": false,
       "pluginOptions": {}
     },
+    "naughty_picture": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
     "hero": {
       "via": "maiden",
       "model": "hero"
     },
-    "account_maidens": {
-      "collection": "account-maiden",
-      "via": "maiden"
-    },
     "skins": {
       "via": "maiden",
       "collection": "skin"
+    },
+    "account_maidens": {
+      "collection": "account-maiden",
+      "via": "maiden"
     }
   }
 }

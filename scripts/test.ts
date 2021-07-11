@@ -129,7 +129,7 @@ const getEggs = async (): Promise<void> => {
 	let i = 0
 	// eslint-disable-next-line no-constant-condition
 	while (true) {
-		console.log(55 * (i++))
+		console.log(38 * (i++))
 		await (goat.events()).castle.findEgg()
 		await (goat.events()).castle.claimEgg()
 	}

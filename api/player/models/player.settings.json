@@ -84,6 +84,9 @@
     "player_heroes": {
       "collection": "player-hero",
       "via": "player"
+    },
+    "merged": {
+      "type": "string"
     }
   }
 }

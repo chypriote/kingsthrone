@@ -39,8 +39,8 @@
       "type": "float"
     },
     "heroes": {
-      "collection": "hero",
       "via": "paragons",
+      "collection": "hero",
       "dominant": true
     },
     "hero_groups": {

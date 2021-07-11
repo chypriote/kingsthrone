@@ -20,6 +20,12 @@
       "required": true,
       "unique": true
     },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+			"required": true,
+			"unique": true
+    },
     "quality": {
       "type": "integer"
     },
@@ -48,8 +54,8 @@
       "pluginOptions": {}
     },
     "maiden": {
-      "model": "maiden",
-      "via": "hero"
+      "via": "hero",
+      "model": "maiden"
     },
     "player_heroes": {
       "collection": "player-hero",
@@ -81,10 +87,10 @@
         "inspiration"
       ]
     },
-		"skins": {
-			"via": "hero",
-			"collection": "skin"
-		},
+    "skins": {
+      "via": "hero",
+      "collection": "skin"
+    },
     "quality_skills": {
       "collection": "quality-skill"
     },

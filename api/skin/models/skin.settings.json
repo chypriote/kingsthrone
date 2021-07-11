@@ -37,16 +37,16 @@
       "pluginOptions": {}
     },
     "hero": {
-      "model": "hero",
-      "via": "skins"
+      "via": "skins",
+      "model": "hero"
     },
     "quality_skill": {
       "model": "quality-skill",
       "via": "skins"
     },
     "maiden": {
-      "model": "maiden",
-      "via": "skins"
+      "via": "skins",
+      "model": "maiden"
     }
   }
 }

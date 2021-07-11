@@ -23,6 +23,9 @@
       "collection": "paragon",
       "via": "hero_groups",
       "dominant": true
+    },
+    "order": {
+      "type": "integer"
     }
   }
 }

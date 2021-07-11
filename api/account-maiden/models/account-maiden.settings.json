@@ -21,8 +21,8 @@
       "type": "integer"
     },
     "maiden": {
-      "model": "maiden",
-      "via": "account_maidens"
+      "via": "account_maidens",
+      "model": "maiden"
     },
     "account": {
       "model": "account",

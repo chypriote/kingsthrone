@@ -68,12 +68,12 @@ const state: IState = {
 
 const boughtItems = [
 	{ id: 1, name: 'Adrenaline Boost', min: 49 },
-	{ id: 4, name: 'Endurance Boost I', min: 5 },
-	{ id: 5, name: 'Expertise Boost I', min: 10 },
-	{ id: 6, name: 'Adrenaline Boost I', min: 9 },
-	{ id: 7, name: 'Endurance Boost II', min: 9 },
-	{ id: 8, name: 'Expertise Boost II', min: 15 },
-	{ id: 9, name: 'Adrenaline Boost II', min: 14 },
+	// { id: 4, name: 'Endurance Boost I', min: 5 },
+	// { id: 5, name: 'Expertise Boost I', min: 10 },
+	// { id: 6, name: 'Adrenaline Boost I', min: 9 },
+	// { id: 7, name: 'Endurance Boost II', min: 9 },
+	// { id: 8, name: 'Expertise Boost II', min: 15 },
+	// { id: 9, name: 'Adrenaline Boost II', min: 14 },
 	//2, //+100 attack, 50gems
 	//3, //+150 attack, 100gems
 	//11, //+26 crit, 20gems Expertise Boost III

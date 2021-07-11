@@ -35,14 +35,12 @@ export const visitMaidens = async (count = 0): Promise<void> => {
 	state.availableVisits = available.num
 
 	if (!state.availableVisits && count) {
-		logger.log('No visits available, using draught')
 		await useDraught()
 	}
 
 	while (state.availableVisits && (!count || state.visits < count)) {
 		const wife = await goat.visitRandomMaiden()
 		const maiden = getMaiden(wife.id)
-		logger.log(`Visited wife ${maiden.name} (${wife.id})`)
 		maiden.visits++
 		state.visits++
 		state.availableVisits--
@@ -52,7 +50,6 @@ export const visitMaidens = async (count = 0): Promise<void> => {
 		}
 	}
 
-	// console.log(MAIDENS)
 	if (state.visits > 0)
 		logger.success(`Visited ${state.visits} maidens and used ${state.usedDraught} draughts (${state.availableDraught} left)`)
 

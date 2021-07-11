@@ -15,6 +15,7 @@ export const NPCS = [
 	{ nid: 101, name: 'Theodora', visits: 0 },
 	{ nid: 102, name: 'Yolanda', visits: 0 },
 	{ nid: 104, name: 'Marian', visits: 0 },
+	{ nid: 105, name: 'Margarate', visits: 0 },
 	{ nid: 106, name: 'Joanna', visits: 0 },
 	{ nid: 107, name: 'Isabella', visits: 0 },
 	{ nid: 108, name: 'Mavia', visits: 0 },
@@ -33,6 +34,8 @@ export const NPCS = [
 	{ nid: 124, name: 'Helen', visits: 0 },
 	{ nid: 133, name: 'Mulan', visits: 0 },
 	{ nid: 134, name: 'Ginchiyo', visits: 0 },
+	{ nid: 136, name: 'Elizabeth', visits: 0 },
+	{ nid: 138, name: 'Louise', visits: 0 },
 ]
 
 export type LuckStatus = {

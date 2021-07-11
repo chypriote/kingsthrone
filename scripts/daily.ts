@@ -184,8 +184,8 @@ const state: AccountState = {
 
 const dailyChores = async (account: string): Promise<void> => {
 	await goat.login(account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
-	// const info = await goat.getGameInfos()
-	// state.heroes = info.hero.heroList
+	const info = await goat.getGameInfos()
+	state.heroes = info.hero.heroList
 
 	try {
 		if (await getLoginRewards()) {

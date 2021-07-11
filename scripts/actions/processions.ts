@@ -43,7 +43,6 @@ const state = {
 }
 
 const useDraught = async (count = 1): Promise<void> => {
-	logger.log('using draught')
 	const draught = await goat.useGoodwillDraught(count)
 	state.availableDraught = draught.items.count
 	state.availableProcessions = draught.status.num
@@ -59,9 +58,9 @@ export const doProcessions = async (count = 0): Promise<void> => {
 		await useDraught()
 	}
 
-	while (state.availableProcessions && (!count || state.visits < count)) {
+	while (state.availableProcessions) {
 		const { result } = await goat.startProcession()
-		writeResult(result)
+		// writeResult(result)
 		const npc = getNpc(result.npcid)
 		npc.visits++
 		state.visits++

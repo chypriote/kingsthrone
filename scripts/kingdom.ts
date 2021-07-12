@@ -116,8 +116,7 @@ const state: IState = {
 	castles: [],
 }
 
-export const doKingdom = async (account: string): Promise<void> => {
-	await goat.login(account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
+export const doKingdom = async (): Promise<void> => {
 	try {
 		const game = await goat.getGameInfos()
 		state.sons = game.son.sonList.map((son: Son) => ({ ...son, available: true }))

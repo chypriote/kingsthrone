@@ -6,7 +6,7 @@ import { dailyChores } from './scripts/daily'
 import { doKingdom } from './scripts/kingdom'
 import { doTourney } from './scripts/tourney'
 import { doProcessions, visitMaidens } from './scripts/actions'
-import { goat, LOGIN_ACCOUNT_GAUTIER } from './scripts/services/requests'
+import { goat, LOGIN_ACCOUNT_GAUTIER, LOGIN_ACCOUNT_NAPOLEON } from './scripts/services/requests'
 
 yargs(hideBin(process.argv))
 	.option('account', {
@@ -16,17 +16,23 @@ yargs(hideBin(process.argv))
 		type: 'string',
 	})
 	.command('full', 'Runs daily chores, kingdom and tourney', () => {}, async (argv) => {
-		await dailyChores(argv.account)
-		await doKingdom(argv.account)
-		await doTourney(argv.account)
+		await goat.login(argv.account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
+
+		await dailyChores()
+		await doKingdom()
+		await doTourney()
 		process.exit()
 	})
 	.command('daily', 'Run daily chores', () => {}, async (argv) => {
-		await dailyChores(argv.account)
+		await goat.login(argv.account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
+
+		await dailyChores()
 		process.exit()
 	})
 	.command('kingdom', 'Explore the kingdom', () => {}, async (argv) => {
-		await doKingdom(argv.account)
+		await goat.login(argv.account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
+
+		await doKingdom()
 		process.exit()
 	})
 	.command('tourney', 'Do tourney', (yargs) => {
@@ -42,7 +48,9 @@ yargs(hideBin(process.argv))
 			default: null,
 		})
 	}, async (argv) => {
-		await doTourney(argv.account, argv.opponent, argv.hero)
+		await goat.login(argv.account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
+
+		await doTourney(argv.opponent, argv.hero)
 		process.exit()
 	})
 	.command('visit', 'Visit maidens', (yargs) => {
@@ -52,7 +60,8 @@ yargs(hideBin(process.argv))
 			type: 'number',
 		})
 	}, async (argv) => {
-		if (argv.account === 'gautier') { await goat.login(LOGIN_ACCOUNT_GAUTIER) }
+		await goat.login(argv.account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
+
 		await visitMaidens(argv.amount)
 		process.exit()
 	})
@@ -63,7 +72,8 @@ yargs(hideBin(process.argv))
 			type: 'number',
 		})
 	}, async (argv) => {
-		if (argv.account === 'gautier') { await goat.login(LOGIN_ACCOUNT_GAUTIER) }
+		await goat.login(argv.account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
+
 		await doProcessions(argv.amount)
 		process.exit()
 	})

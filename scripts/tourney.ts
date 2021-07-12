@@ -269,9 +269,7 @@ export const loadOpponent = async (fight: TourneyFight): Promise<void> => {
 	state.opponentRoster = await getRoster(uid)
 }
 
-export const doTourney = async (account: string, opponent: string|null = null, hid: number|null = null): Promise<void> => {
-	await goat.login(account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
-
+export const doTourney = async (opponent: string|null = null, hid: number|null = null): Promise<void> => {
 	const status = await prepareFight(opponent, hid ? hid : null)
 
 	heroes = await getHeroesList()

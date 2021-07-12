@@ -1,5 +1,5 @@
 import { format } from 'date-fns'
-import { goat, LOGIN_ACCOUNT_GAUTIER, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
+import { goat } from './services/requests'
 import { logger } from './services/logger'
 import {
 	attendFeasts, contributeAlliance, doExpedition, doKingdomExpeditions, doMerchant,
@@ -8,9 +8,7 @@ import {
 	raiseSons, refreshTraining, visitInLaws, visitMaidens, readAndDeleteMail
 } from './actions'
 
-export const dailyChores = async (account: string): Promise<void> => {
-	await goat.login(account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
-
+export const dailyChores = async (): Promise<void> => {
 	try {
 		if (await getLoginRewards()) {
 			await readAndDeleteMail()
@@ -20,8 +18,8 @@ export const dailyChores = async (account: string): Promise<void> => {
 			await doProcessions(30)
 			await visitMaidens(20)
 			await contributeAlliance()
-			await doMerchant(account === 'gautier' ? 100 : 40)
-			await doExpedition(account === 'gautier' ? 100 : 40)
+			await doMerchant(goat.gid === '699002934' ? 100 : 40)
+			await doExpedition(goat.gid === '699002934' ? 100 : 40)
 			await doKingdomExpeditions()
 			await visitInLaws()
 		}

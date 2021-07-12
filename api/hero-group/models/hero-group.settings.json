@@ -20,8 +20,8 @@
       "dominant": true
     },
     "paragons": {
-      "collection": "paragon",
       "via": "hero_groups",
+      "collection": "paragon",
       "dominant": true
     },
     "order": {

@@ -26,6 +26,9 @@
     "levels": {
       "type": "integer"
     },
+		"description": {
+			"type": "string"
+		},
     "military": {
       "type": "float"
     },

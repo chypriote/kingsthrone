@@ -5,17 +5,17 @@ import { CastleInfos, EventInfo } from '~/types/goat/Kingdom'
 import { goat,  LOGIN_ACCOUNT_GAUTIER, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
 import { logger } from './services/logger'
 
-const CASTLES_RSN = {
-	castle_1: '5yprprvaae',
-	castle_2: '7cydydogyv',
-	castle_3: '6swwpwkwpxb',
-	castle_4: '6wxlxlugsx',
-	castle_5: '1kbibwuiri',
-	castle_6: '8amxmxrkjm',
-	castle_7: '3heseskfwp',
-	castle_8: '9mninbtbci',
-	castle_9: '6xukulblpx',
-	castle_10: '4cfxfximbb',
+const CASTLES_RSN: {[k: number]: string} = {
+	1: '5yprprvaae',
+	2: '7cydydogyv',
+	3: '6swwpwkwpxb',
+	4: '6wxlxlugsx',
+	5: '1kbibwuiri',
+	6: '8amxmxrkjm',
+	7: '3heseskfwp',
+	8: '9mninbtbci',
+	9: '6xukulblpx',
+	10: '4cfxfximbb',
 }
 
 const requiredSons = (rarity: number) => {
@@ -84,7 +84,7 @@ const handleQuest = async (quest: EventInfo, castle: number): Promise<number> =>
 
 export const handleCastle = async (castle: CastleInfos): Promise<void> => {
 	logger.warn(`Handling castle ${castle.id}`)
-	await goat.getCastleRewards(castle.id)
+	await goat.getCastleRewards(castle.id, CASTLES_RSN[castle.id])
 
 	let status = 0
 	const quests = castle.task.event
@@ -139,6 +139,3 @@ export const doKingdom = async (account: string): Promise<void> => {
 	}
 	logger.debug(format(new Date(), 'HH:mm'))
 }
-
-
-doKingdom(process.argv[2]).then(() => {process.exit()})

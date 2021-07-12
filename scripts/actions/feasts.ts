@@ -6,7 +6,7 @@ import { FeastShop, Seat } from '~/types/goat/Feasts'
 const BOUGHT_ITEMS = [
 	{ name: 'Manuscript Page', id: 111 },
 	// { name: 'Gold Dowry', id: 102 },
-	{ name: 'Inspiration Tome IV', id: 44 },
+	// { name: 'Inspiration Tome IV', id: 44 },
 	{ name: 'Fortune Tome IV', id: 24 },
 	{ name: 'Military Tome IV', id: 14 },
 	// { name: 'Provisions Tome IV', id: 34 },

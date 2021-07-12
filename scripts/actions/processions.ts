@@ -73,5 +73,5 @@ export const doProcessions = async (count = 0): Promise<void> => {
 
 	// console.log(NPCS)
 	if (state.visits > 0)
-		logger.success(`Visited ${state.visits} npcs and used ${state.usedDraught} draughts (${state.availableDraught} left)`)
+		logger.success(`Visited ${state.visits} npcs ${ state.usedDraught > 0 ? `and used ${state.usedDraught} draughts (${state.availableDraught} left)` : ''}`)
 }

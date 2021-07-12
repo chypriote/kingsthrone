@@ -1,6 +1,6 @@
 import { find } from 'lodash'
-import { MAIDENS } from '../../types/goat/Maidens'
-import { goat, LOGIN_ACCOUNT_GAUTIER } from '../services/requests'
+import { MAIDENS } from '~/types/goat/Maidens'
+import { goat } from '../services/requests'
 import { logger } from '../services/logger'
 
 function getMaiden(id: number): {mid:number, name: string, visits: number} {
@@ -22,7 +22,6 @@ const state = {
 }
 
 const useDraught = async (count= 1): Promise<void> => {
-	logger.log('using draught')
 	const draught = await goat.useStaminaDraught(count)
 	state.availableDraught = draught.items.count
 	state.availableVisits = draught.status.num
@@ -30,7 +29,6 @@ const useDraught = async (count= 1): Promise<void> => {
 }
 
 export const visitMaidens = async (count = 0): Promise<void> => {
-	// await goat.login(LOGIN_ACCOUNT_GAUTIER)
 	const available = await goat.getAvailableVisits()
 	state.availableVisits = available.num
 
@@ -51,6 +49,5 @@ export const visitMaidens = async (count = 0): Promise<void> => {
 	}
 
 	if (state.visits > 0)
-		logger.success(`Visited ${state.visits} maidens and used ${state.usedDraught} draughts (${state.availableDraught} left)`)
-
+		logger.success(`Visited ${state.visits} maidens ${ state.usedDraught > 0 ? `and used ${state.usedDraught} draughts (${state.availableDraught} left)` : ''}`)
 }

@@ -19,13 +19,15 @@ import { PunishmentResult } from '~/types/goat/PunishmentResult'
 import { GoodwillResult, LuckStatus, ProcessionResult, ProcessionsStatus } from '~/types/goat/Processions'
 import { StaminaResult, VisitsStatus } from '~/types/goat/Maidens'
 import { FeastDetails, FeastInfo, FeastShop, FeastStatus, OngoingFeast } from '~/types/goat/Feasts'
-import { DECREE_TYPE } from '~/types/goat/Generic'
 import { ExpeditionInfo, KingdomExpInfo, MerchantInfos } from '~/types/goat/Expeditions'
 import { CastleInfos } from '~/types/goat/Kingdom'
 import { XSOngoingFight, XSTourneyReward } from '~/types/goat/XSTourney'
 import { DMOngoingFight, DMRanking, DMTourneyReward } from '~/types/goat/DMTourney'
 import { TreasureHunt } from '~/types/goat/events/TreasureHunt'
 import { Picnic } from '~/types/goat/events/Picnic'
+import { DECREE_TYPE } from '~/scripts/actions/misc'
+import { CouncilStatus } from '~/types/goat/CouncilStatus'
+import { FIGHT_STATUS } from '../actions/worldboss'
 
 const VERSION = 'V1.3.558'
 const COOKIE = 'lyjxncc=c3ac4e77dff349b66c7aeed276e3eb6c'
@@ -41,19 +43,6 @@ export const LOGIN_ACCOUNT_NAPOLEON = { 'rsn':'2axwqwhxyx','login':{ 'loginAccou
 	'openkey':'b4d47e9c7beaf15e97f899c8cd4f2bbc4f31c3bc' } } }
 export const LOGIN_ACCOUNT_701 = { 'rsn':'2maymbhnxnb','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'82557521-a0b4-3441-a774-840066252311','parm3':'ONEPLUS A5000','openid':'565939577188654916','openkey':'deb43d3a1b48b2f80d01ae6829834e9a309019f8' } } }
 export const LOGIN_ACCOUNT_RAYMUNDUS = { 'rsn':'7xcxcypvslg','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'2630f405-13ed-3867-90e5-325059450d8e','parm3':'ONEPLUS A5000','openid':'573218842929144928','openkey':'78c249945d8d450de2111c2eebaa653b697f40c1' } } }
-
-export const CASTLES_RSN = {
-	castle_1: '5yprprvaae',
-	castle_2: '7cydydogyv',
-	castle_3: '6swwpwkwpxb',
-	castle_4: '6wxlxlugsx',
-	castle_5: '1kbibwuiri',
-	castle_6: '8amxmxrkjm',
-	castle_7: '3heseskfwp',
-	castle_8: '9mninbtbci',
-	castle_9: '6xukulblpx',
-	castle_10: '4cfxfximbb',
-}
 
 const OLD_HOST = 'zsjefunbm.zwformat.com'
 const NEW_HOST = 'ksrus.gtbackoverseas.com'
@@ -197,10 +186,10 @@ export class GoatRequest {
 	async getChapterRwdList(): Promise<void> {
 		return  await this.sendRequest({ 'user':{ 'getChapterRwdList':[] },'rsn':'9zriizmmnmt' })
 	}
-	async getCastleRewards(id: number): Promise<CastleInfos|false> {
+	async getCastleRewards(id: number, rsn: string): Promise<CastleInfos|false> {
 		try {
 			// @ts-ignore
-			const reward = await this.sendRequest({ 'rsn': CASTLES_RSN[`castle_${id}`],'hangUpSystem':{ 'getRewards':{ 'type':'all','id':id } } })
+			const reward = await this.sendRequest({ 'rsn': rsn,'hangUpSystem':{ 'getRewards':{ 'type':'all','id':id } } })
 			console.log('Claimed maiden rewards')
 			return reward.u.hangUpSystem.info[0]
 		} catch (e) {
@@ -555,19 +544,41 @@ export class GoatRequest {
 
 		return data.a.laofang
 	}
+	async getSonsStatus(): Promise<any> {
+		const data = await this.sendRequest({ 'xingqin':{ 'xingqinsuc':[] },'rsn':'4fcgmahfhxf' })
+
+		return data.a.xingqin
+	}
 	async raiseAllSons(): Promise<boolean> {
 		try {
 			await this.sendRequest({ 'rsn':'3hfkkwrshp','son':{ 'allplay':[] } })
-		} catch (e) {
-			return false
-		}
+		} catch (e) {return false}
 		return true
 	}
-	async getAllLevies(): Promise<void> {
-		await this.sendRequest({ 'user':{ 'jingYingAll':[] },'rsn':'1tabbiiurr' })
+	async nameSon(id: number): Promise<void> {
+		const randName = await this.sendRequest({ 'rsn':'7coycpvlov','guide':{ 'sonRandName':{ 'id':id } } })
+		const name = randName.a.system.randname.name
+		await this.sendRequest({ 'rsn':'6wuxwkywkb','son':{ 'sonname':{ 'name': name,'id':id } } })
+		logger.warn(`Named son ${id} ${name}`)
 	}
-	async getAllDecreesResources(type: DECREE_TYPE): Promise<void> {
-		await this.sendRequest({ 'user':{ 'yjZhengWu':{ 'act': type } },'rsn':'1tabbiitbi' })
+	async useEnergyDraught(son: number, num: number): Promise<void> {
+		await this.sendRequest({ 'rsn':'3hkehwrepf','son':{ 'OneTapFood':{ 'sid':son,'num':num } } })
+	}
+	async evaluateSon(son: number): Promise<void> {
+		await this.sendRequest({ 'rsn':'7yclgxsgvlp','son':{ 'keju':{ 'id':son } } })
+		logger.warn(`Evaluated son ${son}`)
+	}
+	async getAllLevies(): Promise<boolean> {
+		try {
+			await this.sendRequest({ 'user':{ 'jingYingAll':[] },'rsn':'1tabbiiurr' })
+		} catch (e) {return false}
+		return true
+	}
+	async getAllDecreesResources(type: DECREE_TYPE): Promise<boolean> {
+		try {
+			await this.sendRequest({ 'user':{ 'yjZhengWu':{ 'act': type } },'rsn':'1tabbiitbi' })
+		} catch (e) {return false}
+		return true
 	}
 	async claimLoginReward(): Promise<void> {
 		await this.sendRequest({ 'fuli':{ 'qiandao':[] },'rsn':'6wguukkgpk' })
@@ -726,31 +737,32 @@ export class GoatRequest {
 		return false
 	}
 
-	async attackMinion(id: number): Promise<boolean> {
+	async attackMinion(id: number): Promise<FIGHT_STATUS> {
 		try {
 			await this.sendRequest({ 'wordboss':{ 'hitmenggu':{ id } },'rsn':'4fxvghbbxf' })
 		} catch (e) {
 			const msg = e.toString()
-			if (msg === 'Error: The battle has ended') { return false }
-			if (msg === 'Error: The hero is resting') { return true }
+			if (msg === 'Error: The battle has ended') { return FIGHT_STATUS.BATTLE_ENDED }
+			if (msg === 'Error: The hero is resting') { return FIGHT_STATUS.HERO_RESTING }
 			console.log(e)
 		}
-		return true
+		return FIGHT_STATUS.ONGOING
 	}
-	async attackBoss(id: number): Promise<boolean> {
+	async attackBoss(id: number): Promise<FIGHT_STATUS> {
 		try {
 			await this.sendRequest({ 'wordboss':{ 'hitgeerdan':{ id } },'rsn':'8mxiaxameo' })
 		} catch (e) {
 			const msg = e.toString()
-			if (msg === 'Error: The battle has ended') { return false }
-			if (msg === 'Error: The hero is resting') { return true }
+			if (msg === 'Error: The battle has ended') { return FIGHT_STATUS.BATTLE_ENDED }
+			if (msg === 'Error: The hero is resting') { return FIGHT_STATUS.HERO_RESTING }
 			console.log(e)
 		}
-		return true
+		return FIGHT_STATUS.ONGOING
 	}
 
-	async visitCouncil(): Promise<void> {
-		await this.sendRequest({ 'rsn':'4fcgffigihv','hanlin':{ 'comein':{ 'fuid': this.gid } } })
+	async visitCouncil(): Promise<CouncilStatus> {
+		const data = await this.sendRequest({ 'rsn':'4fcgffigihv','hanlin':{ 'comein':{ 'fuid': this.gid } } })
+		return data.a.hanlin
 	}
 	async hostCouncil(num = 3): Promise<void> {
 		await this.sendRequest({ 'rsn':'3eseehnzfw','hanlin':{ 'opendesk':{ num,'isPush':1 } } })

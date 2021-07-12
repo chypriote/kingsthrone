@@ -269,10 +269,10 @@ export const loadOpponent = async (fight: TourneyFight): Promise<void> => {
 	state.opponentRoster = await getRoster(uid)
 }
 
-export const doTourney = async (account: string, opponent: string|null = null, hid: string|null = null): Promise<void> => {
+export const doTourney = async (account: string, opponent: string|null = null, hid: number|null = null): Promise<void> => {
 	await goat.login(account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
 
-	const status = await prepareFight(opponent, hid ? parseInt(hid) : null)
+	const status = await prepareFight(opponent, hid ? hid : null)
 
 	heroes = await getHeroesList()
 	const hero = find(heroes, h => h.hid == status.fight.hid)
@@ -284,5 +284,3 @@ export const doTourney = async (account: string, opponent: string|null = null, h
 	await doFight(status)
 	logger.debug(format(new Date(), 'HH:mm'))
 }
-
-doTourney(process.argv[2], process.argv[3], process.argv[4]).then(() => {process.exit()})

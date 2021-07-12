@@ -22,6 +22,7 @@
     "update": "ts-node scripts/update.ts",
     "missing": "ts-node scripts/missing.ts",
     "test": "ts-node scripts/test.ts",
+    "runs": "ts-node bin.ts",
     "prepare": "husky install"
   },
   "lint-staged": {
@@ -45,13 +46,15 @@
     "strapi-plugin-users-permissions": "^3.6",
     "strapi-provider-upload-cloudinary": "https://github.com/chypriote/strapi-provider-upload-cloudinary.git",
     "strapi-utils": "^3.6",
-    "typescript": "^4.3"
+    "typescript": "^4.3",
+    "yargs": "^17.0"
   },
   "devDependencies": {
     "@types/axios": "^0.14",
     "@types/lodash": "^4.14",
     "@types/node": "^16.3",
     "@types/pg": "^8.6",
+    "@types/yargs": "^17.0",
     "@typescript-eslint/eslint-plugin": "^4.28",
     "@typescript-eslint/parser": "^4.28",
     "eslint": "^7.30",

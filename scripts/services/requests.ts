@@ -714,6 +714,10 @@ export class GoatRequest {
 
 		return data.a.kingdomExpedition.info
 	}
+	async claimKingdomExpReward(id: number): Promise<void> {
+		await this.sendRequest({ 'huodong':{ 'hd1268getPhaRwd':{ 'id':id } },'rsn':'2myqhwbnlxx' })
+		logger.log(`Claimed reward for Kingdom Expedition ${id}`)
+	}
 
 	//Daily rewards
 	async claimDailyPoints(): Promise<void> {

@@ -1,5 +1,5 @@
 import { find } from 'lodash'
-import { MAIDENS } from '~/types/goat/Maidens'
+import { MAIDENS } from '../../types/goat/Maidens'
 import { goat } from '../services/requests'
 import { logger } from '../services/logger'
 

@@ -8,8 +8,19 @@ const getNextLevel= (current: number): number => {
 	return nb === '6' ? current + 99995 : current + 1
 }
 
+const getRewards = async (current: number, rewards: { id:number, status: number }[]): Promise<void> => {
+	const max = Math.round(current / 100000) - 1
+	let i = (rewards[rewards.length - 1]).id
+
+	for (i; i <= max; i++) {
+		await goat.claimKingdomExpReward(i)
+	}
+}
+
 export const doKingdomExpeditions = async (): Promise<void> => {
 	const status = await goat.getKingdomExpStatus()
+	await getRewards(status.maxLevel, status.chapterPhasesRwd)
+
 	let next = getNextLevel(status.maxLevel)
 	let available = status.playNum
 

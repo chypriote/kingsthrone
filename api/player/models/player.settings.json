@@ -18,6 +18,9 @@
     "server": {
       "type": "integer"
     },
+		"mserver": {
+			"type": "integer"
+		},
     "name": {
       "type": "string",
       "required": true
@@ -84,9 +87,6 @@
     "player_heroes": {
       "collection": "player-hero",
       "via": "player"
-    },
-    "merged": {
-      "type": "string"
     }
   }
 }

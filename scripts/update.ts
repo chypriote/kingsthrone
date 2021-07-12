@@ -5,7 +5,6 @@ import { updateAlliances } from './alliances'
 
 const updateAll = async (): Promise<void> => {
 	await goat.login()
-
 	await updateAlliances()
 	await updateProfiles()
 }

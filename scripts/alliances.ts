@@ -37,5 +37,3 @@ export const updateAlliances = async(): Promise<void> => {
 
 	logger.success('Finished')
 }
-
-updateAlliances().then(() => process.exit())

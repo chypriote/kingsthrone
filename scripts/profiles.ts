@@ -3,7 +3,7 @@ config()
 import { chunk } from 'lodash'
 import { Profile } from '~/types/goatGeneric'
 import { logger } from './services/logger'
-import { goat, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
+import { goat } from './services/requests'
 import { getPlayers, updatePlayerDetails } from './repository/player'
 import { getPlayerAlliance, leaveAlliance, setPlayerAlliance } from './repository/alliance'
 import { Player } from '~/types/Player'
@@ -51,8 +51,7 @@ const updateProfile = async (profile: Player): Promise<void> => {
 }
 
 export const updateProfiles = async (): Promise<void> => {
-	await goat.login(LOGIN_ACCOUNT_NAPOLEON)
-	const players: Player[] = await getPlayers({ server: 699 })
+	const players: Player[] = await getPlayers({ mserver: 228 })
 	const chunks = chunk(players, 9)
 
 	for (const chunk of chunks) {
@@ -64,5 +63,3 @@ export const updateProfiles = async (): Promise<void> => {
 
 	logger.success('Finished')
 }
-
-//updateProfiles().then(() => process.exit())

@@ -2,7 +2,7 @@ import chalk from 'chalk'
 import { format, fromUnixTime } from 'date-fns'
 import { clone, find, orderBy, sample } from 'lodash'
 import { User } from '~/types/goatGeneric'
-import { FHero, FHeroStats, FShop, OngoingFight, TourneyFight, TourneyRewardItem } from '~/types/tourney'
+import { FHero, FHeroStats, FShop, OngoingFight, TourneyFight, TourneyReward, TourneyRewardItem } from '~/types/tourney'
 import { Hero } from '~/types/Hero'
 import { PlayerHero } from '~/types/PlayerHero'
 import { Hero as GHero } from '~/scripts/repository/roster'
@@ -12,8 +12,19 @@ import { logger } from './services/logger'
 import { getHeroesList } from './repository/hero'
 import { getRoster, updatePlayerHero } from './repository/player-heroes'
 import { getOrCreatePlayerFromGoat } from './repository/player'
+import { Item } from '~/types/game'
 
 let heroes: Hero[]
+
+export interface TourneyEndpoint {
+	buyTourneyBoost(item: Item): Promise<OngoingFight>
+	fightHero(hero: FHero): Promise<OngoingFight>
+	getReward(): Promise<TourneyReward>
+	getTourneyInfos(): Promise<OngoingFight>
+	challengeOpponent(opponent: string, hero: number): Promise<OngoingFight>
+	startTokenTourneyFight(): Promise<OngoingFight>
+	startTourneyFight(): Promise<OngoingFight>
+}
 
 class HerosStatus {
 	hp: number

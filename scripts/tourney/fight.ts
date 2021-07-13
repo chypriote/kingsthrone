@@ -8,8 +8,8 @@ import {
 	ITourneyStatus,
 	OpponentHero,
 	OpponentHeroStats,
-	ShopItem,
-	RewardItem
+	RewardItem,
+	ShopItem
 } from '../../types/goat/Tourney'
 import { PlayerHero } from '../../types/strapi/PlayerHero'
 import { Hero } from '../../types/strapi/Hero'
@@ -18,7 +18,13 @@ import { logger } from '../services/logger'
 import { getExistingHeroesList } from '../repository/hero'
 import { getRoster, updatePlayerHero } from '../repository/player-heroes'
 import { getOrCreatePlayerFromGoat } from '../repository/player'
-import { deathmatchEndpoint, LocalTourneyEndpoint, TOURNEY_TYPE, TourneyEndpoint, xsTourneyEndpoint } from './index'
+import { deathmatchEndpoint, LocalTourneyEndpoint, TourneyEndpoint, xsTourneyEndpoint } from './index'
+
+export enum TOURNEY_TYPE {
+	LOCAL= 'local',
+	XSERVER= 'xserver',
+	DEATHMATCH= 'deathmatch',
+}
 
 class HeroStatus {
 	hero: Hero|null = null

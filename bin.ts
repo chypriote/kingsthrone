@@ -4,10 +4,11 @@ import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 import { dailyChores } from './scripts/daily'
 import { doKingdom } from './scripts/actions/kingdom'
-import { doTourney, TOURNEY_TYPE } from './scripts/tourney'
+import { doTourney } from './scripts/tourney'
 import { doProcessions, visitMaidens } from './scripts/actions'
 import { goat, LOGIN_ACCOUNT_GAUTIER, LOGIN_ACCOUNT_NAPOLEON } from './scripts/services/requests'
 import { getGems } from './scripts/actions/gems'
+import { TOURNEY_TYPE } from './scripts/tourney/fight'
 
 yargs(hideBin(process.argv))
 	.option('account', {

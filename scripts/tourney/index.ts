@@ -16,9 +16,3 @@ export interface TourneyEndpoint {
 	startTourneyFight(): Promise<ITourneyStatus>
 	findAvailableHero(): Promise<Hero|null>
 }
-
-export enum TOURNEY_TYPE {
-	LOCAL= 'local',
-	XSERVER= 'xserver',
-	DEATHMATCH= 'deathmatch',
-}

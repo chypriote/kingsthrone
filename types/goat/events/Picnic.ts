@@ -1,4 +1,4 @@
-import { Item } from '~/types/goatGeneric'
+import { Item } from '../../goatGeneric'
 
 type PicnicShopItem = {
 	dc: number

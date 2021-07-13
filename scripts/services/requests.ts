@@ -14,21 +14,22 @@ import {
 } from '~/types/goatGeneric'
 import { logger } from '../services/logger'
 import { GameInfos, Wife } from '~/types/game'
-import { FHero, FShop, OngoingFight, TourneyReward } from '~/types/tourney'
+import { FHero, OngoingFight, TourneyReward } from '~/types/tourney'
 import { PunishmentResult } from '~/types/goat/PunishmentResult'
 import { GoodwillResult, LuckStatus, ProcessionResult, ProcessionsStatus } from '~/types/goat/Processions'
 import { StaminaResult, VisitsStatus } from '~/types/goat/Maidens'
 import { FeastDetails, FeastInfo, FeastShop, FeastStatus, OngoingFeast } from '~/types/goat/Feasts'
 import { ExpeditionInfo, KingdomExpInfo, MerchantInfos } from '~/types/goat/Expeditions'
 import { CastleInfos } from '~/types/goat/Kingdom'
-import { XSOngoingFight, XSTourneyReward } from '~/types/goat/XSTourney'
-import { DMOngoingFight, DMRanking, DMTourneyReward } from '~/types/goat/DMTourney'
+import { XSOngoingFight } from '~/types/goat/TourneyXS'
+import { DMOngoingFight, DMRanking } from '~/types/goat/TourneyDM'
 import { TreasureHunt } from '~/types/goat/events/TreasureHunt'
 import { Picnic } from '~/types/goat/events/Picnic'
 import { DECREE_TYPE } from '~/scripts/actions/misc'
 import { CouncilStatus } from '~/types/goat/CouncilStatus'
 import { FIGHT_STATUS } from '../actions/worldboss'
 import { find } from 'lodash'
+import { ShopItem } from '~/types/goat/Tourney'
 
 const VERSION = 'V1.3.558'
 const COOKIE = 'lyjxncc=c3ac4e77dff349b66c7aeed276e3eb6c'
@@ -189,7 +190,6 @@ export class GoatRequest {
 	}
 	async getCastleRewards(id: number, rsn: string): Promise<CastleInfos|false> {
 		try {
-			// @ts-ignore
 			const reward = await this.sendRequest({ 'rsn': rsn,'hangUpSystem':{ 'getRewards':{ 'type':'all','id':id } } })
 			console.log('Claimed maiden rewards')
 			return reward.u.hangUpSystem.info[0]
@@ -423,7 +423,7 @@ export class GoatRequest {
 
 		return data.a.yamen
 	}
-	async buyTourneyBoost(item: FShop): Promise<OngoingFight> {
+	async buyTourneyBoost(item: ShopItem): Promise<OngoingFight> {
 		const data = await this.sendRequest({ 'yamen':{ 'seladd':{ id: item.id } },'rsn':'2ylqabmbqq' }, true)
 
 		return data.a.yamen
@@ -467,7 +467,7 @@ export class GoatRequest {
 
 		return data.a.kuayamen
 	}
-	async xsBuyTourneyBoost(item: FShop): Promise<XSOngoingFight> {
+	async xsBuyTourneyBoost(item: ShopItem): Promise<XSOngoingFight> {
 		const data = await this.sendRequest({ 'kuayamen':{ 'seladd':{ 'id':item.id } },'rsn':'5wfrarhwer' }, true)
 
 		return data.a.kuayamen
@@ -477,7 +477,7 @@ export class GoatRequest {
 
 		return data.a.kuayamen
 	}
-	async xsGetReward(): Promise<XSTourneyReward> {
+	async xsGetReward(): Promise<TourneyReward> {
 		const data = await this.sendRequest({ 'kuayamen':{ 'getrwd':[] },'rsn':'2axhlhqxbh' })
 
 		return data.a.kuayamen.win.rwd
@@ -512,7 +512,7 @@ export class GoatRequest {
 
 		return data.a.jdyamen
 	}
-	async dmBuyTourneyBoost(item: FShop): Promise<DMOngoingFight> {
+	async dmBuyTourneyBoost(item: ShopItem): Promise<DMOngoingFight> {
 		const data = await this.sendRequest({ 'kuayamen':{ 'jdSeladd':{ 'id':item.id } },'rsn':'7yddpollxv' }, true)
 
 		return data.a.jdyamen
@@ -522,7 +522,7 @@ export class GoatRequest {
 
 		return data.a.jdyamen
 	}
-	async dmGetReward(): Promise<DMTourneyReward> {
+	async dmGetReward(): Promise<TourneyReward> {
 		const data = await this.sendRequest({ 'kuayamen':{ 'jdGetrwd':[] },'rsn':'5wfaaypfer' })
 
 		return data.a.jdyamen.win.rwd

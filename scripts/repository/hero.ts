@@ -1,7 +1,7 @@
 import { client } from '../services/database'
-import { Hero } from '~/types/Hero'
-import { Player } from '~/types/Player'
-import { PlayerHero } from '~/types/PlayerHero'
+import { Hero } from '~/types/strapi/Hero'
+import { Player } from '~/types/strapi/Player'
+import { PlayerHero } from '~/types/strapi/PlayerHero'
 
 export const createOrUpdateHero = async (hero: Hero, player: Player): Promise<PlayerHero[]> => {
 	return client('player_heroes as ph')
@@ -17,6 +17,6 @@ export const getHeroByHID = async (hid: number): Promise<Hero|null> => {
 	return heroes.length ? heroes[0] : null
 }
 
-export const getHeroesList = async (): Promise<Hero[]> => {
+export const getExistingHeroesList = async (): Promise<Hero[]> => {
 	return client.select().table('heroes')
 }

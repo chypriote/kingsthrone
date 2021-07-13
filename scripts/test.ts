@@ -1,4 +1,4 @@
-import { goat, LOGIN_ACCOUNT_GAUTIER, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
+import { goat, LOGIN_ACCOUNT_NAPOLEON } from './services/requests'
 import { client } from './services/database'
 import { logger } from './services/logger'
 import { createPlayer, getAllGID, getPlayerByGID } from './repository/player'

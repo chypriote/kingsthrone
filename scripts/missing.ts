@@ -3,7 +3,7 @@ import { goat } from './services/requests'
 import { logger } from './services/logger'
 import { createPlayer, getAllGID, getPlayerByGID, updatePlayerDetails } from './repository/player'
 import { updatePlayerAlliance } from './profiles'
-import { Player } from '../types/Player'
+import { Player } from '../types/strapi/Player'
 import { Profile } from '../types/goatGeneric'
 
 const SERVERS = ['691', '741', '760', '809']

@@ -1,7 +1,7 @@
 import { client } from '../services/database'
-import { Hero } from '~/types/Hero'
-import { Player } from '~/types/Player'
-import { PlayerHero } from '~/types/PlayerHero'
+import { Hero } from '~/types/strapi/Hero'
+import { Player } from '~/types/strapi/Player'
+import { PlayerHero } from '~/types/strapi/PlayerHero'
 
 export const updatePlayerHero = async (hid: number, gid: string, quality: number): Promise<void> => {
 	const hero: Hero = (await client('heroes').where({ hid }).limit(1))[0]
@@ -19,7 +19,7 @@ export const updatePlayerHero = async (hid: number, gid: string, quality: number
 	}
 }
 
-export const getRoster = async (gid: string): Promise<(PlayerHero & {hid: number})[]> => {
+export const getRoster = async (gid: string): Promise<PlayerHero[]> => {
 	return client('player_heroes as ph')
 		.select('ph.*', 'heroes.hid')
 		.join('players', 'players.id', 'ph.player')

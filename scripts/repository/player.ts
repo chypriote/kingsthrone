@@ -2,7 +2,7 @@ import { formatISO } from 'date-fns'
 import { Profile } from '~/types/goatGeneric'
 import { client } from '../services/database'
 import { logger } from '../services/logger'
-import { Player } from '~/types/Player'
+import { Player } from '~/types/strapi/Player'
 import { goat } from '../services/requests'
 
 export const createPlayer = async (

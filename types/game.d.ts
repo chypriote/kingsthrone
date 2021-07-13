@@ -1,8 +1,9 @@
-import { Hero } from '../repository/roster'
 import { TourneyInfos } from '~/types/tourney'
 import { CastleInfos } from '~/types/goat/Kingdom'
 import { RegularTasks } from '~/types/goat/RegularTasks'
 import { Club } from '~/types/goat/Club'
+import { Hero } from '~/types/goat/Hero'
+import { Item } from '~/types/goatGeneric'
 
 declare enum Sex {
 	MALE= 2,
@@ -86,10 +87,6 @@ export interface User {
 	banben: { vipver: number }
 }
 
-export interface Item {
-	id: number
-	count: number
-}
 export interface Ranking {
 	shili: number
 	guanka: number

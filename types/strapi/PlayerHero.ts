@@ -6,4 +6,5 @@ export type PlayerHero = {
 	quality: number
 	player: Player|number
 	hero: Hero|number
+	hid: number
 }

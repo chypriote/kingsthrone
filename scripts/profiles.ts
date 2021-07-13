@@ -6,7 +6,7 @@ import { logger } from './services/logger'
 import { goat } from './services/requests'
 import { getPlayers, updatePlayerDetails } from './repository/player'
 import { getPlayerAlliance, leaveAlliance, setPlayerAlliance } from './repository/alliance'
-import { Player } from '~/types/Player'
+import { Player } from '~/types/strapi/Player'
 
 export const updatePlayerAlliance = async (player: Player, ally: Profile): Promise<void> => {
 	//Check if player currently has alliance

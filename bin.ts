@@ -3,8 +3,8 @@
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 import { dailyChores } from './scripts/daily'
-import { doKingdom } from './scripts/kingdom'
-import { doTourney } from './scripts/tourney'
+import { doKingdom } from './scripts/actions/kingdom'
+import { doTourney, TOURNEY_TYPE } from './scripts/tourney'
 import { doProcessions, visitMaidens } from './scripts/actions'
 import { goat, LOGIN_ACCOUNT_GAUTIER, LOGIN_ACCOUNT_NAPOLEON } from './scripts/services/requests'
 import { getGems } from './scripts/actions/gems'
@@ -21,7 +21,7 @@ yargs(hideBin(process.argv))
 
 		await dailyChores()
 		await doKingdom()
-		await doTourney()
+		await doTourney(TOURNEY_TYPE.LOCAL)
 		process.exit()
 	})
 	//Daily
@@ -38,6 +38,7 @@ yargs(hideBin(process.argv))
 		await doKingdom()
 		process.exit()
 	})
+
 	//Tourney
 	.command('tourney', 'Do tourney', (yargs) => {
 		return yargs.option('opponent', {
@@ -54,9 +55,48 @@ yargs(hideBin(process.argv))
 	}, async (argv) => {
 		await goat.login(argv.account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
 
-		await doTourney(argv.opponent, argv.hero)
+		await doTourney(TOURNEY_TYPE.LOCAL, argv.opponent, argv.hero)
 		process.exit()
 	})
+	//Deathmatch
+	.command('deathmatch', 'Fight in DeathMatch', (yargs) => {
+		return yargs.option('opponent', {
+			description: 'ID of the opponent to challenge',
+			alias: 'o',
+			type: 'string',
+			default: null,
+		}).option('hero', {
+			description: 'ID of the hero that will challenge',
+			alias: 'h',
+			type: 'number',
+			default: null,
+		})
+	}, async (argv) => {
+		await goat.login(argv.account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
+
+		await doTourney(TOURNEY_TYPE.DEATHMATCH, argv.opponent, argv.hero)
+		process.exit()
+	})
+	//Deathmatch
+	.command('cross', 'Fight in XServer tourney', (yargs) => {
+		return yargs.option('opponent', {
+			description: 'ID of the opponent to challenge',
+			alias: 'o',
+			type: 'string',
+			default: null,
+		}).option('hero', {
+			description: 'ID of the hero that will challenge',
+			alias: 'h',
+			type: 'number',
+			default: null,
+		})
+	}, async (argv) => {
+		await goat.login(argv.account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
+
+		await doTourney(TOURNEY_TYPE.XSERVER, argv.opponent, argv.hero)
+		process.exit()
+	})
+
 	//Visit maidens
 	.command('visits', 'Visit maidens', (yargs) => {
 		return yargs.option('amount', {
@@ -74,6 +114,7 @@ yargs(hideBin(process.argv))
 		await visitMaidens(argv.amount, argv.draughts)
 		process.exit()
 	})
+
 	//Processions
 	.command('processions', 'Do processions', (yargs) => {
 		return yargs.option('amount', {
@@ -87,6 +128,7 @@ yargs(hideBin(process.argv))
 		await doProcessions(argv.amount)
 		process.exit()
 	})
+
 	//Gems
 	.command('gems', 'Explore the kingdom', (yargs) => {
 		return yargs.option('amount', {

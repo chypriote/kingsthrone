@@ -3,8 +3,8 @@ const logger = require('../../logger/services/logger')
 
 const VERSION = 'V1.3.558'
 const COOKIE = 'lyjxncc=c3ac4e77dff349b66c7aeed276e3eb6c'
-const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'4cfhvxxiim','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'fe3da078-88a4-3ccf-9249-5acf33d7765f','parm3':'SM-G955F','openid':'563125632849524101','openkey':'9fa3348fcd6344060431a81d44a219d2c0a3a706' } } }
-const LOGIN_ACCOUNT_NAPOLEON = { 'rsn':'3hewzzhpsp','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'2f12d907-56a9-3a46-9124-d4351e9fc878','parm3':'SM-G955F','openid':'565939577188654916','openkey':'51ba25dcc6757726dec6ba4c737e3ca134c49fb3' } } }
+const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'2ylxannmqx','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'4c4fbcab-ab57-3f8c-8447-f675203edc15','parm3':'ONEPLUS A5000','openid':'563125632849524101','openkey':'6b66102c0d0e963ee2f6ebe96a2344917c3faca4' } } }
+const LOGIN_ACCOUNT_NAPOLEON = { 'rsn':'2axwqwhxyx','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'4c4fbcab-ab57-3f8c-8447-f675203edc15','parm3':'ONEPLUS A5000','openid':'565939577188654916','openkey':'b4d47e9c7beaf15e97f899c8cd4f2bbc4f31c3bc' } } }
 const OLD_HOST = 'zsjefunbm.zwformat.com'
 const NEW_HOST = 'ksrus.gtbackoverseas.com'
 
@@ -28,8 +28,8 @@ class GoatRequest {
 	}
 
 	setServer(server) {
-		logger.log(`Set server to ${server}`)
 		this.server = server
+		logger.warn(`Set server to ${server}`)
 		return this
 	}
 	setVersion(version) {
@@ -37,9 +37,12 @@ class GoatRequest {
 		logger.warn(`Set version to ${version}`)
 		return this
 	}
+	setGid(gid) {
+		this.gid = gid === '691005139' ? '691005130' : gid
+		return this
+	}
 
 	async login(user = LOGIN_ACCOUNT_NAPOLEON) {
-		logger.log(`logging in ${this.server}`)
 		const response = await axios.post(this.base_url, user, {
 			params: {
 				sevid: this.server,
@@ -65,8 +68,9 @@ class GoatRequest {
 		}
 
 		this.token = response?.a?.loginMod?.loginAccount?.token
-		this.gid = response?.a?.loginMod?.loginAccount?.uid
+		this.setGid(response?.a?.loginMod?.loginAccount?.uid.toString())
 		this.isLoggedIn = true
+		logger.warn(`Logged in on ${this.server} as ${this.gid}`)
 
 		return response.a.loginMod.loginAccount
 	}
@@ -95,9 +99,8 @@ class GoatRequest {
 
 		if (response?.a?.system?.errror) {
 			if (ignoreError) {logger.error(`RequestError: ${response?.a?.system?.errror.msg}`); return}
-			throw new Error(response?.a?.system?.errror.msg)
+			throw new Error(response?.a?.system?.errror.msg || JSON.stringify(response))
 		}
-
 		if (response?.a?.system?.version) {
 			this.setVersion(response.a.system.version.ver)
 			return await this.sendRequest(data)
@@ -134,20 +137,7 @@ class GoatRequest {
 		return alliances.a.club.clubList
 	}
 
-	async getEventTourneyLadder() { //Tourney event
-		const ladder = await this.sendRequest({ huodong:{ hd254Info:[] }, rsn:'3ekkszzrpf' })
-
-		return ladder.a.cbhuodong.yamenlist
-	}
-	async getEventVirtueLadder() {
-		const ladder = await this.sendRequest({ 'huodong':{ 'hd1078Info':[] },'rsn':'6wxlgspgby' })
-		//{name, rid, score, uid}
-		return ladder.a.cbhuodong.zizhilist
-	}
-
-	/**
-	 * Returns the full game infos from player, see types/goat
-	 */
+	/** Returns the full game infos from player, see types/goat */
 	async getGameInfos() {
 		await this.login(LOGIN_ACCOUNT_GAUTIER)
 		const game = await this.sendRequest({ rsn:'2ynbmhanlb',guide:{ login:{ language:1,platform:'gaotukc',ug:'' } } }, '699002934')

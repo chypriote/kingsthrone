@@ -3,7 +3,7 @@ import {
 	AllianceBossInfo,
 	Club,
 	HallOfFamer,
-	InLaw,
+	InLaw, Item,
 	KingdomRank,
 	Profile,
 	TourneyRank,
@@ -28,6 +28,7 @@ import { Picnic } from '~/types/goat/events/Picnic'
 import { DECREE_TYPE } from '~/scripts/actions/misc'
 import { CouncilStatus } from '~/types/goat/CouncilStatus'
 import { FIGHT_STATUS } from '../actions/worldboss'
+import { find } from 'lodash'
 
 const VERSION = 'V1.3.558'
 const COOKIE = 'lyjxncc=c3ac4e77dff349b66c7aeed276e3eb6c'
@@ -778,8 +779,12 @@ export class GoatRequest {
 	events(): any {
 		return {
 			castle: {
-				findEgg: async (): Promise<void> => {
-					await this.sendRequest({ 'user': { 'inner_egg': [] }, 'rsn': '1ktukkqqkuu' })
+				findEgg: async (): Promise<number> => {
+					const data = await this.sendRequest({ 'user': { 'inner_egg': [] }, 'rsn': '1ktukkqqkuu' })
+					const egg = find(data.a.user.inner_egg, (item: Item) => item.id === 1)
+					if (!egg) { throw new Error('No gems found') }
+
+					return egg.count
 				},
 				claimEgg: async (): Promise<void> => {
 					await this.sendRequest({ 'user':{ 'inner_rwd':[] },'rsn':'1ktukkqiewk' })

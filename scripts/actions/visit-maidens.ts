@@ -1,7 +1,8 @@
 import { find } from 'lodash'
 import { MAIDENS } from '../../types/goat/Maidens'
 import { goat } from '../services/requests'
-import { logger } from '../services/logger'
+import chalk from 'chalk'
+const cliProgress = require('cli-progress')
 
 function getMaiden(id: number): {mid:number, name: string, visits: number} {
 	let wife = find(MAIDENS, m => m.mid == id)
@@ -28,26 +29,36 @@ const useDraught = async (count= 1): Promise<void> => {
 	state.usedDraught++
 }
 
-export const visitMaidens = async (count = 0): Promise<void> => {
+export const visitMaidens = async (count = 0, draughts = 0): Promise<void> => {
 	const available = await goat.getAvailableVisits()
+	const visitsPerDraughts = goat.gid === '699002934' ? 3 : 5
 	state.availableVisits = available.num
 
-	if (!state.availableVisits && count) {
+	if (!state.availableVisits && (count || draughts)) {
 		await useDraught()
 	}
 
-	while (state.availableVisits && (!count || state.visits < count)) {
+	const progress = new cliProgress.SingleBar({
+		format: `Maiden visits | ${chalk.green('{bar}')} | {value}/{total} done${ state.usedDraught ? ', {draughts} draughts' : ''}`,
+		barCompleteChar: '\u2588',
+		barIncompleteChar: '\u2591',
+		hideCursor: true,
+	})
+	progress.start(Math.max(count, draughts * visitsPerDraughts, state.availableVisits), state.visits, { draughts: state.usedDraught })
+
+	while (state.availableVisits) {
 		const wife = await goat.visitRandomMaiden()
 		const maiden = getMaiden(wife.id)
 		maiden.visits++
 		state.visits++
 		state.availableVisits--
+		progress.increment({ draughts: state.usedDraught })
 
-		if (state.availableVisits === 0 && state.visits < count) {
+		if (state.availableVisits === 0 && (state.visits < count || state.usedDraught < draughts)) {
 			await useDraught()
 		}
 	}
+	progress.stop()
 
-	if (state.visits > 0)
-		logger.success(`Visited ${state.visits} maidens ${ state.usedDraught > 0 ? `and used ${state.usedDraught} draughts (${state.availableDraught} left)` : ''}`)
+	// console.log(NPCS)
 }

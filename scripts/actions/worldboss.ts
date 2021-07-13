@@ -16,8 +16,6 @@ export const doMinions = async (): Promise<void> => {
 		try {
 			const status = await goat.attackMinion(hero.id)
 			if (status === FIGHT_STATUS.BATTLE_ENDED) { return }
-			if (status === FIGHT_STATUS.HERO_RESTING) { continue }
-			logger.debug(`Attacked minion with hero ${hero.id}`)
 		} catch (e) {/*do nothing*/}
 	}
 }
@@ -30,8 +28,6 @@ export const doBoss = async (): Promise<void> => {
 		try {
 			const status = await goat.attackBoss(hero.id)
 			if (status === FIGHT_STATUS.BATTLE_ENDED) { return }
-			if (status === FIGHT_STATUS.HERO_RESTING) { continue }
-			logger.debug(`Attacked boss with hero ${hero.id}`)
 		} catch (e) {/*do nothing*/}
 	}
 }

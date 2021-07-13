@@ -1,7 +1,9 @@
 import { find } from 'lodash'
+import chalk from 'chalk'
 import { NPCS, ProcessionGain } from '../../types/goat/Processions'
 import { goat } from '../services/requests'
 import { logger } from '../services/logger'
+const cliProgress = require('cli-progress')
 
 function getItem(id: number): string {
 	switch (id) {
@@ -54,24 +56,30 @@ export const doProcessions = async (count = 0): Promise<void> => {
 	state.availableProcessions = available.num
 
 	if (!state.availableProcessions && count) {
-		logger.log('No processions available, using draught')
 		await useDraught()
 	}
 
+	const progress = new cliProgress.SingleBar({
+		format: `Processions | ${chalk.green('{bar}')} | {value}/{total} done${ state.usedDraught ? `, ${state.usedDraught} draughts` : ''}`,
+		barCompleteChar: '\u2588',
+		barIncompleteChar: '\u2591',
+		hideCursor: true,
+	})
+	progress.start(Math.max(count, state.availableProcessions), state.visits)
+
 	while (state.availableProcessions) {
 		const { result } = await goat.startProcession()
-		// writeResult(result)
 		const npc = getNpc(result.npcid)
 		npc.visits++
 		state.visits++
 		state.availableProcessions--
+		progress.increment()
 
 		if (state.availableProcessions === 0 && state.visits < count) {
 			await useDraught()
 		}
 	}
+	progress.stop()
 
 	// console.log(NPCS)
-	if (state.visits > 0)
-		logger.success(`Visited ${state.visits} npcs ${ state.usedDraught > 0 ? `and used ${state.usedDraught} draughts (${state.availableDraught} left)` : ''}`)
 }

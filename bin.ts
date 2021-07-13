@@ -7,6 +7,7 @@ import { doKingdom } from './scripts/kingdom'
 import { doTourney } from './scripts/tourney'
 import { doProcessions, visitMaidens } from './scripts/actions'
 import { goat, LOGIN_ACCOUNT_GAUTIER, LOGIN_ACCOUNT_NAPOLEON } from './scripts/services/requests'
+import { getGems } from './scripts/actions/gems'
 
 yargs(hideBin(process.argv))
 	.option('account', {
@@ -23,18 +24,21 @@ yargs(hideBin(process.argv))
 		await doTourney()
 		process.exit()
 	})
+	//Daily
 	.command('daily', 'Run daily chores', () => {}, async (argv) => {
 		await goat.login(argv.account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
 
 		await dailyChores()
 		process.exit()
 	})
+	//Kingdom
 	.command('kingdom', 'Explore the kingdom', () => {}, async (argv) => {
 		await goat.login(argv.account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
 
 		await doKingdom()
 		process.exit()
 	})
+	//Tourney
 	.command('tourney', 'Do tourney', (yargs) => {
 		return yargs.option('opponent', {
 			description: 'ID of the opponent to challenge',
@@ -53,18 +57,24 @@ yargs(hideBin(process.argv))
 		await doTourney(argv.opponent, argv.hero)
 		process.exit()
 	})
-	.command('visit', 'Visit maidens', (yargs) => {
+	//Visit maidens
+	.command('visits', 'Visit maidens', (yargs) => {
 		return yargs.option('amount', {
 			description: 'Number of visits to do',
 			alias: 'n',
+			type: 'number',
+		}).option('draughts', {
+			description: 'Number of draughts to use',
+			alias: 'd',
 			type: 'number',
 		})
 	}, async (argv) => {
 		await goat.login(argv.account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
 
-		await visitMaidens(argv.amount)
+		await visitMaidens(argv.amount, argv.draughts)
 		process.exit()
 	})
+	//Processions
 	.command('processions', 'Do processions', (yargs) => {
 		return yargs.option('amount', {
 			description: 'Number of processions to do',
@@ -75,6 +85,19 @@ yargs(hideBin(process.argv))
 		await goat.login(argv.account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
 
 		await doProcessions(argv.amount)
+		process.exit()
+	})
+	//Gems
+	.command('gems', 'Explore the kingdom', (yargs) => {
+		return yargs.option('amount', {
+			description: 'Number of gems to get',
+			alias: 'n',
+			type: 'number',
+		})
+	}, async (argv) => {
+		await goat.login(LOGIN_ACCOUNT_GAUTIER)
+
+		await getGems(argv.amount)
 		process.exit()
 	})
 	.argv

@@ -122,17 +122,3 @@ const logDeathmatch = async (): Promise<void> => {
 
 	console.log(JSON.stringify(orderBy(opponents, 'ratio', 'asc')))
 }
-
-const getEggs = async (): Promise<void> => {
-	await goat.login(LOGIN_ACCOUNT_GAUTIER)
-
-	let i = 0
-	// eslint-disable-next-line no-constant-condition
-	while (true) {
-		console.log(38 * (i++))
-		await (goat.events()).castle.findEgg()
-		await (goat.events()).castle.claimEgg()
-	}
-}
-
-getEggs().then(() => {process.exit()})

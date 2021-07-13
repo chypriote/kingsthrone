@@ -28,10 +28,14 @@ export const doKingdomExpeditions = async (): Promise<void> => {
 	let next = getNextLevel(status.maxLevel)
 	let available = status.playNum
 
-	while (available) {
-		const status = await goat.sendKingdomExp(next)
-		next = getNextLevel(status.maxLevel)
-		available = status.playNum
+	try {
+		while (available) {
+			const status = await goat.sendKingdomExp(next)
+			next = getNextLevel(status.maxLevel)
+			available = status.playNum
+		}
+		logger.success('Did kingdom expeditions')
+	} catch (e) {
+		logger.error(JSON.stringify(e, null, 2))
 	}
-	logger.success('Did kingdom expeditions')
 }

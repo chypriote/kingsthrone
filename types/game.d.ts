@@ -1,4 +1,4 @@
-import { Hero } from '~/scripts/repository/roster'
+import { Hero } from '../repository/roster'
 import { TourneyInfos } from '~/types/tourney'
 import { CastleInfos } from '~/types/goat/Kingdom'
 import { RegularTasks } from '~/types/goat/RegularTasks'

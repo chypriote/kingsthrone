@@ -14,7 +14,7 @@ const useAllItems = async (types: number[]): Promise<void> => {
 	for (const item of selected) {
 		let count = item.count
 		while (count) {
-			count = (await goat.items().useItem(item.id, item.count)).count
+			count = (await goat.items().useItem(item.id, Math.min(count, 100))).count
 		}
 	}
 }

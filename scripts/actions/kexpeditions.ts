@@ -19,11 +19,6 @@ const getRewards = async (current: number, rewards: { id:number, status: number 
 
 export const doKingdomExpeditions = async (): Promise<void> => {
 	const status = await goat.getKingdomExpStatus()
-	try {
-		await getRewards(status.maxLevel, status.chapterPhasesRwd)
-	} catch (e) {
-		console.log(e)
-	}
 
 	let next = getNextLevel(status.maxLevel)
 	let available = status.playNum
@@ -37,5 +32,11 @@ export const doKingdomExpeditions = async (): Promise<void> => {
 		logger.success('Did kingdom expeditions')
 	} catch (e) {
 		logger.error(JSON.stringify(e, null, 2))
+	}
+
+	try {
+		await getRewards(status.maxLevel, status.chapterPhasesRwd)
+	} catch (e) {
+		console.log(e)
 	}
 }

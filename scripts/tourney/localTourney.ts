@@ -1,20 +1,19 @@
 import { sample } from 'lodash'
 import { goat } from '../services/requests'
 import { TourneyEndpoint } from './index'
-import { OngoingFight } from '../../types/tourney'
-import { OpponentHero, Reward, ShopItem } from '../../types/goat/Tourney'
+import { ITourneyStatus, OpponentHero, Reward, ShopItem } from '../../types/goat/Tourney'
 import { Hero } from '../../types/goat/Hero'
 
 export class LocalTourneyEndpoint implements TourneyEndpoint {
-	buyTourneyBoost(item: ShopItem): Promise<OngoingFight> {
+	buyTourneyBoost(item: ShopItem): Promise<ITourneyStatus> {
 		return goat.buyTourneyBoost(item)
 	}
 
-	challengeOpponent(opponent: string, hero: number): Promise<OngoingFight> {
+	challengeOpponent(opponent: string, hero: number): Promise<ITourneyStatus> {
 		return goat.challengeOpponent(opponent, hero)
 	}
 
-	fightHero(hero: OpponentHero): Promise<OngoingFight> {
+	fightHero(hero: OpponentHero): Promise<ITourneyStatus> {
 		return goat.fightHero(hero)
 	}
 
@@ -22,15 +21,15 @@ export class LocalTourneyEndpoint implements TourneyEndpoint {
 		return goat.getReward()
 	}
 
-	getTourneyInfos(): Promise<OngoingFight> {
+	getTourneyInfos(): Promise<ITourneyStatus> {
 		return goat.getTourneyInfos()
 	}
 
-	startTokenTourneyFight(): Promise<OngoingFight> {
+	startTokenTourneyFight(): Promise<ITourneyStatus> {
 		return goat.startTokenTourneyFight()
 	}
 
-	startTourneyFight(): Promise<OngoingFight> {
+	startTourneyFight(): Promise<ITourneyStatus> {
 		return goat.startTourneyFight()
 	}
 

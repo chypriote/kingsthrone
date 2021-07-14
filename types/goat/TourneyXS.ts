@@ -1,55 +1,6 @@
-import { User } from '../goatGeneric'
 import { ITourneyFight, ITourneyInfos, ITourneyResult, ITourneyStatus } from './Tourney'
-
-export type XSTourneyInfos = {
-	info: {
-		state: number
-		cd: {next: number, label: string}
-		totalNum: number
-		fitnum: number
-		chunum: number
-		chumax: number
-		qhid: number
-		fuser: User[]
-	}
-	daily: {
-		wins: number
-		rwds: { id: number, rwd: number }[]
-		countdown: number
-	}
-	myrank:  { score: number, rank: number }
-	deflog:  {
-		uid: string
-		name: string
-		job: number
-		sex: number
-		level: number
-		vip: number
-		chenghao: number
-		headframe: number
-		headType: number
-		headId: number
-		vipStatus: number
-		shili: number
-		clubid: number
-		clubname: string
-		frame: number
-		head: number
-		chatframe: number
-		id: number
-		fscore: number
-		kill: number
-		win: number
-		hid: number
-		mscore: number
-		dtime: number
-	}[] //Revenges
-	enymsg:  {id: number, fuser: User, score: number, time: number}[]
-	hastz: any[]
-	fclist: {id: number, h: number, f: number }[] //Used heroes
-	fight: XSTourneyFight
-}
-
+import { User } from '~/types/goatGeneric'
+import { GameStats } from '~/types/game'
 
 interface XSTourneyFight extends ITourneyFight {
 	fstate: number
@@ -63,4 +14,39 @@ export interface XSOngoingFight extends ITourneyStatus {
 		rank: number
 		score: number
 	}
+}
+
+export interface XSPlayer extends User {
+	id: string
+	exp: number
+	bmap: number
+	mmap: number
+	smap: number
+	ep: GameStats
+	love: number
+	xuanyan: string
+	chlist: {id: number}[]
+	son_num: number
+	wife_num: number
+	hero_num: number
+}
+export type XSAlliance = {
+	rid: number //rank
+	icon: string
+	cname: string //name
+	num: number //members
+	mzName: string //leader
+	allShiLi: number //power
+	maxNum: number //max members
+	cid: number //id
+	worship: number //boost
+	win: number
+	sev: number //server
+}
+export type XSOpponent = {
+	fcid: number,
+	isWin: boolean,
+	time: number,
+	turn: number,
+	type: number,
 }

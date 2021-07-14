@@ -3,25 +3,21 @@ import {
 	AllianceBossInfo,
 	Club,
 	HallOfFamer,
-	InLaw, Item,
+	InLaw,
 	KingdomRank,
 	Profile,
 	TourneyRank,
-	User,
-	XSAlliance,
-	XSOpponent,
-	XSPlayer
+	User
 } from '~/types/goatGeneric'
 import { logger } from '../services/logger'
 import { GameInfos, Wife } from '~/types/game'
-import { FHero, OngoingFight, TourneyReward } from '~/types/tourney'
 import { PunishmentResult } from '~/types/goat/PunishmentResult'
 import { GoodwillResult, LuckStatus, ProcessionResult, ProcessionsStatus } from '~/types/goat/Processions'
 import { StaminaResult, VisitsStatus } from '~/types/goat/Maidens'
 import { FeastDetails, FeastInfo, FeastShop, FeastStatus, OngoingFeast } from '~/types/goat/Feasts'
 import { ExpeditionInfo, KingdomExpInfo, MerchantInfos } from '~/types/goat/Expeditions'
 import { CastleInfos } from '~/types/goat/Kingdom'
-import { XSOngoingFight } from '~/types/goat/TourneyXS'
+import { XSAlliance, XSOngoingFight, XSOpponent, XSPlayer } from '~/types/goat/TourneyXS'
 import { DMOngoingFight, DMRanking } from '~/types/goat/TourneyDM'
 import { TreasureHunt } from '~/types/goat/events/TreasureHunt'
 import { Picnic } from '~/types/goat/events/Picnic'
@@ -29,9 +25,11 @@ import { DECREE_TYPE } from '~/scripts/actions/misc'
 import { CouncilStatus } from '~/types/goat/CouncilStatus'
 import { FIGHT_STATUS } from '../actions/worldboss'
 import { find } from 'lodash'
-import { ShopItem } from '~/types/goat/Tourney'
+import { ITourneyStatus, OpponentHero, Reward, ShopItem } from '~/types/goat/Tourney'
+import { Item } from '~/types/goat/Item'
+import { getProgressionRewards } from '~/scripts/actions/rewards'
 
-const VERSION = 'V1.3.558'
+const VERSION = 'V1.3.559'
 const COOKIE = 'lyjxncc=c3ac4e77dff349b66c7aeed276e3eb6c'
 export const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'2ylxannmqx','login':{ 'loginAccount':{
 	'parm1':'WIFI','platform':'gaotukc',
@@ -403,42 +401,42 @@ export class GoatRequest {
 	}
 
 	//Tourney
-	async getTourneyInfos(): Promise<OngoingFight> {
+	async getTourneyInfos(): Promise<ITourneyStatus> {
 		const data = await this.sendRequest({ 'yamen':{ 'yamen':[] },'rsn':'1qtiuqurtia' })
 
 		return data.a.yamen
 	}
-	async getTourneyAdok(): Promise<OngoingFight> {
+	async getTourneyAdok(): Promise<ITourneyStatus> {
 		const data = await this.sendRequest({ 'user':{ 'adok':{ 'label':'yamen' } },'rsn':'6swkbswywgg' })
 
 		return data.a.warHorse
 	}
-	async startTourneyFight(): Promise<OngoingFight> {
+	async startTourneyFight(): Promise<ITourneyStatus> {
 		const data = await this.sendRequest({ 'yamen':{ 'pizun':[] },'rsn':'3esphksnsn' })
 
 		return data.a.yamen
 	}
-	async startTokenTourneyFight(): Promise<OngoingFight> {
+	async startTokenTourneyFight(): Promise<ITourneyStatus> {
 		const data = await this.sendRequest({ 'yamen':{ 'chushi':[] },'rsn':'3espeerwpw' })
 
 		return data.a.yamen
 	}
-	async buyTourneyBoost(item: ShopItem): Promise<OngoingFight> {
+	async buyTourneyBoost(item: ShopItem): Promise<ITourneyStatus> {
 		const data = await this.sendRequest({ 'yamen':{ 'seladd':{ id: item.id } },'rsn':'2ylqabmbqq' }, true)
 
 		return data.a.yamen
 	}
-	async fightHero(hero: FHero): Promise<OngoingFight> {
+	async fightHero(hero: OpponentHero): Promise<ITourneyStatus> {
 		const data = await this.sendRequest({ 'yamen':{ 'fight':{ 'id': hero.id } },'rsn':'3zhwpzzrphn' })
 
 		return data.a.yamen
 	}
-	async getReward(): Promise<TourneyReward> {
+	async getReward(): Promise<Reward> {
 		const data = await this.sendRequest({ 'yamen':{ 'getrwd':[] },'rsn':'1tabuiiqwa' })
 
 		return data.a.yamen.win.rwd
 	}
-	async challengeOpponent(uid: string, hid: number): Promise<OngoingFight> {
+	async challengeOpponent(uid: string, hid: number): Promise<ITourneyStatus> {
 		const data = await this.sendRequest({ 'yamen':{ 'zhuisha':{ 'fuid':uid,'hid':hid } },'rsn':'8mxoaeekoe' })
 
 		return data.a.yamen
@@ -472,12 +470,12 @@ export class GoatRequest {
 
 		return data.a.kuayamen
 	}
-	async xsFightHero(hero: FHero): Promise<XSOngoingFight> {
+	async xsFightHero(hero: OpponentHero): Promise<XSOngoingFight> {
 		const data = await this.sendRequest({ 'kuayamen':{ 'fight':{ 'id':hero.id } },'rsn':'6wgklkbxkx' })
 
 		return data.a.kuayamen
 	}
-	async xsGetReward(): Promise<TourneyReward> {
+	async xsGetReward(): Promise<Reward> {
 		const data = await this.sendRequest({ 'kuayamen':{ 'getrwd':[] },'rsn':'2axhlhqxbh' })
 
 		return data.a.kuayamen.win.rwd
@@ -517,12 +515,12 @@ export class GoatRequest {
 
 		return data.a.jdyamen
 	}
-	async dmFightHero(hero: FHero): Promise<DMOngoingFight> {
+	async dmFightHero(hero: OpponentHero): Promise<DMOngoingFight> {
 		const data = await this.sendRequest({ 'kuayamen':{ 'jdFight':{ 'id':hero.id } },'rsn':'2yllhnqywb' })
 
 		return data.a.jdyamen
 	}
-	async dmGetReward(): Promise<TourneyReward> {
+	async dmGetReward(): Promise<Reward> {
 		const data = await this.sendRequest({ 'kuayamen':{ 'jdGetrwd':[] },'rsn':'5wfaaypfer' })
 
 		return data.a.jdyamen.win.rwd
@@ -590,12 +588,13 @@ export class GoatRequest {
 	async deleteAllMail(): Promise<void> {
 		await this.sendRequest({ 'rsn':'7xcpyxsxdsv','mail':{ 'delMails':[] } })
 	}
+	async openMail(id: number): Promise<void> {
+		await this.sendRequest({ 'rsn':'3zehpepsrew','mail':{ 'openMails':{ 'mid':id } } })
+	}
 	async finishTraining(): Promise<boolean> {
 		try {
 			await this.sendRequest({ 'rsn':'9zrimzjntjm','school':{ 'allover':[] } })
-		} catch (e) {
-			return false
-		}
+		} catch (e) {return false}
 		return true
 	}
 	async startTraining(): Promise<void> {
@@ -620,18 +619,29 @@ export class GoatRequest {
 	}
 
 	//Alliance
-	async contributeAlliance(): Promise<void> {
-		await this.sendRequest({ 'club':{ 'dayGongXian':{ 'dcid':5 } },'rsn':'3hfkksnwfn' })
+	async contributeAlliance(): Promise<boolean> {
+		try {
+			await this.sendRequest({ 'club':{ 'dayGongXian':{ 'dcid':5 } },'rsn':'3hfkksnwfn' })
+		} catch (e) {return false}
+		return true
 	}
 	async getAllianceBossInfo(): Promise<AllianceBossInfo[]> {
 		const data = await this.sendRequest({ 'club':{ 'clubBossInfo':[] },'rsn':'5wfppaeavy' })
 
 		return data.a.club.bossInfo
 	}
-	async fightAllianceBoss(boss: number, hero: number): Promise<void> {
-		await this.sendRequest({ 'club':{ 'clubBossPK':{ 'cbid': boss,'id':hero } },'rsn':'4acbfaxfaxf' }, true)
+	async fightAllianceBoss(boss: number, hero: number): Promise<FIGHT_STATUS> {
+		try {
+			await this.sendRequest({ 'club':{ 'clubBossPK':{ 'cbid': boss,'id':hero } },'rsn':'4acbfaxfaxf' })
+		} catch (e) {
+			const msg = e.toString()
+			if (msg === 'Error: The battle has ended') { return FIGHT_STATUS.BATTLE_ENDED }
+			if (msg === 'Error: The hero is resting') { return FIGHT_STATUS.HERO_RESTING }
+			if (msg === 'Error: The boss has been killed') { return FIGHT_STATUS.BOSS_KILLED }
+			console.log(e)
+		}
+		return FIGHT_STATUS.ONGOING
 	}
-
 	//Feasts
 	async getFeastsInfo(): Promise<FeastInfo> {
 		const data = await this.sendRequest({ 'jiulou':{ 'jlInfo':[] },'rsn':'3zhwezswfze' })
@@ -741,6 +751,9 @@ export class GoatRequest {
 		}catch (e) {/*We want to ignore completely*/}
 		return false
 	}
+	async getProgressionReward(): Promise<void> {
+		await this.sendRequest({ 'chengjiu':{ 'getAllrwd':[] },'rsn':'4fcgicgcabm' })
+	}
 
 	async attackMinion(id: number): Promise<FIGHT_STATUS> {
 		try {
@@ -812,6 +825,22 @@ export class GoatRequest {
 				claimQuest: async (id: number): Promise<void> => {
 					await this.sendRequest({ 'huodong':{ 'hd1028Task':{ 'id': id } },'rsn':'9zmtssbtjct' })
 				},
+			},
+		}
+	}
+	items(): any {
+		return {
+			getBag: async (): Promise<Item[]> => {
+				const data = await this.sendRequest({ 'rsn':'3hkekekhzp','item':{ 'itemlist':[] } })
+				return data.a.item.itemList
+			},
+			useItem: async (item: number, count: number): Promise<Item> => {
+				const data = await this.sendRequest({ 'rsn':'1tbkbkruwa','item':{ 'useitem':{ 'id': item, 'count':count } } })
+				return data.u.item.itemList[0]
+			},
+			combineItem: async (item: number, count: number): Promise<Item[]> => {
+				const data = await this.sendRequest({ 'rsn':'4cifiaahbv','item':{ 'hecheng':{ 'count':count,'id':item } } })
+				return data.u.item.itemList
 			},
 		}
 	}

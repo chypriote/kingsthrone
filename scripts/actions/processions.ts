@@ -51,21 +51,25 @@ const useDraught = async (count = 1): Promise<void> => {
 	state.usedDraught++
 }
 
-export const doProcessions = async (count = 0): Promise<void> => {
+export const doProcessions = async (count = 0, draughts = 0): Promise<void> => {
 	const available = await goat.getAvailableProcessions()
+	const visitsPerDraughts = goat.gid === '699002934' ? 3 : 5
 	state.availableProcessions = available.num
 
-	if (!state.availableProcessions && count) {
+	if (!state.availableProcessions && (count || draughts)) {
 		await useDraught()
 	}
 
+	const todo = Math.max(count, draughts * visitsPerDraughts, state.availableProcessions)
+	if (!todo) { return }
+
 	const progress = new cliProgress.SingleBar({
-		format: `Processions | ${chalk.green('{bar}')} | {value}/{total} done${ state.usedDraught ? `, ${state.usedDraught} draughts` : ''}`,
+		format: `Processions\t| ${chalk.green('{bar}')} | {value}/{total} done${ state.usedDraught ? ', {draughts} draughts' : ''}`,
 		barCompleteChar: '\u2588',
 		barIncompleteChar: '\u2591',
 		hideCursor: true,
 	})
-	progress.start(Math.max(count, state.availableProcessions), state.visits)
+	progress.start(todo, state.visits, { draughts: state.usedDraught })
 
 	while (state.availableProcessions) {
 		const { result } = await goat.startProcession()
@@ -75,7 +79,7 @@ export const doProcessions = async (count = 0): Promise<void> => {
 		state.availableProcessions--
 		progress.increment()
 
-		if (state.availableProcessions === 0 && state.visits < count) {
+		if (state.availableProcessions === 0 && (state.visits < count || state.usedDraught < draughts)) {
 			await useDraught()
 		}
 	}

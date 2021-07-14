@@ -3,9 +3,9 @@ import { goat } from './services/requests'
 import { logger } from './services/logger'
 import {
 	attendFeasts, contributeAlliance, doExpedition, doKingdomExpeditions, doMerchant,
-	doProcessions, doWorldBoss, getDailyRewards, getLoginRewards, getThroneRoom,
+	doProcessions, doWorldBoss, getDailyRewards, getLoginRewards, getThroneRoom, handleBag,
 	getTourneyRewards, getWeeklyRewards, HallOfFame, hostCouncil, payHomage, punishPrisoners,
-	raiseSons, refreshTraining, visitInLaws, visitMaidens, readAndDeleteMail
+	raiseSons, refreshTraining, visitInLaws, visitMaidens, readAndDeleteMail, getProgressionRewards
 } from './actions'
 
 export const dailyChores = async (): Promise<void> => {
@@ -34,6 +34,8 @@ export const dailyChores = async (): Promise<void> => {
 		await getTourneyRewards()
 		await getDailyRewards()
 		await getWeeklyRewards()
+		await getProgressionRewards()
+		await handleBag()
 	} catch (e) {
 		logger.error(e)
 	}

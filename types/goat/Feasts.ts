@@ -1,3 +1,5 @@
+import { Item } from '~/types/goat/Item'
+
 enum FEAST_TYPE {
 	SMALL= 1,
 	GREAT= 2,
@@ -44,10 +46,7 @@ export type OngoingFeast = {
 
 export type ShopItem = {
 	id: number
-	item: {
-		id: number
-		count: number
-	},
+	item: Item,
 	cost: number
 	buy: number
 	discount: number

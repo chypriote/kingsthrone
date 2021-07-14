@@ -38,13 +38,16 @@ export const visitMaidens = async (count = 0, draughts = 0): Promise<void> => {
 		await useDraught()
 	}
 
+	const todo = Math.max(count, draughts * visitsPerDraughts, state.availableVisits)
+	if (!todo) { return }
+
 	const progress = new cliProgress.SingleBar({
-		format: `Maiden visits | ${chalk.green('{bar}')} | {value}/{total} done${ state.usedDraught ? ', {draughts} draughts' : ''}`,
+		format: `Maiden visits\t| ${chalk.green('{bar}')} | {value}/{total} done${ state.usedDraught ? ', {draughts} draughts' : ''}`,
 		barCompleteChar: '\u2588',
 		barIncompleteChar: '\u2591',
 		hideCursor: true,
 	})
-	progress.start(Math.max(count, draughts * visitsPerDraughts, state.availableVisits), state.visits, { draughts: state.usedDraught })
+	progress.start(todo, state.visits, { draughts: state.usedDraught })
 
 	while (state.availableVisits) {
 		const wife = await goat.visitRandomMaiden()

@@ -16,7 +16,7 @@
     "roster": "ts-node scripts/player.ts",
     "update": "ts-node scripts/update.ts",
     "missing": "ts-node scripts/missing.ts",
-    "test": "ts-node scripts/test.ts",
+    "test": "ts-node scripts/actions/items.ts",
     "runs": "ts-node bin.ts",
     "prepare": "husky install"
   },

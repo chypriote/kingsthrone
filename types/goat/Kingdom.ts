@@ -1,3 +1,4 @@
+import { Item } from '~/types/goat/Item'
 
 type GarrisonInfo = {
 	wife: {
@@ -15,7 +16,7 @@ type GarrisonInfo = {
 		heroId: number
 		startTime: number
 		nextTime: number
-		rewardsBySecond: { kind: number, count: number, id: number }[]
+		rewardsBySecond: Item[]
 		isCheck: number
 		level: number
 		quality: number

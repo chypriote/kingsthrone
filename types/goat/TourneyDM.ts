@@ -1,5 +1,6 @@
-import { Item, User } from '../goatGeneric'
+import { User } from '../goatGeneric'
 import { ITourneyFight, ITourneyInfos, ITourneyResult, ITourneyStatus } from './Tourney'
+import { Item } from '~/types/goat/Item'
 
 interface DMTourneyFight extends ITourneyFight {
 	fstate: number

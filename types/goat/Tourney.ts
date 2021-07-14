@@ -1,4 +1,5 @@
-import { User, Item } from '../goatGeneric'
+import { User } from '../goatGeneric'
+import { Item } from '~/types/goat/Item'
 
 export interface ITourneyResult {
 	over: {
@@ -10,7 +11,8 @@ export interface ITourneyResult {
 	}| null
 	fight: {
 		base: OpponentHeroStats[]
-		items: Item[], log: string[]
+		items: Item[],
+		log: string[]
 		nrwd: number
 		win: number
 		winnum: number
@@ -82,4 +84,28 @@ export type RewardItem = {count: number, id: number, kind: number}
 export type Reward = {
 	items: RewardItem[]
 	jiade: RewardItem[]
+}
+
+interface Defense extends User {
+	id: number
+	fscore: number
+	kill: number
+	win: number
+	hid: number
+	mscore: number
+	dtime: number
+}
+/** Tourney State */
+export interface UserTourney {
+	info: ITourneyInfos
+	daily: {
+		wins: number
+		rwds: { id: number, rwd: number }[]
+		countdown: number
+	}
+	myrank: { score: number, rank: number }
+	deflog: Defense[] //Revenges
+	enymsg:  {id: number, fuser: User, score: number, time: number}[]
+	hastz: any[]
+	fclist: {id: number, h: number, f: number }[] //Used heroes
 }

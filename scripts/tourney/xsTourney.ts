@@ -1,8 +1,7 @@
 import { sample } from 'lodash'
 import { goat } from '../services/requests'
 import { TourneyEndpoint } from './index'
-import { TourneyReward } from '../../types/tourney'
-import { OpponentHero, ShopItem } from '../../types/goat/Tourney'
+import { OpponentHero, Reward, ShopItem } from '../../types/goat/Tourney'
 import { Hero } from '../../types/goat/Hero'
 import { XSOngoingFight } from '../../types/goat/TourneyXS'
 
@@ -19,7 +18,7 @@ export class xsTourneyEndpoint implements TourneyEndpoint {
 		return goat.xsFightHero(hero)
 	}
 
-	getReward(): Promise<TourneyReward> {
+	getReward(): Promise<Reward> {
 		return goat.xsGetReward()
 	}
 

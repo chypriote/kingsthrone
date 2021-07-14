@@ -1,3 +1,5 @@
+import { Item } from '~/types/goat/Item'
+
 export const NPCS = [
 	{ nid: 3, name: 'Lonely Tom', visits: 0 },
 	{ nid: 6, name: 'Robert', visits: 0 },
@@ -64,7 +66,7 @@ export enum PROCESSIONS {
 //haogan 0 ???
 export type ProcessionGain = {
 	haogan: number
-	items: {count: number, id: number}[]
+	items: Item[]
 	npcid: number
 	type: PROCESSIONS
 }

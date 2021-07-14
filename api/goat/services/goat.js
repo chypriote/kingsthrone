@@ -1,7 +1,7 @@
 const axios = require('axios')
 const logger = require('../../logger/services/logger')
 
-const VERSION = 'V1.3.558'
+const VERSION = 'V1.3.559'
 const COOKIE = 'lyjxncc=c3ac4e77dff349b66c7aeed276e3eb6c'
 const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'2ylxannmqx','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'4c4fbcab-ab57-3f8c-8447-f675203edc15','parm3':'ONEPLUS A5000','openid':'563125632849524101','openkey':'6b66102c0d0e963ee2f6ebe96a2344917c3faca4' } } }
 const LOGIN_ACCOUNT_NAPOLEON = { 'rsn':'2axwqwhxyx','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'4c4fbcab-ab57-3f8c-8447-f675203edc15','parm3':'ONEPLUS A5000','openid':'565939577188654916','openkey':'b4d47e9c7beaf15e97f899c8cd4f2bbc4f31c3bc' } } }

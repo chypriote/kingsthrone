@@ -7,6 +7,7 @@ export enum FIGHT_STATUS {
 	BATTLE_ENDED= 0,
 	HERO_RESTING= 1,
 	ONGOING=2,
+	BOSS_KILLED= 3,
 }
 
 
@@ -15,7 +16,7 @@ export const doMinions = async (): Promise<void> => {
 	const sorted = orderBy(heroes, 'zfight_num', 'asc')
 
 	const progress = new cliProgress.SingleBar({
-		format: `Attacking Minions | ${chalk.green('{bar}')} | {value}/{total} heroes`,
+		format: `Attacking Minions\t| ${chalk.green('{bar}')} | {value}/{total} heroes`,
 		barCompleteChar: '\u2588',
 		barIncompleteChar: '\u2591',
 		hideCursor: true,
@@ -36,7 +37,7 @@ export const doBoss = async (): Promise<void> => {
 	const sorted = orderBy(heroes, 'zfight_num', 'asc')
 
 	const progress = new cliProgress.SingleBar({
-		format: `Attacking Jotun | ${chalk.green('{bar}')} | {value}/{total} heroes`,
+		format: `Attacking Jotun\t| ${chalk.green('{bar}')} | {value}/{total} heroes`,
 		barCompleteChar: '\u2588',
 		barIncompleteChar: '\u2591',
 		hideCursor: true,

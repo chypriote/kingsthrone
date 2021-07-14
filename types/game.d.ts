@@ -1,9 +1,10 @@
-import { TourneyInfos } from '~/types/tourney'
 import { CastleInfos } from '~/types/goat/Kingdom'
 import { RegularTasks } from '~/types/goat/RegularTasks'
 import { Club } from '~/types/goat/Club'
 import { Hero } from '~/types/goat/Hero'
-import { Item } from '~/types/goatGeneric'
+import { Item } from '~/types/goat/Item'
+import { UserTourney } from '~/types/goat/Tourney'
+import { Mail } from '~/types/goat/Mail'
 
 declare enum Sex {
 	MALE= 2,
@@ -67,7 +68,7 @@ interface OldGameStats {
 	nowFlower: number
 }
 
-export interface User {
+export interface UserProfile {
 	pvb: []
 	headframe: { id: number }
 	user: UserDetails
@@ -236,7 +237,7 @@ export type GameInfos = {
 	jingYing: unknown
 	laofang: unknown
 	loginMod: unknown
-	mail: unknown
+	mail: { mailList: Mail[] }
 	order: unknown
 	ranking: { mobai: Ranking }
 	school: unknown
@@ -245,7 +246,7 @@ export type GameInfos = {
 	son: { sonList: Son[] }
 	system: unknown
 	task: { tmain: Task }
-	user: User
+	user: UserProfile
 	warHorse: unknown
 	weekly: RegularTasks
 	weeklyrank: unknown
@@ -253,5 +254,5 @@ export type GameInfos = {
 	wordboss: unknown
 	xingqin: unknown
 	xunfang: unknown
-	yamen: TourneyInfos //Tourney
+	yamen: UserTourney //Tourney
 }

@@ -1,16 +1,17 @@
 import { find } from 'lodash'
 import { goat } from '../services/requests'
 import { logger } from '../services/logger'
-import { FeastShop, Seat } from '~/types/goat/Feasts'
+import { FeastShop, Seat } from '../../types/goat/Feasts'
+import { ITEMS } from '../../types/goat/Item'
 
 const BOUGHT_ITEMS = [
-	{ name: 'Manuscript Page', id: 111 },
+	{ name: 'Manuscript Page', id: ITEMS.MANUSCRIPT_PAGE },
 	// { name: 'Gold Dowry', id: 102 },
 	// { name: 'Inspiration Tome IV', id: 44 },
 	{ name: 'Fortune Tome IV', id: 24 },
 	{ name: 'Military Tome IV', id: 14 },
 	// { name: 'Provisions Tome IV', id: 34 },
-	// { name: 'Superior Experience Pack', id: 78 },
+	// { name: 'Superior Experience Pack', id: ITEMS.SUP_EXPERIENCE_PACK },
 ]
 
 const selectSeat = async (fid: string): Promise<Seat|undefined> => {

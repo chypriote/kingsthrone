@@ -34,11 +34,6 @@ export type Profile = {
 	vipStatus: number
 	set?: number
 }
-export type Item = {
-	count: number
-	id: number
-	kind: number
-}
 export type KingdomRank = {
 	uid: string
 	name: string
@@ -111,7 +106,7 @@ export type EventRank = {
 	uid: string
 }
 
-export type User = {
+export interface User {
 	uid: string
 	name: string
 	job: number
@@ -131,56 +126,6 @@ export type User = {
 	chatframe: number
 	rid: number
 	num: number
-}
-
-export type XSPlayer = {
-	id: string
-	uid: string
-	name: string
-	level: number
-	sex: number
-	job: number
-	exp: number
-	vip: number
-	bmap: number
-	mmap: number
-	smap: number
-	ep: {e1: number, e2: number, e3: number, e4: number}
-	shili: string
-	love: number
-	clubid: number
-	clubname: string
-	chenghao: number
-	xuanyan: string
-	chlist: {id: number}[]
-	son_num: number
-	wife_num: number
-	hero_num: number
-	headType: number
-	headId: number
-	vipStatus: number
-}
-
-export type XSAlliance = {
-	rid: number //rank
-	icon: string
-	cname: string //name
-	num: number //members
-	mzName: string //leader
-	allShiLi: number //power
-	maxNum: number //max members
-	cid: number //id
-	worship: number //boost
-	win: number
-	sev: number //server
-}
-
-export type XSOpponent = {
-	fcid: number,
-	isWin: boolean,
-	time: number,
-	turn: number,
-	type: number,
 }
 
 export type InLaw = {

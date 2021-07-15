@@ -3,7 +3,7 @@ config()
 import chalk from 'chalk'
 import { logger } from './services/logger'
 import { createAlliance, getAllianceByAID, updateAlliance } from './repository/alliance'
-import { Goat } from './services/goat'
+import { Goat } from 'kingsthrone-api'
 
 export const updateAlliances = async(): Promise<void> => {
 	const goat = new Goat()
@@ -38,3 +38,8 @@ export const updateAlliances = async(): Promise<void> => {
 
 	logger.success('Finished')
 }
+
+updateAlliances().then(() => {
+	console.log('finished')
+	process.exit()
+})

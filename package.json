@@ -1,7 +1,7 @@
 {
   "name": "kingsthrone",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A Strapi application",
   "scripts": {
     "dev": "strapi develop",
@@ -29,6 +29,7 @@
     "cli-progress": "^3.9.0",
     "date-fns": "^2.22",
     "dotenv": "^10.0",
+    "kingsthrone-api": "^0.1.0",
     "knex": "^0.95",
     "lodash": "^4.17",
     "pg": "^8.6",

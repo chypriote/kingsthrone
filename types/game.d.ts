@@ -5,6 +5,7 @@ import { Hero } from '~/types/goat/Hero'
 import { Item } from '~/types/goat/Item'
 import { UserTourney } from '~/types/goat/Tourney'
 import { Mail } from '~/types/goat/Mail'
+import { WorldBoss } from '~/types/goat/WorldBoss'
 
 declare enum Sex {
 	MALE= 2,
@@ -251,7 +252,7 @@ export type GameInfos = {
 	weekly: RegularTasks
 	weeklyrank: unknown
 	wife: { wifeList: Wife[] }
-	wordboss: unknown
+	wordboss: WorldBoss
 	xingqin: unknown
 	xunfang: unknown
 	yamen: UserTourney //Tourney

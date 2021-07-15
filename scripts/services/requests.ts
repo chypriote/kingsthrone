@@ -27,6 +27,7 @@ import { Item } from '~/types/goat/Item'
 import { HallOfFamer } from '~/types/goat/HallOfFame'
 import { ClubInfo } from '~/types/goat/Club'
 import { InLaw } from '~/types/goat/InLaw'
+import { DarkCastle, DarkCastleRank } from '~/types/goat/events/DarkCastle'
 
 const VERSION = 'V1.3.559'
 const COOKIE = 'lyjxncc=c3ac4e77dff349b66c7aeed276e3eb6c'
@@ -773,6 +774,9 @@ export class GoatRequest {
 		}
 		return FIGHT_STATUS.ONGOING
 	}
+	async recoverHero(id: number): Promise<void> {
+		await this.sendRequest({ 'wordboss':{ 'comebackmg':{ 'id':id } },'rsn':'1ktubatqtaa' })
+	}
 
 	async visitCouncil(): Promise<CouncilStatus> {
 		const data = await this.sendRequest({ 'rsn':'4fcgffigihv','hanlin':{ 'comein':{ 'fuid': this.gid } } })
@@ -820,6 +824,16 @@ export class GoatRequest {
 				},
 				claimQuest: async (id: number): Promise<void> => {
 					await this.sendRequest({ 'huodong':{ 'hd1028Task':{ 'id': id } },'rsn':'9zmtssbtjct' })
+				},
+			},
+			darkCastle: {
+				eventInfos: async (): Promise<DarkCastle> => {
+					const data = await this.sendRequest({ 'huodong':{ 'hd1020Info':[] },'rsn':'1tbkeuueik' })
+					return data.a.wshuodong
+				},
+				getRanking: async (): Promise<DarkCastleRank[]> => {
+					const data = await this.sendRequest({ 'huodong':{ 'hd1020Rank':[] },'rsn':'4cifhgiicf' })
+					return data.a.wshuodong.wslist
 				},
 			},
 		}

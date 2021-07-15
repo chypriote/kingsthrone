@@ -1,28 +1,7 @@
 import { Item } from '../Item'
+import { EventQuest, EventQuestCfg, EventShop } from '~/types/goat/events/Event'
 
-type PicnicShopItem = {
-	dc: number
-	hasLimitNum: number
-	items: Item[]
-	limit: number
-	limitNum: number
-	need: number
-}
-type PicnicShop = {
-	hasScore: number
-	rank: {
-		member: { count: number, id: number }[]
-		rand: { re: number, rs: number }
-	}
-	wsShopcfg: PicnicShopItem[]
-}
-type PicnicQuest = {
-	id: number
-	num: number
-	rwd: number
-}
-
-export type Picnic = {
+export interface Picnic {
 	info: {
 		cons: number
 		quan: number
@@ -37,16 +16,9 @@ export type Picnic = {
 			tip: number
 		}
 	}
-	shop: PicnicShop
+	shop: EventShop
 	task: {
-		tasks: PicnicQuest[]
-		taskscfg: {
-			type: number
-			dcCfg: {
-				id: number
-				max: number
-				items: Item[]
-			}
-		}
+		tasks: EventQuest[]
+		taskscfg: EventQuestCfg
 	}
 }

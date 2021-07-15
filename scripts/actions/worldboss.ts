@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import { orderBy } from 'lodash'
+import { filter, orderBy } from 'lodash'
 import { goat } from '../services/requests'
 const cliProgress = require('cli-progress')
 
@@ -12,16 +12,17 @@ export enum FIGHT_STATUS {
 
 
 export const doMinions = async (): Promise<void> => {
-	const heroes = (await goat.getGameInfos()).hero.heroList
-	const sorted = orderBy(heroes, 'zfight_num', 'asc')
+	const heroes = (await goat.getGameInfos()).wordboss.mgft
+	const sorted = orderBy(heroes.filter(h => h.h), 'zfight_num', 'asc')
 
+	if (!sorted.length) {return }
 	const progress = new cliProgress.SingleBar({
 		format: `Attacking Minions\t| ${chalk.green('{bar}')} | {value}/{total} heroes`,
 		barCompleteChar: '\u2588',
 		barIncompleteChar: '\u2591',
 		hideCursor: true,
 	})
-	progress.start(heroes.length, 0)
+	progress.start(sorted.length, 0)
 
 	for (const hero of sorted) {
 		try {
@@ -30,19 +31,21 @@ export const doMinions = async (): Promise<void> => {
 			progress.increment()
 		} catch (e) {/*do nothing*/}
 	}
+	progress.stop()
 }
 
 export const doBoss = async (): Promise<void> => {
-	const heroes = (await goat.getGameInfos()).hero.heroList
-	const sorted = orderBy(heroes, 'zfight_num', 'asc')
+	const heroes = (await goat.getGameInfos()).wordboss.mgft
+	const sorted = orderBy(heroes.filter(h => h.h), 'zfight_num', 'asc')
 
+	if (!sorted.length) {return }
 	const progress = new cliProgress.SingleBar({
 		format: `Attacking Jotun\t| ${chalk.green('{bar}')} | {value}/{total} heroes`,
 		barCompleteChar: '\u2588',
 		barIncompleteChar: '\u2591',
 		hideCursor: true,
 	})
-	progress.start(heroes.length, 0)
+	progress.start(sorted.length, 0)
 
 	for (const hero of sorted) {
 		try {
@@ -51,6 +54,7 @@ export const doBoss = async (): Promise<void> => {
 			progress.increment()
 		} catch (e) {/*do nothing*/}
 	}
+	progress.stop()
 }
 
 export const doWorldBoss =  async (): Promise<void> => {

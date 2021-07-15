@@ -1,7 +1,7 @@
 import { Sex } from '../game'
 
 interface ClubMember {
-	id: number
+	id: string
 	name: string
 	post: number
 	sex: Sex
@@ -21,7 +21,7 @@ interface ClubMember {
 }
 
 export interface ClubInfo {
-	id: number
+	id: string
 	name: string
 	level: number
 	exp: number
@@ -37,6 +37,7 @@ export interface ClubInfo {
 	goldLimit: number
 	money: number
 	userShili: number
+	allShiLi: number
 	userLevel: number
 	password: number
 	clubLog: []
@@ -45,7 +46,7 @@ export interface ClubInfo {
 
 export interface Club {
 	memberInfo: {
-		cid: number
+		cid: string
 		allgx: number
 		leftgx: number
 		dcid: number

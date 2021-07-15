@@ -4,6 +4,8 @@ import { logger } from './services/logger'
 import { createPlayer, getAllGID, getPlayerByGID } from './repository/player'
 import { createForCross, getAllianceByAID, resetCrossAlliance, setOpponent, updateExistingForCross } from './repository/alliance'
 import { chunk, orderBy } from 'lodash'
+import { Goat } from './services/goat'
+import { Picnic as PicnicResponse } from '~/types/goat/events/Picnic'
 
 const account = LOGIN_ACCOUNT_NAPOLEON
 const server = 691
@@ -122,3 +124,10 @@ const logDeathmatch = async (): Promise<void> => {
 
 	console.log(JSON.stringify(orderBy(opponents, 'ratio', 'asc')))
 }
+
+const test = new Goat()
+test.Events.Picnic.eventInfos().then((response: PicnicResponse) => {
+	console.log(response)
+}).catch(e => {
+	console.warn(e.toString())
+})

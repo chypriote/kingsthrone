@@ -60,7 +60,8 @@ interface GardenStrollExchange {
 	need: number //points cost
 	totalLimit: number //max buyable
 }
+
 export interface GardenStrollPointExchange {
-	cfg: { shop: { list: GardenStrollExchange[] }}
+	cfg: { shop: { list: GardenStrollExchange[] } }
 	leftcons: number //points left
 }

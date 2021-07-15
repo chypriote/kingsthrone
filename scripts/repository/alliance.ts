@@ -1,12 +1,13 @@
 import { formatISO, fromUnixTime } from 'date-fns'
-import { Profile, XSAlliance, XSOpponent } from '~/types/goatGeneric'
+import { Profile } from '~/types/goatGeneric'
 import { client } from '../services/database'
 import { logger } from '../services/logger'
 import { Alliance } from '~/types/strapi/Alliance'
 import { Player } from '~/types/strapi/Player'
+import { XSAlliance, XSOpponent } from '~/types/goat/TourneyXS'
 
 export const createAlliance = async (
-	aid: number,
+	aid: string,
 	name: string,
 	power = 0,
 	reputation = 0,
@@ -29,7 +30,7 @@ export const createAlliance = async (
 }
 
 export const updateAlliance = async (
-	aid: number,
+	aid: string,
 	name: string,
 	power = 0,
 	reputation = 0,
@@ -47,7 +48,7 @@ export const updateAlliance = async (
 	logger.debug('Alliance updated')
 }
 
-export const getAllianceByAID = async (aid: number): Promise<Alliance> => {
+export const getAllianceByAID = async (aid: string): Promise<Alliance> => {
 	const alliances = await client('alliances')
 		.where('aid', '=', aid)
 		.limit(1)

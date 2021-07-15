@@ -13,7 +13,7 @@ export const updatePlayerAlliance = async (player: Player, ally: Profile): Promi
 	const current = await getPlayerAlliance(player)
 
 	//Return if no current and club is 0
-	if (!current && ally.clubid === 0) {
+	if (!current && ally.clubid === '0') {
 		return
 	}
 	//Add Alliance if no previous
@@ -21,11 +21,11 @@ export const updatePlayerAlliance = async (player: Player, ally: Profile): Promi
 		return await setPlayerAlliance(player, ally)
 	}
 	//Return if current ally is same
-	if (parseInt(String(current.aid)) === ally.clubid) {
+	if (current.aid === ally.clubid) {
 		return
 	}
 	//Leave if new alliance is 0
-	if (ally.clubid === 0) {
+	if (ally.clubid === '0') {
 		logger.error(`${player.name} left alliance ${ally.clubname}`)
 		return await leaveAlliance(player)
 	}

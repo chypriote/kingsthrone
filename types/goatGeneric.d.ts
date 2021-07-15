@@ -21,7 +21,7 @@ export type Profile = {
 	}
 	shili: string //kingdomPower
 	love: number //Intimacy
-	clubid: number
+	clubid: string
 	clubname: string
 	chenghao: number //title
 	xuanyan: string
@@ -47,7 +47,7 @@ export type KingdomRank = {
 	headId: number
 	vipStatus: number
 	shili: number //kp
-	clubid: number
+	clubid: string
 	clubname: string
 	frame: number
 	head: number
@@ -69,7 +69,7 @@ export type TourneyRank = {
 	headId: number
 	vipStatus: number
 	shili: number //kp
-	clubid: number
+	clubid: string
 	clubname: string
 	frame: number
 	head: number
@@ -98,7 +98,7 @@ export interface User {
 	headId: number
 	vipStatus: number
 	shili: number
-	clubid: number
+	clubid: string
 	clubname: string
 	frame: number
 	head: number

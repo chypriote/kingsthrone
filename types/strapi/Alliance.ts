@@ -2,7 +2,7 @@ import { AllianceMember } from './AllianceMember'
 
 export type Alliance = {
 	id?: number
-	aid: number
+	aid: string
 	name: string
 	power?: number
 	level?: number

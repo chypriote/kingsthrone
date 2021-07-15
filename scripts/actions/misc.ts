@@ -47,9 +47,11 @@ export const raiseSons = async (): Promise<void> => {
 
 	for (const son of sons.filter(s => !s.name)) {
 		await goat.nameSon(son.id)
+		logger.warn(`Named son ${son.id}`)
 	}
 	for (const son of sons.filter(s => s.state === 3)) {
 		await goat.evaluateSon(son.id)
+		logger.warn(`Evaluated son ${son.id}`)
 	}
 	try {
 		if (await goat.raiseAllSons())

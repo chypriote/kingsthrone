@@ -35,7 +35,7 @@ export type OngoingFeast = {
 	headId: number
 	vipStatus: number
 	shili: number
-	clubid: number
+	clubid: string
 	clubname: string
 	frame: number
 	head: number

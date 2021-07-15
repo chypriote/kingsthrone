@@ -39,7 +39,7 @@ export type XSAlliance = {
 	mzName: string //leader
 	allShiLi: number //power
 	maxNum: number //max members
-	cid: number //id
+	cid: string //id
 	worship: number //boost
 	win: number
 	sev: number //server

@@ -421,7 +421,7 @@ export class GoatRequest {
 		return data.a.yamen
 	}
 	async buyTourneyBoost(item: ShopItem): Promise<ITourneyStatus> {
-		const data = await this.sendRequest({ 'yamen':{ 'seladd':{ id: item.id } },'rsn':'2ylqabmbqq' }, true)
+		const data = await this.sendRequest({ 'yamen':{ 'seladd':{ id: item.id } },'rsn':'2ylqabmbqq' })
 
 		return data.a.yamen
 	}
@@ -465,7 +465,7 @@ export class GoatRequest {
 		return data.a.kuayamen
 	}
 	async xsBuyTourneyBoost(item: ShopItem): Promise<XSOngoingFight> {
-		const data = await this.sendRequest({ 'kuayamen':{ 'seladd':{ 'id':item.id } },'rsn':'5wfrarhwer' }, true)
+		const data = await this.sendRequest({ 'kuayamen':{ 'seladd':{ 'id':item.id } },'rsn':'5wfrarhwer' })
 
 		return data.a.kuayamen
 	}
@@ -510,7 +510,7 @@ export class GoatRequest {
 		return data.a.jdyamen
 	}
 	async dmBuyTourneyBoost(item: ShopItem): Promise<DMOngoingFight> {
-		const data = await this.sendRequest({ 'kuayamen':{ 'jdSeladd':{ 'id':item.id } },'rsn':'7yddpollxv' }, true)
+		const data = await this.sendRequest({ 'kuayamen':{ 'jdSeladd':{ 'id':item.id } },'rsn':'7yddpollxv' })
 
 		return data.a.jdyamen
 	}

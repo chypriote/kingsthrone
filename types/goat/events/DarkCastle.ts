@@ -1,12 +1,5 @@
-import { EventQuest, EventQuestCfg, EventShop, EventShopItem, EventShopRank } from './Event'
+import { EventQuest, EventQuestCfg, EventShop, EventShopItem } from './Event'
 import { Item } from '../Item'
-
-export interface DarkCastleRank {
-	name: string
-	rid: number
-	score: number
-	uid: string
-}
 
 interface DarkCastleRun {
 	yao: number
@@ -17,7 +10,7 @@ interface DarkCastleRun {
 	gzzid: number
 }
 
-interface DarkCastleShop extends EventShop{
+interface DarkCastleShop extends EventShop {
 	wsItemShop: EventShopItem[]
 }
 
@@ -29,11 +22,12 @@ interface DarkCastleChest {
 }
 
 enum GRID_ITEM {
-	NORMAL= 0,
-	BLUE_BAG= 1,
-	ORANGE_BAG= 2,
-	PURPLE_BAG= 3,
+	NORMAL = 0,
+	BLUE_BAG = 1,
+	ORANGE_BAG = 2,
+	PURPLE_BAG = 3,
 }
+
 interface DarkCastleGridSlot {
 	id: number
 	items: Item[]
@@ -41,6 +35,7 @@ interface DarkCastleGridSlot {
 	sid: number //1=portal
 	isGet: boolean
 }
+
 interface DarkCastleGrid {
 	gzzid: number
 	min: number //??

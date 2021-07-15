@@ -1,11 +1,20 @@
 import { Item } from '~/types/goat/Item'
 
+export interface EventRank {
+	name: string
+	rid: number
+	score: number
+	uid: string
+}
+export interface EventRankWithServer {
+	sev: number
+}
+
 export interface EventQuest {
 	id: number;
 	num: number;
 	rwd: number;
 }
-
 export interface EventQuestCfg {
 	type: number;
 	dcCfg: {

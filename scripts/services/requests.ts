@@ -189,7 +189,6 @@ export class GoatRequest {
 	async getCastleRewards(id: number, rsn: string): Promise<CastleInfos|false> {
 		try {
 			const reward = await this.sendRequest({ 'rsn': rsn,'hangUpSystem':{ 'getRewards':{ 'type':'all','id':id } } })
-			console.log('Claimed maiden rewards')
 			return reward.u.hangUpSystem.info[0]
 		} catch (e) {
 			return false
@@ -203,7 +202,6 @@ export class GoatRequest {
 		}
 	}
 	async claimQuest(eventId: string, castleId: number): Promise<void> {
-		logger.log(`Claim quest ${eventId} for castle ${castleId}`)
 		try {
 			await this.sendRequest({ 'rsn': '9zrmzjtbsjm','hangUpSystem': { 'getSonDispatchRewards': { 'eventId': eventId, 'id': castleId } } })
 		}catch (e) {
@@ -214,7 +212,7 @@ export class GoatRequest {
 		try {
 			const sonsSlots: {slot: number, sonId: number}[] = []
 			sons.forEach((sonId, index) => sonsSlots.push({ slot: index + 1, sonId: sonId }))
-			logger.log(`Send son(s) ${sons} on quest ${eventId} for castle ${castleId}`)
+			// logger.log(`Send son(s) ${sons} on quest ${eventId} for castle ${castleId}`)
 
 			await this.sendRequest({ 'rsn': '9rztbmjirc','hangUpSystem': { 'sonDispatch': {
 				'son_slot': sonsSlots,
@@ -227,7 +225,6 @@ export class GoatRequest {
 		}
 	}
 	async refreshQuests(castleId: number): Promise<CastleInfos|false> {
-		logger.log(`Refreshing quests for castle ${castleId}`)
 		try{
 			const refresh = await this.sendRequest({ 'rsn':'3hzpseshen','hangUpSystem':{ 'refreshEvent':{ 'type':0,'id':castleId } } })
 

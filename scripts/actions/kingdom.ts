@@ -4,6 +4,8 @@ import { Son } from '../../types/game'
 import { CastleInfos, EventInfo } from '../../types/goat/Kingdom'
 import { goat } from '../services/requests'
 import { logger } from '../services/logger'
+import chalk = require('chalk')
+const cliProgress = require('cli-progress')
 
 const CASTLES_RSN: {[k: number]: string} = {
 	1: '5yprprvaae',
@@ -51,7 +53,7 @@ const findAvailableSon = (honor: number|null = null): Son => {
 
 const handleQuest = async (quest: EventInfo, castle: number): Promise<number> => {
 	if (quest.startTime && differenceInMinutes(new Date(), fromUnixTime(quest.startTime)) < (30 * quest.rarity)) { //en cours 10
-		console.log(`Ongoing quest ${quest.eventId} since ${differenceInMinutes(new Date(), fromUnixTime(quest.startTime))}mn`)
+		// logger.log(`Ongoing quest ${quest.eventId} since ${differenceInMinutes(new Date(), fromUnixTime(quest.startTime))}mn`)
 		return 0
 	}
 
@@ -60,6 +62,7 @@ const handleQuest = async (quest: EventInfo, castle: number): Promise<number> =>
 		|| (quest.isCheck && !quest.status)
 	) { //terminée non claim 00
 		await goat.claimQuest(quest.eventId, castle)
+		// logger.log(`Claim quest ${quest.eventId} for castle ${castle}`)
 		updateSonsAvailability(quest, true)
 		return 1
 	}
@@ -74,7 +77,7 @@ const handleQuest = async (quest: EventInfo, castle: number): Promise<number> =>
 		return 0
 	}
 	if ((quest.isCheck && quest.status) || (!quest.isCheck && quest.status)) { //terminée claim 11
-		console.log(`Quest ${quest.eventId} finished`)
+		// logger.log(`Quest ${quest.eventId} finished`)
 		return 1
 	}
 
@@ -83,8 +86,9 @@ const handleQuest = async (quest: EventInfo, castle: number): Promise<number> =>
 }
 
 export const handleCastle = async (castle: CastleInfos): Promise<void> => {
-	logger.warn(`Handling castle ${castle.id}`)
+	// logger.warn(`Handling castle ${castle.id}`)
 	await goat.getCastleRewards(castle.id, CASTLES_RSN[castle.id])
+	// logger.log(`Claimed maiden rewards for cast ${casle.id}`)
 
 	let status = 0
 	const quests = castle.task.event
@@ -96,10 +100,11 @@ export const handleCastle = async (castle: CastleInfos): Promise<void> => {
 	}
 
 	if (castle.task.refreshNum === 8) { //all refreshes used
-		logger.warn('No more refreshes')
+		// logger.warn('No more refreshes')
 		return
 	}
 
+	// logger.log(`Refreshing quests for castle ${castle.id}`)
 	const refresh = await goat.refreshQuests(castle.id)
 	if (refresh) {castle.task.event = refresh.task.event}
 	for (const quest of castle.task.event) {
@@ -122,6 +127,14 @@ export const doKingdom = async (): Promise<void> => {
 		state.sons = game.son.sonList.map((son: Son) => ({ ...son, available: true }))
 		state.castles = game.hangUpSystem.info
 
+		const progress = new cliProgress.SingleBar({
+			format: `Kingdom Exploration\t| ${chalk.green('{bar}')} | {value}/{total} castles`,
+			barCompleteChar: '\u2588',
+			barIncompleteChar: '\u2591',
+			hideCursor: true,
+		})
+		progress.start(state.castles.length, 0)
+
 		//Setup available or not sons
 		state.castles.forEach((castle: CastleInfos) => {
 			castle.task.event.forEach((event: EventInfo) => {
@@ -131,8 +144,9 @@ export const doKingdom = async (): Promise<void> => {
 
 		for (const castle of state.castles) {
 			await handleCastle(castle)
+			progress.increment()
 		}
-
+		progress.stop()
 	} catch (e) {
 		console.log(e)
 	}

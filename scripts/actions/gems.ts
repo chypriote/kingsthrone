@@ -4,7 +4,7 @@ const cliProgress = require('cli-progress')
 
 export const getGems = async (count: number|null = null): Promise<void> => {
 	const progress = new cliProgress.SingleBar({
-		format: `Gems\t| ${chalk.cyanBright('{bar}')} | {value}${ count ? '/{total}' : ''} gems | {duration}s (ETA: {eta_formatted})`,
+		format: `Gems\t| ${chalk.cyanBright('{bar}')} | {value}${ count ? '/{total}' : ''} gems | {duration_formatted}s (ETA: {eta_formatted})`,
 		barCompleteChar: '\u2588',
 		barIncompleteChar: '\u2591',
 		hideCursor: true,

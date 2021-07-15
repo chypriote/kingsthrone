@@ -37,7 +37,7 @@ const getItem = (id: number): Item => {
 
 const combineItems = async (): Promise<void> => {
 	const famedFragments = getItem(ITEMS.FAMED_HERO_FRAGMENT)
-	if (famedFragments.count >= 10) {
+	if (famedFragments.count >= 8) {
 		await goat.items().combineItem(ITEMS.FAMED_HERO_TOKEN, 1)
 	}
 

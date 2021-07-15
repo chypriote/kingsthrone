@@ -250,13 +250,13 @@ const buyShop = async (shop: ShopItem[]): Promise<void> => {
  * otherwise starts a fight with the provided opponent,
  * or use a token to start a new one
  */
-const startFighting = async (opponent: string|null, hid: number|null): Promise<ITourneyStatus> => {
+const startFighting = async (opponent: string|null, hid: number|null): Promise<ITourneyStatus|null> => {
 	const status = await state.endpoint.getTourneyInfos()
 	const currentState = status.info.state
 
 	if ([11, 12, 14, 15].includes(currentState)) {
 		logger.warn('fight already started')
-		if (opponent) {logger.error(`can't challenge ${opponent}`); process.exit(0)}
+		if (opponent) {logger.error(`can't challenge ${opponent}`); return null}
 		return status
 	}
 
@@ -267,7 +267,7 @@ const startFighting = async (opponent: string|null, hid: number|null): Promise<I
 
 	if (currentState === 1) {
 		logger.error(`Tourney not ready, awaiting ${format(fromUnixTime(status.info.cd.next), 'HH:mm')}`)
-		process.exit(0)
+		return null
 	}
 
 	if (currentState === 3) {
@@ -277,12 +277,12 @@ const startFighting = async (opponent: string|null, hid: number|null): Promise<I
 
 	if (currentState === 4) {
 		logger.error('Daily fights over, token fights over, use challenges')
-		process.exit(0)
+		return null
 	}
 
 	if (currentState !== 2) {
 		logger.error(`Unknown state: ${currentState}`)
-		process.exit(0)
+		return null
 	}
 
 	return await state.endpoint.startTourneyFight()
@@ -321,6 +321,7 @@ export const doTourney = async (
 	loadEndpoint(type)
 	state.heroes = await getExistingHeroesList()
 	const status = await startFighting(opponent, hid)
+	if (!status) { return }
 	await loadFight(status.fight)
 	await loopFight(status)
 	logger.debug(format(new Date(), 'HH:mm'))

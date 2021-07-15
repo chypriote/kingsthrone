@@ -20,9 +20,9 @@ yargs(hideBin(process.argv))
 	.command('full', 'Runs daily chores, kingdom and tourney', () => {}, async (argv) => {
 		await goat.login(argv.account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
 
-		await dailyChores()
 		await doKingdom()
 		await doTourney(TOURNEY_TYPE.LOCAL)
+		await dailyChores()
 		process.exit()
 	})
 	//Daily
@@ -122,11 +122,15 @@ yargs(hideBin(process.argv))
 			description: 'Number of processions to do',
 			alias: 'n',
 			type: 'number',
+		}).option('draughts', {
+			description: 'Number of draughts to use',
+			alias: 'd',
+			type: 'number',
 		})
 	}, async (argv) => {
 		await goat.login(argv.account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
 
-		await doProcessions(argv.amount)
+		await doProcessions(argv.amount, argv.draughts)
 		process.exit()
 	})
 

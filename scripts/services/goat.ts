@@ -3,8 +3,14 @@ import {
 	Account, Alliance, Children, Dungeon, Expeditions, Feasts,
 	HallOfFame, Items, Kingdom, Maidens, Mail, Processions, Profile,
 	Rankings, Rewards, Tourney, WorldBoss, XServerTourney, Deathmatch,
-	DarkCastle, GardenStroll, Picnic, TreasureHunt
+	DarkCastle, GardenStroll, Picnic, TreasureHunt, Renovation
 } from './endpoints'
+
+export const LOGIN_ACCOUNT_GAUTIER = { 'rsn':'2ylxannmqx','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc', 'parm2':'GooglePlay','parm6':'4c4fbcab-ab57-3f8c-8447-f675203edc15', 'parm3':'ONEPLUS A5000','openid':'563125632849524101', 'openkey':'6b66102c0d0e963ee2f6ebe96a2344917c3faca4' } } }
+export const LOGIN_ACCOUNT_NAPOLEON = { 'rsn':'2axwqwhxyx','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc', 'parm2':'GooglePlay','parm6':'4c4fbcab-ab57-3f8c-8447-f675203edc15', 'parm3':'ONEPLUS A5000','openid':'565939577188654916', 'openkey':'b4d47e9c7beaf15e97f899c8cd4f2bbc4f31c3bc' } } }
+export const LOGIN_ACCOUNT_701 = { 'rsn':'2maymbhnxnb','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'82557521-a0b4-3441-a774-840066252311','parm3':'ONEPLUS A5000','openid':'565939577188654916','openkey':'deb43d3a1b48b2f80d01ae6829834e9a309019f8' } } }
+export const LOGIN_ACCOUNT_RAYMUNDUS = { 'rsn':'7xcxcypvslg','login':{ 'loginAccount':{ 'parm1':'WIFI','platform':'gaotukc','parm2':'GooglePlay','parm6':'2630f405-13ed-3867-90e5-325059450d8e','parm3':'ONEPLUS A5000','openid':'573218842929144928','openkey':'78c249945d8d450de2111c2eebaa653b697f40c1' } } }
+
 
 const VERSION = 'V1.3.559'
 const COOKIE = 'lyjxncc=c3ac4e77dff349b66c7aeed276e3eb6c'
@@ -12,13 +18,13 @@ const DEFAULT_HOST = 'ksrus.gtbackoverseas.com'
 // const OLD_HOST = 'zsjefunbm.zwformat.com'
 
 export class Goat implements GoatApi {
-	cookie: string
-	token: string|null = null
-	gid: string|null = null
+	private readonly cookie: string
+	private token: string|null = null
+	private gid: string|null = null
 
-	host: string
-	server: string
-	version: string
+	private readonly host: string
+	private server: string
+	private version: string
 
 	isLoggedIn = false
 
@@ -50,6 +56,7 @@ export class Goat implements GoatApi {
 		gardenStroll: GardenStroll
 		picnic: Picnic
 		treasureHunt: TreasureHunt
+		castle: Renovation
 	}
 
 	constructor() {
@@ -90,20 +97,27 @@ export class Goat implements GoatApi {
 			gardenStroll: new GardenStroll(this),
 			picnic: new Picnic(this),
 			treasureHunt: new TreasureHunt(this),
+			castle: new Renovation(this),
 		}
 	}
+	_getHost(): string { return this.host}
+	_getCookie(): string { return this.cookie}
+	_getServer(): string { return this.server}
 	_setServer(server: string): this {
 		this.server = server
 		return this
 	}
+	_getVersion(): string { return this.version}
 	_setVersion(version: string): this {
 		this.version = version
 		return this
 	}
+	_getGid(): string|null { return this.gid}
 	_setGid(gid: string): this {
 		this.gid = gid === '691005139' ? '691005130' : gid
 		return this
 	}
+	_getToken(): string|null { return this.token}
 	_setToken(token: string): this {
 		this.token = token
 		this.isLoggedIn = true
@@ -112,4 +126,9 @@ export class Goat implements GoatApi {
 	_getBaseUrl(): string {
 		return `http://${this.host}/servers/s${this.server}.php`
 	}
+	_isGautier(): boolean {
+		return this.gid === '699002934'
+	}
 }
+
+export const goat = new Goat()

@@ -36,8 +36,10 @@ export class Children extends GoatResource {
 		const friends = await this.request({ 'friends': { 'getPrivateChatData': [] }, 'rsn': '7yvovxpxyp' })
 		return friends.a.friends.qjlist
 	}
-
 	async visitInLaw(uid: string): Promise<void> {
 		await this.request({ 'friends': { 'qjvisit': { 'fuid': uid } }, 'rsn': '3hzewhwzkp' })
+	}
+	async visitInLaws(): Promise<void> {
+		await this.request({ 'friends':{ 'qjvisit':{ 'fuid':0 } },'rsn':'4acbmmxgfmg' })
 	}
 }

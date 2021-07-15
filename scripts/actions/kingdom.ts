@@ -2,7 +2,7 @@ import { find } from 'lodash'
 import { differenceInMinutes, fromUnixTime } from 'date-fns'
 import { Son } from '../../types/game'
 import { CastleInfos, EventInfo } from '../../types/goat/Kingdom'
-import { goat } from '../services/requests'
+import { goat } from '../services/goat'
 import chalk = require('chalk')
 const cliProgress = require('cli-progress')
 
@@ -60,7 +60,7 @@ const handleQuest = async (quest: EventInfo, castle: number): Promise<number> =>
 		(!quest.isCheck && !quest.status && quest.startTime)
 		|| (quest.isCheck && !quest.status)
 	) { //terminée non claim 00
-		await goat.claimQuest(quest.eventId, castle)
+		await goat.kingdom.claimQuest(quest.eventId, castle)
 		// logger.log(`Claim quest ${quest.eventId} for castle ${castle}`)
 		updateSonsAvailability(quest, true)
 		return 1
@@ -72,7 +72,7 @@ const handleQuest = async (quest: EventInfo, castle: number): Promise<number> =>
 			const son = findAvailableSon()
 			sons.push(son.id)
 		}
-		await goat.sendQuest(quest.eventId, castle, sons)
+		await goat.kingdom.sendQuest(quest.eventId, castle, sons)
 		return 0
 	}
 	if ((quest.isCheck && quest.status) || (!quest.isCheck && quest.status)) { //terminée claim 11
@@ -86,7 +86,7 @@ const handleQuest = async (quest: EventInfo, castle: number): Promise<number> =>
 
 export const handleCastle = async (castle: CastleInfos): Promise<void> => {
 	// logger.warn(`Handling castle ${castle.id}`)
-	await goat.getCastleRewards(castle.id, CASTLES_RSN[castle.id])
+	await goat.kingdom.getCastleRewards(castle.id, CASTLES_RSN[castle.id])
 	// logger.log(`Claimed maiden rewards for cast ${casle.id}`)
 
 	let status = 0
@@ -104,7 +104,7 @@ export const handleCastle = async (castle: CastleInfos): Promise<void> => {
 	}
 
 	// logger.log(`Refreshing quests for castle ${castle.id}`)
-	const refresh = await goat.refreshQuests(castle.id)
+	const refresh = await goat.kingdom.refreshQuests(castle.id)
 	if (refresh) {castle.task.event = refresh.task.event}
 	for (const quest of castle.task.event) {
 		await handleQuest(quest, castle.id)
@@ -122,7 +122,7 @@ const state: IState = {
 
 export const doKingdom = async (): Promise<void> => {
 	try {
-		const game = await goat.getGameInfos()
+		const game = await goat.profile.getGameInfos()
 		state.sons = game.son.sonList.map((son: Son) => ({ ...son, available: true }))
 		state.castles = game.hangUpSystem.info
 

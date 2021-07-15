@@ -1,7 +1,7 @@
 import { find } from 'lodash'
 import chalk from 'chalk'
 import { NPCS, ProcessionGain } from '../../types/goat/Processions'
-import { goat } from '../services/requests'
+import { goat } from '../services/goat'
 import { logger } from '../services/logger'
 const cliProgress = require('cli-progress')
 
@@ -45,15 +45,15 @@ const state = {
 }
 
 const useDraught = async (count = 1): Promise<void> => {
-	const draught = await goat.useGoodwillDraught(count)
+	const draught = await goat.processions.useGoodwillDraught(count)
 	state.availableDraught = draught.items.count
 	state.availableProcessions = draught.status.num
 	state.usedDraught++
 }
 
 export const doProcessions = async (count = 0, draughts = 0): Promise<void> => {
-	const available = await goat.getAvailableProcessions()
-	const visitsPerDraughts = goat.gid === '699002934' ? 3 : 5
+	const available = await goat.processions.getAvailableProcessions()
+	const visitsPerDraughts = goat._isGautier() ? 3 : 5
 	state.availableProcessions = available.num
 
 	if (!state.availableProcessions && (count || draughts)) {
@@ -72,7 +72,7 @@ export const doProcessions = async (count = 0, draughts = 0): Promise<void> => {
 	progress.start(todo, state.visits, { draughts: state.usedDraught })
 
 	while (state.availableProcessions) {
-		const { result } = await goat.startProcession()
+		const { result } = await goat.processions.startProcession()
 		const npc = getNpc(result.npcid)
 		npc.visits++
 		state.visits++

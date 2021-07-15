@@ -6,11 +6,15 @@ import { dailyChores } from './scripts/daily'
 import { doKingdom } from './scripts/actions/kingdom'
 import { doTourney } from './scripts/tourney'
 import { doProcessions, visitMaidens } from './scripts/actions'
-import { goat, LOGIN_ACCOUNT_GAUTIER, LOGIN_ACCOUNT_NAPOLEON } from './scripts/services/requests'
+import { goat, LOGIN_ACCOUNT_GAUTIER, LOGIN_ACCOUNT_NAPOLEON } from './scripts/services/goat'
 import { getGems } from './scripts/actions/gems'
 import { TOURNEY_TYPE } from './scripts/tourney/fight'
 import { logger } from './scripts/services/logger'
 import { format } from 'date-fns'
+
+async function login(account: string|null = null) {
+	await goat.profile.login(account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
+}
 
 yargs(hideBin(process.argv))
 	.option('account', {
@@ -20,7 +24,7 @@ yargs(hideBin(process.argv))
 		type: 'string',
 	})
 	.command('full', 'Runs daily chores, kingdom and tourney', () => {}, async (argv) => {
-		await goat.login(argv.account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
+		await login(argv.account)
 
 		await doKingdom()
 		await doTourney(TOURNEY_TYPE.LOCAL)
@@ -30,7 +34,7 @@ yargs(hideBin(process.argv))
 	})
 	//Daily
 	.command('daily', 'Run daily chores', () => {}, async (argv) => {
-		await goat.login(argv.account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
+		await login(argv.account)
 
 		await dailyChores()
 		logger.success(`Finished ${format(new Date(), 'HH:mm')}`)
@@ -38,7 +42,7 @@ yargs(hideBin(process.argv))
 	})
 	//Kingdom
 	.command('kingdom', 'Explore the kingdom', () => {}, async (argv) => {
-		await goat.login(argv.account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
+		await login(argv.account)
 
 		await doKingdom()
 		logger.success(`Finished ${format(new Date(), 'HH:mm')}`)
@@ -59,7 +63,7 @@ yargs(hideBin(process.argv))
 			default: null,
 		})
 	}, async (argv) => {
-		await goat.login(argv.account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
+		await login(argv.account)
 
 		await doTourney(TOURNEY_TYPE.LOCAL, argv.opponent, argv.hero)
 		logger.success(`Finished ${format(new Date(), 'HH:mm')}`)
@@ -79,7 +83,7 @@ yargs(hideBin(process.argv))
 			default: null,
 		})
 	}, async (argv) => {
-		await goat.login(argv.account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
+		await login(argv.account)
 
 		await doTourney(TOURNEY_TYPE.DEATHMATCH, argv.opponent, argv.hero)
 		logger.success(`Finished ${format(new Date(), 'HH:mm')}`)
@@ -99,7 +103,7 @@ yargs(hideBin(process.argv))
 			default: null,
 		})
 	}, async (argv) => {
-		await goat.login(argv.account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
+		await login(argv.account)
 
 		await doTourney(TOURNEY_TYPE.XSERVER, argv.opponent, argv.hero)
 		logger.success(`Finished ${format(new Date(), 'HH:mm')}`)
@@ -118,7 +122,7 @@ yargs(hideBin(process.argv))
 			type: 'number',
 		})
 	}, async (argv) => {
-		await goat.login(argv.account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
+		await login(argv.account)
 
 		await visitMaidens(argv.amount, argv.draughts)
 		logger.success(`Finished ${format(new Date(), 'HH:mm')}`)
@@ -137,7 +141,7 @@ yargs(hideBin(process.argv))
 			type: 'number',
 		})
 	}, async (argv) => {
-		await goat.login(argv.account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
+		await login(argv.account)
 
 		await doProcessions(argv.amount, argv.draughts)
 		logger.success(`Finished ${format(new Date(), 'HH:mm')}`)
@@ -152,7 +156,7 @@ yargs(hideBin(process.argv))
 			type: 'number',
 		})
 	}, async (argv) => {
-		await goat.login(LOGIN_ACCOUNT_GAUTIER)
+		await goat.profile.login(LOGIN_ACCOUNT_GAUTIER)
 
 		await getGems(argv.amount)
 		logger.success(`Finished ${format(new Date(), 'HH:mm')}`)

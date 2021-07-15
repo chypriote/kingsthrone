@@ -30,4 +30,7 @@ export class Rewards extends GoatResource {
 	async getProgressionReward(): Promise<void> {
 		await this.request({ 'chengjiu': { 'getAllrwd': [] }, 'rsn': '4fcgicgcabm' })
 	}
+	async claimLoginReward(): Promise<void> {
+		await this.request({ 'fuli':{ 'qiandao':[] },'rsn':'6wguukkgpk' })
+	}
 }

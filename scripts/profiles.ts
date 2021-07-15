@@ -1,14 +1,14 @@
 import { config } from 'dotenv'
 config()
 import { chunk } from 'lodash'
-import { Profile } from '~/types/goatGeneric'
 import { logger } from './services/logger'
-import { goat } from './services/requests'
+import { goat } from './services/goat'
 import { getPlayers, updatePlayerDetails } from './repository/player'
 import { getPlayerAlliance, leaveAlliance, setPlayerAlliance } from './repository/alliance'
 import { Player } from '~/types/strapi/Player'
+import { UserProfile } from '~/types/goat/User'
 
-export const updatePlayerAlliance = async (player: Player, ally: Profile): Promise<void> => {
+export const updatePlayerAlliance = async (player: Player, ally: UserProfile): Promise<void> => {
 	//Check if player currently has alliance
 	const current = await getPlayerAlliance(player)
 
@@ -37,7 +37,7 @@ export const updatePlayerAlliance = async (player: Player, ally: Profile): Promi
 const updateProfile = async (profile: Player): Promise<void> => {
 	logger.debug(`Updating ${profile.name}`)
 	try {
-		const item = await goat.getProfile(profile.gid)
+		const item = await goat.profile.getUser(profile.gid)
 		if (!item) {return}
 
 		await Promise.all([

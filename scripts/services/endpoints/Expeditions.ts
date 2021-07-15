@@ -40,7 +40,7 @@ export class Expeditions extends GoatResource {
 	}
 
 	async doKingdomExpedition(level: number): Promise<KingdomExpInfo> {
-		const heroes = this._goat.gid === '699002934' ? [
+		const heroes = this._goat._isGautier() ? [
 			{ 'pos': 1, 'power': 999999999, 'hid': 41 },
 			{ 'pos': 2, 'power': 999999999, 'hid': 3 },
 			{ 'pos': 3, 'power': 999999999, 'hid': 8 },

@@ -1,5 +1,5 @@
 import { find } from 'lodash'
-import { goat } from '../services/requests'
+import { goat } from '../services/goat'
 import { logger } from '../services/logger'
 import { Expedition, ExpeditionInfo } from '~/types/goat/Expeditions'
 
@@ -28,8 +28,8 @@ const selectExpedition = (expeditions: Expedition[]): number => {
 
 export const doMerchant = async (count: number): Promise<void> => {
 	try {
-		const current = (await goat.getMerchantStatus()).gid - 1
-		await goat.merchantVentures(count - current)
+		const current = (await goat.expeditions.getMerchantStatus()).gid - 1
+		await goat.expeditions.doMerchantVentures(count - current)
 	} catch (e) {
 		logger.log(e)
 		logger.error('Error while doing merchant ventures')
@@ -37,14 +37,14 @@ export const doMerchant = async (count: number): Promise<void> => {
 }
 export const doExpedition = async (count: number): Promise<void> => {
 	try {
-		updateState(await goat.getExpeditionsStatus())
+		updateState(await goat.expeditions.getExpeditionsStatus())
 
 		while (state.gid < count + 1) {
 			if (state.gid % 10 === 0 || state.gid % 10 === 9) {
-				updateState(await goat.doExpedition(selectExpedition(state.data)))
+				updateState(await goat.expeditions.doExpedition(selectExpedition(state.data)))
 				continue
 			}
-			updateState(await goat.multipleExpeditions(state.gid - (state.gid % 10) + 8))
+			updateState(await goat.expeditions.doExpeditions(state.gid - (state.gid % 10) + 8))
 		}
 	} catch (e) {
 		logger.log(e)

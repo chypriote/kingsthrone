@@ -48,10 +48,10 @@ export class GoatResource {
 
 	private _makeParams(): any {
 		return {
-			sevid: this._goat.server,
-			ver: this._goat.version,
-			uid: this._goat.isLoggedIn ? this._goat.gid : '',
-			token: this._goat.isLoggedIn ? this._goat.token : '',
+			sevid: this._goat._getServer(),
+			ver: this._goat._getVersion(),
+			uid: this._goat.isLoggedIn ? this._goat._getGid() : '',
+			token: this._goat.isLoggedIn ? this._goat._getToken() : '',
 			platform: 'gaotukc',
 			lang: 'en',
 		}
@@ -61,8 +61,8 @@ export class GoatResource {
 			'Accept-Encoding': 'identity',
 			'Content-Type': 'application/x-www-form-urlencoded',
 			'User-Agent': 'Dalvik/2.1.0 (Linux; U; Android 7.1.1; ONEPLUS A5000 Build/NMF26X)',
-			'Host': this._goat.host,
-			'Cookie': this._goat.cookie,
+			'Host': this._goat._getHost(),
+			'Cookie': this._goat._getCookie(),
 			'Connection': 'Keep-Alive',
 		}
 	}
@@ -95,9 +95,9 @@ export class GoatResource {
 
 		this._goat._setToken(response?.a?.loginMod?.loginAccount?.token)
 		this._goat._setGid(response?.a?.loginMod?.loginAccount?.uid.toString())
-		logger.warn(`Logged in on ${this._goat.server} as ${this._goat.gid}`)
+		logger.warn(`Logged in on ${this._goat._getServer()} as ${this._goat._getGid()}`)
 	}
-	public async request(data: any = null): Promise<any> {
+	protected async request(data: any = null): Promise<any> {
 		if (!this._goat.isLoggedIn) { await this.login(LOGIN_ACCOUNT_NAPOLEON) }
 		const response = await this._request(data)
 		return await this._jsonResponseHandler(response)

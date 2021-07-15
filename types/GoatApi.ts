@@ -1,14 +1,6 @@
-import { Account, Alliance, Children, Dungeon, Expeditions, Feasts, HallOfFame, Items, Kingdom, Maidens, Mail, Processions, Profile, Rankings, Rewards, Tourney, WorldBoss, XServerTourney, Deathmatch, DarkCastle, GardenStroll, Picnic, TreasureHunt } from '../scripts/services/endpoints'
+import { Account, Alliance, Children, Dungeon, Expeditions, Feasts, HallOfFame, Items, Kingdom, Maidens, Mail, Processions, Profile, Rankings, Rewards, Tourney, WorldBoss, XServerTourney, Deathmatch, DarkCastle, GardenStroll, Picnic, TreasureHunt, Renovation } from '../scripts/services/endpoints'
 
 export interface GoatApi {
-	cookie: string
-	token: string | null
-	gid: string | null
-
-	host: string
-	server: string
-	version: string
-
 	isLoggedIn: boolean
 
 	account: Account
@@ -39,5 +31,15 @@ export interface GoatApi {
 		gardenStroll: GardenStroll
 		picnic: Picnic
 		treasureHunt: TreasureHunt
+		castle: Renovation
 	}
+
+	_setServer(server: string): this
+	_getServer(): string
+	_setVersion(version: string): this
+	_getVersion(): string
+	_setGid(gid: string): this
+	_getGid(): string|null
+	_setToken(token: string): this
+	_getToken(): string|null
 }

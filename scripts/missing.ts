@@ -1,19 +1,19 @@
 import { chunk } from 'lodash'
-import { goat } from './services/requests'
+import { goat } from './services/goat'
 import { logger } from './services/logger'
 import { createPlayer, getAllGID, getPlayerByGID, updatePlayerDetails } from './repository/player'
 import { updatePlayerAlliance } from './profiles'
 import { Player } from '../types/strapi/Player'
-import { Profile } from '../types/goatGeneric'
+import { UserProfile } from '~/types/goat/User'
 
 const SERVERS = ['691', '741', '760', '809']
 
 const getMin = (server: string): number => parseInt(server + '000001')
 const getMax = (server: string): number => parseInt(server + '005000')
 
-const createPlayerIfExists = async (profile: Profile): Promise<Player> => {
+const createPlayerIfExists = async (profile: UserProfile): Promise<Player> => {
 	const gid = profile.id
-	await createPlayer(gid, profile.name, profile.vip, parseInt(profile.shili), profile.hero_num, parseInt(goat.server))
+	await createPlayer(gid, profile.name, profile.vip, profile.shili, profile.hero_num, parseInt(goat._getServer()))
 
 	logger.success(`Created ${profile.name}`)
 	return await getPlayerByGID(gid)
@@ -22,7 +22,7 @@ const createPlayerIfExists = async (profile: Profile): Promise<Player> => {
 const handleGID = async (id: string, retry = true): Promise<string|null> => {
 	try {
 		let player: Player|null = await getPlayerByGID(id)
-		const profile = await goat.getProfile(id)
+		const profile = await goat.profile.getUser(id)
 
 		if (!profile || profile.hero_num < 25) {
 			console.log(`Ignoring ${id} ${ profile ? profile.hero_num : ''}`)
@@ -57,7 +57,7 @@ export const missing = async (): Promise<void> => {
 	for (const server of SERVERS) {
 		console.log(server)
 		goat.isLoggedIn = false
-		await goat.createAccount(server)
+		await goat.account.createAccount(server)
 
 		const missing = []
 		const gids = (await getAllGID({ server })).map(it => parseInt(it.gid))

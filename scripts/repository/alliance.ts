@@ -1,10 +1,10 @@
 import { formatISO, fromUnixTime } from 'date-fns'
-import { Profile } from '~/types/goatGeneric'
 import { client } from '../services/database'
 import { logger } from '../services/logger'
 import { Alliance } from '~/types/strapi/Alliance'
 import { Player } from '~/types/strapi/Player'
 import { XSAlliance, XSOpponent } from '~/types/goat/TourneyXS'
+import { UserProfile } from '~/types/goat/User'
 
 export const createAlliance = async (
 	aid: string,
@@ -67,7 +67,7 @@ export const getPlayerAlliance = async (player: Player): Promise<Alliance> => {
 }
 
 // Checks if sent alliance already exists and creates it if not, add player to alliance
-export const setPlayerAlliance = async (player: Player, ally: Profile): Promise<void> => {
+export const setPlayerAlliance = async (player: Player, ally: UserProfile): Promise<void> => {
 	logger.success(`Joining alliance ${ally.clubname}`)
 	let alliance = await getAllianceByAID(ally.clubid)
 	if (!alliance) {

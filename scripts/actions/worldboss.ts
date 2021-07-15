@@ -1,6 +1,7 @@
 import chalk from 'chalk'
-import { filter, orderBy } from 'lodash'
-import { goat } from '../services/requests'
+import { orderBy } from 'lodash'
+import { goat } from '../services/goat'
+
 const cliProgress = require('cli-progress')
 
 export enum FIGHT_STATUS {
@@ -12,7 +13,7 @@ export enum FIGHT_STATUS {
 
 
 export const doMinions = async (): Promise<void> => {
-	const heroes = (await goat.getGameInfos()).wordboss.mgft
+	const heroes = (await goat.profile.getGameInfos()).wordboss.mgft
 	const sorted = orderBy(heroes.filter(h => h.h), 'zfight_num', 'asc')
 
 	if (!sorted.length) {return }
@@ -26,7 +27,7 @@ export const doMinions = async (): Promise<void> => {
 
 	for (const hero of sorted) {
 		try {
-			const status = await goat.attackMinion(hero.id)
+			const status = await goat.worldBoss.attackMinion(hero.id)
 			if (status === FIGHT_STATUS.BATTLE_ENDED) { progress.stop(); return }
 			progress.increment()
 		} catch (e) {/*do nothing*/}
@@ -35,7 +36,7 @@ export const doMinions = async (): Promise<void> => {
 }
 
 export const doBoss = async (): Promise<void> => {
-	const heroes = (await goat.getGameInfos()).wordboss.mgft
+	const heroes = (await goat.profile.getGameInfos()).wordboss.mgft
 	const sorted = orderBy(heroes.filter(h => h.h), 'zfight_num', 'asc')
 
 	if (!sorted.length) {return }
@@ -49,7 +50,7 @@ export const doBoss = async (): Promise<void> => {
 
 	for (const hero of sorted) {
 		try {
-			const status = await goat.attackBoss(hero.id)
+			const status = await goat.worldBoss.attackBoss(hero.id)
 			if (status === FIGHT_STATUS.BATTLE_ENDED) { progress.stop(); return }
 			progress.increment()
 		} catch (e) {/*do nothing*/}

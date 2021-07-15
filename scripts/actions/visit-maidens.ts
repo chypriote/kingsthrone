@@ -1,6 +1,6 @@
 import { find } from 'lodash'
 import { MAIDENS } from '../../types/goat/Maidens'
-import { goat } from '../services/requests'
+import { goat } from '../services/goat'
 import chalk from 'chalk'
 const cliProgress = require('cli-progress')
 
@@ -23,15 +23,15 @@ const state = {
 }
 
 const useDraught = async (count= 1): Promise<void> => {
-	const draught = await goat.useStaminaDraught(count)
+	const draught = await goat.maidens.useStaminaDraught(count)
 	state.availableDraught = draught.items.count
 	state.availableVisits = draught.status.num
 	state.usedDraught++
 }
 
 export const visitMaidens = async (count = 0, draughts = 0): Promise<void> => {
-	const available = await goat.getAvailableVisits()
-	const visitsPerDraughts = goat.gid === '699002934' ? 3 : 5
+	const available = await goat.maidens.getAvailableVisits()
+	const visitsPerDraughts = goat._isGautier() ? 3 : 5
 	state.availableVisits = available.num
 
 	if (!state.availableVisits && (count || draughts)) {
@@ -50,7 +50,7 @@ export const visitMaidens = async (count = 0, draughts = 0): Promise<void> => {
 	progress.start(todo, state.visits, { draughts: state.usedDraught })
 
 	while (state.availableVisits) {
-		const wife = await goat.visitRandomMaiden()
+		const wife = await goat.maidens.visitRandomMaiden()
 		const maiden = getMaiden(wife.id)
 		maiden.visits++
 		state.visits++

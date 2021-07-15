@@ -1,9 +1,9 @@
 import { formatISO } from 'date-fns'
-import { Profile } from '~/types/goatGeneric'
 import { client } from '../services/database'
 import { logger } from '../services/logger'
 import { Player } from '~/types/strapi/Player'
-import { goat } from '../services/requests'
+import { goat } from '../services/goat'
+import { UserProfile } from '~/types/goat/User'
 
 export const createPlayer = async (
 	gid: string, name: string, vip = 0, power = 0, heroes = 0, server = 699
@@ -39,7 +39,7 @@ export const updatePlayer = async (player: Player, name: string, vip: number): P
 	logger.debug('Player updated')
 }
 
-export const updatePlayerDetails = async (player: Player, goat: Profile): Promise<void> => {
+export const updatePlayerDetails = async (player: Player, goat: UserProfile): Promise<void> => {
 	await client('players')
 		.update({
 			name: goat.name,
@@ -56,7 +56,7 @@ export const updatePlayerDetails = async (player: Player, goat: Profile): Promis
 			heroes: goat.hero_num,
 			maidens: goat.wife_num,
 			children: goat.son_num,
-			ratio: Math.round(parseInt(goat.shili) / goat.hero_num),
+			ratio: Math.round(goat.shili / goat.hero_num),
 			updated_at: formatISO(new Date()),
 		})
 		.where('gid', '=', player.gid)
@@ -70,13 +70,13 @@ export const getOrCreatePlayerFromGoat = async (uid: string): Promise<Player> =>
 		return player
 	}
 
-	const profile = await goat.getProfile(uid)
+	const profile = await goat.profile.getUser(uid)
 
 	if (!profile) {
 		throw new Error(`Player with id ${uid} not found`)
 	}
 
-	await createPlayer(uid, profile.name, profile.vip, parseInt(profile.shili), profile.hero_num, parseInt(profile.id.toString().substr(0, 3)))
+	await createPlayer(uid, profile.name, profile.vip, profile.shili, profile.hero_num, parseInt(profile.id.toString().substr(0, 3)))
 
 	return await getPlayerByGID(uid)
 }

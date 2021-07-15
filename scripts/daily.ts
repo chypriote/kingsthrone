@@ -1,4 +1,4 @@
-import { goat } from './services/requests'
+import { goat } from './services/goat'
 import { logger } from './services/logger'
 import {
 	attendFeasts, contributeAlliance, doExpedition, doKingdomExpeditions, doMerchant,
@@ -16,8 +16,8 @@ export const dailyChores = async (): Promise<void> => {
 			await payHomage()
 			await doProcessions(30)
 			await visitMaidens(20)
-			await doMerchant(goat.gid === '699002934' ? 100 : 40)
-			await doExpedition(goat.gid === '699002934' ? 100 : 40)
+			await doMerchant(goat._isGautier() ? 100 : 40)
+			await doExpedition(goat._isGautier() ? 100 : 40)
 			await doKingdomExpeditions()
 			await visitInLaws()
 		}

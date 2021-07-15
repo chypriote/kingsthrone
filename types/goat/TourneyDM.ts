@@ -1,6 +1,6 @@
 import { User } from '../goatGeneric'
 import { ITourneyFight, ITourneyInfos, ITourneyResult, ITourneyStatus } from './Tourney'
-import { Item } from '~/types/goat/Item'
+import { Item } from './Item'
 
 interface DMTourneyFight extends ITourneyFight {
 	fstate: number
@@ -15,10 +15,10 @@ export interface DMOngoingFight extends ITourneyStatus {
 		lun: number
 		state: number
 		zd_state: number
-		sever: {sid: number}[] //servers list
+		sever: { sid: number }[] //servers list
 		rwd: Item[]
-		lunshu: {id: number, msg: string, num: number, time: number}[]
-		cd: {next: number, label: string}
+		lunshu: { id: number, msg: string, num: number, time: number }[]
+		cd: { next: number, label: string }
 	}
 	clublist: {
 		cid: string //aid
@@ -52,7 +52,7 @@ export interface DMOngoingFight extends ITourneyStatus {
 		n: string //name
 		u: string //uid
 	}[]
-	cslist: {f: number, h: number, id: number}
+	cslist: { f: number, h: number, id: number }
 }
 
 type DMRank = {

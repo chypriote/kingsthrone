@@ -1,4 +1,4 @@
-import { Item } from '~/types/goat/Item'
+import { Item } from './Item'
 
 type GarrisonInfo = {
 	wife: {

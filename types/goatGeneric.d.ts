@@ -78,27 +78,6 @@ export type TourneyRank = {
 	num: number //points
 }
 
-export type Club = {
-	id: string
-	name: string
-	level: string
-	exp: string
-	fund: string
-	qq: string
-	laoma: string
-	outmsg: string
-	rid: number
-	allShiLi: number
-	notice: string
-	isJoin: string
-	icon: string
-	members: [
-		{ name: string, post: number },
-	],
-	userShili: number
-	userLevel: number
-}
-
 export type EventRank = {
 	name: string
 	rid: number
@@ -126,63 +105,6 @@ export interface User {
 	chatframe: number
 	rid: number
 	num: number
-}
-
-export type InLaw = {
-	uid: string
-	name: string
-	job: number
-	sex: number
-	level: number
-	vip: number
-	chenghao: number
-	headframe: number
-	headType: number
-	headId: number
-	vipStatus: number
-	shili: number
-	clubid: number
-	clubname: string
-	frame: number
-	head: number
-	chatframe: number
-	num: number //likeability
-	num2: number //married
-	num3: number //last connection
-	tip: number
-}
-
-export type HallOfFamer = {
-	id: 3,
-	uid: string
-	name: string
-	level: number
-	sex: number
-	job: number
-	exp: number
-	vip: number
-	bmap: number
-	mmap: number
-	smap: number
-	ep: {
-		e1: number
-		e2: number
-		e3: number
-		e4: number
-	},
-	shili: number
-	love: number
-	clubid: number
-	clubname: string
-	chenghao: number
-	xuanyan: string
-	chlist: {id: number}[]
-	son_num: number
-	wife_num: number
-	hero_num: number
-	headType: number
-	headId: number
-	vipStatus: number
 }
 
 export type AllianceBossInfo = {

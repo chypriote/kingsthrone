@@ -1,4 +1,4 @@
-import { Item } from '../../goatGeneric'
+import { Item } from '../Item'
 
 type SurpriseEggShop = {
 	id: number
@@ -23,8 +23,8 @@ export type SurpriseEgg = {
 			rewards: Item[]
 		}[]
 		rank: {
-			member: {count: number, id: number}[]
-			rand: {re: number, rs: number}
+			member: { count: number, id: number }[]
+			rand: { re: number, rs: number }
 		}[]
 		score: number
 		shop: SurpriseEggShop[]

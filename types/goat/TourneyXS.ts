@@ -25,11 +25,12 @@ export interface XSPlayer extends User {
 	ep: GameStats
 	love: number
 	xuanyan: string
-	chlist: {id: number}[]
+	chlist: { id: number }[]
 	son_num: number
 	wife_num: number
 	hero_num: number
 }
+
 export type XSAlliance = {
 	rid: number //rank
 	icon: string

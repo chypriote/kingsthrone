@@ -1,4 +1,4 @@
-import { Item } from '../../goatGeneric'
+import { Item } from '../Item'
 
 type TreasureHuntReward = {
 	id: number

@@ -85,7 +85,7 @@ export const crossServerTourney = async (): Promise<void> => {
 
 		if (existing) { logger.log(`Existing ${player.name}`); continue }
 		const profile = await goat.getXSPlayer(player.uid)
-		await createPlayer(profile.id, profile.name, profile.vip, parseInt(profile.shili), profile.hero_num, parseInt(profile.id.toString().substr(0, 3)))
+		await createPlayer(profile.id, profile.name, profile.vip, profile.shili, profile.hero_num, parseInt(profile.id.toString().substr(0, 3)))
 	}
 
 	logger.success('Finished')
@@ -104,7 +104,7 @@ const logDeathmatch = async (): Promise<void> => {
 		if (user.uid == goat.gid) { continue }
 		const existing = await getPlayerByGID(user.uid)
 		const profile = await goat.getXSPlayer(user.uid)
-		const ratio = Math.round(parseInt(profile.shili) / profile.hero_num)
+		const ratio = Math.round(profile.shili / profile.hero_num)
 
 		await client('players')
 			.where({ gid: user.uid })

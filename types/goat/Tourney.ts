@@ -1,5 +1,5 @@
 import { User } from '../goatGeneric'
-import { Item } from '~/types/goat/Item'
+import { Item } from './Item'
 
 export interface ITourneyResult {
 	over: {
@@ -8,7 +8,7 @@ export interface ITourneyResult {
 		killnum: number
 		win: number
 		isover: number
-	}| null
+	} | null
 	fight: {
 		base: OpponentHeroStats[]
 		items: Item[],
@@ -18,6 +18,7 @@ export interface ITourneyResult {
 		winnum: number
 	}
 }
+
 export interface ITourneyFight { //===TourneyFight
 	hid: number
 	fuser: User
@@ -34,6 +35,7 @@ export interface ITourneyFight { //===TourneyFight
 	skilladdnum: number
 	skilladdrate: number
 }
+
 export interface ITourneyInfos {
 	state: number
 	cd: { next: number, label: string }
@@ -44,6 +46,7 @@ export interface ITourneyInfos {
 	qhid: number
 	fuser: User
 }
+
 export interface ITourneyStatus { //===OngoingFight
 	win: ITourneyResult
 	fight: ITourneyFight
@@ -58,8 +61,9 @@ export interface OpponentHero {
 	skin: number
 	dt: number
 	heroLv: number
-	name?: string|number
+	name?: string | number
 }
+
 export interface OpponentHeroStats {
 	azz: number
 	dt: number
@@ -69,18 +73,21 @@ export interface OpponentHeroStats {
 	level: number
 	skin: number
 }
+
 /** Shop **/
 declare enum BoostType {
-	ATTACK_POWER= 0,
-	FLAMES= 1
+	ATTACK_POWER = 0,
+	FLAMES = 1
 }
+
 export interface ShopItem {
 	id: number
 	type: BoostType
 	add: number
 }
+
 /** Rewards **/
-export type RewardItem = {count: number, id: number, kind: number}
+export type RewardItem = { count: number, id: number, kind: number }
 export type Reward = {
 	items: RewardItem[]
 	jiade: RewardItem[]
@@ -95,6 +102,7 @@ interface Defense extends User {
 	mscore: number
 	dtime: number
 }
+
 /** Tourney State */
 export interface UserTourney {
 	info: ITourneyInfos
@@ -105,7 +113,7 @@ export interface UserTourney {
 	}
 	myrank: { score: number, rank: number }
 	deflog: Defense[] //Revenges
-	enymsg:  {id: number, fuser: User, score: number, time: number}[]
+	enymsg: { id: number, fuser: User, score: number, time: number }[]
 	hastz: any[]
-	fclist: {id: number, h: number, f: number }[] //Used heroes
+	fclist: { id: number, h: number, f: number }[] //Used heroes
 }

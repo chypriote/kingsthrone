@@ -20,6 +20,29 @@ interface ClubMember {
 	inTime: { next: number, label: string }
 }
 
+export interface ClubInfo {
+	id: number
+	name: string
+	level: number
+	exp: number
+	fund: number
+	qq: number
+	laoma: string
+	outmsg: string
+	notice: string
+	members: ClubMember[]
+	isJoin: string
+	mzUID: number
+	icon: string
+	goldLimit: number
+	money: number
+	userShili: number
+	userLevel: number
+	password: number
+	clubLog: []
+	bossinfo: []
+}
+
 export interface Club {
 	memberInfo: {
 		cid: number
@@ -29,26 +52,5 @@ export interface Club {
 		post: number
 		ltime: { next: number, label: string }
 	}
-	clubInfo: {
-		id: number
-		name: string
-		level: number
-		exp: number
-		fund: number
-		qq: number
-		laoma: string
-		outmsg: string
-		notice: string
-		members: ClubMember[]
-		isJoin: string
-		mzUID: number
-		icon: string
-		goldLimit: number
-		money: number
-		userShili: number
-		userLevel: number
-		password: number
-		clubLog: []
-		bossinfo: []
-	}
+	clubInfo: ClubInfo
 }

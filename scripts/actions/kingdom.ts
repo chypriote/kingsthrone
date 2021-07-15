@@ -1,9 +1,8 @@
 import { find } from 'lodash'
-import { format, differenceInMinutes, fromUnixTime } from 'date-fns'
+import { differenceInMinutes, fromUnixTime } from 'date-fns'
 import { Son } from '../../types/game'
 import { CastleInfos, EventInfo } from '../../types/goat/Kingdom'
 import { goat } from '../services/requests'
-import { logger } from '../services/logger'
 import chalk = require('chalk')
 const cliProgress = require('cli-progress')
 
@@ -150,5 +149,4 @@ export const doKingdom = async (): Promise<void> => {
 	} catch (e) {
 		console.log(e)
 	}
-	logger.debug(format(new Date(), 'HH:mm'))
 }

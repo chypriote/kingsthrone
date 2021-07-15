@@ -1,8 +1,8 @@
-import { Item } from '~/types/goat/Item'
+import { Item } from './Item'
 
 enum FEAST_TYPE {
-	SMALL= 1,
-	GREAT= 2,
+	SMALL = 1,
+	GREAT = 2,
 }
 
 export type Poisoner = {
@@ -77,7 +77,7 @@ export type Feast = {
 }
 
 export type FeastInfo = {
-	yhType: {type: number}
+	yhType: { type: number }
 	jlfy: FeastStatus
 	jlShopfresh: {
 		fnum: number

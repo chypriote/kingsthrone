@@ -1,4 +1,3 @@
-
 export const MAIDENS = [
 	{ mid: 1, name: 'Marian', visits: 0 },
 	{ mid: 2, name: 'Julia', visits: 0 },

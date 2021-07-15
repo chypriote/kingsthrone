@@ -26,12 +26,12 @@ export type ExpeditionInfo = {
 }
 
 export type KingdomExpInfo = {
-	cfg: {bigId: number, playNum: number, smallId: number}
+	cfg: { bigId: number, playNum: number, smallId: number }
 	playNum: number
 	maxLevel: number
-	chapterPhases: {chapter: number, num: number}[]
-	chapterPhasesRwd: {id: number, status: number}[]
-	firstAllRwd: {level: number, num: number}[]
-	firstRwd: {level: number, num: number}[]
-	levelPlayStar: {level: number, num: number}[]
+	chapterPhases: { chapter: number, num: number }[]
+	chapterPhasesRwd: { id: number, status: number }[]
+	firstAllRwd: { level: number, num: number }[]
+	firstRwd: { level: number, num: number }[]
+	levelPlayStar: { level: number, num: number }[]
 }

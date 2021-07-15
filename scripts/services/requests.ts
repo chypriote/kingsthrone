@@ -1,9 +1,6 @@
 import axios from 'axios'
 import {
 	AllianceBossInfo,
-	Club,
-	HallOfFamer,
-	InLaw,
 	KingdomRank,
 	Profile,
 	TourneyRank,
@@ -27,7 +24,9 @@ import { FIGHT_STATUS } from '../actions/worldboss'
 import { find } from 'lodash'
 import { ITourneyStatus, OpponentHero, Reward, ShopItem } from '~/types/goat/Tourney'
 import { Item } from '~/types/goat/Item'
-import { getProgressionRewards } from '~/scripts/actions/rewards'
+import { HallOfFamer } from '~/types/goat/HallOfFame'
+import { ClubInfo } from '~/types/goat/Club'
+import { InLaw } from '~/types/goat/InLaw'
 
 const VERSION = 'V1.3.559'
 const COOKIE = 'lyjxncc=c3ac4e77dff349b66c7aeed276e3eb6c'
@@ -170,7 +169,7 @@ export class GoatRequest {
 		return tourney.a.yamen.rank
 	}
 
-	async getAllianceLadder(): Promise<Club[]> {
+	async getAllianceLadder(): Promise<ClubInfo[]> {
 		const alliances = await this.sendRequest({ club:{ clubList:[] },rsn:'3zhpsspfrse' })
 
 		return alliances.a.club.clubList

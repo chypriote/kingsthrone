@@ -1,4 +1,4 @@
-import { Item } from '~/types/goat/Item'
+import { Item } from './Item'
 
 export const NPCS = [
 	{ nid: 3, name: 'Lonely Tom', visits: 0 },
@@ -59,9 +59,10 @@ export type ProcessionsStatus = {
 //type1= npc?
 //type5= maiden ?
 export enum PROCESSIONS {
-	NPC= 1,
-	MAIDEN= 5
+	NPC = 1,
+	MAIDEN = 5
 }
+
 //haogan 5
 //haogan 0 ???
 export type ProcessionGain = {
@@ -70,7 +71,7 @@ export type ProcessionGain = {
 	npcid: number
 	type: PROCESSIONS
 }
-export type ProcessionResult= {
+export type ProcessionResult = {
 	result: ProcessionGain
 	status: ProcessionsStatus
 	luck: LuckStatus

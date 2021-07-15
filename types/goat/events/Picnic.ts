@@ -1,4 +1,4 @@
-import { Item } from '../../goatGeneric'
+import { Item } from '../Item'
 
 type PicnicShopItem = {
 	dc: number
@@ -11,8 +11,8 @@ type PicnicShopItem = {
 type PicnicShop = {
 	hasScore: number
 	rank: {
-		member: {count: number, id: number}[]
-		rand: {re: number, rs: number}
+		member: { count: number, id: number }[]
+		rand: { re: number, rs: number }
 	}
 	wsShopcfg: PicnicShopItem[]
 }

@@ -324,5 +324,4 @@ export const doTourney = async (
 	if (!status) { return }
 	await loadFight(status.fight)
 	await loopFight(status)
-	logger.debug(format(new Date(), 'HH:mm'))
 }

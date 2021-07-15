@@ -1,4 +1,3 @@
-import { format } from 'date-fns'
 import { goat } from './services/requests'
 import { logger } from './services/logger'
 import {
@@ -39,5 +38,4 @@ export const dailyChores = async (): Promise<void> => {
 	} catch (e) {
 		logger.error(e)
 	}
-	logger.success(`Finished ${format(new Date(), 'HH:mm')}`)
 }

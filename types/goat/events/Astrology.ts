@@ -1,4 +1,4 @@
-import { Item } from '../../goatGeneric'
+import { Item } from '../Item'
 
 type AstrologyShop = {
 	hasScore: number
@@ -16,7 +16,7 @@ export type Astrology = {
 	info: {
 		boxRwdStatus: number
 		hdItem: number
-		luckyStar: {id: number}[]
+		luckyStar: { id: number }[]
 		starscore: number
 		starSign: number
 		surplusFreeNum: number
@@ -26,13 +26,13 @@ export type Astrology = {
 		gxitemCost: number
 		gxscore: number
 		itemCost: number
-		luckyStarList: {id:number, name: string}[]
+		luckyStarList: { id: number, name: string }[]
 		rankRwd: {
-			member: {count: number, id: number}[]
-			rand: {re: number, rs:number}
+			member: { count: number, id: number }[]
+			rand: { re: number, rs: number }
 		}[]
 		rewards: Item[]
-		starSignList: {id: number, name: string}[]
+		starSignList: { id: number, name: string }[]
 		updateSelect: number
 	}
 }

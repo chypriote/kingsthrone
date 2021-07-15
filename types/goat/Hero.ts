@@ -11,6 +11,7 @@ export interface QualitySkill {
 	zz: number
 	slv: number //total
 }
+
 export interface TourneySkill {
 	id: TSkills
 	level: number

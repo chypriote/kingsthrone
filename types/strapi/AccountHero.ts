@@ -3,7 +3,7 @@ import { Hero } from './Hero'
 export type AccountHero = {
 	id?: number
 	level: number
-	hero?: Hero|number
+	hero?: Hero | number
 
 	quality: number
 

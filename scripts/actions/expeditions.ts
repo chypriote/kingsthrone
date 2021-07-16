@@ -2,6 +2,8 @@ import { find } from 'lodash'
 import { goat } from '../services/goat'
 import { logger } from '../services/logger'
 import { Expedition, ExpeditionInfo } from '~/types/goat/Expeditions'
+import chalk from 'chalk'
+const cliProgress = require('cli-progress')
 
 const state: ExpeditionInfo = {
 	gid: 0,
@@ -39,13 +41,24 @@ export const doExpedition = async (count: number): Promise<void> => {
 	try {
 		updateState(await goat.expeditions.getExpeditionsStatus())
 
+		const progress = new cliProgress.SingleBar({
+			format: `Expeditions\t| ${chalk.green('{bar}')} | {value}/{total}`,
+			barCompleteChar: '\u2588',
+			barIncompleteChar: '\u2591',
+			hideCursor: true,
+		})
+		progress.start(count, state.gid)
+
 		while (state.gid < count + 1) {
 			if (state.gid % 10 === 0 || state.gid % 10 === 9) {
 				updateState(await goat.expeditions.doExpedition(selectExpedition(state.data)))
+				progress.increment()
 				continue
 			}
 			updateState(await goat.expeditions.doExpeditions(state.gid - (state.gid % 10) + 8))
+			progress.update(8)
 		}
+		progress.stop()
 	} catch (e) {
 		logger.log(e)
 		logger.error('Error while doing expeditions')

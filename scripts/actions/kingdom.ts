@@ -23,11 +23,12 @@ const requiredSons = (rarity: number) => {
 	switch (rarity) {
 	case 1: return 1
 	case 2: return 2 //1 star 2 star
-	case 3: //2 star 3 star 4 star
-	case 4: //3 star 4star 5star
-	case 5:
-	case 6:
+	case 3: //2star 3 star 4 star
+	case 4: //3star 4star 5star
 		return 3
+	case 5: //3star 4star 5star 6star
+	case 6:
+		return 4
 	}
 	console.log(rarity)
 	return 0

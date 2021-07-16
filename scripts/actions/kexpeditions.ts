@@ -1,5 +1,7 @@
+import { KingdomExpInfo } from 'kingsthrone-api/lib/types/goat/Expeditions'
 import { goat } from '../services/goat'
-import { logger } from '../services/logger'
+import chalk from 'chalk'
+const cliProgress = require('cli-progress')
 
 const getNextLevel= (current: number): number => {
 	const test = current.toString()
@@ -17,24 +19,34 @@ const getRewards = async (current: number, rewards: { id:number, status: number 
 	}
 }
 
-export const doKingdomExpeditions = async (): Promise<void> => {
-	const status = await goat.expeditions.getKingdomExpStatus()
-
+const doExpeditions = async (status: KingdomExpInfo): Promise<void> => {
 	let next = getNextLevel(status.maxLevel)
 	let available = status.playNum
 
-	try {
-		while (available) {
-			const status = await goat.expeditions.doKingdomExpedition(next)
-			next = getNextLevel(status.maxLevel)
-			available = status.playNum
-		}
-		logger.success('Did kingdom expeditions')
-	} catch (e) {
-		logger.error(JSON.stringify(e, null, 2))
+	if (!available) { return }
+
+	const progress = new cliProgress.SingleBar({
+		format: `Expeditions\t| ${chalk.green('{bar}')} | {value}/{total}`,
+		barCompleteChar: '\u2588',
+		barIncompleteChar: '\u2591',
+		hideCursor: true,
+	})
+	progress.start(available, 0)
+
+	while (available) {
+		const status = await goat.expeditions.doKingdomExpedition(next)
+		next = getNextLevel(status.maxLevel)
+		available = status.playNum
+		progress.increment()
 	}
+	progress.stop()
+}
+
+export const doKingdomExpeditions = async (): Promise<void> => {
+	const status = await goat.expeditions.getKingdomExpStatus()
 
 	try {
+		await doExpeditions(status)
 		await getRewards(status.maxLevel, status.chapterPhasesRwd)
 	} catch (e) {
 		console.log(e)

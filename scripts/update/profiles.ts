@@ -1,10 +1,10 @@
 import { config } from 'dotenv'
 config()
 import { chunk } from 'lodash'
-import { logger } from './services/logger'
-import { goat } from './services/goat'
-import { getPlayers, updatePlayerDetails } from './repository/player'
-import { getPlayerAlliance, leaveAlliance, setPlayerAlliance } from './repository/alliance'
+import { logger } from '../services/logger'
+import { goat } from '../services/goat'
+import { getPlayers, updatePlayerDetails } from '../repository/player'
+import { getPlayerAlliance, leaveAlliance, setPlayerAlliance } from '../repository/alliance'
 import { Player } from '~/types/strapi/Player'
 import { UserProfile } from '~/types/goat/User'
 
@@ -13,7 +13,7 @@ export const updatePlayerAlliance = async (player: Player, ally: UserProfile): P
 	const current = await getPlayerAlliance(player)
 
 	//Return if no current and club is 0
-	if (!current && ally.clubid === '0') {
+	if (!current && ally.clubid == '0') {
 		return
 	}
 	//Add Alliance if no previous
@@ -25,7 +25,7 @@ export const updatePlayerAlliance = async (player: Player, ally: UserProfile): P
 		return
 	}
 	//Leave if new alliance is 0
-	if (ally.clubid === '0') {
+	if (ally.clubid == '0') {
 		logger.error(`${player.name} left alliance ${ally.clubname}`)
 		return await leaveAlliance(player)
 	}

@@ -1,12 +1,11 @@
 import { config } from 'dotenv'
 config()
 import chalk from 'chalk'
-import { logger } from './services/logger'
-import { createAlliance, getAllianceByAID, updateAlliance } from './repository/alliance'
-import { Goat } from 'kingsthrone-api'
+import { logger } from '../services/logger'
+import { goat } from '../services/goat'
+import { createAlliance, getAllianceByAID, updateAlliance } from '../repository/alliance'
 
 export const updateAlliances = async(): Promise<void> => {
-	const goat = new Goat()
 	const clubs = await goat.alliance.getLadder()
 
 	for (const club of clubs) {
@@ -38,8 +37,3 @@ export const updateAlliances = async(): Promise<void> => {
 
 	logger.success('Finished')
 }
-
-updateAlliances().then(() => {
-	console.log('finished')
-	process.exit()
-})

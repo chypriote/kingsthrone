@@ -2,11 +2,11 @@ import { chunk } from 'lodash'
 import { goat } from './services/goat'
 import { logger } from './services/logger'
 import { createPlayer, getAllGID, getPlayerByGID, updatePlayerDetails } from './repository/player'
-import { updatePlayerAlliance } from './profiles'
+import { updatePlayerAlliance } from './update/profiles'
 import { Player } from '../types/strapi/Player'
 import { UserProfile } from '~/types/goat/User'
 
-const SERVERS = ['691', '741', '760', '809']
+const SERVERS = ['696']
 
 const getMin = (server: string): number => parseInt(server + '000001')
 const getMax = (server: string): number => parseInt(server + '005000')
@@ -24,7 +24,7 @@ const handleGID = async (id: string, retry = true): Promise<string|null> => {
 		let player: Player|null = await getPlayerByGID(id)
 		const profile = await goat.profile.getUser(id)
 
-		if (!profile || profile.hero_num < 25) {
+		if (!profile || profile.hero_num < 15) {
 			console.log(`Ignoring ${id} ${ profile ? profile.hero_num : ''}`)
 			return null
 		}

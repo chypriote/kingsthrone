@@ -14,6 +14,7 @@ export const createPlayer = async (
 		ratio: Math.round(power / heroes),
 		created_by: 1,
 		updated_by: 1,
+		mserver: 228,
 		created_at: formatISO(new Date()),
 		updated_at: formatISO(new Date()),
 	})

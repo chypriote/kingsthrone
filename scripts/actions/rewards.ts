@@ -61,7 +61,7 @@ export const getLoginRewards = async (): Promise<boolean> => {
 }
 export const getProgressionRewards = async (): Promise<void> => {
 	try {
-		await goat.rewards.getProgressionReward()
-		logger.success('Progression rewards claimed')
+		if (await goat.rewards.getProgressionReward())
+			logger.success('Progression rewards claimed')
 	} catch (e) {/* do nothing */}
 }

@@ -23,11 +23,11 @@ export class Profile extends GoatResource {
 	}
 	async getAllDecreesResources(type: DECREE_TYPE): Promise<boolean> {
 		try {
-			await this.request({ 'user': { 'yjZhengWu': { 'act': type } }, 'rsn': '1tabbiitbi' })
+			const data = await this.request({ 'user': { 'yjZhengWu': { 'act': type } }, 'rsn': '1tabbiitbi' }) 
+			return !!data.a.msgwin
 		} catch (e) {
 			return false
 		}
-		return true
 	}
 
 	async finishTraining(): Promise<boolean> {

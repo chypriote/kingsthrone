@@ -5,18 +5,25 @@ import { goat } from '../services/goat'
 const cliProgress = require('cli-progress')
 
 export enum FIGHT_STATUS {
-	BATTLE_ENDED= 0,
-	HERO_RESTING= 1,
-	ONGOING=2,
-	BOSS_KILLED= 3,
+	BATTLE_ENDED = 0,
+	HERO_RESTING = 1,
+	ONGOING = 2,
+	BOSS_KILLED = 3,
 }
 
 
 export const doMinions = async (): Promise<void> => {
-	const heroes = (await goat.profile.getGameInfos()).wordboss.mgft
-	const sorted = orderBy(heroes.filter(h => h.h), 'zfight_num', 'asc')
+	const infos = await goat.profile.getGameInfos()
+	const heroes = infos.hero.heroList
+	const used = (infos.wordboss.mgft).map(h => h.id.toString())
 
-	if (!sorted.length) {return }
+	const sorted = orderBy(
+		heroes.filter(h => !used.includes(h.id.toString())),
+		'zfight_num',
+		'asc'
+	)
+
+	if (!sorted.length) { return }
 	const progress = new cliProgress.SingleBar({
 		format: `Attacking Minions\t| ${chalk.green('{bar}')} | {value}/{total} heroes`,
 		barCompleteChar: '\u2588',
@@ -30,16 +37,23 @@ export const doMinions = async (): Promise<void> => {
 			const status = await goat.worldBoss.attackMinion(hero.id)
 			if (status === FIGHT_STATUS.BATTLE_ENDED) { progress.stop(); return }
 			progress.increment()
-		} catch (e) {/*do nothing*/}
+		} catch (e) {/*do nothing*/ }
 	}
 	progress.stop()
 }
 
 export const doBoss = async (): Promise<void> => {
-	const heroes = (await goat.profile.getGameInfos()).wordboss.mgft
-	const sorted = orderBy(heroes.filter(h => h.h), 'zfight_num', 'asc')
+	const infos = await goat.profile.getGameInfos()
+	const heroes = infos.hero.heroList
+	const used = (infos.wordboss.mgft).map(h => h.id.toString())
 
-	if (!sorted.length) {return }
+	const sorted = orderBy(
+		heroes.filter(h => !used.includes(h.id.toString())),
+		'zfight_num',
+		'asc'
+	)
+
+	if (!sorted.length) { return }
 	const progress = new cliProgress.SingleBar({
 		format: `Attacking Jotun\t| ${chalk.green('{bar}')} | {value}/{total} heroes`,
 		barCompleteChar: '\u2588',
@@ -53,12 +67,12 @@ export const doBoss = async (): Promise<void> => {
 			const status = await goat.worldBoss.attackBoss(hero.id)
 			if (status === FIGHT_STATUS.BATTLE_ENDED) { progress.stop(); return }
 			progress.increment()
-		} catch (e) {/*do nothing*/}
+		} catch (e) {/*do nothing*/ }
 	}
 	progress.stop()
 }
 
-export const doWorldBoss =  async (): Promise<void> => {
+export const doWorldBoss = async (): Promise<void> => {
 	const hours = (new Date()).getHours()
 
 	if ([14, 15].includes(hours)) {

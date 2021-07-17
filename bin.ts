@@ -15,7 +15,7 @@ import { ACCOUNT_GAUTIER } from 'kingsthrone-api/lib/src/accounts/gautier'
 import { ACCOUNT_NAPOLEON } from 'kingsthrone-api/lib/src/accounts/demophlos'
 
 async function login(account: string|null = null) {
-	await goat.profile.login(account === 'gautier' ? ACCOUNT_GAUTIER : ACCOUNT_NAPOLEON)
+	await goat._setAccount(account === 'gautier' ? ACCOUNT_GAUTIER : ACCOUNT_NAPOLEON)
 }
 
 yargs(hideBin(process.argv))
@@ -158,7 +158,7 @@ yargs(hideBin(process.argv))
 			type: 'number',
 		})
 	}, async (argv) => {
-		await goat.profile.login(ACCOUNT_GAUTIER)
+		goat._setAccount(ACCOUNT_GAUTIER)
 
 		await getGems(argv.amount)
 		logger.success(`Finished ${format(new Date(), 'HH:mm')}`)

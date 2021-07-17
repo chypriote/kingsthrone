@@ -1,10 +1,11 @@
-import { goat } from '../services/goat'
+import { goat } from 'kingsthrone-api'
+import { FIGHT_STATUS } from 'kingsthrone-api/lib/types/goat/WorldBoss'
 import { logger } from '../services/logger'
-import { FIGHT_STATUS } from './worldboss'
+import { AllianceBossInfo } from 'kingsthrone-api/lib/types/goat'
 
 const fightBosses = async (): Promise<void> => {
 	const heroes = (await goat.profile.getGameInfos()).hero.heroList
-	const bosses = (await goat.alliance.getAllianceBossInfo()).filter(boss => boss.hp > 0)
+	const bosses = (await goat.alliance.getAllianceBossInfo()).filter((boss: AllianceBossInfo) => boss.hp > 0)
 
 	if (!bosses.length) { return }
 

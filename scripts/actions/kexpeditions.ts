@@ -1,6 +1,7 @@
-import { KingdomExpInfo } from 'kingsthrone-api/lib/types/goat/Expeditions'
-import { goat } from '../services/goat'
 import chalk from 'chalk'
+import { goat } from 'kingsthrone-api'
+import { KingdomExpInfo } from 'kingsthrone-api/lib/types/goat/Expeditions'
+
 const cliProgress = require('cli-progress')
 
 const getNextLevel= (current: number): number => {

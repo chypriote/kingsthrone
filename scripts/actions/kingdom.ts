@@ -1,9 +1,9 @@
 import { find } from 'lodash'
 import { differenceInMinutes, fromUnixTime } from 'date-fns'
-import { Son } from '../../types/game'
-import { CastleInfos, EventInfo } from '../../types/goat/Kingdom'
-import { goat } from '../services/goat'
 import chalk = require('chalk')
+import { goat } from 'kingsthrone-api'
+import { CastleInfos, EventInfo } from 'kingsthrone-api/lib/types/goat/Kingdom'
+import { Son } from 'kingsthrone-api/lib/types/goat/GameInfos'
 const cliProgress = require('cli-progress')
 
 const CASTLES_RSN: {[k: number]: string} = {

@@ -3,8 +3,9 @@ import { client } from '../services/database'
 import { logger } from '../services/logger'
 import { Alliance } from '~/types/strapi/Alliance'
 import { Player } from '~/types/strapi/Player'
-import { XSAlliance, XSOpponent } from '~/types/goat/TourneyXS'
-import { UserProfile } from '~/types/goat/User'
+import { UserProfile } from 'kingsthrone-api/lib/types/goat/User'
+import { XSAlliance } from '~/types/goat/TourneyXS'
+import { XSOpponent } from 'kingsthrone-api/lib/types/goat/TourneyXS'
 
 export const createAlliance = async (
 	aid: string,

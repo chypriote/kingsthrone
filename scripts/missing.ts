@@ -1,10 +1,10 @@
 import { chunk } from 'lodash'
-import { goat } from './services/goat'
+import { goat } from 'kingsthrone-api'
 import { logger } from './services/logger'
 import { createPlayer, getAllGID, getPlayerByGID, updatePlayerDetails } from './repository/player'
 import { updatePlayerAlliance } from './update/profiles'
 import { Player } from '../types/strapi/Player'
-import { UserProfile } from '~/types/goat/User'
+import { UserProfile } from 'kingsthrone-api/lib/types/goat/User'
 
 const SERVERS = ['696']
 

@@ -2,15 +2,6 @@ import chalk = require('chalk')
 import { format, fromUnixTime } from 'date-fns'
 import { clone, find, orderBy } from 'lodash'
 
-import { User } from '../../types/goatGeneric'
-import {
-	ITourneyFight,
-	ITourneyStatus,
-	OpponentHero,
-	OpponentHeroStats,
-	RewardItem,
-	ShopItem
-} from '../../types/goat/Tourney'
 import { PlayerHero } from '../../types/strapi/PlayerHero'
 import { Hero } from '../../types/strapi/Hero'
 
@@ -19,6 +10,7 @@ import { getExistingHeroesList } from '../repository/hero'
 import { getRoster, updatePlayerHero } from '../repository/player-heroes'
 import { getOrCreatePlayerFromGoat } from '../repository/player'
 import { deathmatchEndpoint, LocalTourneyEndpoint, TourneyEndpoint, xsTourneyEndpoint } from './index'
+import { ITourneyFight, ITourneyStatus, OpponentHero, OpponentHeroStats, RewardItem, TourneyShopItem, User } from 'kingsthrone-api/lib/types/goat'
 
 export enum TOURNEY_TYPE {
 	LOCAL= 'local',
@@ -219,7 +211,7 @@ const saveOpponentHeroStats = async (hero: OpponentHero, stats: OpponentHeroStat
 	}
 }
 /** Buys an item in the shop */
-const buyShop = async (shop: ShopItem[]): Promise<void> => {
+const buyShop = async (shop: TourneyShopItem[]): Promise<void> => {
 	const items = orderBy(shop, 'id', 'desc')
 
 	if (state.easyFight && state.currentFight > 1) {

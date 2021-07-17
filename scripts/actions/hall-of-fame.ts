@@ -1,4 +1,4 @@
-import { goat } from '../services/goat'
+import { goat } from 'kingsthrone-api'
 import { logger } from '../services/logger'
 
 export const payHomage = async (): Promise<void> => {

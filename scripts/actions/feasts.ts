@@ -1,8 +1,8 @@
 import { find } from 'lodash'
-import { goat } from '../services/goat'
+import { goat } from 'kingsthrone-api'
+import { ITEMS } from 'kingsthrone-api/lib/types/goat/Item'
+import { FeastShop, Seat } from 'kingsthrone-api/lib/types/goat/Feasts'
 import { logger } from '../services/logger'
-import { FeastShop, Seat } from '../../types/goat/Feasts'
-import { ITEMS } from '../../types/goat/Item'
 
 const BOUGHT_ITEMS = [
 	{ name: 'Manuscript Page', id: ITEMS.MANUSCRIPT_PAGE },

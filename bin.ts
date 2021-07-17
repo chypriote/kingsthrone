@@ -2,18 +2,20 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
+import { format } from 'date-fns'
+import { goat } from 'kingsthrone-api'
 import { dailyChores } from './scripts/daily'
 import { doKingdom } from './scripts/actions/kingdom'
 import { doTourney } from './scripts/tourney'
 import { doProcessions, visitMaidens } from './scripts/actions'
-import { goat, LOGIN_ACCOUNT_GAUTIER, LOGIN_ACCOUNT_NAPOLEON } from './scripts/services/goat'
 import { getGems } from './scripts/actions/gems'
 import { TOURNEY_TYPE } from './scripts/tourney/fight'
 import { logger } from './scripts/services/logger'
-import { format } from 'date-fns'
+import { ACCOUNT_GAUTIER } from 'kingsthrone-api/lib/src/accounts/gautier'
+import { ACCOUNT_NAPOLEON } from 'kingsthrone-api/lib/src/accounts/demophlos'
 
 async function login(account: string|null = null) {
-	await goat.profile.login(account === 'gautier' ? LOGIN_ACCOUNT_GAUTIER : LOGIN_ACCOUNT_NAPOLEON)
+	await goat.profile.login(account === 'gautier' ? ACCOUNT_GAUTIER : ACCOUNT_NAPOLEON)
 }
 
 yargs(hideBin(process.argv))
@@ -156,7 +158,7 @@ yargs(hideBin(process.argv))
 			type: 'number',
 		})
 	}, async (argv) => {
-		await goat.profile.login(LOGIN_ACCOUNT_GAUTIER)
+		await goat.profile.login(ACCOUNT_GAUTIER)
 
 		await getGems(argv.amount)
 		logger.success(`Finished ${format(new Date(), 'HH:mm')}`)

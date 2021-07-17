@@ -1,10 +1,6 @@
-import { goat } from '../services/goat'
+import { goat } from 'kingsthrone-api'
+import { DECREE_TYPE, Son } from 'kingsthrone-api/lib/types/goat'
 import { logger } from '../services/logger'
-
-export enum DECREE_TYPE {
-	RESOURCES= 1,
-	EXPERIENCE= 2,
-}
 
 export const getThroneRoom = async (): Promise<void> => {
 	try {
@@ -45,11 +41,11 @@ export const hostCouncil = async (): Promise<void> => {
 export const raiseSons = async (): Promise<void> => {
 	const sons = (await goat.profile.getGameInfos()).son.sonList
 
-	for (const son of sons.filter(s => !s.name)) {
+	for (const son of sons.filter((s: Son) => !s.name)) {
 		await goat.children.nameSon(son.id)
 		logger.warn(`Named son ${son.id}`)
 	}
-	for (const son of sons.filter(s => s.state === 3)) {
+	for (const son of sons.filter((s: Son) => s.state === 3)) {
 		await goat.children.evaluateSon(son.id)
 		logger.warn(`Evaluated son ${son.id}`)
 	}

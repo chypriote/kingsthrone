@@ -1,8 +1,8 @@
 import { find } from 'lodash'
-import { goat } from '../services/goat'
-import { logger } from '../services/logger'
-import { Expedition, ExpeditionInfo } from '~/types/goat/Expeditions'
 import chalk from 'chalk'
+import { goat } from 'kingsthrone-api'
+import { Expedition, ExpeditionInfo } from 'kingsthrone-api/lib/types/goat/Expeditions'
+import { logger } from '../services/logger'
 const cliProgress = require('cli-progress')
 
 const state: ExpeditionInfo = {
@@ -50,13 +50,12 @@ export const doExpedition = async (count: number): Promise<void> => {
 		progress.start(count, state.gid)
 
 		while (state.gid < count + 1) {
+			progress.update(state.gid)
 			if (state.gid % 10 === 0 || state.gid % 10 === 9) {
 				updateState(await goat.expeditions.doExpedition(selectExpedition(state.data)))
-				progress.increment()
 				continue
 			}
 			updateState(await goat.expeditions.doExpeditions(state.gid - (state.gid % 10) + 8))
-			progress.update(8)
 		}
 		progress.stop()
 	} catch (e) {

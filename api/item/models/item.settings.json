@@ -33,6 +33,14 @@
       "plugin": "upload",
       "required": false,
       "pluginOptions": {}
+    },
+    "event_shops": {
+      "via": "item",
+      "collection": "event-shop"
+    },
+    "event_drops": {
+      "via": "item",
+      "collection": "event-drop"
     }
   }
 }

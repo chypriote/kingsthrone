@@ -2,7 +2,7 @@ import { config } from 'dotenv'
 config()
 import chalk from 'chalk'
 import { logger } from '../services/logger'
-import { goat } from '../services/goat'
+import { goat } from 'kingsthrone-api'
 import { createAlliance, getAllianceByAID, updateAlliance } from '../repository/alliance'
 
 export const updateAlliances = async(): Promise<void> => {

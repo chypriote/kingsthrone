@@ -1,6 +1,6 @@
-import { goat } from '../services/goat'
-import { Item, ITEMS } from '../../types/goat/Item'
 import { find } from 'lodash'
+import { goat } from 'kingsthrone-api'
+import { Item, ITEMS } from 'kingsthrone-api/lib/types/goat/Item'
 import { logger } from '../services/logger'
 
 interface IState {items: Item[]}

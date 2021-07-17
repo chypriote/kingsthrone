@@ -1,7 +1,7 @@
 import { find } from 'lodash'
-import { MAIDENS } from '../../types/goat/Maidens'
-import { goat } from '../services/goat'
 import chalk from 'chalk'
+import { goat } from 'kingsthrone-api'
+import { MAIDENS } from 'kingsthrone-api/lib/types/goat/Maidens'
 const cliProgress = require('cli-progress')
 
 function getMaiden(id: number): {mid:number, name: string, visits: number} {

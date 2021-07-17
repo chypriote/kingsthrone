@@ -2,8 +2,8 @@ import { formatISO } from 'date-fns'
 import { client } from '../services/database'
 import { logger } from '../services/logger'
 import { Player } from '~/types/strapi/Player'
-import { goat } from '../services/goat'
-import { UserProfile } from '~/types/goat/User'
+import { goat } from 'kingsthrone-api'
+import { UserProfile } from 'kingsthrone-api/lib/types/goat/User'
 
 export const createPlayer = async (
 	gid: string, name: string, vip = 0, power = 0, heroes = 0, server = 699

@@ -1,5 +1,5 @@
-import { ITourneyStatus, OpponentHero, Reward, ShopItem } from '../../types/goat/Tourney'
-import { Hero } from '../../types/goat/Hero'
+import { Hero } from 'kingsthrone-api/lib/types/goat/Hero'
+import { ITourneyStatus, OpponentHero, Reward, TourneyShopItem } from 'kingsthrone-api/lib/types/goat/Tourney'
 
 export { xsTourneyEndpoint } from './xsTourney'
 export { LocalTourneyEndpoint } from './localTourney'
@@ -7,7 +7,7 @@ export { deathmatchEndpoint } from './deathmatch'
 export { doTourney } from './fight'
 
 export interface TourneyEndpoint {
-	buyTourneyBoost(item: ShopItem): Promise<ITourneyStatus>
+	buyTourneyBoost(item: TourneyShopItem): Promise<ITourneyStatus>
 	fightHero(hero: OpponentHero): Promise<ITourneyStatus>
 	getReward(): Promise<Reward>
 	getTourneyInfos(): Promise<ITourneyStatus>
@@ -15,4 +15,8 @@ export interface TourneyEndpoint {
 	startTokenTourneyFight(): Promise<ITourneyStatus>
 	startTourneyFight(): Promise<ITourneyStatus>
 	findAvailableHero(): Promise<Hero|null>
+}
+
+export interface FClist {
+	id: number, h: number, f: number
 }

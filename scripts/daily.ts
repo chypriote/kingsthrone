@@ -1,4 +1,4 @@
-import { goat } from './services/goat'
+import { goat } from 'kingsthrone-api'
 import { logger } from './services/logger'
 import {
 	attendFeasts, contributeAlliance, doExpedition, doKingdomExpeditions, doMerchant,

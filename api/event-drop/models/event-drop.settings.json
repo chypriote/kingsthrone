@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "event_drops",
+  "info": {
+    "name": "EventDrop"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": false,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "probability": {
+      "type": "integer"
+    },
+    "count": {
+      "type": "integer"
+    },
+    "item": {
+      "model": "item",
+      "via": "event_drops"
+    },
+    "event": {
+      "via": "event_drops",
+      "model": "event"
+    }
+  }
+}

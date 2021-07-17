@@ -4,7 +4,7 @@ import { client } from '../services/database'
 import { logger } from '../services/logger'
 import { getHeroByHID } from '../repository/hero'
 import { AccountHero } from '~/types/strapi/AccountHero'
-import { Hero, QualitySkill, TSkills } from '../../types/goat/Hero'
+import { Hero, QualitySkill, TSkills } from 'kingsthrone-api/lib/types/goat/Hero'
 
 export const getMyHeroByHID = async (hid: number): Promise<AccountHero|null> => {
 	const heroes = await client('account_heroes')

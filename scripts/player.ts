@@ -1,11 +1,12 @@
 import { config } from 'dotenv'
 config()
-import { goat, LOGIN_ACCOUNT_GAUTIER } from './services/goat'
+import { goat } from 'kingsthrone-api'
 import { logger } from './services/logger'
 import { createOrUpdateMyHero } from './repository/roster'
+import { ACCOUNT_GAUTIER } from 'kingsthrone-api/lib/src/accounts/gautier'
 
 export const updateHeroList = async (): Promise<void> => {
-	await goat.profile.login(LOGIN_ACCOUNT_GAUTIER)
+	await goat.profile.login(ACCOUNT_GAUTIER)
 	const game = await goat.profile.getGameInfos()
 	const heroList = game.hero.heroList
 

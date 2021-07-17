@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "events",
+  "info": {
+    "name": "Event",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": false,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "eid": {
+      "type": "uid"
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "start": {
+      "type": "date"
+    },
+    "event_shops": {
+      "via": "event",
+      "collection": "event-shop"
+    },
+    "event_drops": {
+      "via": "event",
+      "collection": "event-drop"
+    },
+    "type": {
+      "type": "integer"
+    }
+  }
+}

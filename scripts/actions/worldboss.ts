@@ -5,18 +5,22 @@ import { Hero } from 'kingsthrone-api/lib/types/goat'
 
 const cliProgress = require('cli-progress')
 
-interface Mgft { id: number; h: number; f: number; }
+interface UsedHero { id: number; h: number; f: number; }
 export enum FIGHT_STATUS {
 	BATTLE_ENDED = 0,
 	HERO_RESTING = 1,
 	ONGOING = 2,
 	BOSS_KILLED = 3,
 }
+enum FIGHT_TYPE {
+	BOSS= 0,
+	MINIONS= 1,
+}
 
-const getAvailableHeroes = async (): Promise<Hero[]> => {
+const getAvailableHeroes = async (type: FIGHT_TYPE): Promise<Hero[]> => {
 	const infos = await goat.profile.getGameInfos()
 	const heroes = infos.hero.heroList
-	const used = (infos.wordboss.mgft).map((h: Mgft) => h.id.toString())
+	const used = (infos.wordboss[type === FIGHT_TYPE.BOSS ? 'g2dft' : 'mgft']).map((h: UsedHero) => h.id.toString())
 
 	return orderBy(
 		heroes.filter((h: Hero) => !used.includes(h.id.toString())),
@@ -26,7 +30,7 @@ const getAvailableHeroes = async (): Promise<Hero[]> => {
 }
 
 export const doMinions = async (): Promise<void> => {
-	const heroes = await getAvailableHeroes()
+	const heroes = await getAvailableHeroes(FIGHT_TYPE.MINIONS)
 
 	if (!heroes.length) { return }
 	const progress = new cliProgress.SingleBar({
@@ -48,7 +52,7 @@ export const doMinions = async (): Promise<void> => {
 }
 
 export const doBoss = async (): Promise<void> => {
-	const heroes = await getAvailableHeroes()
+	const heroes = await getAvailableHeroes(FIGHT_TYPE.BOSS)
 
 	if (!heroes.length) { return }
 	const progress = new cliProgress.SingleBar({

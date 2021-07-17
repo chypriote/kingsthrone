@@ -1,17 +1,11 @@
 import chalk from 'chalk'
 import { orderBy } from 'lodash'
-import { goat } from 'kingsthrone-api'
+import { FIGHT_STATUS, goat } from 'kingsthrone-api'
 import { Hero } from 'kingsthrone-api/lib/types/goat'
 
 const cliProgress = require('cli-progress')
 
 interface UsedHero { id: number; h: number; f: number; }
-export enum FIGHT_STATUS {
-	BATTLE_ENDED = 0,
-	HERO_RESTING = 1,
-	ONGOING = 2,
-	BOSS_KILLED = 3,
-}
 enum FIGHT_TYPE {
 	BOSS= 0,
 	MINIONS= 1,
@@ -29,7 +23,7 @@ const getAvailableHeroes = async (type: FIGHT_TYPE): Promise<Hero[]> => {
 	)
 }
 
-export const doMinions = async (): Promise<void> => {
+const doMinions = async (): Promise<void> => {
 	const heroes = await getAvailableHeroes(FIGHT_TYPE.MINIONS)
 
 	if (!heroes.length) { return }
@@ -51,7 +45,7 @@ export const doMinions = async (): Promise<void> => {
 	progress.stop()
 }
 
-export const doBoss = async (): Promise<void> => {
+const doBoss = async (): Promise<void> => {
 	const heroes = await getAvailableHeroes(FIGHT_TYPE.BOSS)
 
 	if (!heroes.length) { return }
@@ -70,7 +64,44 @@ export const doBoss = async (): Promise<void> => {
 			progress.increment()
 		} catch (e) {/*do nothing*/ }
 	}
+
+	await buyItems()
+
 	progress.stop()
+}
+
+const buyItems = async (): Promise<void> => {
+	try {
+		// 3 manuscript cache
+		await goat.worldBoss.buyItem(6)
+		await goat.worldBoss.buyItem(6)
+		await goat.worldBoss.buyItem(6)
+		// 4 manuscript pages
+		await goat.worldBoss.buyItem(7)
+		await goat.worldBoss.buyItem(7)
+		await goat.worldBoss.buyItem(7)
+		await goat.worldBoss.buyItem(7)
+		// 3 ruby ring
+		await goat.worldBoss.buyItem(6)
+		await goat.worldBoss.buyItem(6)
+		await goat.worldBoss.buyItem(6)
+		// 3 ruby scepter
+		await goat.worldBoss.buyItem(6)
+		await goat.worldBoss.buyItem(6)
+		await goat.worldBoss.buyItem(6)
+		// 3 ruby sword
+		await goat.worldBoss.buyItem(6)
+		await goat.worldBoss.buyItem(6)
+		await goat.worldBoss.buyItem(6)
+		// 3 earrings
+		await goat.worldBoss.buyItem(10)
+		await goat.worldBoss.buyItem(10)
+		await goat.worldBoss.buyItem(10)
+		// 8 ball gowns
+		for (let i = 0; i < 8; i++) {await goat.worldBoss.buyItem(12)}
+	} catch (e) {
+		console.log(`Items not bought because ${e.toString()}`)
+	}
 }
 
 export const doWorldBoss = async (): Promise<void> => {

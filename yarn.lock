@@ -3885,7 +3885,7 @@ dotenv@8.2.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
   integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
 
-dotenv@^10.0, dotenv@^10.0.0:
+dotenv@^10.0:
   version "10.0.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-10.0.0.tgz#3d4227b8fb95f81096cdd2b66653fb2c7085ba81"
   integrity sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==
@@ -6258,14 +6258,13 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
 kingsthrone-api@^0.5:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/kingsthrone-api/-/kingsthrone-api-0.5.0.tgz#53f6f3eedd9553bd409de4ab8a2b4e3e51f090ac"
-  integrity sha512-ZJGqPi5WDpHKni9z/OWEgtcJEMDZSpp24WFUjMPL9ZQKIzcCP8cbn3BbOkbLLis/0AWPOWJWJMTf6F7M3yx80Q==
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/kingsthrone-api/-/kingsthrone-api-0.5.1.tgz#b8e8f5e50fd8b63977cba225550c6c478246e4a8"
+  integrity sha512-fPS1L6a4gE/q7/dZGBNNq25SApmfbfBuXxNajit7I005SV6LHKJDAYK11zmg+Rbz5/PFgFzVBs3suC+xNZcIlA==
   dependencies:
     axios "^0.21"
-    dotenv "^10.0.0"
+    dotenv "^10.0"
     lodash "^4.17"
-    typescript "^4.3"
 
 klona@^2.0.3:
   version "2.0.4"

@@ -2905,7 +2905,7 @@ cli-cursor@^3.1.0:
   dependencies:
     restore-cursor "^3.1.0"
 
-cli-progress@^3.9.0:
+cli-progress@^3.9:
   version "3.9.0"
   resolved "https://registry.yarnpkg.com/cli-progress/-/cli-progress-3.9.0.tgz#25db83447deb812e62d05bac1af9aec5387ef3d4"
   integrity sha512-g7rLWfhAo/7pF+a/STFH/xPyosaL1zgADhI0OM83hl3c7S43iGvJWEAV2QuDOnQ8i6EMBj/u4+NTd0d5L+4JfA==
@@ -6257,10 +6257,10 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
-kingsthrone-api@^0.5:
-  version "0.5.3"
-  resolved "https://registry.yarnpkg.com/kingsthrone-api/-/kingsthrone-api-0.5.3.tgz#3803e27ed934adf832084e7e2fa02e63e0a856e5"
-  integrity sha512-WAbUMUG2Sf3sEnUb4ICA+O40DXOhrs/7cQTYwpzxnJk9AcVHkGJ5aQGedxVJk1ZF3AN1aeP6t3V+DJrwIEh0BA==
+kingsthrone-api@^0.6:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/kingsthrone-api/-/kingsthrone-api-0.6.0.tgz#3ae966530c623d51392206167e62029b0290bd59"
+  integrity sha512-6mSRtQfIMRwv6gUJTBj6zL/5NeEh0RfAJczf6UpK1RHMWGuwc4kQTKls8ZXjyZ9G8MUJDYj02SSNLtGhf6S3Pg==
   dependencies:
     axios "^0.21"
     dotenv "^10.0"

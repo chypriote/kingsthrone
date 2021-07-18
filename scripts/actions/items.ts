@@ -1,7 +1,7 @@
 import { find } from 'lodash'
-import { goat } from 'kingsthrone-api'
-import { Item, ITEMS, RESOURCES_ITEMS } from 'kingsthrone-api/lib/types/goat/Item'
+import { goat, Item } from 'kingsthrone-api'
 import { logger } from '../services/logger'
+import { ITEMS, RESOURCES_ITEMS } from 'kingsthrone-api/lib/types/goat/Item'
 
 interface IState {items: Item[]}
 const state: IState = {

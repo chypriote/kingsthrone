@@ -10,7 +10,7 @@ import { getExistingHeroesList } from '../repository/hero'
 import { getRoster, updatePlayerHero } from '../repository/player-heroes'
 import { getOrCreatePlayerFromGoat } from '../repository/player'
 import { deathmatchEndpoint, LocalTourneyEndpoint, TourneyEndpoint, xsTourneyEndpoint } from './index'
-import { ITourneyFight, ITourneyStatus, OpponentHero, OpponentHeroStats, RewardItem, TourneyShopItem, User } from 'kingsthrone-api/lib/types/goat'
+import { ITourneyFight, ITourneyStatus, OpponentHero, OpponentHeroStats, RewardItem, TourneyShopItem, User } from 'kingsthrone-api'
 
 export enum TOURNEY_TYPE {
 	LOCAL= 'local',

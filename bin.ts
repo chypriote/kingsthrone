@@ -11,8 +11,7 @@ import { doProcessions, visitMaidens } from './scripts/actions'
 import { getGems } from './scripts/actions/gems'
 import { TOURNEY_TYPE } from './scripts/tourney/fight'
 import { logger } from './scripts/services/logger'
-import { ACCOUNT_GAUTIER } from 'kingsthrone-api/lib/src/accounts/gautier'
-import { ACCOUNT_NAPOLEON } from 'kingsthrone-api/lib/src/accounts/demophlos'
+import { ACCOUNT_GAUTIER, ACCOUNT_NAPOLEON } from 'kingsthrone-api/lib/src/goat'
 
 async function login(account: string|null = null) {
 	await goat._setAccount(account === 'gautier' ? ACCOUNT_GAUTIER : ACCOUNT_NAPOLEON)

@@ -1,5 +1,4 @@
-import { Hero } from 'kingsthrone-api/lib/types/goat/Hero'
-import { ITourneyStatus, OpponentHero, Reward, TourneyShopItem } from 'kingsthrone-api/lib/types/goat/Tourney'
+import { Hero, ITourneyStatus, OpponentHero, Reward, TourneyShopItem } from 'kingsthrone-api'
 
 export { xsTourneyEndpoint } from './xsTourney'
 export { LocalTourneyEndpoint } from './localTourney'

@@ -1,7 +1,5 @@
-import { goat } from 'kingsthrone-api'
-import { FIGHT_STATUS } from 'kingsthrone-api/lib/types/goat/WorldBoss'
+import { goat, FIGHT_STATUS, AllianceBossInfo } from 'kingsthrone-api'
 import { logger } from '../services/logger'
-import { AllianceBossInfo } from 'kingsthrone-api/lib/types/goat'
 
 const fightBosses = async (): Promise<void> => {
 	const heroes = (await goat.profile.getGameInfos()).hero.heroList

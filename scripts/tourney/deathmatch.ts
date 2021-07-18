@@ -1,7 +1,6 @@
 import { sample } from 'lodash'
-import { goat } from 'kingsthrone-api'
+import { goat, DMOngoingFight, Hero, OpponentHero, Reward, TourneyShopItem } from 'kingsthrone-api'
 import { FClist, TourneyEndpoint } from './index'
-import { DMOngoingFight, Hero, OpponentHero, Reward, TourneyShopItem } from 'kingsthrone-api/lib/types/goat'
 
 export class deathmatchEndpoint implements TourneyEndpoint {
 	buyTourneyBoost(item: TourneyShopItem): Promise<DMOngoingFight> {

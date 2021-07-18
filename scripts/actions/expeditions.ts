@@ -1,7 +1,6 @@
 import { find } from 'lodash'
 import chalk from 'chalk'
-import { goat } from 'kingsthrone-api'
-import { Expedition, ExpeditionInfo } from 'kingsthrone-api/lib/types/goat/Expeditions'
+import { goat, Expedition, ExpeditionInfo } from 'kingsthrone-api'
 import { logger } from '../services/logger'
 const cliProgress = require('cli-progress')
 

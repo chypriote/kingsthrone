@@ -1,8 +1,8 @@
 import { find } from 'lodash'
 import chalk from 'chalk'
-import { goat } from 'kingsthrone-api'
+import { goat, ProcessionGain } from 'kingsthrone-api'
 import { logger } from '../services/logger'
-import { NPCS, ProcessionGain } from 'kingsthrone-api/lib/types/goat/Processions'
+import { NPCS } from 'kingsthrone-api/lib/types/goat/Processions'
 const cliProgress = require('cli-progress')
 
 function getItem(id: number): string {

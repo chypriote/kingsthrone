@@ -72,7 +72,7 @@ const doBoss = async (): Promise<void> => {
 
 const buyItems = async (): Promise<void> => {
 	try {
-		// 3 manuscript cache
+		// 4 manuscript cache
 		await goat.worldBoss.buyItem(6)
 		await goat.worldBoss.buyItem(6)
 		await goat.worldBoss.buyItem(6)
@@ -83,17 +83,17 @@ const buyItems = async (): Promise<void> => {
 		await goat.worldBoss.buyItem(7)
 		await goat.worldBoss.buyItem(7)
 		// 3 ruby ring
-		await goat.worldBoss.buyItem(6)
-		await goat.worldBoss.buyItem(6)
-		await goat.worldBoss.buyItem(6)
+		await goat.worldBoss.buyItem(1)
+		await goat.worldBoss.buyItem(1)
+		await goat.worldBoss.buyItem(1)
 		// 3 ruby scepter
-		await goat.worldBoss.buyItem(6)
-		await goat.worldBoss.buyItem(6)
-		await goat.worldBoss.buyItem(6)
+		await goat.worldBoss.buyItem(2)
+		await goat.worldBoss.buyItem(2)
+		await goat.worldBoss.buyItem(2)
 		// 3 ruby sword
-		await goat.worldBoss.buyItem(6)
-		await goat.worldBoss.buyItem(6)
-		await goat.worldBoss.buyItem(6)
+		await goat.worldBoss.buyItem(3)
+		await goat.worldBoss.buyItem(3)
+		await goat.worldBoss.buyItem(3)
 		// 3 earrings
 		await goat.worldBoss.buyItem(10)
 		await goat.worldBoss.buyItem(10)

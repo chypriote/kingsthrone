@@ -76,6 +76,7 @@ const buyItems = async (): Promise<void> => {
 		await goat.worldBoss.buyItem(6)
 		await goat.worldBoss.buyItem(6)
 		await goat.worldBoss.buyItem(6)
+		await goat.worldBoss.buyItem(6)
 		// 4 manuscript pages
 		await goat.worldBoss.buyItem(7)
 		await goat.worldBoss.buyItem(7)

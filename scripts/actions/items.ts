@@ -1,6 +1,6 @@
 import { find } from 'lodash'
 import { goat } from 'kingsthrone-api'
-import { Item, ITEMS } from 'kingsthrone-api/lib/types/goat/Item'
+import { Item, ITEMS, RESOURCES_ITEMS } from 'kingsthrone-api/lib/types/goat/Item'
 import { logger } from '../services/logger'
 
 interface IState {items: Item[]}
@@ -19,7 +19,7 @@ const useAllItems = async (types: number[]): Promise<void> => {
 	}
 }
 const useResourceScrolls = async (): Promise<void> => {
-	await useAllItems([65, 66, 67, 68, 69, 79])
+	await useAllItems(RESOURCES_ITEMS)
 }
 const useExperiencePacks = async (): Promise<void> => {
 	await useAllItems([ITEMS.EXPERIENCE_PACK, ITEMS.SUP_EXPERIENCE_PACK])

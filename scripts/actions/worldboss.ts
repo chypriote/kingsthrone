@@ -1,6 +1,7 @@
 import chalk from 'chalk'
 import { orderBy } from 'lodash'
-import { FIGHT_STATUS, goat, Hero } from 'kingsthrone-api'
+import { goat, Hero } from 'kingsthrone-api'
+import { FIGHT_STATUS } from 'kingsthrone-api/lib/types/goat/WorldBoss'
 
 const cliProgress = require('cli-progress')
 

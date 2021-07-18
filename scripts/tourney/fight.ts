@@ -224,7 +224,7 @@ const buyShop = async (shop: TourneyShopItem[]): Promise<void> => {
 		const buyable = find(boughtItems, it => {
 			if (item.id == 4 || item.id == 7) {
 				const percent = 100 - (status.hp / status.hpmax * 100)
-				return percent < 25 || percent > item.add && item.add >= it.min
+				return percent < 25 || (percent > item.add && item.add >= it.min)
 			}
 
 			return it.id == item.id && item.add >= it.min

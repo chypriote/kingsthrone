@@ -2,11 +2,10 @@ import { config } from 'dotenv'
 config()
 import { chunk } from 'lodash'
 import { logger } from '../services/logger'
-import { goat } from 'kingsthrone-api'
+import { goat, UserProfile } from 'kingsthrone-api'
 import { getPlayers, updatePlayerDetails } from '../repository/player'
 import { getPlayerAlliance, leaveAlliance, setPlayerAlliance } from '../repository/alliance'
 import { Player } from '~/types/strapi/Player'
-import { UserProfile } from 'kingsthrone-api/lib/types/goat/User'
 
 export const updatePlayerAlliance = async (player: Player, ally: UserProfile): Promise<void> => {
 	//Check if player currently has alliance
@@ -21,7 +20,7 @@ export const updatePlayerAlliance = async (player: Player, ally: UserProfile): P
 		return await setPlayerAlliance(player, ally)
 	}
 	//Return if current ally is same
-	if (current.aid === ally.clubid) {
+	if (current.aid == ally.clubid) {
 		return
 	}
 	//Leave if new alliance is 0

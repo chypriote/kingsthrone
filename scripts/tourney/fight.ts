@@ -50,7 +50,7 @@ class HeroStatus {
 		return this
 	}
 	toString() {
-		return `Status: HP ${(this.hp / this.hpmax * 100).toFixed()}% - Attack: +${this.atkbonus}% - Crit: +${this.skillbonus}% - Fight: ${this.kills + 1}/${this.opponents}`
+		return `Status: HP ${Math.round(this.hp / this.hpmax * 100)}% - Attack: +${this.atkbonus}% - Crit: +${this.skillbonus}% - Fight: ${this.kills + 1}/${this.opponents}`
 	}
 }
 class GlobalState {
@@ -90,10 +90,10 @@ class GlobalState {
 const state = new GlobalState()
 const boughtItems = [
 	{ id: 1, name: 'Adrenaline Boost', min: 49 },
-	// { id: 4, name: 'Endurance Boost I', min: 5 },
+	{ id: 4, name: 'Endurance Boost I', min: 5 },
 	// { id: 5, name: 'Expertise Boost I', min: 10 },
 	// { id: 6, name: 'Adrenaline Boost I', min: 9 },
-	// { id: 7, name: 'Endurance Boost II', min: 9 },
+	{ id: 7, name: 'Endurance Boost II', min: 9 },
 	// { id: 8, name: 'Expertise Boost II', min: 15 },
 	// { id: 9, name: 'Adrenaline Boost II', min: 14 },
 	//2, //+100 attack, 50gems
@@ -223,8 +223,8 @@ const buyShop = async (shop: TourneyShopItem[]): Promise<void> => {
 	for (const item of items) {
 		const buyable = find(boughtItems, it => {
 			if (item.id == 4 || item.id == 7) {
-				const percent = 100 - (status.hp / status.hpmax * 100)
-				return percent < 25 || (percent > item.add && item.add >= it.min)
+				const missingHp = 100 - Math.round(status.hp / status.hpmax * 100)
+				return missingHp > 75 || (missingHp > item.add && item.add >= it.min)
 			}
 
 			return it.id == item.id && item.add >= it.min

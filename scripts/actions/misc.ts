@@ -1,5 +1,5 @@
 import { goat, Son } from 'kingsthrone-api'
-import { DECREE_TYPE } from 'kingsthrone-api/lib/types/goat/Misc'
+import { DECREE_TYPE } from 'kingsthrone-api/lib/types/Misc'
 import { logger } from '../services/logger'
 
 export const getThroneRoom = async (): Promise<void> => {

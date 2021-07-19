@@ -4,7 +4,7 @@ import { logger } from './services/logger'
 import { createPlayer, getAllGID, getPlayerByGID, updatePlayerDetails } from './repository/player'
 import { updatePlayerAlliance } from './update/profiles'
 import { Player } from '../types/strapi/Player'
-import { UserProfile } from 'kingsthrone-api/lib/types/goat/User'
+import { UserProfile } from 'kingsthrone-api/lib/types/User'
 
 const SERVERS = ['696']
 

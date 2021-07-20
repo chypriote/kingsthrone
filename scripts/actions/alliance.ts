@@ -1,7 +1,8 @@
-import { goat, AllianceBossInfo, Hero } from 'kingsthrone-api'
-import { logger } from '../services/logger'
-import { FIGHT_STATUS } from 'kingsthrone-api/lib/types/WorldBoss'
 import { find, orderBy } from 'lodash'
+import { goat, AllianceBossInfo, Hero, AllianceShop } from 'kingsthrone-api'
+import { FIGHT_STATUS } from 'kingsthrone-api/lib/types/WorldBoss'
+import { ITEMS } from 'kingsthrone-api/lib/types/Item'
+import { logger } from '../services/logger'
 
 const fightBosses = async (): Promise<void> => {
 	const heroes = (await goat.profile.getGameInfos()).hero.heroList
@@ -19,7 +20,7 @@ const fightBosses = async (): Promise<void> => {
 const fightXServer = async (): Promise<void> => {
 	try {
 		const fight = await goat.alliance.getXServerFight()
-		const dispatched = find(fight.status.list, lord => lord.uid === goat._getGid())
+		const dispatched = find(fight.status.list, lord => lord.uid == goat._getGid())
 
 		if (dispatched) { return }
 
@@ -33,9 +34,43 @@ const fightXServer = async (): Promise<void> => {
 
 		if (!hero) { return }
 		await goat.alliance.dispatchXServerHero(hero.id)
-		logger.success(`Dispatched ${JSON.stringify(hero)} to xserver fight`)
+		logger.success(`Dispatched ${hero.id} to xserver fight`)
 	} catch (e) {
 		logger.error(`[XSERVER] error ${e.toString()}`)
+		console.log(e)
+	}
+}
+
+
+interface State {
+	shopList: AllianceShop[],
+	money: number
+}
+const state: State = {
+	shopList: [],
+	money: 0,
+}
+
+const buyItem = async (itemId: number): Promise<void> => {
+	const item = find(state.shopList, it => it.item.id === itemId)
+	if (!item) { return }
+
+	for (let i = 0; i < item.num && state.money; i++) {
+		await goat.alliance.buyAllianceShopItem(item.id)
+		state.money -= item.payGX
+	}
+}
+
+const buyContributionItem = async (): Promise<void> => {
+	try {
+		const alliance = await goat.alliance.getAllianceInfos()
+		state.money = alliance.memberInfo.leftgx
+		state.shopList = alliance.shopList
+
+		for (const item of [81, ITEMS.CITRINE_RING]) {
+			await buyItem(item)
+		}
+	} catch (e) {
 		console.log(e)
 	}
 }
@@ -46,6 +81,7 @@ export const contributeAlliance = async (): Promise<void> => {
 		if (await goat.alliance.contributeAlliance())
 			logger.success('Alliance contributed')
 		await fightXServer()
+		await buyContributionItem()
 	} catch (e) {
 		logger.error(`[ALLIANCE] ${e}`)
 	}

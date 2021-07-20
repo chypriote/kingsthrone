@@ -55,7 +55,6 @@ const handleGID = async (id: string, retry = true): Promise<string|null> => {
 
 export const missing = async (): Promise<void> => {
 	for (const server of SERVERS) {
-		console.log(server)
 		goat.isLoggedIn = false
 		await goat.account.createAccount(server)
 

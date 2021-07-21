@@ -6,11 +6,22 @@ import { ITEMS } from 'kingsthrone-api/lib/types/Item'
 import { logger } from '../services/logger'
 const cliProgress = require('cli-progress')
 
+interface UsedHero { id: number; h: number; f: number; }
 const fightBosses = async (): Promise<void> => {
-	const heroes = (await goat.profile.getGameInfos()).hero.heroList
-	const bosses = (await goat.alliance.getAllianceBossInfo()).filter((boss: AllianceBossInfo) => boss.hp > 0)
+	const infos = await goat.alliance.getAllianceBossInfo()
+	const bosses = infos.bosses.filter((boss: AllianceBossInfo) => boss.hp > 0)
 
 	if (!bosses.length) { return }
+	const heroes = (await goat.profile.getGameInfos()).hero.heroList
+	const used = (infos.heroes).map((h: UsedHero) => h.id.toString())
+
+	const available = orderBy(
+		heroes.filter((h: Hero) => !used.includes(h.id.toString())),
+		'zfight_num',
+		'asc'
+	)
+
+	if (!available.length) { return }
 
 	const progress = new cliProgress.SingleBar({
 		format: `Alliance Boss\t| ${chalk.green('{bar}')} | {value}/{total} heroes`,

@@ -1,6 +1,6 @@
 import { config } from 'dotenv'
 config()
-import chalk from 'chalk'
+import chalk = require('chalk')
 import { logger } from '../services/logger'
 import { goat } from 'kingsthrone-api'
 import { createAlliance, getAllianceByAID, updateAlliance } from '../repository/alliance'

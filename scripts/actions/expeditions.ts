@@ -1,5 +1,5 @@
 import { find } from 'lodash'
-import chalk from 'chalk'
+import chalk = require('chalk')
 import { goat, Expedition, ExpeditionInfo } from 'kingsthrone-api'
 import { logger } from '../services/logger'
 const cliProgress = require('cli-progress')

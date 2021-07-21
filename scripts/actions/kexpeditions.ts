@@ -1,4 +1,4 @@
-import chalk from 'chalk'
+import chalk = require('chalk')
 import { goat, KingdomExpInfo } from 'kingsthrone-api'
 
 const cliProgress = require('cli-progress')

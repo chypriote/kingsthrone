@@ -1,5 +1,5 @@
 import { find } from 'lodash'
-import chalk from 'chalk'
+import chalk = require('chalk')
 import { goat, ProcessionGain } from 'kingsthrone-api'
 import { logger } from '../services/logger'
 import { NPCS } from 'kingsthrone-api/lib/types/Processions'

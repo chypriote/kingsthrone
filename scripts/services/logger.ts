@@ -1,6 +1,6 @@
 /* eslint-disable */
 //@ts-nocheck
-import chalk from 'chalk'
+import chalk = require('chalk')
 
 export const logger = {
 	log: (...message) => {

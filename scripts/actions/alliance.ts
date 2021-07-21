@@ -1,8 +1,10 @@
 import { find, orderBy } from 'lodash'
+import chalk = require('chalk')
 import { goat, AllianceBossInfo, Hero, AllianceShop } from 'kingsthrone-api'
 import { FIGHT_STATUS } from 'kingsthrone-api/lib/types/WorldBoss'
 import { ITEMS } from 'kingsthrone-api/lib/types/Item'
 import { logger } from '../services/logger'
+const cliProgress = require('cli-progress')
 
 const fightBosses = async (): Promise<void> => {
 	const heroes = (await goat.profile.getGameInfos()).hero.heroList
@@ -10,11 +12,21 @@ const fightBosses = async (): Promise<void> => {
 
 	if (!bosses.length) { return }
 
+	const progress = new cliProgress.SingleBar({
+		format: `Alliance Boss\t| ${chalk.green('{bar}')} | {value}/{total} heroes`,
+		barCompleteChar: '\u2588',
+		barIncompleteChar: '\u2591',
+		hideCursor: true,
+	})
+	progress.start(heroes.length, 0)
+
 	let i = 0
 	for (const hero of heroes) {
 		const status = await goat.alliance.fightAllianceBoss(bosses[i].id, hero.id)
 		if (status === FIGHT_STATUS.BOSS_KILLED) { i++ }
+		progress.increment()
 	}
+	progress.stop()
 }
 
 const fightXServer = async (): Promise<void> => {

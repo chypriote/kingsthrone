@@ -133,7 +133,7 @@ const loopFight = async (status: ITourneyStatus) => {
 		state.currentFight++
 		await loopFight(battle)
 	} catch (e) {
-		console.log(e)
+		logger.error(e.toString())
 		console.log(JSON.stringify(battle))
 	}
 }

@@ -1,5 +1,6 @@
 import chalk = require('chalk')
 import { goat, KingdomExpInfo } from 'kingsthrone-api'
+import { logger } from '../services/logger'
 
 const cliProgress = require('cli-progress')
 
@@ -49,6 +50,7 @@ export const doKingdomExpeditions = async (): Promise<void> => {
 		await doExpeditions(status)
 		await getRewards(status.maxLevel, status.chapterPhasesRwd)
 	} catch (e) {
+		logger.error(`[KEXPEDITIONS] ${e.toString()}`)
 		console.log(e)
 	}
 }

@@ -48,7 +48,7 @@ const fightXServer = async (): Promise<void> => {
 		await goat.alliance.dispatchXServerHero(hero.id)
 		logger.success(`Dispatched ${hero.id} to xserver fight`)
 	} catch (e) {
-		logger.error(`[XSERVER] error ${e.toString()}`)
+		logger.error(`[XSERVER] ${e.toString()}`)
 		console.log(e)
 	}
 }
@@ -83,6 +83,7 @@ const buyContributionItem = async (): Promise<void> => {
 			await buyItem(item)
 		}
 	} catch (e) {
+		logger.error(`[ALLYSHOP] ${e.toString()}`)
 		console.log(e)
 	}
 }

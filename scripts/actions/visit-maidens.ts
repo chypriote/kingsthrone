@@ -62,6 +62,4 @@ export const visitMaidens = async (count = 0, draughts = 0): Promise<void> => {
 		}
 	}
 	progress.stop()
-
-	// console.log(NPCS)
 }

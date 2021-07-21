@@ -25,7 +25,7 @@ const handleGID = async (id: string, retry = true): Promise<string|null> => {
 		const profile = await goat.profile.getUser(id)
 
 		if (!profile || profile.hero_num < 15) {
-			console.log(`Ignoring ${id} ${ profile ? profile.hero_num : ''}`)
+			logger.debug(`Ignoring ${id} ${ profile ? profile.hero_num : ''}`)
 			return null
 		}
 		if (!player) {
@@ -40,6 +40,8 @@ const handleGID = async (id: string, retry = true): Promise<string|null> => {
 
 		return player.name
 	} catch (e) {
+		if (!e.message) {logger.error(e.toString()); return null}
+
 		if (retry && e.message.indexOf('server_is_busyuser') > -1) {
 			logger.debug(`waiting ${id}`)
 			await new Promise(resolve => setTimeout(resolve, 2000))
@@ -47,7 +49,7 @@ const handleGID = async (id: string, retry = true): Promise<string|null> => {
 
 			return await handleGID(id, false)
 		}
-		console.log(e.message)
+		logger.error(e.message)
 	}
 
 	return null
@@ -64,7 +66,7 @@ export const missing = async (): Promise<void> => {
 			if (gids.includes(i)) {continue}
 			missing.push(i)
 		}
-		console.log(`found ${missing.length} potential players`)
+		logger.debug(`found ${missing.length} potential players`)
 
 		const chunkedMissing = chunk(missing, 8)
 		let created: (string|null)[] = []

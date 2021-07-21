@@ -3,6 +3,7 @@ import { find } from 'lodash'
 import { fromUnixTime } from 'date-fns'
 import { goat } from 'kingsthrone-api'
 import { client } from './services/database'
+import { logger } from './services/logger'
 import { Event } from '../types/strapi/Event'
 import { EventWheel } from 'kingsthrone-api/lib/types/Events'
 
@@ -18,9 +19,9 @@ const logItemWheel = async (event: EventWheel, event_db_id: number) => {
 	for (const item of event.cfg.wall_gache) {
 		if (Array.isArray(item.default_item)) {
 			const current = event.info.chosen.find((it: { id: number, key: number }) => it.id === item.id)
-			if (!current) {console.log('you need to choose a reward first'); return}
+			if (!current) {logger.error('you need to choose a reward first'); return}
 			const chosen = find(event.cfg.chosen_pool, e => e.key === current.key)
-			if (!chosen) {console.log('chosen item not found'); return}
+			if (!chosen) {logger.error('chosen item not found'); return}
 			item.default_item = chosen.item
 		}
 		await client('event_drops')

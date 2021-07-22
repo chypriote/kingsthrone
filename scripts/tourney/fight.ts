@@ -12,6 +12,7 @@ import { getRoster, updatePlayerHero } from '../repository/player-heroes'
 import { getOrCreatePlayerFromGoat } from '../repository/player'
 import { deathmatchEndpoint, LocalTourneyEndpoint, TourneyEndpoint, xsTourneyEndpoint } from './index'
 import { ITourneyFight, ITourneyStatus, OpponentHero, OpponentHeroStats, RewardItem, TourneyShopItem, User } from 'kingsthrone-api'
+import { goat } from 'kingsthrone-api'
 
 export enum TOURNEY_TYPE {
 	LOCAL= 'local',
@@ -176,6 +177,14 @@ const inferQuality = (hero: OpponentHero): number => {
 }
 /** Selects the easiest hero to fight using known roster and current level */
 const selectHero = async (heroes: OpponentHero[]): Promise<OpponentHero> => {
+
+	if (!goat._isGautier()) {
+		for (const hero of heroes) {
+			const found = find(state.opponentRoster, ph => ph.hid == hero.id)
+			if (!found) return hero
+		}
+	}
+
 	heroes = heroes.map(h => {
 		const found = find(state.opponentRoster, ph => ph.hid == h.id)
 		return { ...h, quality: found?.quality || inferQuality(h) }
@@ -241,7 +250,8 @@ const startFighting = async (opponent: string|null, hid: number|null): Promise<I
 
 	if (opponent) {
 		const hero = hid ? { id: hid } : await state.endpoint.findAvailableHero()
-		return await state.endpoint.challengeOpponent(opponent, hero?.id || 0)
+		if (!hero) { logger.error('No more heroes available'); return null }
+		return await state.endpoint.challengeOpponent(opponent, hero.id)
 	}
 
 	if (currentState === 1) {

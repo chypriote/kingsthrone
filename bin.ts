@@ -13,8 +13,8 @@ import { TOURNEY_TYPE } from './scripts/tourney/fight'
 import { logger } from './scripts/services/logger'
 import { ACCOUNT_GAUTIER, ACCOUNT_NAPOLEON } from 'kingsthrone-api/lib/src/goat'
 
-async function login(account: string|null = null) {
-	await goat._setAccount(account === 'gautier' ? ACCOUNT_GAUTIER : ACCOUNT_NAPOLEON)
+function login(account: string|null = null) {
+	goat._setAccount(account === 'gautier' ? ACCOUNT_GAUTIER : ACCOUNT_NAPOLEON)
 }
 
 yargs(hideBin(process.argv))
@@ -25,7 +25,7 @@ yargs(hideBin(process.argv))
 		type: 'string',
 	})
 	.command('full', 'Runs daily chores, kingdom and tourney', () => {}, async (argv) => {
-		await login(argv.account)
+		login(argv.account)
 
 		await doKingdom()
 		await doTourney(TOURNEY_TYPE.LOCAL)
@@ -35,7 +35,7 @@ yargs(hideBin(process.argv))
 	})
 	//Daily
 	.command('daily', 'Run daily chores', () => {}, async (argv) => {
-		await login(argv.account)
+		login(argv.account)
 
 		await dailyChores()
 		logger.success(`Finished ${format(new Date(), 'HH:mm')}`)
@@ -43,7 +43,7 @@ yargs(hideBin(process.argv))
 	})
 	//Kingdom
 	.command('kingdom', 'Explore the kingdom', () => {}, async (argv) => {
-		await login(argv.account)
+		login(argv.account)
 
 		await doKingdom()
 		logger.success(`Finished ${format(new Date(), 'HH:mm')}`)
@@ -64,7 +64,7 @@ yargs(hideBin(process.argv))
 			default: null,
 		})
 	}, async (argv) => {
-		await login(argv.account)
+		login(argv.account)
 
 		await doTourney(TOURNEY_TYPE.LOCAL, argv.opponent, argv.hero)
 		logger.success(`Finished ${format(new Date(), 'HH:mm')}`)
@@ -84,7 +84,7 @@ yargs(hideBin(process.argv))
 			default: null,
 		})
 	}, async (argv) => {
-		await login(argv.account)
+		login(argv.account)
 
 		await doTourney(TOURNEY_TYPE.DEATHMATCH, argv.opponent, argv.hero)
 		logger.success(`Finished ${format(new Date(), 'HH:mm')}`)
@@ -104,7 +104,7 @@ yargs(hideBin(process.argv))
 			default: null,
 		})
 	}, async (argv) => {
-		await login(argv.account)
+		login(argv.account)
 
 		await doTourney(TOURNEY_TYPE.XSERVER, argv.opponent, argv.hero)
 		logger.success(`Finished ${format(new Date(), 'HH:mm')}`)
@@ -123,7 +123,7 @@ yargs(hideBin(process.argv))
 			type: 'number',
 		})
 	}, async (argv) => {
-		await login(argv.account)
+		login(argv.account)
 
 		await visitMaidens(argv.amount, argv.draughts)
 		logger.success(`Finished ${format(new Date(), 'HH:mm')}`)
@@ -142,7 +142,7 @@ yargs(hideBin(process.argv))
 			type: 'number',
 		})
 	}, async (argv) => {
-		await login(argv.account)
+		login(argv.account)
 
 		await doProcessions(argv.amount, argv.draughts)
 		logger.success(`Finished ${format(new Date(), 'HH:mm')}`)

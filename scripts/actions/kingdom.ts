@@ -1,8 +1,7 @@
 import { find } from 'lodash'
 import { differenceInMinutes, fromUnixTime } from 'date-fns'
-import chalk = require('chalk')
 import { goat, CastleInfos, EventInfo, Son } from 'kingsthrone-api'
-const cliProgress = require('cli-progress')
+import { Progress } from '../services/progress'
 
 const CASTLES_RSN: {[k: number]: string} = {
 	1: '5yprprvaae',
@@ -126,13 +125,7 @@ export const doKingdom = async (): Promise<void> => {
 		state.sons = game.son.sonList.map((son: Son) => ({ ...son, available: true }))
 		state.castles = game.hangUpSystem.info
 
-		const progress = new cliProgress.SingleBar({
-			format: `Kingdom Exploration\t| ${chalk.green('{bar}')} | {value}/{total} castles`,
-			barCompleteChar: '\u2588',
-			barIncompleteChar: '\u2591',
-			hideCursor: true,
-		})
-		progress.start(state.castles.length, 0)
+		const progress = new Progress('Kingdom Exploration', state.castles.length, 'castles')
 
 		//Setup available or not sons
 		state.castles.forEach((castle: CastleInfos) => {

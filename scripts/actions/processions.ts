@@ -1,9 +1,8 @@
 import { find } from 'lodash'
-import chalk = require('chalk')
 import { goat, ProcessionGain } from 'kingsthrone-api'
 import { logger } from '../services/logger'
 import { NPCS } from 'kingsthrone-api/lib/types/Processions'
-const cliProgress = require('cli-progress')
+import { Progress } from '../services/progress'
 
 function getItem(id: number): string {
 	switch (id) {
@@ -63,13 +62,7 @@ export const doProcessions = async (count = 0, draughts = 0): Promise<void> => {
 	const todo = Math.max(count, draughts * visitsPerDraughts, state.availableProcessions)
 	if (!todo) { return }
 
-	const progress = new cliProgress.SingleBar({
-		format: `Processions\t| ${chalk.green('{bar}')} | {value}/{total} done${ state.usedDraught ? ', {draughts} draughts' : ''}`,
-		barCompleteChar: '\u2588',
-		barIncompleteChar: '\u2591',
-		hideCursor: true,
-	})
-	progress.start(todo, state.visits, { draughts: state.usedDraught })
+	const progress = new Progress('Processions', todo, 'done')
 
 	while (state.availableProcessions) {
 		const { result } = await goat.processions.startProcession()

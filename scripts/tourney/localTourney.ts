@@ -34,9 +34,9 @@ export class LocalTourneyEndpoint implements TourneyEndpoint {
 	findAvailableHero = async (): Promise<Hero|null> => {
 		const info = await goat.profile.getGameInfos()
 		const heroes = info.hero.heroList
-		const used = info.yamen.fclist.map((u: FClist) => u.id)
+		const used = info.yamen.fclist.map((u: FClist) => u.id.toString())
 
-		const available = heroes.filter((h: Hero) => !used.includes(h.id))
+		const available = heroes.filter((h: Hero) => !used.includes(h.id.toString()))
 		if (!available.length) {
 			return null
 		}

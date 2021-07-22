@@ -1,8 +1,6 @@
-import chalk = require('chalk')
 import { goat, KingdomExpInfo } from 'kingsthrone-api'
 import { logger } from '../services/logger'
-
-const cliProgress = require('cli-progress')
+import { Progress } from '../services/progress'
 
 const getNextLevel= (current: number): number => {
 	const test = current.toString()
@@ -26,13 +24,7 @@ const doExpeditions = async (status: KingdomExpInfo): Promise<void> => {
 
 	if (!available) { return }
 
-	const progress = new cliProgress.SingleBar({
-		format: `Expeditions\t| ${chalk.green('{bar}')} | {value}/{total}`,
-		barCompleteChar: '\u2588',
-		barIncompleteChar: '\u2591',
-		hideCursor: true,
-	})
-	progress.start(available, 0)
+	const progress = new Progress('Kingdom Expeditions', available)
 
 	while (available) {
 		const status = await goat.expeditions.doKingdomExpedition(next)

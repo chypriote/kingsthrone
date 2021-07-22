@@ -1,8 +1,7 @@
 import { find } from 'lodash'
-import chalk = require('chalk')
 import { goat } from 'kingsthrone-api'
 import { MAIDENS } from 'kingsthrone-api/lib/types/Maidens'
-const cliProgress = require('cli-progress')
+import { Progress } from '../services/progress'
 
 function getMaiden(id: number): {mid:number, name: string, visits: number} {
 	let wife = find(MAIDENS, m => m.mid == id)
@@ -41,13 +40,7 @@ export const visitMaidens = async (count = 0, draughts = 0): Promise<void> => {
 	const todo = Math.max(count, draughts * visitsPerDraughts, state.availableVisits)
 	if (!todo) { return }
 
-	const progress = new cliProgress.SingleBar({
-		format: `Maiden visits\t| ${chalk.green('{bar}')} | {value}/{total} done${ state.usedDraught ? ', {draughts} draughts' : ''}`,
-		barCompleteChar: '\u2588',
-		barIncompleteChar: '\u2591',
-		hideCursor: true,
-	})
-	progress.start(todo, state.visits, { draughts: state.usedDraught })
+	const progress = new Progress('Maiden visits', todo, 'done')
 
 	while (state.availableVisits) {
 		const wife = await goat.maidens.visitRandomMaiden()
@@ -55,7 +48,7 @@ export const visitMaidens = async (count = 0, draughts = 0): Promise<void> => {
 		maiden.visits++
 		state.visits++
 		state.availableVisits--
-		progress.increment({ draughts: state.usedDraught })
+		progress.increment()
 
 		if (state.availableVisits === 0 && (state.visits < count || state.usedDraught < draughts)) {
 			await useDraught()

@@ -1,8 +1,7 @@
-import chalk = require('chalk')
 import { orderBy } from 'lodash'
 import { goat, Hero } from 'kingsthrone-api'
 import { FIGHT_STATUS } from 'kingsthrone-api/lib/types/WorldBoss'
-const cliProgress = require('cli-progress')
+import { Progress } from '../services/progress'
 
 interface UsedHero { id: number; h: number; f: number; }
 enum FIGHT_TYPE {
@@ -26,13 +25,7 @@ const doMinions = async (): Promise<void> => {
 	const heroes = await getAvailableHeroes(FIGHT_TYPE.MINIONS)
 
 	if (!heroes.length) { return }
-	const progress = new cliProgress.SingleBar({
-		format: `Attacking Minions\t| ${chalk.green('{bar}')} | {value}/{total} heroes`,
-		barCompleteChar: '\u2588',
-		barIncompleteChar: '\u2591',
-		hideCursor: true,
-	})
-	progress.start(heroes.length, 0)
+	const progress = new Progress('Attacking Minions', heroes.length, 'heroes')
 
 	for (const hero of heroes) {
 		try {
@@ -48,13 +41,7 @@ const doBoss = async (): Promise<void> => {
 	const heroes = await getAvailableHeroes(FIGHT_TYPE.BOSS)
 
 	if (!heroes.length) { return }
-	const progress = new cliProgress.SingleBar({
-		format: `Attacking Jotun\t| ${chalk.green('{bar}')} | {value}/{total} heroes`,
-		barCompleteChar: '\u2588',
-		barIncompleteChar: '\u2591',
-		hideCursor: true,
-	})
-	progress.start(heroes.length, 0)
+	const progress = new Progress('Attacking Jotun', heroes.length, 'heroes')
 
 	for (const hero of heroes) {
 		try {

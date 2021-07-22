@@ -1,7 +1,7 @@
 import { find } from 'lodash'
 import { goat, Item } from 'kingsthrone-api'
-import { logger } from '../services/logger'
 import { ITEMS, RESOURCES_ITEMS } from 'kingsthrone-api/lib/types/Item'
+import { Progress } from '../services/progress'
 
 interface IState {items: Item[]}
 const state: IState = {
@@ -69,7 +69,7 @@ const combineItems = async (): Promise<void> => {
 	}
 }
 
-const combineInvestiture = async (items: number[], amount: number): Promise<void> => {
+const combineInvestitureItems = async (items: number[], amount: number): Promise<void> => {
 	for (const id of items) {
 		const item = getItem(id)
 		const next = getItem(id + 3)
@@ -78,16 +78,8 @@ const combineInvestiture = async (items: number[], amount: number): Promise<void
 		next.count += Math.trunc(item.count / amount)
 	}
 }
-
-export const handleBag = async (): Promise<void> => {
-	state.items = await goat.items.getBag()
-
-	await useResourceScrolls()
-	await useExperiencePacks()
-	await openMaidenBoxes()
-	await combineItems()
-	await openManuscriptCaches()
-	await combineInvestiture([
+const combineInvestiture = async (): Promise<void> => {
+	await combineInvestitureItems([
 		ITEMS.RUBY_RING,
 		ITEMS.RUBY_SCEPTER,
 		ITEMS.RUBY_SWORD,
@@ -95,15 +87,39 @@ export const handleBag = async (): Promise<void> => {
 		ITEMS.HESSONITE_SCEPTER,
 		ITEMS.HESSONITE_SWORD,
 	], 3)
-	await combineInvestiture([
+	await combineInvestitureItems([
 		ITEMS.CITRINE_RING,
 		ITEMS.CITRINE_SCEPTER,
 		ITEMS.CITRINE_SWORD,
 	], 4)
-	await combineInvestiture([
+	await combineInvestitureItems([
 		ITEMS.EMERALD_RING,
 		ITEMS.EMERALD_SCEPTER,
 		ITEMS.EMERALD_SWORD,
 	], 5)
-	logger.success('Handled bag')
+}
+
+export const handleBag = async (): Promise<void> => {
+	state.items = await goat.items.getBag()
+	const progress = new Progress('Clearing bag', 6, 'tasks')
+
+	await useResourceScrolls()
+	progress.increment()
+
+	await useExperiencePacks()
+	progress.increment()
+
+	await openMaidenBoxes()
+	progress.increment()
+
+	await combineItems()
+	progress.increment()
+
+	await openManuscriptCaches()
+	progress.increment()
+
+	await combineInvestiture()
+	progress.increment()
+
+	progress.stop()
 }

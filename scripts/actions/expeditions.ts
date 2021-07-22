@@ -1,8 +1,7 @@
 import { find } from 'lodash'
-import chalk = require('chalk')
 import { goat, Expedition, ExpeditionInfo } from 'kingsthrone-api'
 import { logger } from '../services/logger'
-const cliProgress = require('cli-progress')
+import { Progress } from '../services/progress'
 
 const state: ExpeditionInfo = {
 	gid: 0,
@@ -40,13 +39,7 @@ export const doExpedition = async (count: number): Promise<void> => {
 	try {
 		updateState(await goat.expeditions.getExpeditionsStatus())
 
-		const progress = new cliProgress.SingleBar({
-			format: `Expeditions\t| ${chalk.green('{bar}')} | {value}/{total}`,
-			barCompleteChar: '\u2588',
-			barIncompleteChar: '\u2591',
-			hideCursor: true,
-		})
-		progress.start(count, state.gid)
+		const progress = new Progress('Expeditions', count, null, state.gid)
 
 		while (state.gid < count + 1) {
 			progress.update(state.gid)

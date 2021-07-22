@@ -14,7 +14,8 @@
     "roster": "ts-node scripts/player.ts",
     "update": "ts-node scripts/update.ts",
     "missing": "ts-node scripts/missing.ts",
-    "event": "ts-node scripts/event.ts",
+    "events": "ts-node scripts/events.ts",
+    "record": "ts-node scripts/record-events.ts",
     "runs": "ts-node bin.ts",
     "prepare": "husky install"
   },
@@ -27,7 +28,7 @@
     "cli-progress": "^3.9",
     "date-fns": "^2.22",
     "dotenv": "^10.0",
-    "kingsthrone-api": "^0.9",
+    "kingsthrone-api": "^0.10",
     "knex": "^0.95",
     "lodash": "^4.17",
     "pg": "^8.6",

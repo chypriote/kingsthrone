@@ -253,7 +253,29 @@ const logDivining = async () => {
 	}
 }
 
+const logCoronation = async () => {
+	const event = await goat.events.coronation.eventInfos()
+	await client('events').insert({
+		name: 'Coronation',
+		eid: event.cfg.info.no,
+		start: fromUnixTime(event.cfg.info.sTime),
+		type: event.cfg.info.type,
+	})
+	const created = await getEventByEID(event.cfg.info.no)
+
+	for (const item of event.exchange.list) {
+		await client('event_shops')
+			.insert({
+				event: created.id,
+				item: item.items.id,
+				limit: item.totalLimit,
+				count: item.items.count,
+				price: item.need,
+			})
+	}
+}
+
 const logEvents = async () => {
-	await logDivining()
+	await logCoronation()
 }
 logEvents().then(() => { process.exit()})

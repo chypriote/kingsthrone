@@ -1,17 +1,17 @@
 import { goat, Son } from 'kingsthrone-api'
-import { DECREE_TYPE } from 'kingsthrone-api/lib/types/Misc'
 import { logger } from '../services/logger'
+import { DECREE_TYPE } from 'kingsthrone-api/lib/types/ThroneRoom'
 
 export const getThroneRoom = async (): Promise<void> => {
 	try {
-		if (await goat.profile.getAllLevies())
+		if (await goat.throneRoom.getAllLevies())
 			logger.success('Levies collected')
 	} catch (e) {
 		logger.error(`[LEVIES] ${e}`)
 	}
 
 	try {
-		if (await goat.profile.getAllDecreesResources(DECREE_TYPE.RESOURCES))
+		if (await goat.throneRoom.getAllDecreesResources(DECREE_TYPE.RESOURCES))
 			logger.success('Decrees enacted')
 	} catch (e) {
 		logger.error(`[DECREES] ${e}`)

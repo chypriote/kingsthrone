@@ -50,7 +50,7 @@ const updateProfile = async (profile: Player): Promise<void> => {
 }
 
 export const updateProfiles = async (): Promise<void> => {
-	const players: Player[] = await getPlayers({ mserver: 228 })
+	const players: Player[] = await getPlayers({ 'server.merger': 228 })
 	const chunks = chunk(players, 9)
 
 	for (const chunk of chunks) {

@@ -310,6 +310,7 @@ export const doTourney = async (
 ): Promise<void> => {
 	loadEndpoint(type)
 	state.heroes = await getExistingHeroesList()
+	if (state.heroes.length < 15) { return }
 	const status = await startFighting(opponent, hid)
 	if (!status) { return }
 	await loadFight(status.fight)

@@ -6,7 +6,7 @@ import { updatePlayerAlliance } from './update/profiles'
 import { Player } from '../types/strapi/Player'
 import { UserProfile } from 'kingsthrone-api/lib/types/User'
 
-const SERVERS = ['696']
+const SERVERS = ['388','256']
 
 const getMin = (server: string): number => parseInt(server + '000001')
 const getMax = (server: string): number => parseInt(server + '005000')
@@ -57,7 +57,7 @@ const handleGID = async (id: string, retry = true): Promise<string|null> => {
 
 export const missing = async (): Promise<void> => {
 	for (const server of SERVERS) {
-		goat.isLoggedIn = false
+		goat._logout()
 		await goat.account.createAccount(server)
 
 		const missing = []

@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "servers",
+  "info": {
+    "name": "Server",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": false,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "time": {
+      "type": "datetime"
+    },
+    "merger": {
+      "type": "integer"
+    },
+    "players": {
+      "via": "server",
+      "collection": "player"
+    },
+    "alliances": {
+      "via": "server",
+      "collection": "alliance"
+    }
+  }
+}

@@ -15,12 +15,6 @@
       "type": "uid",
       "required": true
     },
-    "server": {
-      "type": "integer"
-    },
-		"mserver": {
-			"type": "integer"
-		},
     "name": {
       "type": "string",
       "required": true
@@ -80,6 +74,10 @@
       "type": "boolean",
       "default": false
     },
+		"server": {
+			"via": "players",
+			"model": "server"
+		},
     "alliance_members": {
       "collection": "alliance-member",
       "via": "player"

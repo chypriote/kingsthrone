@@ -1,8 +1,9 @@
 import { goat } from 'kingsthrone-api'
 import { fromUnixTime, isFuture } from 'date-fns'
-import { QUEST_STATUS, RWD_STATUS } from 'kingsthrone-api/lib/types/Events'
+import { CORONATION_ITEM, QUEST_STATUS, RWD_STATUS } from 'kingsthrone-api/lib/types/Events'
 import { logger } from './services/logger'
 import { allianceSiege } from './actions/siege'
+import { find } from 'lodash'
 
 const treasureHunt = async () => {
 	const status = await goat.events.treasureHunt.eventInfos()
@@ -44,7 +45,16 @@ const divining = async () => {
 		logger.log('stargazing')
 	}
 }
-
+const coronation = async () => {
+	const status = await goat.events.coronation.eventInfos()
+	logger.log('---Coronation---')
+	const banners = find(status.shop, s => s.items.id === CORONATION_ITEM.BANNER)
+	if (!banners) { return}
+	for (let i = 0; i < banners.limit; i++) {
+		await goat.events.coronation.buyShopItem(CORONATION_ITEM.BANNER)
+		await goat.events.coronation.useItem(CORONATION_ITEM.BANNER)
+	}
+}
 
 export const doEvents = async (): Promise<void> => {
 	const status = await goat.profile.getGameInfos()
@@ -57,5 +67,6 @@ export const doEvents = async (): Promise<void> => {
 	for (const event of events) {
 		if (event.type === 17 && isFuture(fromUnixTime(event.eTime))) { await treasureHunt() }
 		if (event.type === 1123 && event.id === 1123 && isFuture(fromUnixTime(event.eTime))) { await divining() }
+		if (event.type === 7 && isFuture(fromUnixTime(event.eTime))) { await coronation() }
 	}
 }

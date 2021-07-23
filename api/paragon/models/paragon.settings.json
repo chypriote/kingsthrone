@@ -26,9 +26,9 @@
     "levels": {
       "type": "integer"
     },
-		"description": {
-			"type": "string"
-		},
+    "description": {
+      "type": "string"
+    },
     "military": {
       "type": "float"
     },
@@ -49,6 +49,9 @@
     "hero_groups": {
       "via": "paragons",
       "collection": "hero-group"
+    },
+    "item_id": {
+      "model": "item"
     }
   }
 }

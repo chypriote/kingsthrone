@@ -16,6 +16,7 @@
     "missing": "ts-node scripts/missing.ts",
     "events": "ts-node scripts/events.ts",
     "record": "ts-node scripts/record-events.ts",
+    "test": "ts-node scripts/actions/siege.ts",
     "runs": "ts-node bin.ts",
     "prepare": "husky install"
   },

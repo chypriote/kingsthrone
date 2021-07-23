@@ -18,7 +18,7 @@ const useAllItems = async (types: number[]): Promise<void> => {
 		}
 	}
 }
-const useResourceScrolls = async (): Promise<void> => {
+const useResourceItems = async (): Promise<void> => {
 	await useAllItems(RESOURCES_ITEMS)
 }
 const useExperiencePacks = async (): Promise<void> => {
@@ -53,15 +53,16 @@ const combineItems = async (): Promise<void> => {
 		await goat.items.combine(ITEMS.DUELING_INVITATION, Math.trunc(duelingTokens.count / 4))
 	}
 
-	const allianceFragment = getItem(135)
-	const allianceCharter = getItem(128)
+	const allianceFragment = getItem(ITEMS.ALLIANCE_FRAGMENT)
+	const allianceCharter = getItem(ITEMS.ALLIANCE_CHARTER)
 	if (allianceFragment.count >= 4) {
-		await goat.items.combine(128, Math.trunc(allianceFragment.count / 4))
+		await goat.items.combine(ITEMS.ALLIANCE_CHARTER, Math.trunc(allianceFragment.count / 4))
 		allianceCharter.count += Math.trunc(allianceFragment.count / 4)
 	}
 	if (allianceCharter.count >= 3) {
-		await goat.items.combine(132, Math.trunc(allianceCharter.count / 3))
+		await goat.items.combine(ITEMS.ADV_ALLIANCE_CHARTER, Math.trunc(allianceCharter.count / 3))
 	}
+	await useAllItems([ITEMS.ALLIANCE_SEAL])
 
 	const drawingFragment = getItem(20017)
 	if (drawingFragment.count >= 10) {
@@ -103,7 +104,7 @@ export const handleBag = async (): Promise<void> => {
 	state.items = await goat.items.getBag()
 	const progress = new Progress('Clearing bag', 6, 'tasks')
 
-	await useResourceScrolls()
+	await useResourceItems()
 	progress.increment()
 
 	await useExperiencePacks()

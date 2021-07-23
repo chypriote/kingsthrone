@@ -224,9 +224,36 @@ const logMaidenPainting = async () => {
 	await logItemWheel(event.wheel, created.id)
 }
 
+const logDivining = async () => {
+	const event = await goat.events.divining.eventInfos()
+	await client('events').insert({
+		name: 'Divining',
+		eid: 1123,
+		start: fromUnixTime(1626998400),
+		type: 1123,
+	})
+	const created = await getEventByEID(1123)
+	for (const item of event.cfg.rewards) {
+		await client('event_drops')
+			.insert({
+				event: created.id,
+				item: item.id,
+				count: item.count,
+			})
+	}
+	for (const item of event.shop.list) {
+		await client('event_shops')
+			.insert({
+				event: created.id,
+				item: item.items.id,
+				limit: item.all_limit,
+				count: item.items.count,
+				price: item.need,
+			})
+	}
+}
+
 const logEvents = async () => {
-	await logPicnic()
-	await logTreasureHunt()
-	await logMaidenPainting()
+	await logDivining()
 }
 logEvents().then(() => { process.exit()})

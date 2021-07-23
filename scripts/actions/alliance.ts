@@ -100,8 +100,10 @@ export const contributeAlliance = async (): Promise<void> => {
 		await fightXServer()
 		await buyContributionItem()
 		const rwdStatus = await goat.alliance.getXServerRewardInfos()
-		if (rwdStatus.isWin === 1 && rwdStatus.isGet === 0)
+		if (rwdStatus.isWin === 1 && rwdStatus.isGet === 0 && rwdStatus.is_get !== 0) {
 			await goat.alliance.claimXServerReward()
+			logger.success('got Reward')
+		}
 	} catch (e) {
 		logger.error(`[ALLIANCE] ${e}`)
 	}

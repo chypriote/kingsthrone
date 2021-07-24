@@ -6,7 +6,7 @@ import { goat } from 'kingsthrone-api'
 import { UserProfile } from 'kingsthrone-api/lib/types/User'
 
 export const createPlayer = async (
-	gid: string, name: string, vip = 0, power = 0, heroes = 0, server = 699
+	gid: string, name: string, vip = 0, power = 0, heroes = 0, server: string|number = 699
 ): Promise<void> => {
 	await client('players').insert({
 		gid, name, vip, power, heroes,

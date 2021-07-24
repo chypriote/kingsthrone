@@ -72,7 +72,6 @@ const giftOfTheFae = async () => {
 		for (let i = 0; i < status.info.fastNum; i++) {
 			await goat.events.giftOfTheFae.useQuickCollect(tree.id)
 			console.log('used quick collect')
-			status.info.fastNum--
 		}
 	}
 

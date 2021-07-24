@@ -47,11 +47,12 @@ const divining = async () => {
 const coronation = async () => {
 	const status = await goat.events.coronation.eventInfos()
 	logger.log('---Coronation---')
-	const banners = find(status.shop, s => s.items.id === CORONATION_ITEM.BANNER)
+	const banners = find(status.shop, s => s.items.id === 256)
+
 	if (!banners) { return}
 	for (let i = 0; i < banners.limit; i++) {
 		await goat.events.coronation.buyShopItem(CORONATION_ITEM.BANNER)
-		await goat.events.coronation.useItem(CORONATION_ITEM.BANNER)
+		await goat.events.coronation.useItem(256)
 	}
 }
 const giftOfTheFae = async () => {

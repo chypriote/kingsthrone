@@ -3950,9 +3950,9 @@ ee-first@1.1.1:
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
 electron-to-chromium@^1.3.723:
-  version "1.3.785"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.785.tgz#79f546c69a6be4f30913aaace361bc746f26df48"
-  integrity sha512-WmCgAeURsMFiyoJ646eUaJQ7GNfvMRLXo+GamUyKVNEM4MqTAsXyC0f38JEB4N3BtbD0tlAKozGP5E2T9K3YGg==
+  version "1.3.786"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.786.tgz#1fc572abc77e2f474725f8a61acf7e25ced9fbe2"
+  integrity sha512-AmvbLBj3hepRk8v/DHrFF8gINxOFfDbrn6Ts3PcK46/FBdQb5OMmpamSpZQXSkfi77FfBzYtQtAk+00LCLYMVw==
 
 elliptic@^6.5.3, elliptic@^6.5.4:
   version "6.5.4"
@@ -6258,9 +6258,9 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
 kingsthrone-api@^0.11:
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/kingsthrone-api/-/kingsthrone-api-0.11.1.tgz#932a05375494c93f85abc7dc63253caf9b314f2c"
-  integrity sha512-EoZ6UWYWfScocnTWv+h6O6xsu7eiJFXExcfB2XB09pcOPtVsbZLC6NwnpJDoCoS+HmhH7oRS00g2HEiAt7/nWQ==
+  version "0.11.5"
+  resolved "https://registry.yarnpkg.com/kingsthrone-api/-/kingsthrone-api-0.11.5.tgz#6369a7e0b3ec25254856ac166a349d0558d0cd20"
+  integrity sha512-4AyMZ3qGBZjDixcJZHJP+m/RuI9RBky0PQ08HBeHcWU5ibolL5oyIPgEB2SYikFfZp41OR6j9cfzX26W7q7vdQ==
   dependencies:
     axios "^0.21"
     dotenv "^10.0"

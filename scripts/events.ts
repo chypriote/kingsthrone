@@ -1,9 +1,9 @@
 import { goat } from 'kingsthrone-api'
 import { fromUnixTime, isFuture } from 'date-fns'
-import { CORONATION_ITEM, QUEST_STATUS, RWD_STATUS } from 'kingsthrone-api/lib/types/Events'
+import { CORONATION_ITEM, GiftOfTheFaeStatus, QUEST_STATUS, RWD_STATUS } from 'kingsthrone-api/lib/types/Events'
 import { logger } from './services/logger'
 import { allianceSiege } from './actions/siege'
-import { find } from 'lodash'
+import { find, sample } from 'lodash'
 
 const treasureHunt = async () => {
 	const status = await goat.events.treasureHunt.eventInfos()
@@ -31,7 +31,6 @@ const treasureHunt = async () => {
 		}
 	}
 }
-
 const divining = async () => {
 	const status = await goat.events.divining.eventInfos()
 	logger.log('---Divining---')
@@ -55,6 +54,38 @@ const coronation = async () => {
 		await goat.events.coronation.useItem(CORONATION_ITEM.BANNER)
 	}
 }
+const giftOfTheFae = async () => {
+	const status: GiftOfTheFaeStatus = await goat.events.giftOfTheFae.eventInfos()
+	logger.log('---Gift of the Fae---')
+
+	if (!status.info.gj.length) {
+		await goat.events.giftOfTheFae.openFreeTree()
+	}
+
+	for (const tree of status.info.gj) {
+		if (!tree.hasFreeFastNum) {await goat.events.giftOfTheFae.useQuickCollect(tree.id)}
+
+		for (let i = tree.hasFreeExtraNum; i < 100; i++) {
+			await goat.events.giftOfTheFae.useExtraOutput(tree.id)
+		}
+	}
+
+	for (const pool of status.hecheng.hecheng) {
+		if (!pool.choosed) {
+			const rwd = sample(status.cfg.freeCompose.item)
+			await goat.events.giftOfTheFae.selectPoolReward(rwd?.idd)
+			console.log('Selected pool reward')
+		}
+
+		const maxWater = pool.type === 1 ? 300000 : 1500000
+		const pour = Math.min(status.info.luShuiNum, maxWater - status.info.luShuiNum)
+		if (pool.num < maxWater && pour) {
+			await goat.events.giftOfTheFae.pourDew(pour, pool.id)
+			status.info.luShuiNum -= pour
+			console.log(`Poured ${pour} water, ${status.info.luShuiNum} left`)
+		}
+	}
+}
 
 export const doEvents = async (): Promise<void> => {
 	const status = await goat.profile.getGameInfos()
@@ -64,9 +95,11 @@ export const doEvents = async (): Promise<void> => {
 		await allianceSiege()
 	}
 
+	let faeDone = false
 	for (const event of events) {
 		if (event.type === 17 && isFuture(fromUnixTime(event.eTime))) { await treasureHunt() }
 		if (event.type === 1123 && event.id === 1123 && isFuture(fromUnixTime(event.eTime))) { await divining() }
 		if (event.type === 7 && isFuture(fromUnixTime(event.eTime))) { await coronation() }
+		if (event.type === 1299 && isFuture(fromUnixTime(event.eTime)) && !faeDone) {faeDone = true; await giftOfTheFae() }
 	}
 }

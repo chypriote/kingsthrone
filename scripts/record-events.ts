@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { find } from 'lodash'
-import { fromUnixTime } from 'date-fns'
+import { fromUnixTime, startOfToday } from 'date-fns'
 import { goat } from 'kingsthrone-api'
 import { client } from './services/database'
 import { logger } from './services/logger'
@@ -10,6 +10,13 @@ import { EventWheel } from 'kingsthrone-api/lib/types/Events'
 export const getEventByEID = async (eid: number): Promise<Event> => {
 	const events = await client('events')
 		.where('eid', '=', eid)
+		.limit(1)
+
+	return events.length ? events[0] : null
+}
+export const getLatestEvent = async (): Promise<Event> => {
+	const events = await client('events')
+		.orderBy('created_at', 'desc')
 		.limit(1)
 
 	return events.length ? events[0] : null
@@ -33,7 +40,6 @@ const logItemWheel = async (event: EventWheel, event_db_id: number) => {
 			})
 	}
 }
-
 const logGardenStroll = async () => {
 	const event = await goat.events.gardenStroll.eventInfos()
 
@@ -65,7 +71,6 @@ const logGardenStroll = async () => {
 			})
 	}
 }
-
 const logDarkCastle = async () => {
 	const event = await goat.events.darkCastle.eventInfos()
 
@@ -97,7 +102,6 @@ const logDarkCastle = async () => {
 			})
 	}
 }
-
 const logDragonSlaying = async () => {
 	const event = await goat.events.dragonSlaying.eventInfos()
 
@@ -133,7 +137,6 @@ const logDragonSlaying = async () => {
 			})
 	}
 }
-
 const logJewelsOfLuck = async () => {
 	const event = await goat.events.jewelsOfLuck.eventInfos()
 
@@ -147,7 +150,6 @@ const logJewelsOfLuck = async () => {
 
 	await logItemWheel(event, created.id)
 }
-
 const logPicnic = async () => {
 	const event = await goat.events.picnic.eventInfos()
 
@@ -178,7 +180,6 @@ const logPicnic = async () => {
 			})
 	}
 }
-
 const logTreasureHunt = async () => {
 	const event = await goat.events.treasureHunt.eventInfos()
 
@@ -199,7 +200,6 @@ const logTreasureHunt = async () => {
 			})
 	}
 }
-
 const logMaidenPainting = async () => {
 	const event = await goat.events.maidenPainting.eventInfos()
 
@@ -223,7 +223,6 @@ const logMaidenPainting = async () => {
 	}
 	await logItemWheel(event.wheel, created.id)
 }
-
 const logDivining = async () => {
 	const event = await goat.events.divining.eventInfos()
 	await client('events').insert({
@@ -252,7 +251,6 @@ const logDivining = async () => {
 			})
 	}
 }
-
 const logCoronation = async () => {
 	const event = await goat.events.coronation.eventInfos()
 	await client('events').insert({
@@ -274,8 +272,107 @@ const logCoronation = async () => {
 			})
 	}
 }
+const logDailyAllianceShop = async () => {
+	const event = await goat.challenges.allianceSiege.eventInfos()
+
+	await client('events').insert({
+		name: 'Alliance Siege Daily',
+		eid: null,
+		start: startOfToday(),
+		type: 1096,
+	})
+	const created = await getLatestEvent()
+	for (const item of event.cfg.day_wall_shop) {
+		await client('event_shops')
+			.insert({
+				event: created.id,
+				item: item.item.id,
+				limit: item.limit,
+				count: item.item.count,
+				price: item.need_score,
+			})
+	}
+}
+const logAllianceSiege = async () => {
+	const event = await goat.challenges.allianceSiege.eventInfos()
+
+	await client('events').insert({
+		name: 'Alliance Siege Shop',
+		eid: 1095,
+		start: fromUnixTime(1626393600),
+		type: 1095,
+	})
+	const created = await getEventByEID(1095)
+	for (const item of event.cfg.wall_shop) {
+		await client('event_shops')
+			.insert({
+				event: created.id,
+				item: item.item.id,
+				limit: item.limit,
+				count: item.item.count,
+				price: item.need_score,
+			})
+	}
+}
+const logBlessedChest = async () => {
+	const event = await goat.events.blessedChest.eventInfos()
+	await client('events').insert({
+		name: 'Blessed Chest',
+		eid: 1276,
+		type: 1276,
+		start: fromUnixTime(1626652800),
+	})
+	const created = await getEventByEID(1276)
+
+	for (const item of event.cfg.shop) {
+		await client('event_shops')
+			.insert({
+				event: created.id,
+				item: item.item.id,
+				limit: item.limit,
+				count: item.item.count,
+				price: item.need_score,
+			})
+	}
+}
+const logGiftOfTheFae = async () => {
+	const event = await goat.events.giftOfTheFae.eventInfos()
+	await client('events').insert({
+		name: 'Gift of the Fae',
+		eid: 1299,
+		type: 1299,
+		start: fromUnixTime(1627084800),
+	})
+	const created = await getEventByEID(1299)
+
+	for (const item of event.shopCfg) {
+		await client('event_shops').insert({
+			event: created.id,
+			item: item.item.id,
+			limit: item.limit,
+			count: item.item.count,
+			price: item.need_score,
+		})
+	}
+	for (const item of event.cfg.DiamondsCompose.item) {
+		await client('event_drops').insert({
+			event: created.id,
+			item: item.id,
+			count: item.count,
+			probability: item.pro,
+		})
+	}
+	for (const item of event.cfg.freeCompose.item) {
+		await client('event_drops').insert({
+			event: created.id,
+			item: item.id,
+			count: item.count,
+			probability: 100,
+		})
+	}
+}
 
 const logEvents = async () => {
-	await logCoronation()
+	//log
 }
 logEvents().then(() => { process.exit()})

@@ -12,6 +12,7 @@ import { getGems } from './scripts/actions/gems'
 import { TOURNEY_TYPE } from './scripts/tourney/fight'
 import { logger } from './scripts/services/logger'
 import { ACCOUNT_GAUTIER, ACCOUNT_NAPOLEON } from 'kingsthrone-api/lib/src/goat'
+import { doEvents } from './scripts/events'
 
 function login(account: string|null = null) {
 	goat._setAccount(account === 'gautier' ? ACCOUNT_GAUTIER : ACCOUNT_NAPOLEON)
@@ -46,6 +47,14 @@ yargs(hideBin(process.argv))
 		login(argv.account)
 
 		await doKingdom()
+		logger.success(`Finished ${format(new Date(), 'HH:mm')}`)
+		process.exit()
+	})
+	//Events
+	.command('events', 'Do events', () => {}, async (argv) => {
+		login(argv.account)
+
+		await doEvents()
 		logger.success(`Finished ${format(new Date(), 'HH:mm')}`)
 		process.exit()
 	})

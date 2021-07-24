@@ -69,6 +69,11 @@ const giftOfTheFae = async () => {
 		for (let i = tree.hasFreeExtraNum; i < 100; i++) {
 			await goat.events.giftOfTheFae.useExtraOutput(tree.id)
 		}
+		for (let i = 0; i < status.info.fastNum; i++) {
+			await goat.events.giftOfTheFae.useQuickCollect(tree.id)
+			console.log('used quick collect')
+			status.info.fastNum--
+		}
 	}
 
 	for (const pool of status.hecheng.hecheng) {

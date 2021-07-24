@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "shop_packs",
+  "info": {
+    "name": "ShopPack",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "shop_id": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "price": {
+      "type": "integer"
+    },
+    "vip": {
+      "type": "integer"
+    },
+    "limit": {
+      "type": "integer"
+    },
+    "from": {
+      "type": "datetime"
+    },
+    "to": {
+      "type": "datetime"
+    },
+    "shop_pack_items": {
+      "via": "shop_pack",
+      "collection": "shop-pack-item"
+    }
+  }
+}

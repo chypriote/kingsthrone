@@ -41,6 +41,10 @@
     "event_drops": {
       "via": "item",
       "collection": "event-drop"
+    },
+    "shop_pack_items": {
+      "via": "item",
+      "collection": "shop-pack-item"
     }
   }
 }

@@ -3,11 +3,7 @@ export interface Event {
 	eid: number
 	name: string
 	start: Date
-	event_shops: {
-
-	}[]
-	event_drops: {
-
-	}[]
+	event_shops: any[]
+	event_drops: any[]
 	type: number
 }

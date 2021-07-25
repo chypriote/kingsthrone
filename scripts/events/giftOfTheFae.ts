@@ -35,6 +35,7 @@ const handlePool = async (pool: FaePool): Promise<void> => {
 
 	if (pool.num === maxWater) {
 		await goat.events.giftOfTheFae.praiseTheSun(pool.id)
+		console.log('Praising the sun')
 		await goat.events.giftOfTheFae.claimPoolItem(pool.id)
 	}
 }

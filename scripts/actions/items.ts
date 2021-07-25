@@ -1,6 +1,6 @@
 import { find } from 'lodash'
 import { goat, Item } from 'kingsthrone-api'
-import { ITEMS, RESOURCES_ITEMS } from 'kingsthrone-api/lib/types/Item'
+import { ITEMS, RESOURCES_ITEMS, REWARD_PACKS } from 'kingsthrone-api/lib/types/Item'
 import { Progress } from '../services/progress'
 
 interface IState {items: Item[]}
@@ -18,8 +18,11 @@ const useAllItems = async (types: number[]): Promise<void> => {
 		}
 	}
 }
+const openRewardPacks = async (): Promise<void> => {
+	await useAllItems(REWARD_PACKS)
+}
 const useResourceItems = async (): Promise<void> => {
-	await useAllItems([260, ...RESOURCES_ITEMS])
+	await useAllItems(RESOURCES_ITEMS)
 }
 const useExperiencePacks = async (): Promise<void> => {
 	await useAllItems([ITEMS.EXPERIENCE_PACK, ITEMS.SUP_EXPERIENCE_PACK])
@@ -102,7 +105,10 @@ const combineInvestiture = async (): Promise<void> => {
 
 export const handleBag = async (): Promise<void> => {
 	state.items = await goat.items.getBag()
-	const progress = new Progress('Clearing bag', 6, 'tasks')
+	const progress = new Progress('Clearing bag', 7, 'tasks')
+
+	await openRewardPacks()
+	progress.increment()
 
 	await useResourceItems()
 	progress.increment()

@@ -1,4 +1,5 @@
 import { goat, KingdomExpInfo } from 'kingsthrone-api'
+import { orderBy } from 'lodash'
 import { logger } from '../services/logger'
 import { Progress } from '../services/progress'
 
@@ -9,12 +10,19 @@ const getNextLevel= (current: number): number => {
 	return nb === '6' ? current + 99995 : current + 1
 }
 
-const getRewards = async (current: number, rewards: { id:number, status: number }[]): Promise<void> => {
-	const max = Math.round(current / 100000) - 1
-	let i = (rewards[rewards.length - 1]).id
+const getRewards = async (rewards: { id:number, status: number }[]): Promise<void> => {
+	const ordered = orderBy(rewards, 'id')
+	let next = ordered[0].id + 1
 
-	for (i; i < max; i++) {
-		await goat.expeditions.claimKingdomExpReward(i)
+	let goNext = true
+	while (goNext) {
+		try {
+			await goat.expeditions.claimKingdomExpReward(next)
+			console.log(`Claimed reward for ${next}`)
+			next++
+		} catch (e) {
+			goNext = false
+		}
 	}
 }
 
@@ -40,7 +48,7 @@ export const doKingdomExpeditions = async (): Promise<void> => {
 
 	try {
 		await doExpeditions(status)
-		await getRewards(status.maxLevel, status.chapterPhasesRwd)
+		await getRewards(status.chapterPhasesRwd)
 	} catch (e) {
 		logger.error(`[KEXPEDITIONS] ${e.toString()}`)
 		console.log(e)

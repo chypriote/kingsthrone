@@ -2,6 +2,9 @@ import { logger } from './scripts/services/logger'
 import axios from 'axios'
 import { client } from './scripts/services/database'
 import { fromUnixTime } from 'date-fns'
+import { goat } from 'kingsthrone-api'
+import { ACCOUNT_GAUTIER } from 'kingsthrone-api/lib/src/goat'
+import { Progress } from './scripts/services/progress'
 
 interface GoatServer {
 	he: number
@@ -33,7 +36,7 @@ const getServers = async (): Promise<GoatServer[]> => {
 	return servers.a.system.server_list
 }
 
-const doTest = async () => {
+const logServer = async () => {
 	const servers = await getServers()
 
 	for (const server of servers) {
@@ -47,5 +50,16 @@ const doTest = async () => {
 	}
 }
 
+const doTest = async () => {
+	goat._setAccount(ACCOUNT_GAUTIER)
+	const todo = 100
+	const progress = new Progress('Attacking', todo)
+	for (let i = 0; i < todo; i++) {
+		await goat.challenges.allianceSiege.buySiegeWeapon(10)
+		await goat.challenges.allianceSiege.attackMember('60004099', 10)
+		progress.increment()
+	}
+	progress.stop()
+}
 
 doTest().then(() => { logger.success('Finished'); process.exit() })

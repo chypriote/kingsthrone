@@ -14,16 +14,16 @@
     "price": {
       "type": "integer"
     },
-		"count": {
-			"type": "integer",
-			"default": 1
-		},
+    "count": {
+      "type": "integer",
+      "default": 1
+    },
     "limit": {
       "type": "integer"
     },
     "item": {
-      "model": "item",
-      "via": "event_shops"
+      "via": "event_shops",
+      "model": "item"
     },
     "event": {
       "via": "event_shops",

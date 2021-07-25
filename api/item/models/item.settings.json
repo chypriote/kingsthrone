@@ -6,7 +6,7 @@
     "description": ""
   },
   "options": {
-    "increments": true,
+    "increments": false,
     "timestamps": false,
     "draftAndPublish": false
   },
@@ -45,6 +45,10 @@
     "shop_pack_items": {
       "via": "item",
       "collection": "shop-pack-item"
+    },
+    "paragons": {
+      "via": "item",
+      "collection": "paragon"
     }
   }
 }

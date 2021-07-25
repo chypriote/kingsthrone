@@ -17,9 +17,6 @@
     "name": {
       "type": "string"
     },
-    "item": {
-      "type": "string"
-    },
     "cost": {
       "type": "integer"
     },
@@ -50,8 +47,9 @@
       "via": "paragons",
       "collection": "hero-group"
     },
-    "item_id": {
-      "model": "item"
+    "item": {
+      "model": "item",
+      "via": "paragons"
     }
   }
 }

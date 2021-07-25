@@ -19,7 +19,7 @@ const useAllItems = async (types: number[]): Promise<void> => {
 	}
 }
 const useResourceItems = async (): Promise<void> => {
-	await useAllItems(RESOURCES_ITEMS)
+	await useAllItems([260, ...RESOURCES_ITEMS])
 }
 const useExperiencePacks = async (): Promise<void> => {
 	await useAllItems([ITEMS.EXPERIENCE_PACK, ITEMS.SUP_EXPERIENCE_PACK])

@@ -17,9 +17,9 @@
       "model": "shop-pack",
       "via": "shop_pack_items"
     },
-		"item": {
-			"model": "item",
-			"via": "shop_pack_items"
-		}
-	}
+    "item": {
+      "via": "shop_pack_items",
+      "model": "item"
+    }
+  }
 }

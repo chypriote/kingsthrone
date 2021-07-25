@@ -17,8 +17,8 @@
       "type": "integer"
     },
     "item": {
-      "model": "item",
-      "via": "event_drops"
+      "via": "event_drops",
+      "model": "item"
     },
     "event": {
       "via": "event_drops",

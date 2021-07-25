@@ -62,7 +62,7 @@ const recordServerLadder = async (server: number|string): Promise<void> => {
 }
 
 const logServers = async (): Promise<void> => {
-	for (let i = 1; i < 1090; i++) {
+	for (let i = 1086; i < 1090; i++) {
 		await recordServerLadder(i)
 		if (i < 829) { i = i + 2}
 	}

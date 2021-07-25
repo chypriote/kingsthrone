@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/challenge-reward-items",
+      "handler": "challenge-reward-item.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/challenge-reward-items/count",
+      "handler": "challenge-reward-item.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/challenge-reward-items/:id",
+      "handler": "challenge-reward-item.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/challenge-reward-items",
+      "handler": "challenge-reward-item.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/challenge-reward-items/:id",
+      "handler": "challenge-reward-item.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/challenge-reward-items/:id",
+      "handler": "challenge-reward-item.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

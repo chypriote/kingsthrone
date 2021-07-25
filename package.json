@@ -17,6 +17,7 @@
     "events": "ts-node scripts/events.ts",
     "record": "ts-node scripts/record-events.ts",
     "shop": "ts-node scripts/record-shop.ts",
+    "challenge": "ts-node scripts/record-challenges.ts",
     "ladder": "ts-node scripts/ladder.ts",
     "test": "ts-node test.ts",
     "runs": "ts-node bin.ts",

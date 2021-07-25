@@ -1,11 +1,11 @@
-import { GiftOfTheFaeStatus } from 'kingsthrone-api/lib/types/Events'
-import { goat } from 'kingsthrone-api'
-import { logger } from '../services/logger'
 import { sample } from 'lodash'
+import { goat } from 'kingsthrone-api'
+import { FaePool, FaeTree, GiftOfTheFaeStatus } from 'kingsthrone-api/lib/types/Events'
+import { logger } from '../services/logger'
 
 let status: GiftOfTheFaeStatus
 
-const handleTree = async (tree): Promise<void> => {
+const handleTree = async (tree: FaeTree): Promise<void> => {
 	if (!tree.hasFreeFastNum) {await goat.events.giftOfTheFae.useQuickCollect(tree.id)}
 
 	for (let i = tree.hasFreeExtraNum; i < 100; i++) {
@@ -17,7 +17,7 @@ const handleTree = async (tree): Promise<void> => {
 	}
 }
 
-const handlePool = async (pool): Promise<void> => {
+const handlePool = async (pool: FaePool): Promise<void> => {
 	if (!pool.choosed) {
 		const rwd = sample(status.cfg.freeCompose.item)
 		await goat.events.giftOfTheFae.selectPoolReward(rwd?.idd)

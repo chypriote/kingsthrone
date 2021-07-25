@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "challenge_progresses",
+  "info": {
+    "name": "ChallengeProgress"
+  },
+  "options": {
+    "increments": true,
+		"timestamps": false,
+		"draftAndPublish": false
+  },
+  "attributes": {
+    "score": {
+      "type": "integer"
+    },
+    "challenge": {
+      "model": "challenge",
+      "via": "challenge_progresses"
+    },
+    "challenge_progress_items": {
+      "via": "challenge_progress",
+      "collection": "challenge-progress-item"
+    }
+  }
+}

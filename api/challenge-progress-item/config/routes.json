@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/challenge-progress-items",
+      "handler": "challenge-progress-item.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/challenge-progress-items/count",
+      "handler": "challenge-progress-item.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/challenge-progress-items/:id",
+      "handler": "challenge-progress-item.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/challenge-progress-items",
+      "handler": "challenge-progress-item.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/challenge-progress-items/:id",
+      "handler": "challenge-progress-item.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/challenge-progress-items/:id",
+      "handler": "challenge-progress-item.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

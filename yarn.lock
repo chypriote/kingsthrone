@@ -6258,9 +6258,9 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
 kingsthrone-api@^0.11:
-  version "0.11.9"
-  resolved "https://registry.yarnpkg.com/kingsthrone-api/-/kingsthrone-api-0.11.9.tgz#0860eb0ed5a0723abbcfef772e901112a5bf7994"
-  integrity sha512-9EW8ZoSjTs7hpyarmDEpdtS9YvUtpbt3dTKH74ew/LARk20srzhrrnTk8XBJwtpBzj328oxZM325c2QJbtMRVA==
+  version "0.11.12"
+  resolved "https://registry.yarnpkg.com/kingsthrone-api/-/kingsthrone-api-0.11.12.tgz#1b28c290b8b2ceb14481e1bd8c91e7b8815c7dac"
+  integrity sha512-ZqS1i/fQvAmrnPnO5VQXIu8+f3TydZcCRFg7vOTCI9OvUnc2ejKvl3IoYqqhOKJ1yns/nwKKZkYVsYJlT9gwZw==
   dependencies:
     axios "^0.21"
     dotenv "^10.0"
@@ -11133,9 +11133,9 @@ url-parse-lax@^3.0.0:
     prepend-http "^2.0.0"
 
 url-parse@^1.4.3, url-parse@^1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.5.1.tgz#d5fa9890af8a5e1f274a2c98376510f6425f6e3b"
-  integrity sha512-HOfCOUJt7iSYzEx/UqgtwKRMC6EU91NFhsCHMv9oM03VJcVo2Qrp8T8kI9D7amFf1cu+/3CEhgb3rF9zL7k85Q==
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.5.2.tgz#a4eff6fd5ff9fe6ab98ac1f79641819d13247cda"
+  integrity sha512-6bTUPERy1muxxYClbzoRo5qtQuyoGEbzbQvi0SW4/8U8UyVkAQhWFBlnigqJkRm4su4x1zDQfNbEzWkt+vchcg==
   dependencies:
     querystringify "^2.1.1"
     requires-port "^1.0.0"

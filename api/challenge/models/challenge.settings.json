@@ -6,30 +6,40 @@
   },
   "options": {
     "increments": true,
-    "timestamps": false,
+    "timestamps": true,
     "draftAndPublish": false
   },
   "attributes": {
     "name": {
       "type": "string",
-      "required": true,
-      "unique": true
+      "required": true
     },
-    "duration": {
+    "cid": {
+      "type": "uid"
+    },
+    "type": {
       "type": "integer"
     },
-    "title": {
-      "type": "string"
+    "start": {
+      "type": "date"
+    },
+    "end": {
+      "type": "date"
     },
     "alliance": {
       "type": "boolean",
       "default": false
     },
-    "progress": {
-      "type": "json"
+    "title": {
+      "type": "string"
     },
-    "prize": {
-      "type": "json"
+    "challenge_rewards": {
+      "via": "challenge",
+      "collection": "challenge-reward"
+    },
+    "challenge_progresses": {
+      "via": "challenge",
+      "collection": "challenge-progress"
     }
   }
 }

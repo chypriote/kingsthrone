@@ -49,6 +49,14 @@
     "paragons": {
       "via": "item",
       "collection": "paragon"
+    },
+    "challenge_reward_items": {
+      "via": "item",
+      "collection": "challenge-reward-item"
+    },
+    "challenge_progress_items": {
+      "via": "item",
+      "collection": "challenge-progress-item"
     }
   }
 }

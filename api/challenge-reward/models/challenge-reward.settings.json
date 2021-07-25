@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "challenge_rewards",
+  "info": {
+    "name": "ChallengeReward",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": false,
+		"draftAndPublish": false
+  },
+  "attributes": {
+    "rank": {
+      "type": "integer",
+      "required": true
+    },
+    "leader": {
+      "type": "boolean",
+      "default": false
+    },
+		"challenge": {
+			"model": "challenge",
+			"via": "challenge_rewards"
+		},
+    "challenge_reward_items": {
+      "via": "challenge_reward",
+      "collection": "challenge-reward-item"
+    }
+  }
+}

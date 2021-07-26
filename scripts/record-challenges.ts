@@ -4,16 +4,19 @@ import { ClubEventRwd, goat } from 'kingsthrone-api'
 import { AllianceExperienceStatus, AllianceIntimacyStatus } from 'kingsthrone-api/lib/types/Challenges'
 import { client } from './services/database'
 import { Item } from 'kingsthrone-api/types/Item'
+import { EventRwd } from 'kingsthrone-api/lib/types/Events'
 
 const rwdIdToRank = (index: number): number => {
 	switch (true) {
 	case index === 0: return 1
 	case index === 1: return 2
 	case index === 2: return 3
-	case index === 4: return 4
-	case index === 5: return 6
-	case index === 6: return 11
-	case index === 7: return 21
+	case index === 3: return 4
+	case index === 4: return 6
+	case index === 5: return 11
+	case index === 6: return 21
+	case index === 7: return 51
+	case index === 8: return 101
 	default: return 0
 	}
 }
@@ -44,8 +47,20 @@ const logAllianceRewards = async (cid: number, rewards: ClubEventRwd[]): Promise
 			leader: false,
 		}).returning('id')
 		await logRewards(mid, reward.member)
+		i++
 	}
-	i++
+}
+const logChallengeRewards = async (cid: number, rewards: EventRwd[]): Promise<void> => {
+	let i = 0
+	for (const reward of rewards) {
+		const [rid] = await client('challenge_rewards').insert({
+			challenge: cid,
+			rank: rwdIdToRank(i),
+			leader: false,
+		}).returning('id')
+		await logRewards(rid, reward.member)
+		i++
+	}
 }
 
 const logProgresses = async (cid: number, rewards: Item[]): Promise<void> => {
@@ -98,9 +113,37 @@ const logAllianceExperience = async () => {
 	await logAllianceRewards(id, challenge.club.cfg.rwd)
 	await logAllianceProgress(id, challenge.club.cfg.task)
 }
+const logGrain = async () => {
+	const challenge = await goat.challenges.grain.eventInfos()
+	const [id] = await client('challenges').insert({
+		name: 'Grain',
+		cid: challenge.liangshi.cfg.info.id,
+		type: challenge.liangshi.cfg.info.type,
+		start: fromUnixTime(challenge.liangshi.cfg.info.sTime),
+		end: fromUnixTime(challenge.liangshi.cfg.info.eTime),
+		alliance: false,
+		title: 'Lord of Prudence',
+	}).returning('id')
+
+	await logChallengeRewards(id, challenge.liangshi.cfg.rwd)
+}
+const logQuality = async () => {
+	const challenge = await goat.challenges.quality.eventInfos()
+	const [id] = await client('challenges').insert({
+		name: 'Quality',
+		cid: challenge.zizhi.cfg.info.id,
+		type: challenge.zizhi.cfg.info.type,
+		start: fromUnixTime(challenge.zizhi.cfg.info.sTime),
+		end: fromUnixTime(challenge.zizhi.cfg.info.eTime),
+		alliance: false,
+		title: 'King of Virtue',
+	}).returning('id')
+
+	await logChallengeRewards(id, challenge.zizhi.cfg.rwd)
+}
 
 const logChallenges = async () => {
-	await logAllianceIntimacy()
-	await logAllianceExperience()
+	await logGrain()
+	await logQuality()
 }
 logChallenges().then(() => { process.exit()})

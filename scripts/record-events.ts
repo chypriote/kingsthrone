@@ -4,23 +4,7 @@ import { fromUnixTime, startOfToday } from 'date-fns'
 import { goat } from 'kingsthrone-api'
 import { client } from './services/database'
 import { logger } from './services/logger'
-import { Event } from '../types/strapi/Event'
-import { EventWheel } from 'kingsthrone-api/lib/types/Events'
-
-export const getEventByEID = async (eid: number): Promise<Event> => {
-	const events = await client('events')
-		.where('eid', '=', eid)
-		.limit(1)
-
-	return events.length ? events[0] : null
-}
-export const getLatestEvent = async (): Promise<Event> => {
-	const events = await client('events')
-		.orderBy('created_at', 'desc')
-		.limit(1)
-
-	return events.length ? events[0] : null
-}
+import { EventWheel, PathOfWealthStatus } from 'kingsthrone-api/lib/types/Events'
 
 const logItemWheel = async (event: EventWheel, event_db_id: number) => {
 	for (const item of event.cfg.wall_gache) {
@@ -43,17 +27,17 @@ const logItemWheel = async (event: EventWheel, event_db_id: number) => {
 const logGardenStroll = async () => {
 	const event = await goat.events.gardenStroll.eventInfos()
 
-	await client('events').insert({
+	const [eid] = await client('events').insert({
 		eid: event.cfg.info.id,
 		name: 'Garden Stroll',
 		start: fromUnixTime(event.cfg.info.sTime),
-	})
-	const created = await getEventByEID(event.cfg.info.id)
+		type: event.cfg.info.type,
+	}).returning('id')
 
 	for (const item of event.cfg.drop) {
 		await client('event_drops')
 			.insert({
-				event: created.id,
+				event: eid,
 				item: item.items.id,
 				probability: item.prob_10000,
 				count: item.items.count,
@@ -63,7 +47,7 @@ const logGardenStroll = async () => {
 	for (const item of shop.cfg.shop.list) {
 		await client('event_shops')
 			.insert({
-				event: created.id,
+				event: eid,
 				item: item.items.id,
 				limit: item.totalLimit,
 				count: item.items.count,
@@ -74,18 +58,18 @@ const logGardenStroll = async () => {
 const logDarkCastle = async () => {
 	const event = await goat.events.darkCastle.eventInfos()
 
-	await client('events').insert({
+	const [eid] = await client('events').insert({
 		eid: event.wsInfo.info.id,
 		name: 'Dark Castle',
 		start: fromUnixTime(event.wsInfo.info.sTime),
+		type: event.wsInfo.info.type,
 	})
-	const created = await getEventByEID(event.wsInfo.info.id)
 
 	for (const item of event.wsInfo.gezi.list) {
 		if (!item.items.id) { continue }
 		await client('event_drops')
 			.insert({
-				event: created.id,
+				event: eid,
 				item: item.items.id,
 				count: item.items.count,
 			})
@@ -94,7 +78,7 @@ const logDarkCastle = async () => {
 	for (const item of event.wsShop.wsShopcfg) {
 		await client('event_shops')
 			.insert({
-				event: created.id,
+				event: eid,
 				item: item.items.id,
 				limit: item.limitNum,
 				count: item.items.count,
@@ -105,20 +89,19 @@ const logDarkCastle = async () => {
 const logDragonSlaying = async () => {
 	const event = await goat.events.dragonSlaying.eventInfos()
 
-	await client('events').insert({
+	const [eid] = await client('events').insert({
 		eid: event.cfg.info.no,
 		name: 'Dragon Slaying',
 		start: fromUnixTime(event.cfg.info.sTime),
 		type: event.cfg.info.type,
-	})
-	const created = await getEventByEID(event.cfg.info.no)
+	}).returning('id')
 
 	for (const list of event.cfg.boss_rwd) {
 		for (const items of list.list) {
 			const item = items.items
 			await client('event_drops')
 				.insert({
-					event: created.id,
+					event: eid,
 					item: item.id,
 					count: item.count,
 					probability: item.prob,
@@ -129,7 +112,7 @@ const logDragonSlaying = async () => {
 	for (const item of event.exchange.list) {
 		await client('event_shops')
 			.insert({
-				event: created.id,
+				event: eid,
 				item: item.items.id,
 				limit: item.limit,
 				count: item.items.count,
@@ -140,30 +123,29 @@ const logDragonSlaying = async () => {
 const logJewelsOfLuck = async () => {
 	const event = await goat.events.jewelsOfLuck.eventInfos()
 
-	await client('events').insert({
+	const [eid] = await client('events').insert({
 		name: 'Jewels of Luck',
 		eid: 208,
 		start: fromUnixTime(1626393600),
 		type: 2,
-	})
-	const created = await getEventByEID(208)
+	}).returning('id')
 
-	await logItemWheel(event, created.id)
+	await logItemWheel(event, eid)
 }
 const logPicnic = async () => {
 	const event = await goat.events.picnic.eventInfos()
 
-	await client('events').insert({
+	const [eid] = await client('events').insert({
 		name: 'Picnic',
 		eid: 1028,
 		start: fromUnixTime(1626652800),
 		type: 1028,
-	})
-	const created = await getEventByEID(1028)
+	}).returning('id')
+
 	for (const item of event.shop.wsShopcfg) {
 		await client('event_shops')
 			.insert({
-				event: created.id,
+				event: eid,
 				item: item.items.id,
 				limit: item.limit,
 				count: item.items.count,
@@ -173,7 +155,7 @@ const logPicnic = async () => {
 	for (const item of event.info.list) {
 		await client('event_drops')
 			.insert({
-				event: created.id,
+				event: eid,
 				item: item.items.id,
 				count: item.items.count,
 				probability: item.prob_10000,
@@ -183,17 +165,17 @@ const logPicnic = async () => {
 const logTreasureHunt = async () => {
 	const event = await goat.events.treasureHunt.eventInfos()
 
-	await client('events').insert({
+	const [eid] = await client('events').insert({
 		name: 'Treasure Hunt',
 		eid: event.cfg.info.id,
 		start: fromUnixTime(event.cfg.info.sTime),
 		type: event.cfg.info.type,
-	})
-	const created = await getEventByEID(event.cfg.info.id)
+	}).returning('id')
+
 	for (const item of event.cfg.suiji) {
 		await client('event_drops')
 			.insert({
-				event: created.id,
+				event: eid,
 				item: item.id,
 				count: item.count,
 				probability: item.prob10000,
@@ -203,39 +185,39 @@ const logTreasureHunt = async () => {
 const logMaidenPainting = async () => {
 	const event = await goat.events.maidenPainting.eventInfos()
 
-	await client('events').insert({
+	const [eid] = await client('events').insert({
 		name: 'Maiden Painting',
 		eid: 1258,
 		start: fromUnixTime(1626652800),
 		type: 1258,
-	})
-	const created = await getEventByEID(1258)
+	}).returning('id')
 
 	for (const item of event.shop.list) {
 		await client('event_shops')
 			.insert({
-				event: created.id,
+				event: eid,
 				item: item.items.id,
 				limit: item.totalLimit,
 				count: item.items.count,
 				price: item.need,
 			})
 	}
-	await logItemWheel(event.wheel, created.id)
+	await logItemWheel(event.wheel, eid)
 }
 const logDivining = async () => {
 	const event = await goat.events.divining.eventInfos()
-	await client('events').insert({
+
+	const [eid] = await client('events').insert({
 		name: 'Divining',
 		eid: 1123,
 		start: fromUnixTime(1626998400),
 		type: 1123,
-	})
-	const created = await getEventByEID(1123)
+	}).returning('id')
+
 	for (const item of event.cfg.rewards) {
 		await client('event_drops')
 			.insert({
-				event: created.id,
+				event: eid,
 				item: item.id,
 				count: item.count,
 			})
@@ -243,7 +225,7 @@ const logDivining = async () => {
 	for (const item of event.shop.list) {
 		await client('event_shops')
 			.insert({
-				event: created.id,
+				event: eid,
 				item: item.items.id,
 				limit: item.all_limit,
 				count: item.items.count,
@@ -253,18 +235,18 @@ const logDivining = async () => {
 }
 const logCoronation = async () => {
 	const event = await goat.events.coronation.eventInfos()
-	await client('events').insert({
+
+	const [eid] = await client('events').insert({
 		name: 'Coronation',
 		eid: event.cfg.info.no,
 		start: fromUnixTime(event.cfg.info.sTime),
 		type: event.cfg.info.type,
-	})
-	const created = await getEventByEID(event.cfg.info.no)
+	}).returning('id')
 
 	for (const item of event.exchange.list) {
 		await client('event_shops')
 			.insert({
-				event: created.id,
+				event: eid,
 				item: item.items.id,
 				limit: item.totalLimit,
 				count: item.items.count,
@@ -275,17 +257,17 @@ const logCoronation = async () => {
 const logDailyAllianceShop = async () => {
 	const event = await goat.challenges.allianceSiege.eventInfos()
 
-	await client('events').insert({
+	const [eid] = await client('events').insert({
 		name: 'Alliance Siege Daily',
 		eid: null,
 		start: startOfToday(),
 		type: 1096,
-	})
-	const created = await getLatestEvent()
+	}).returning('id')
+
 	for (const item of event.cfg.day_wall_shop) {
 		await client('event_shops')
 			.insert({
-				event: created.id,
+				event: eid,
 				item: item.item.id,
 				limit: item.limit,
 				count: item.item.count,
@@ -296,17 +278,17 @@ const logDailyAllianceShop = async () => {
 const logAllianceSiege = async () => {
 	const event = await goat.challenges.allianceSiege.eventInfos()
 
-	await client('events').insert({
+	const [eid] = await client('events').insert({
 		name: 'Alliance Siege Shop',
 		eid: 1095,
 		start: fromUnixTime(1626393600),
 		type: 1095,
-	})
-	const created = await getEventByEID(1095)
+	}).returning('id')
+
 	for (const item of event.cfg.wall_shop) {
 		await client('event_shops')
 			.insert({
-				event: created.id,
+				event: eid,
 				item: item.item.id,
 				limit: item.limit,
 				count: item.item.count,
@@ -316,18 +298,17 @@ const logAllianceSiege = async () => {
 }
 const logBlessedChest = async () => {
 	const event = await goat.events.blessedChest.eventInfos()
-	await client('events').insert({
+	const [eid] = await client('events').insert({
 		name: 'Blessed Chest',
 		eid: 1276,
 		type: 1276,
 		start: fromUnixTime(1626652800),
-	})
-	const created = await getEventByEID(1276)
+	}).returning('id')
 
 	for (const item of event.cfg.shop) {
 		await client('event_shops')
 			.insert({
-				event: created.id,
+				event: eid,
 				item: item.item.id,
 				limit: item.limit,
 				count: item.item.count,
@@ -337,17 +318,16 @@ const logBlessedChest = async () => {
 }
 const logGiftOfTheFae = async () => {
 	const event = await goat.events.giftOfTheFae.eventInfos()
-	await client('events').insert({
+	const [eid] = await client('events').insert({
 		name: 'Gift of the Fae',
 		eid: 1299,
 		type: 1299,
 		start: fromUnixTime(1627084800),
-	})
-	const created = await getEventByEID(1299)
+	}).returning('id')
 
 	for (const item of event.shopCfg) {
 		await client('event_shops').insert({
-			event: created.id,
+			event: eid,
 			item: item.item.id,
 			limit: item.limit,
 			count: item.item.count,
@@ -356,7 +336,7 @@ const logGiftOfTheFae = async () => {
 	}
 	for (const item of event.cfg.DiamondsCompose.item) {
 		await client('event_drops').insert({
-			event: created.id,
+			event: eid,
 			item: item.id,
 			count: item.count,
 			probability: item.pro,
@@ -364,15 +344,45 @@ const logGiftOfTheFae = async () => {
 	}
 	for (const item of event.cfg.freeCompose.item) {
 		await client('event_drops').insert({
-			event: created.id,
+			event: eid,
 			item: item.id,
 			count: item.count,
 			probability: 100,
 		})
 	}
 }
+const logPathOfWealth = async () => {
+	const event: PathOfWealthStatus = await goat.events.pathOfWealth.eventInfos()
+
+	const [eid] = await client('events').insert({
+		eid: event.xunbao.cfg.info.id,
+		name: 'Path of Wealth',
+		start: fromUnixTime(event.xunbao.cfg.info.sTime),
+		type: event.xunbao.cfg.info.type,
+	}).returning('id')
+
+	for (const item of event.xunbao.cfg.gezi.list) {
+		if (!item.items.id) { continue }
+		await client('event_drops')
+			.insert({
+				event: eid,
+				item: item.items.id,
+				count: item.items.count,
+			})
+	}
+	for (const chest of event.xunbao.cfg.rwd) {
+		for (const item of chest.items) {
+			await client('event_drops')
+				.insert({
+					event: eid,
+					item: item.id,
+					count: item.count,
+				})
+		}
+	}
+}
 
 const logEvents = async () => {
-	//log
+	// await logPathOfWealth()
 }
 logEvents().then(() => { process.exit()})

@@ -11,9 +11,12 @@
     "draftAndPublish": false
   },
   "attributes": {
-    "eid": {
-      "type": "uid"
-    },
+		"eid": {
+			"type": "integer"
+		},
+		"type": {
+			"type": "integer"
+		},
     "name": {
       "type": "string",
       "required": true
@@ -28,9 +31,6 @@
     "event_drops": {
       "via": "event",
       "collection": "event-drop"
-    },
-    "type": {
-      "type": "integer"
     }
   }
 }

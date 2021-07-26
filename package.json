@@ -14,7 +14,6 @@
     "roster": "ts-node scripts/player.ts",
     "update": "ts-node scripts/update.ts",
     "missing": "ts-node scripts/missing.ts",
-    "events": "ts-node scripts/events.ts",
     "record": "ts-node scripts/record-events.ts",
     "shop": "ts-node scripts/record-shop.ts",
     "challenge": "ts-node scripts/record-challenges.ts",

@@ -2,7 +2,7 @@ import { goat } from 'kingsthrone-api'
 import { fromUnixTime, isFuture } from 'date-fns'
 import { logger } from './services/logger'
 import { allianceSiege } from './actions/siege'
-import { coronation, giftOfTheFae, treasureHunt } from './events/index'
+import { coronation, giftOfTheFae, pathOfWealth, treasureHunt } from './events/index'
 
 const divining = async () => {
 	const status = await goat.events.divining.eventInfos()
@@ -32,5 +32,6 @@ export const doEvents = async (): Promise<void> => {
 		if (event.type === 1123 && event.id === 1123 && isFuture(fromUnixTime(event.eTime))) { await divining() }
 		if (event.type === 7 && isFuture(fromUnixTime(event.eTime))) { await coronation() }
 		if (event.type === 1299 && isFuture(fromUnixTime(event.eTime)) && !faeDone) {faeDone = true; await giftOfTheFae() }
+		if (event.type === 14 && event.id === 293 && isFuture(fromUnixTime(event.eTime))) {await pathOfWealth() }
 	}
 }

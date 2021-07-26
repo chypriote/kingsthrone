@@ -3,9 +3,10 @@ config()
 import { chunk } from 'lodash'
 import { logger } from '../services/logger'
 import { goat, UserProfile } from 'kingsthrone-api'
-import { getPlayers, updatePlayerDetails } from '../repository/player'
+import { checkInactivity, getPlayers, updatePlayerDetails } from '../repository/player'
 import { getPlayerAlliance, leaveAlliance, setPlayerAlliance } from '../repository/alliance'
 import { Player } from '~/types/strapi/Player'
+import { differenceInHours } from 'date-fns'
 
 export const updatePlayerAlliance = async (player: Player, ally: UserProfile): Promise<void> => {
 	//Check if player currently has alliance
@@ -38,19 +39,20 @@ const updateProfile = async (profile: Player): Promise<void> => {
 	try {
 		const item = await goat.profile.getUser(profile.gid)
 		if (!item) {return}
+		if (differenceInHours(new Date(), new Date(profile.updated_at)) < 12) { return console.log(`returning ${differenceInHours(new Date(), new Date(profile.updated_at))}`) }
 
 		await Promise.all([
 			updatePlayerDetails(profile, item),
 			updatePlayerAlliance(profile, item),
 		])
-		// await checkInactivity(profile)
+		await checkInactivity(profile)
 	} catch (e) {
 		logger.error(`Error updating ${profile.gid} (${profile.name}): ${e.toString()}`)
 	}
 }
 
 export const updateProfiles = async (): Promise<void> => {
-	const players: Player[] = await getPlayers({ 'server.merger': 228 })
+	const players: Player[] = await getPlayers()
 	const chunks = chunk(players, 9)
 
 	for (const chunk of chunks) {

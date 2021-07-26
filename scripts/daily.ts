@@ -17,7 +17,7 @@ export const dailyChores = async (): Promise<void> => {
 			await payHomage()
 			await doProcessions(30)
 			await visitMaidens(20)
-			await doMerchant(goat._isGautier() ? 100 : 40)
+			await doMerchant(goat._isGautier() ? 150 : 40)
 			await doExpedition(goat._isGautier() ? 100 : 40)
 			await doKingdomExpeditions()
 			await visitInLaws()

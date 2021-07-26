@@ -20,8 +20,11 @@ export const createPlayer = async (
 	logger.success(`Player ${name} created`)
 }
 
-export const getPlayers = async (params = {}): Promise<Player[]> => {
-	return client('players').where(params)
+export const getPlayers = async (): Promise<Player[]> => {
+	return client('players')
+		.select('players.*')
+		.join('servers', 'servers.id', 'players.server')
+		.where({ merger: 228 })
 }
 
 export const getPlayerByGID = async (gid: string): Promise<Player> => {
@@ -88,16 +91,16 @@ export const getAllGID = async (params= {}): Promise<{gid: string}[]> => {
 export const checkInactivity = async (player: Player): Promise<void> => {
 	let inactivity
 
-	if (player.power !== player.previous) {
+	if (player.power != player.previous) {
 		inactivity = false
 	}
-	if (player.power === player.previous && player.inactive === false) {
+	if (player.power == player.previous && player.inactive === false) {
 		inactivity = null
 		logger.warn('Marked to check inactivity')
 	}
-	if (player.power === player.previous && player.inactive === null) {
+	if (player.power == player.previous && player.inactive === null) {
 		inactivity = true
-		logger.error('Marked inactive')
+		logger.error(`Marked ${player.name} inactive`)
 	}
 
 	await client('players')

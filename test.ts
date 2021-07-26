@@ -61,7 +61,7 @@ const spamAllianceSiege = async () => {
 	}
 	progress.stop()
 }
-const doTest = async () => {
+const buyShopPack = async () => {
 	goat._setAccount(ACCOUNT_GAUTIER)
 	const progress = new Progress('Buying packs', 97)
 	for (let i = 0; i < 78; i++) {
@@ -70,5 +70,14 @@ const doTest = async () => {
 	}
 	progress.stop()
 }
+const doTest = async () => {
+	goat._setAccount(ACCOUNT_GAUTIER)
+	const progress = new Progress('Buying scrolls', 19)
+	for (let i = 0; i < 19; i++) {
+		await goat.challenges.allianceSiege.buyDailyShop(13)
+		progress.increment()
+	}
+	progress.stop()
+}
 
-spamAllianceSiege().then(() => { logger.success('Finished'); process.exit() })
+doTest().then(() => { logger.success('Finished'); process.exit() })

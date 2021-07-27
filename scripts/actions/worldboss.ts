@@ -56,36 +56,33 @@ const doBoss = async (): Promise<void> => {
 	progress.stop()
 }
 
+declare enum BOSS_SHOP {
+	RUBY_RING= 1,
+	RUBY_SCEPTER= 2,
+	RUBY_SWORD= 3,
+	UNDEC_TOME_II= 4,
+	UNDEC_TOME_III= 5,
+	MANUSCRIPT_CACHE= 6,
+	MANUSCRIPT_PAGE= 7,
+	EXP_PACK= 8,
+	PRECIOUS_NECKLACE= 9,
+	PRICELESS_EARRINGS= 10,
+	PERFUME= 11,
+	BALL_GOWN= 12,
+}
+
+const buyXItems = async (id: number, count = 1): Promise<void> => {
+	for (let i = 0; i < count; i++) {await goat.worldBoss.buyItem(id)}
+}
 const buyItems = async (): Promise<void> => {
 	try {
-		// 4 manuscript cache
-		await goat.worldBoss.buyItem(6)
-		await goat.worldBoss.buyItem(6)
-		await goat.worldBoss.buyItem(6)
-		await goat.worldBoss.buyItem(6)
-		// 4 manuscript pages
-		await goat.worldBoss.buyItem(7)
-		await goat.worldBoss.buyItem(7)
-		await goat.worldBoss.buyItem(7)
-		await goat.worldBoss.buyItem(7)
-		// 3 ruby ring
-		await goat.worldBoss.buyItem(1)
-		await goat.worldBoss.buyItem(1)
-		await goat.worldBoss.buyItem(1)
-		// 3 ruby scepter
-		await goat.worldBoss.buyItem(2)
-		await goat.worldBoss.buyItem(2)
-		await goat.worldBoss.buyItem(2)
-		// 3 ruby sword
-		await goat.worldBoss.buyItem(3)
-		await goat.worldBoss.buyItem(3)
-		await goat.worldBoss.buyItem(3)
-		// 3 earrings
-		await goat.worldBoss.buyItem(10)
-		await goat.worldBoss.buyItem(10)
-		await goat.worldBoss.buyItem(10)
-		// 8 ball gowns
-		for (let i = 0; i < 8; i++) {await goat.worldBoss.buyItem(12)}
+		await buyXItems(BOSS_SHOP.MANUSCRIPT_CACHE, 10)
+		await buyXItems(BOSS_SHOP.MANUSCRIPT_PAGE, 4)
+		await buyXItems(BOSS_SHOP.RUBY_RING, 3)
+		await buyXItems(BOSS_SHOP.RUBY_SCEPTER, 3)
+		await buyXItems(BOSS_SHOP.RUBY_SWORD, 3)
+		await buyXItems(BOSS_SHOP.PRICELESS_EARRINGS, 3)
+		await buyXItems(BOSS_SHOP.BALL_GOWN, 8)
 	} catch (e) {
 		console.log(`Items not bought because ${e.toString()}`)
 	}

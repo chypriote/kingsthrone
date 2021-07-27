@@ -52,20 +52,22 @@ const logServer = async () => {
 
 const spamAllianceSiege = async () => {
 	goat._setAccount(ACCOUNT_GAUTIER)
-	const todo = 100
+	const todo = 25
 	const progress = new Progress('Attacking', todo)
 	for (let i = 0; i < todo; i++) {
 		await goat.challenges.allianceSiege.buySiegeWeapon(10)
-		await goat.challenges.allianceSiege.attackMember('1035002191', 10)
+		await goat.challenges.allianceSiege.attackWall(10)
+		// await goat.challenges.allianceSiege.attackMember('1035002191', 10)
 		progress.increment()
 	}
 	progress.stop()
 }
 const buyShopPack = async () => {
 	goat._setAccount(ACCOUNT_GAUTIER)
-	const progress = new Progress('Buying packs', 97)
-	for (let i = 0; i < 78; i++) {
-		await goat.shop.buyShopPack(1)
+	const toBuy = 97
+	const progress = new Progress('Buying packs', toBuy)
+	for (let i = 0; i < toBuy; i++) {
+		await goat.shop.buyShopPack(3)
 		progress.increment()
 	}
 	progress.stop()

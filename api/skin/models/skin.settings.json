@@ -56,7 +56,8 @@
     },
     "quality_skill": {
       "model": "quality-skill",
-      "via": "skins"
+      "via": "skins",
+			"dominant": true
     }
   }
 }

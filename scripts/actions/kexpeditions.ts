@@ -11,7 +11,7 @@ const getNextLevel= (current: number): number => {
 }
 
 const getRewards = async (rewards: { id:number, status: number }[]): Promise<void> => {
-	const ordered = orderBy(rewards, 'id')
+	const ordered = orderBy(rewards, 'id', 'desc')
 	let next = ordered[0].id + 1
 
 	let goNext = true
@@ -20,6 +20,21 @@ const getRewards = async (rewards: { id:number, status: number }[]): Promise<voi
 			await goat.expeditions.claimKingdomExpReward(next)
 			console.log(`Claimed reward for ${next}`)
 			next++
+		} catch (e) {
+			goNext = false
+		}
+	}
+}
+const getGlobalRewards = async (rewards: {level: number, num: number}[]): Promise<void> => {
+	const ordered = orderBy(rewards, 'level', 'desc')
+	let next = ordered[0].level + 500000
+
+	let goNext = true
+	while (goNext) {
+		try {
+			await goat.expeditions.claimKingdomFirstReward(next)
+			console.log(`Claimed global reward for ${next}`)
+			next += 500000
 		} catch (e) {
 			goNext = false
 		}
@@ -49,6 +64,7 @@ export const doKingdomExpeditions = async (): Promise<void> => {
 	try {
 		await doExpeditions(status)
 		await getRewards(status.chapterPhasesRwd)
+		await getGlobalRewards(status.firstAllRwd)
 	} catch (e) {
 		logger.error(`[KEXPEDITIONS] ${e.toString()}`)
 		console.log(e)

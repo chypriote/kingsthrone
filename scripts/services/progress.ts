@@ -10,7 +10,7 @@ export class Progress {
 			format: `${name}\t| ${chalk.green('{bar}')} | {value}/{total} ${suffix ? suffix : ''}`,
 			barCompleteChar: '\u2588',
 			barIncompleteChar: '\u2591',
-			hideCursor: true,
+			hideCursor: false,
 		})
 		this.progress.start(max, start)
 	}

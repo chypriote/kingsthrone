@@ -10,9 +10,9 @@ import { Progress } from '../services/progress'
 import { getExistingHeroesList } from '../repository/hero'
 import { getRoster, updatePlayerHero } from '../repository/player-heroes'
 import { getOrCreatePlayerFromGoat } from '../repository/player'
-import { deathmatchEndpoint, LocalTourneyEndpoint, TourneyEndpoint, xsTourneyEndpoint } from './index'
+import { deathmatchEndpoint, FClist, LocalTourneyEndpoint, TourneyEndpoint, xsTourneyEndpoint } from './index'
 import { ITourneyFight, ITourneyStatus, OpponentHero, OpponentHeroStats, RewardItem, TourneyShopItem, User } from 'kingsthrone-api'
-import { goat } from 'kingsthrone-api'
+import { goat, Hero as GoatHero } from 'kingsthrone-api'
 
 export enum TOURNEY_TYPE {
 	LOCAL= 'local',
@@ -145,7 +145,7 @@ const loopFight = async (status: ITourneyStatus) => {
 
 const rewardsSummary = (won = true): string => {
 	let qp = 0
-	let xp = won ? 4 : 0
+	let xp = won ? 2 : 0
 	let token = 0
 	for (const reward of state.rewards) {
 		if ([4, 6, 17].includes(reward.id) || reward.kind === 6) { xp += reward.count }
@@ -197,12 +197,12 @@ const selectHero = async (heroes: OpponentHero[]): Promise<OpponentHero> => {
 }
 /** Saves the opponent hero's stats to database */
 const saveOpponentHeroStats = async (hero: OpponentHero, stats: OpponentHeroStats[]) => {
+	if (!state.opponent) { return logger.error('no opponent') }
 	const opStats = find(stats, h => h.hid == hero.id && h.level == hero.heroLv && h.skin == hero.skin)
 	if (!opStats) {
 		logger.error(JSON.stringify(stats))
 	} else {
 		state.fought.push(opStats)
-		// @ts-ignore
 		await updatePlayerHero(opStats.hid, state.opponent.uid, opStats.azz)
 	}
 }
@@ -287,10 +287,12 @@ const loadFight = async (fight: ITourneyFight): Promise<void> => {
 	state.opponentRoster = await getRoster(uid)
 	state.opponent = clone(fight.fuser)
 	state.totalHeroes = clone(fight.fheronum)
-	state.easyFight = fight.fuser.shili < 20000000
+	state.easyFight = fight.fuser.shili < 30000000
 	state.status = (new HeroStatus()).setHero(clone(hero)).updateFromFight(fight)
+	state.currentFight = 0
+	state.rewards = []
 
-	logger.log(`Fighting ${chalk.cyan(fight.fuser.name)} (${fight.fuser.uid}) with ${chalk.yellow(hero? `${hero.name} (${hero.id})`: fight.hid)}`)
+	logger.log(`Fighting ${chalk.cyan(fight.fuser.name)} (${fight.fuser.uid}) with ${chalk.yellow(hero? `${hero.name} (${hero.hid})`: fight.hid)}`)
 	state.progress = new Progress(fight.fuser.name, state.totalHeroes)
 }
 const loadEndpoint = (type: TOURNEY_TYPE): void => {
@@ -310,7 +312,7 @@ export const doTourney = async (
 ): Promise<void> => {
 	loadEndpoint(type)
 	state.heroes = await getExistingHeroesList()
-	if (state.heroes.length < 15) { return }
+	if ((await goat.profile.getGameInfos()).hero.heroList.length < 15) { return }
 	const status = await startFighting(opponent, hid)
 	if (!status) { return }
 	await loadFight(status.fight)

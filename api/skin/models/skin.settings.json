@@ -36,16 +36,16 @@
       "required": false,
       "pluginOptions": {}
     },
-		"naughty_picture": {
-			"model": "file",
-			"via": "related",
-			"allowedTypes": [
-				"images"
-			],
-			"plugin": "upload",
-			"required": false,
-			"pluginOptions": {}
-		},
+    "naughty_picture": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
     "hero": {
       "via": "skins",
       "model": "hero"
@@ -54,9 +54,9 @@
       "via": "skins",
       "model": "maiden"
     },
-		"quality_skill": {
-			"model": "quality-skill",
-			"via": "skins"
-		}
+    "quality_skill": {
+      "model": "quality-skill",
+      "via": "skins"
+    }
   }
 }

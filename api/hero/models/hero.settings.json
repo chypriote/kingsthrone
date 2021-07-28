@@ -65,9 +65,9 @@
       "collection": "account-hero",
       "via": "hero"
     },
-    "hero_groups": {
-      "via": "heroes",
-      "collection": "hero-group"
+    "hero_group": {
+      "model": "hero-group",
+      "via": "heroes"
     },
     "unlock": {
       "type": "enumeration",
@@ -97,6 +97,11 @@
     "paragons": {
       "via": "heroes",
       "collection": "paragon"
+    },
+    "frame": {
+      "type": "component",
+      "repeatable": false,
+      "component": "hero.frame"
     }
   }
 }

@@ -14,11 +14,6 @@
     "name": {
       "type": "string"
     },
-    "heroes": {
-      "via": "hero_groups",
-      "collection": "hero",
-      "dominant": true
-    },
     "paragons": {
       "via": "hero_groups",
       "collection": "paragon",
@@ -26,6 +21,10 @@
     },
     "order": {
       "type": "integer"
+    },
+    "heroes": {
+      "via": "hero_group",
+      "collection": "hero"
     }
   }
 }

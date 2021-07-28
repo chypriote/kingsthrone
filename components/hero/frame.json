@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_frame_frames",
+  "info": {
+    "name": "frame",
+    "icon": "layer-group",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "summon": {
+      "type": "integer"
+    },
+    "bronze": {
+      "type": "integer"
+    },
+    "silver": {
+      "type": "integer"
+    },
+    "gold": {
+      "type": "integer"
+    },
+    "emerald": {
+      "type": "integer"
+    },
+    "diamond": {
+      "type": "integer"
+    }
+  }
+}

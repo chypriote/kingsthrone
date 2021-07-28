@@ -383,6 +383,6 @@ const logPathOfWealth = async () => {
 }
 
 const logEvents = async () => {
-	// await logPathOfWealth()
+	// await logDailyAllianceShop()
 }
 logEvents().then(() => { process.exit()})

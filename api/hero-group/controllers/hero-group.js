@@ -11,10 +11,10 @@ module.exports = {
 		let entities
 		if (ctx.query._q) {
 			entities = await strapi.services['hero-group']
-				.search(ctx.query, ['heroes.picture', 'heroes.maiden', 'heroes.maiden.picture', 'heroes.skins'])
+				.search(ctx.query, ['heroes.picture', 'heroes.maiden', 'heroes.maiden.picture', 'heroes.skins', 'heroes.paragons'])
 		} else {
 			entities = await strapi.services['hero-group']
-				.find(ctx.query, ['heroes.picture', 'heroes.maiden', 'heroes.maiden.picture', 'heroes.skins'])
+				.find(ctx.query, ['heroes.picture', 'heroes.maiden', 'heroes.maiden.picture', 'heroes.skins', 'heroes.paragons'])
 		}
 
 		return entities

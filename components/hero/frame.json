@@ -24,6 +24,9 @@
     },
     "diamond": {
       "type": "integer"
+    },
+    "item": {
+      "model": "item"
     }
   }
 }

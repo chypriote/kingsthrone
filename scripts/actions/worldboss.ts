@@ -56,7 +56,7 @@ const doBoss = async (): Promise<void> => {
 	progress.stop()
 }
 
-declare enum BOSS_SHOP {
+export enum BOSS_SHOP {
 	RUBY_RING= 1,
 	RUBY_SCEPTER= 2,
 	RUBY_SWORD= 3,

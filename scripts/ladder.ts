@@ -1,10 +1,14 @@
-import { goat, User } from 'kingsthrone-api'
+import { chunk } from 'lodash'
 import { differenceInHours } from 'date-fns'
+import { User } from 'kingsthrone-api'
+import { Goat } from 'kingsthrone-api/lib'
 import { UserProfile } from 'kingsthrone-api/lib/types/User'
 import { Player } from '../types/strapi/Player'
 import { logger } from './services/logger'
 import { updatePlayerAlliance } from './update/profiles'
 import { createPlayer, getPlayerByGID, updatePlayerDetails } from './repository/player'
+import { client } from './services/database'
+import axios from 'axios'
 
 const getServer = (gid: string): string => {
 	switch (gid.length) {
@@ -32,7 +36,7 @@ const createPlayerFromProfile = async (profile: UserProfile): Promise<Player> =>
 	return await getPlayerByGID(gid)
 }
 
-const handleUser = async (user: User): Promise<void> => {
+const handleUser = async (user: User, goat: Goat): Promise<void> => {
 	let player: Player|null = await getPlayerByGID(user.uid)
 	const profile = await goat.profile.getUser(user.uid)
 
@@ -50,22 +54,33 @@ const handleUser = async (user: User): Promise<void> => {
 }
 
 const recordServerLadder = async (server: number|string): Promise<void> => {
-	goat._logout()
+	const goat = new Goat()
 	goat._setServer(server.toString())
 	await goat.account.createAccount(server.toString())
 
 	const ranks = await goat.rankings.getLadderKP(true)
 
 	for (const user of ranks) {
-		await handleUser(user)
+		await handleUser(user, goat)
 	}
 }
 
 const logServers = async (): Promise<void> => {
-	for (let i = 1; i < 1090; i++) {
-		await recordServerLadder(i)
-		if (i < 829) { i = i + 2}
+	const servers = (await client('servers')
+		.min('id')
+		.groupBy('merger')
+		.orderBy('min')).map(sv => sv.min)
+
+	const chunks: number[][] = chunk(servers, 10)
+	for (const ck of chunks) {
+		const promises = []
+		for (const server of ck) {
+			promises.push(recordServerLadder(server))
+		}
+		await Promise.all(promises)
 	}
+
+	await axios.post(process.env.NETLIFY_HOOK || '')
 }
 
 logServers().then(() => {process.exit()})

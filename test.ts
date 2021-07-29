@@ -38,9 +38,11 @@ const getServers = async (): Promise<GoatServer[]> => {
 }
 
 const logServer = async () => {
+	const existing = (await client('servers').select('id')).map(sv => sv.id)
 	const servers = await getServers()
 
 	for (const server of servers) {
+		if (existing.includes(server.id)) { continue }
 		await client('servers')
 			.insert({
 				id: server.id,

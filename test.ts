@@ -51,25 +51,23 @@ const logServer = async () => {
 	}
 }
 
-const plunder = async (): Promise<void> => {
+const getTarget = async (): Promise<string> => {
 	const status = await goat.challenges.allianceSiege.eventInfos()
 	const attacks = status.info.freeNum + status.info.buyNum
 
 	const members = orderBy(status.data.members, 'shili', 'asc')
 
-	for (let i = 0; i < attacks; i++) {
-		await goat.challenges.allianceSiege.attackMember(members[0].id.toString())
-	}
+	return members[0].id.toString()
 }
 const spamAllianceSiege = async () => {
 	goat._setAccount(ACCOUNT_GAUTIER)
 	const todo = 100
 	const progress = new Progress('Attacking', todo)
+	const target = await getTarget()
 	for (let i = 0; i < todo; i++) {
 		await goat.challenges.allianceSiege.buySiegeWeapon(10)
 		// await goat.challenges.allianceSiege.attackWall(10)
-		await plunder()
-		await goat.challenges.allianceSiege.attackMember('613005040', 10)
+		await goat.challenges.allianceSiege.attackMember(target, 10)
 		progress.increment()
 	}
 	progress.stop()
@@ -84,14 +82,28 @@ const buyShopPack = async () => {
 	}
 	progress.stop()
 }
-const doTest = async () => {
+const buyAllianceSiegeShopScrolls = async () => {
 	goat._setAccount(ACCOUNT_GAUTIER)
-	const progress = new Progress('Buying scrolls', 19)
-	for (let i = 0; i < 19; i++) {
+	const progress = new Progress('Buying scrolls', 20)
+	for (let i = 0; i < 20; i++) {
 		await goat.challenges.allianceSiege.buyDailyShop(13)
 		progress.increment()
 	}
 	progress.stop()
 }
+const doTest = async () => {
+	goat._setAccount(ACCOUNT_GAUTIER)
+	let next = 2884
+	let goNext = true
+	while (goNext) {
+		try {
+			await goat.account.doMainQuestTask(next)
+			console.log(`Claimed reward for ${next}`)
+			next++
+		} catch (e) {
+			goNext = false
+		}
+	}
+}
 
-spamAllianceSiege().then(() => { logger.success('Finished'); process.exit() })
+doTest().then(() => { logger.success('Finished'); process.exit() })

@@ -37,9 +37,9 @@ export const updatePlayerAlliance = async (player: Player, ally: UserProfile): P
 const updateProfile = async (profile: Player): Promise<void> => {
 	logger.debug(`Updating ${profile.name}`)
 	try {
+		if (differenceInHours(new Date(), new Date(profile.updated_at)) < 12) { return console.log(`returning ${differenceInHours(new Date(), new Date(profile.updated_at))}`) }
 		const item = await goat.profile.getUser(profile.gid)
 		if (!item) {return}
-		if (differenceInHours(new Date(), new Date(profile.updated_at)) < 12) { return console.log(`returning ${differenceInHours(new Date(), new Date(profile.updated_at))}`) }
 
 		await Promise.all([
 			updatePlayerDetails(profile, item),

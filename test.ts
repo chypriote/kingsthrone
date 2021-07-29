@@ -5,6 +5,7 @@ import { fromUnixTime } from 'date-fns'
 import { goat } from 'kingsthrone-api'
 import { ACCOUNT_GAUTIER } from 'kingsthrone-api/lib/src/goat'
 import { Progress } from './scripts/services/progress'
+import { orderBy } from 'lodash'
 
 interface GoatServer {
 	he: number
@@ -50,6 +51,16 @@ const logServer = async () => {
 	}
 }
 
+const plunder = async (): Promise<void> => {
+	const status = await goat.challenges.allianceSiege.eventInfos()
+	const attacks = status.info.freeNum + status.info.buyNum
+
+	const members = orderBy(status.data.members, 'shili', 'asc')
+
+	for (let i = 0; i < attacks; i++) {
+		await goat.challenges.allianceSiege.attackMember(members[0].id.toString())
+	}
+}
 const spamAllianceSiege = async () => {
 	goat._setAccount(ACCOUNT_GAUTIER)
 	const todo = 100
@@ -57,6 +68,7 @@ const spamAllianceSiege = async () => {
 	for (let i = 0; i < todo; i++) {
 		await goat.challenges.allianceSiege.buySiegeWeapon(10)
 		// await goat.challenges.allianceSiege.attackWall(10)
+		await plunder()
 		await goat.challenges.allianceSiege.attackMember('613005040', 10)
 		progress.increment()
 	}

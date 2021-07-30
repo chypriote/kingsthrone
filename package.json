@@ -31,7 +31,7 @@
     "cli-progress": "^3.9",
     "date-fns": "^2.23",
     "dotenv": "^10.0",
-    "kingsthrone-api": "^0.13",
+    "kingsthrone-api": "^0.14",
     "knex": "^0.95",
     "lodash": "^4.17",
     "pg": "^8.6",

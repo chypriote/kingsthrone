@@ -11,7 +11,7 @@ async function wishTreeQuest(info: CherishedWishInfo, rewards: CherishedWishRewa
 		if (!options) { return logger.error(`Could not find options for day ${today}, type ${type}`) }
 
 		for (const rwd of options.optionRwd) {
-			await goat.events.renownedMerchant.setWishTreeReward(1, today, rwd.pos)
+			await goat.events.renownedMerchant.setWishTreeReward(1, today, rwd.pos, type)
 			logger.log('Set wish tree reward')
 		}
 	}
@@ -21,7 +21,7 @@ async function wishTreeQuest(info: CherishedWishInfo, rewards: CherishedWishRewa
 	try {
 		await goat.events.renownedMerchant.getWishTreeReward(type)
 		console.log(`Claimed login reward of for day ${today} of type ${type}`)
-	} catch (e) {/*do nothing*/}
+	} catch (e) {logger.error('Claim reward', e.toString())/*do nothing*/}
 }
 const doWishTree = async (): Promise<void> => {
 	const wishTree = await goat.events.renownedMerchant.wishTreeInfos()
@@ -38,6 +38,7 @@ const doLoginRewards = async (): Promise<void> => {
 	const loginRewards = await goat.events.renownedMerchant.loginRewardsInfo()
 
 	for (const daily of loginRewards.cfg.dayTasks) {
+		if (daily.day > loginRewards.tasks.day) { continue }
 		for (const task of daily.task_id) {
 			try {
 				await goat.events.renownedMerchant.getTaskReward(daily.day, task)

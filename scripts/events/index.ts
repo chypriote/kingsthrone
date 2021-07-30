@@ -9,6 +9,7 @@ import { pathOfWealth } from './pathOfWealth'
 import { renownedMerchant } from './renownedMerchant'
 import { handlePass, PASS_TYPE } from './pass'
 import { peoplesMonarch } from './peoplesMonarch'
+import { alchemy } from './alchemy'
 import { heroesTrial } from './heroesTrial'
 
 const divining = async () => {
@@ -46,5 +47,6 @@ export const doEvents = async (): Promise<void> => {
 		if (event.id === 1241) {await handlePass(PASS_TYPE.VENETIAN_PASS) }
 		if (event.id === 1086) {await handlePass(PASS_TYPE.KINGS_PASS) }
 		if (event.id === 1083) {await heroesTrial() }
+		if (event.id === 1092) {await alchemy() }
 	}
 }

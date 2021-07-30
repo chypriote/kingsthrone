@@ -4,7 +4,7 @@ import { fromUnixTime, startOfToday } from 'date-fns'
 import { goat } from 'kingsthrone-api'
 import { client } from './services/database'
 import { logger } from './services/logger'
-import { EventWheel, PathOfWealthStatus } from 'kingsthrone-api/lib/types/Events'
+import { EventDropWithProbability, EventWheel, PathOfWealthStatus } from 'kingsthrone-api/lib/types/Events'
 
 const logItemWheel = async (event: EventWheel, event_db_id: number) => {
 	for (const item of event.cfg.wall_gache) {
@@ -402,7 +402,6 @@ const logPathOfWealth = async () => {
 		}
 	}
 }
-
 const logRenownedMerchant = async () => {
 	const event = await goat.events.renownedMerchant.eventInfos()
 	const [eid] = await client('events').insert({
@@ -432,10 +431,104 @@ const logRenownedMerchant = async () => {
 			})
 	}
 }
+const logGiftingTree = async () => {
+	const event = await goat.events.giftingTree.eventInfos()
+
+	const [eid] = await client('events').insert({
+		name: 'Gifting Tree',
+		eid: 1085,
+		type: 1083,
+		start: fromUnixTime(1627603200),
+	}).returning('id')
+
+	for (const item of event.cfg.rewards) {
+		await client('event_drops')
+			.insert({
+				event: eid,
+				item: item.rwd.id,
+				count: item.rwd.count,
+			})
+	}
+	for (const item of event.cfg.chosen_pool) {
+		await client('event_drops')
+			.insert({
+				event: eid,
+				item: item.rwd.id,
+				count: item.rwd.count,
+			})
+	}
+}
+const logAlchemyDrop = async (items: EventDropWithProbability[], name: string): Promise<void> => {
+	const [eid] = await client('events').insert({
+		name: name,
+		eid: null,
+		type: 1092,
+		start: fromUnixTime(1627603200),
+	}).returning('id')
+	for (const item of items) {
+		await client('event_drops')
+			.insert({
+				event: eid,
+				item: item.items.id,
+				probability: item.prob_10000,
+				count: item.items.count,
+			})
+	}
+}
+const logAlchemy = async () => {
+	const event = await goat.events.alchemy.eventInfos()
+
+	const [eid] = await client('events').insert({
+		name: 'Alchemy',
+		eid: 1092,
+		type: 1092,
+		start: fromUnixTime(1627603200),
+	}).returning('id')
+
+	for (const item of event.shop.wsShopcfg) {
+		await client('event_shops')
+			.insert({
+				event: eid,
+				item: item.items.id,
+				limit: item.limitNum,
+				count: item.items.count,
+				price: item.need,
+			})
+	}
+
+	await Promise.all([
+		logAlchemyDrop(event.cfg.milkCfg, 'Alchemy - Trade Iron'),
+		logAlchemyDrop(event.cfg.biscuitsCfg, 'Alchemy - Trade Bottles'),
+		logAlchemyDrop(
+			[...event.cfg.coalCfg.randRewards, ...event.cfg.coalCfg.fixedReward],
+			'Alchemy - Trade Ores'
+		),
+	])
+
+	const [rid] = await client('events').insert({
+		name: 'Alchemy - Complete rewards',
+		eid: null,
+		type: 1092,
+		start: fromUnixTime(1627603200),
+	}).returning('id')
+
+	for (const items of event.cfg.completeRwd) {
+		for (const item of items.items) {
+			await client('event_drops')
+				.insert({
+					event: rid,
+					item: item.id,
+					count: item.count,
+				})
+		}
+	}
+}
 
 const logEvents = async () => {
 	await logDragonSlaying()
 	await logPeoplesMonarch()
 	await logDailyAllianceShop()
+	await logGiftingTree()
+	await logAlchemy()
 }
 logEvents().then(() => { process.exit()})

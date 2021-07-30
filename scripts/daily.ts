@@ -4,7 +4,7 @@ import {
 	attendFeasts, contributeAlliance, doExpedition, doKingdomExpeditions, doMerchant,
 	doProcessions, doWorldBoss, getDailyRewards, getLoginRewards, getThroneRoom, handleBag,
 	getTourneyRewards, getWeeklyRewards, HallOfFame, hostCouncil, payHomage, punishPrisoners,
-	raiseSons, refreshTraining, visitInLaws, visitMaidens, readAndDeleteMail, getProgressionRewards
+	handleSons, refreshTraining, visitInLaws, visitMaidens, readAndDeleteMail, getProgressionRewards
 } from './actions'
 import { doEvents } from './events'
 
@@ -24,7 +24,7 @@ export const dailyChores = async (): Promise<void> => {
 		}
 		await getThroneRoom()
 		await refreshTraining()
-		await raiseSons()
+		await handleSons()
 		await doProcessions()
 		await visitMaidens()
 		await attendFeasts()

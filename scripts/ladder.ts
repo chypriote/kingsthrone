@@ -6,7 +6,7 @@ import { UserProfile } from 'kingsthrone-api/lib/types/User'
 import { Player } from '../types/strapi/Player'
 import { logger } from './services/logger'
 import { updatePlayerAlliance } from './update/profiles'
-import { createPlayer, getPlayerByGID, updatePlayerDetails } from './repository/player'
+import { checkInactivity, createPlayer, getPlayerByGID, updatePlayerDetails } from './repository/player'
 import { client } from './services/database'
 import axios from 'axios'
 
@@ -50,6 +50,7 @@ const handleUser = async (user: User, goat: Goat): Promise<void> => {
 		updatePlayerDetails(player, profile),
 		updatePlayerAlliance(player, profile),
 	])
+	await checkInactivity(player)
 	logger.success(`Updated ${profile.name}`)
 }
 
@@ -71,7 +72,7 @@ const logServers = async (): Promise<void> => {
 		.groupBy('merger')
 		.orderBy('min')).map(sv => sv.min)
 
-	const chunks: number[][] = chunk(servers, 10)
+	const chunks: number[][] = chunk(servers, 20)
 	for (const ck of chunks) {
 		const promises = []
 		for (const server of ck) {

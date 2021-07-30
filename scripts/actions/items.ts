@@ -8,7 +8,7 @@ const state: IState = {
 	items: [],
 }
 
-const useAllItems = async (types: number[]): Promise<void> => {
+export const useAllItems = async (types: number[]): Promise<void> => {
 	const selected = state.items.filter(it => types.includes(it.id))
 
 	for (const item of selected) {

@@ -38,24 +38,6 @@ export const hostCouncil = async (): Promise<void> => {
 		logger.error(`[COUNCIL] ${e}`)
 	}
 }
-export const raiseSons = async (): Promise<void> => {
-	const sons = (await goat.profile.getGameInfos()).son.sonList
-
-	for (const son of sons.filter((s: Son) => !s.name)) {
-		await goat.children.nameSon(son.id)
-		logger.warn(`Named son ${son.id}`)
-	}
-	for (const son of sons.filter((s: Son) => s.state === 3)) {
-		await goat.children.evaluateSon(son.id)
-		logger.warn(`Evaluated son ${son.id}`)
-	}
-	try {
-		if (await goat.children.raiseAllSons())
-			logger.success('Children raised')
-	} catch (e) {
-		logger.error(`[CHILDREN] ${e}`)
-	}
-}
 export const refreshTraining = async (): Promise<void> => {
 	try {
 		if (await goat.profile.finishTraining()) {

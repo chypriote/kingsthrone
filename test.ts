@@ -93,9 +93,9 @@ const buyAllianceSiegeShopScrolls = async () => {
 	}
 	progress.stop()
 }
-const doTest = async () => {
+const mainQuest = async () => {
 	goat._setAccount(ACCOUNT_GAUTIER)
-	let next = 2884
+	let next = 3083
 	let goNext = true
 	while (goNext) {
 		try {
@@ -104,6 +104,20 @@ const doTest = async () => {
 			next++
 		} catch (e) {
 			goNext = false
+		}
+	}
+}
+
+const doTest = async () => {
+	const existing = (await client('items')).map(i => i.id)
+
+	const bag = await goat.items.getBag()
+	for (const item of bag) {
+		if (!existing.includes(item.id)) {
+			console.log(`${item.count} not registered (${item.id})`)
+		}
+		if (item.id === 20000) {
+			console.log(item.count)
 		}
 	}
 }

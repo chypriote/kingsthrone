@@ -2,6 +2,7 @@ import { filter, find, orderBy } from 'lodash'
 import { goat } from 'kingsthrone-api'
 import { logger } from '../services/logger'
 import { AlchemyLuckBoost, AlchemyStatus } from 'kingsthrone-api/lib/types/Events'
+import { useAllItems } from '~/scripts/actions/items'
 
 const selectBoost = (boosts: AlchemyLuckBoost[], owned: number[]|null = null): AlchemyLuckBoost => {
 	if (owned) {
@@ -32,12 +33,20 @@ const getRewards = async (status: AlchemyStatus): Promise<void> => {
 }
 
 const handleGifts = async (status: AlchemyStatus): Promise<void> => {
-	const kid = selectBoost(status.cfg.sonCfg)
+	const sons = orderBy(
+		filter((await goat.profile.getGameInfos()).son.sonList, s => s.state === 2),
+		'exp', 'desc'
+	)
+	const kid = sons[0]
+	let total = status.info.receiveNum
+
+	if (total >= 10) { return }
 
 	try {
 		for (const received of status.info.receive) {
-			if (!received.status) { continue }
+			if (received.status == 1) { continue }
 			await goat.events.alchemy.receiveGift(received.uid, kid.id)
+			total++
 		}
 	} catch (e) {
 		logger.error(`Receive ${e}`)
@@ -84,6 +93,10 @@ const trade = async (status: AlchemyStatus): Promise<void> => {
 export const alchemy = async (): Promise<void> => {
 	logger.log('---Alchemy---')
 	const status = await goat.events.alchemy.eventInfos()
+	const chests = (await goat.items.getBag()).filter(i => i.id === 14012)
+	if (chests.length) {
+		await goat.items.use(14012, chests[0].count!)
+	}
 
 	await getRewards(status)
 	await handleGifts(status)

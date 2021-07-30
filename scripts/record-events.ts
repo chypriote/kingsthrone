@@ -254,6 +254,27 @@ const logCoronation = async () => {
 			})
 	}
 }
+const logPeoplesMonarch = async () => {
+	const event = await goat.events.peoplesMonarch.eventInfos()
+
+	const [eid] = await client('events').insert({
+		name: 'People\'s Monarch',
+		eid: event.cfg.info.no,
+		start: fromUnixTime(event.cfg.info.sTime),
+		type: event.cfg.info.type,
+	}).returning('id')
+
+	for (const item of event.exchange.list) {
+		await client('event_shops')
+			.insert({
+				event: eid,
+				item: item.items.id,
+				limit: item.totalLimit,
+				count: item.items.count,
+				price: item.need,
+			})
+	}
+}
 const logDailyAllianceShop = async () => {
 	const event = await goat.challenges.allianceSiege.eventInfos()
 
@@ -413,6 +434,8 @@ const logRenownedMerchant = async () => {
 }
 
 const logEvents = async () => {
-	await logRenownedMerchant()
+	await logDragonSlaying()
+	await logPeoplesMonarch()
+	await logDailyAllianceShop()
 }
 logEvents().then(() => { process.exit()})

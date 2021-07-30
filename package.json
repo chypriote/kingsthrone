@@ -18,7 +18,7 @@
     "shop": "ts-node scripts/record-shop.ts",
     "challenge": "ts-node scripts/record-challenges.ts",
     "ladder": "ts-node scripts/ladder.ts",
-    "test": "ts-node test.ts",
+    "test": "ts-node scripts/events/heroesTrial.ts",
     "runs": "ts-node bin.ts",
     "prepare": "husky install"
   },

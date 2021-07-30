@@ -141,9 +141,37 @@ const logQuality = async () => {
 
 	await logChallengeRewards(id, challenge.zizhi.cfg.rwd)
 }
+const logMaidenExp = async () => {
+	const challenge = await goat.challenges.maidenExp.eventInfos()
+	const [id] = await client('challenges').insert({
+		name: 'Maiden Experience',
+		cid: challenge.jiaren.cfg.info.id,
+		type: challenge.jiaren.cfg.info.type,
+		start: fromUnixTime(challenge.jiaren.cfg.info.sTime),
+		end: fromUnixTime(challenge.jiaren.cfg.info.eTime),
+		alliance: false,
+		title: 'King of Wisdom',
+	}).returning('id')
+
+	await logChallengeRewards(id, challenge.jiaren.cfg.rwd)
+}
+const logRaiseChildren = async () => {
+	const challenge = await goat.challenges.raiseChildren.eventInfos()
+	const [id] = await client('challenges').insert({
+		name: 'Raise Children',
+		cid: challenge.zsshili.cfg.info.id,
+		type: challenge.zsshili.cfg.info.type,
+		start: fromUnixTime(challenge.zsshili.cfg.info.sTime),
+		end: fromUnixTime(challenge.zsshili.cfg.info.eTime),
+		alliance: false,
+		title: 'King of Abundance',
+	}).returning('id')
+
+	await logChallengeRewards(id, challenge.zsshili.cfg.rwd)
+}
 
 const logChallenges = async () => {
-	await logGrain()
-	await logQuality()
+	await logMaidenExp()
+	await logRaiseChildren()
 }
 logChallenges().then(() => { process.exit()})

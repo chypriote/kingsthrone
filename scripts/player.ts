@@ -7,10 +7,9 @@ import { ACCOUNT_GAUTIER } from 'kingsthrone-api/lib/src/accounts/gautier'
 
 export const updateHeroList = async (): Promise<void> => {
 	goat._setAccount(ACCOUNT_GAUTIER)
-	const game = await goat.profile.getGameInfos()
-	const heroList = game.hero.heroList
+	const heroes = (await goat.profile.getGameInfos()).hero.heroList
 
-	for (const hero of heroList) {
+	for (const hero of heroes) {
 		await createOrUpdateMyHero(hero)
 	}
 

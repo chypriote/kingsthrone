@@ -36,7 +36,8 @@ export const doEvents = async (): Promise<void> => {
 		if (!isFuture(fromUnixTime(event.eTime))) { continue }
 		if (event.type === 17) { await treasureHunt() }
 		if (event.type === 1123 && event.id === 1123) { await divining() }
-		if (event.type === 7) { await coronation() }
+		if (event.type === 7 && event.id === 280) { await coronation() }
+		//if (event.type === 7 && event.id === 282) { await peoplesMonarch() }
 		if (event.id === 1299) {await giftOfTheFae() }
 		if (event.id === 293) {await pathOfWealth() }
 		if (event.type === 1231 && !merchantDone) {merchantDone = true; await renownedMerchant() }

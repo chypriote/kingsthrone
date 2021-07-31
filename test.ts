@@ -116,10 +116,7 @@ const doTest = async () => {
 		if (!existing.includes(item.id)) {
 			console.log(`${item.count} not registered (${item.id})`)
 		}
-		if (item.id === 20000) {
-			console.log(item.count)
-		}
 	}
 }
 
-doTest().then(() => { logger.success('Finished'); process.exit() })
+mainQuest().then(() => { logger.success('Finished'); process.exit() })

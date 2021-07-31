@@ -1,12 +1,12 @@
 import { goat } from 'kingsthrone-api'
-import { orderBy, reduce } from 'lodash'
+import { filter, orderBy, reduce } from 'lodash'
 import { QualitySkill } from 'kingsthrone-api/lib/types/Hero'
 import { logger } from '../services/logger'
 
 export const heroesTrial = async (): Promise<void> => {
 	logger.log('---Heroes\'s Trial---')
 	const event = await goat.events.heroesTrial.eventInfos()
-	const todo = goat._isGautier() ? 20 : 10
+	const todo = 20
 	let current = event.info.bossId
 
 	if (current > todo) { return }
@@ -27,7 +27,10 @@ export const heroesTrial = async (): Promise<void> => {
 			tutorsGift++
 		}
 
-		const selected = heroes[todo - current]
+		const available = filter(heroes, h => h.available && h.quality > 250)
+		//if free, we use a free hero, otherwise use best available or respawn top
+		const selected = freeUses && available.length ? available[todo - current] :
+			(available.length ? available[0] : heroes[0])
 		console.log(`Fighting boss ${current} with hero ${selected.id}`)
 		await goat.events.heroesTrial.selectHero(selected.id)
 		const result = await goat.events.heroesTrial.fight(selected.id)

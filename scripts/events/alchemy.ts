@@ -34,13 +34,12 @@ const getRewards = async (status: AlchemyStatus): Promise<void> => {
 
 const handleGifts = async (status: AlchemyStatus): Promise<void> => {
 	const sons = orderBy(
-		filter((await goat.profile.getGameInfos()).son.sonList, s => s.state === 2),
+		filter((await goat.profile.getGameInfos()).son.sonList, s => s.state === 2 && s.level > 4),
 		'exp', 'desc'
 	)
-	const kid = sons[0]
 	let total = status.info.receiveNum
-
-	if (total >= 10) { return }
+	if (total >= 10 || !sons.length) { return }
+	const kid = sons[0]
 
 	try {
 		for (const received of status.info.receive) {
@@ -95,7 +94,12 @@ export const alchemy = async (): Promise<void> => {
 	const status = await goat.events.alchemy.eventInfos()
 	const chests = (await goat.items.getBag()).filter(i => i.id === 14012)
 	if (chests.length) {
-		await goat.items.use(14012, chests[0].count!)
+		await goat.items.use(14012, chests[0].count)
+	}
+
+	if (status.info.completeNum === 100) {
+		await goat.events.alchemy.claimCompleteReward()
+		status.info.completeNum = 0
 	}
 
 	await getRewards(status)

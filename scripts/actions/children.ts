@@ -15,6 +15,7 @@ export const handleSons = async (): Promise<void> => {
 		if (son.state === CHILDREN_STATUS.GROWNUP) {
 			await goat.children.evaluateSon(son.id)
 			logger.warn(`Evaluated son ${son.id}`)
+			son.state = CHILDREN_STATUS.EVALUATED
 		}
 
 		if (son.state === CHILDREN_STATUS.EVALUATED) {
@@ -22,8 +23,10 @@ export const handleSons = async (): Promise<void> => {
 			if (offer.length) {
 				await goat.children.marry(son.id, offer[0].sonuid, offer[0].fuid)
 				logger.warn(`Married son ${son.id} to ${offer[0].fname} - ${offer[0].sonuid}`)
+				son.state = CHILDREN_STATUS.MARRIED
 			} else {
 				await goat.children.propose(son.id)
+				son.state = CHILDREN_STATUS.FINDING_SPOUSE
 			}
 		}
 	}

@@ -96,11 +96,13 @@ const combineInvestiture = async (): Promise<void> => {
 		ITEMS.CITRINE_SCEPTER,
 		ITEMS.CITRINE_SWORD,
 	], 4)
-	await combineInvestitureItems([
-		ITEMS.EMERALD_RING,
-		ITEMS.EMERALD_SCEPTER,
-		ITEMS.EMERALD_SWORD,
-	], 5)
+	if (goat._isGautier()) {
+		await combineInvestitureItems([
+			ITEMS.EMERALD_RING,
+			ITEMS.EMERALD_SCEPTER,
+			ITEMS.EMERALD_SWORD,
+		], 5)
+	}
 }
 
 export const handleBag = async (): Promise<void> => {

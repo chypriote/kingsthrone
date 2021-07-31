@@ -1,7 +1,6 @@
 import { chunk, find, reduce } from 'lodash'
 import { Goat } from 'kingsthrone-api/lib'
 import { client } from './services/database'
-import axios from 'axios'
 import winston from 'winston'
 import { HeroesTrialStatus } from 'kingsthrone-api/lib/types/Events'
 import { HeroesTrialFightResult } from 'kingsthrone-api'
@@ -42,6 +41,7 @@ const logTrials = async (): Promise<void> => {
 		.groupBy('merger')
 		.orderBy('min')).map(sv => sv.min)
 
+	w.info('Server,Boss,Boss HP,1st player,11th player,100th player,Server average')
 	const chunks: number[][] = chunk(servers, 20)
 	for (const ck of chunks) {
 		const promises = []

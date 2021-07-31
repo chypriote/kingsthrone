@@ -10,9 +10,8 @@ import { renownedMerchant } from './renownedMerchant'
 import { handlePass, PASS_TYPE } from './pass'
 import { peoplesMonarch } from './peoplesMonarch'
 import { alchemy } from './alchemy'
-import { heroesTrial } from './heroesTrial'
 import { LTQ_TYPES, LTQStatus } from 'kingsthrone-api/lib/types/LimitedTimeQuests'
-import { orderBy, slice } from 'lodash'
+import { slice } from 'lodash'
 
 const divining = async () => {
 	const status = await goat.events.divining.eventInfos()
@@ -28,17 +27,29 @@ const divining = async () => {
 	}
 }
 const LIMITED_QUESTS = [
-	LTQ_TYPES.GEMS,
+	LTQ_TYPES.SPEND_GEMS,
+	LTQ_TYPES.LOSE_SOLDIERS,
+	LTQ_TYPES.SPEND_GOLD,
+	LTQ_TYPES.STUDY_MANUSCRIPTS,
+	LTQ_TYPES.INCREASE_POWER,
+	LTQ_TYPES.ENACT_DECREES,
 	LTQ_TYPES.LOGIN,
-	LTQ_TYPES.MARRIAGES,
+	LTQ_TYPES.TOURNEY_SCORE,
+	LTQ_TYPES.ARRANGE_MARRIAGES,
 	LTQ_TYPES.ENERGY_DRAUGHT,
 	LTQ_TYPES.RANDOM_VISITS,
 ]
 const getQuestInfos = async (type: number): Promise<LTQStatus|null> => {
 	switch (type) {
-	case LTQ_TYPES.GEMS: return await goat.limitedTimeQuests.gemsQuest()
-	case LTQ_TYPES.LOGIN: return await goat.limitedTimeQuests.loginQuest()
-	case LTQ_TYPES.MARRIAGES: return await goat.limitedTimeQuests.marriageQuest()
+	case LTQ_TYPES.SPEND_GEMS: return await goat.limitedTimeQuests.spendGems()
+	case LTQ_TYPES.LOSE_SOLDIERS: return await goat.limitedTimeQuests.loseSoldiers()
+	case LTQ_TYPES.SPEND_GOLD: return await goat.limitedTimeQuests.spendGold()
+	case LTQ_TYPES.STUDY_MANUSCRIPTS: return await goat.limitedTimeQuests.studyManuscripts()
+	case LTQ_TYPES.INCREASE_POWER: return await goat.limitedTimeQuests.increaseKP()
+	case LTQ_TYPES.ENACT_DECREES: return await goat.limitedTimeQuests.enactDecrees()
+	case LTQ_TYPES.LOGIN: return await goat.limitedTimeQuests.login()
+	case LTQ_TYPES.TOURNEY_SCORE: return await goat.limitedTimeQuests.tourneyScore()
+	case LTQ_TYPES.ARRANGE_MARRIAGES: return await goat.limitedTimeQuests.arrangeMarriages()
 	case LTQ_TYPES.ENERGY_DRAUGHT: return await goat.limitedTimeQuests.energyDraughtQuest()
 	case LTQ_TYPES.RANDOM_VISITS: return await goat.limitedTimeQuests.randomVisitsQuest()
 	default: return null

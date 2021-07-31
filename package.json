@@ -32,7 +32,7 @@
     "cli-progress": "^3.9",
     "date-fns": "^2.23",
     "dotenv": "^10.0",
-    "kingsthrone-api": "^0.14",
+    "kingsthrone-api": "^0.15",
     "knex": "^0.95",
     "lodash": "^4.17",
     "pg": "^8.6",
@@ -47,6 +47,7 @@
     "strapi-provider-upload-cloudinary": "https://github.com/chypriote/strapi-provider-upload-cloudinary.git",
     "strapi-utils": "^3.6",
     "typescript": "^4.3",
+    "winston": "^3.3.3",
     "yargs": "^17.0"
   },
   "devDependencies": {

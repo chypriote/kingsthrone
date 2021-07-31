@@ -76,10 +76,10 @@ const spamAllianceSiege = async () => {
 }
 const buyShopPack = async () => {
 	goat._setAccount(ACCOUNT_GAUTIER)
-	const toBuy = 97
+	const toBuy = 91
 	const progress = new Progress('Buying packs', toBuy)
 	for (let i = 0; i < toBuy; i++) {
-		await goat.shop.buyShopPack(3)
+		await goat.shop.buyShopPack(2)
 		progress.increment()
 	}
 	progress.stop()
@@ -108,7 +108,7 @@ const mainQuest = async () => {
 	}
 }
 
-const doTest = async () => {
+const checkItems = async () => {
 	const existing = (await client('items')).map(i => i.id)
 
 	const bag = await goat.items.getBag()
@@ -119,4 +119,4 @@ const doTest = async () => {
 	}
 }
 
-mainQuest().then(() => { logger.success('Finished'); process.exit() })
+checkItems().then(() => { logger.success('Finished'); process.exit() })

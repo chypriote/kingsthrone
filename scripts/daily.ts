@@ -6,7 +6,6 @@ import {
 	getTourneyRewards, getWeeklyRewards, HallOfFame, hostCouncil, payHomage, punishPrisoners,
 	handleSons, refreshTraining, visitInLaws, visitMaidens, readAndDeleteMail, getProgressionRewards
 } from './actions'
-import { doEvents } from './events'
 
 export const dailyChores = async (): Promise<void> => {
 	try {
@@ -36,7 +35,6 @@ export const dailyChores = async (): Promise<void> => {
 		await getWeeklyRewards()
 		await getProgressionRewards()
 		await handleBag()
-		await doEvents()
 	} catch (e) {
 		logger.error(e)
 	}

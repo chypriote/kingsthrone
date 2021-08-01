@@ -3,13 +3,15 @@ import { goat, Item } from 'kingsthrone-api'
 import { ITEMS, RESOURCES_ITEMS, REWARD_PACKS } from 'kingsthrone-api/lib/types/Item'
 import { Progress } from '../services/progress'
 
-interface IState {items: Item[]}
+interface IState {
+	items: Item[]
+}
 const state: IState = {
 	items: [],
 }
 
 export const useAllItems = async (types: number[]): Promise<void> => {
-	const selected = state.items.filter(it => types.includes(it.id))
+	const selected = state.items.filter((it) => types.includes(it.id))
 
 	for (const item of selected) {
 		let count = item.count
@@ -35,7 +37,7 @@ const openManuscriptCaches = async (): Promise<void> => {
 }
 
 const getItem = (id: number): Item => {
-	return find(state.items, it => it.id === id) || { id, count: 0, kind: 0 }
+	return find(state.items, (it) => it.id === id) || { id, count: 0, kind: 0 }
 }
 
 const combineItems = async (): Promise<void> => {
@@ -77,31 +79,19 @@ const combineInvestitureItems = async (items: number[], amount: number): Promise
 	for (const id of items) {
 		const item = getItem(id)
 		const next = getItem(id + 3)
-		if (item.count < amount) {continue}
+		if (item.count < amount) {
+			continue
+		}
 		await goat.items.combine(next.id, Math.trunc(item.count / amount))
 		next.count += Math.trunc(item.count / amount)
 	}
 }
 const combineInvestiture = async (): Promise<void> => {
-	await combineInvestitureItems([
-		ITEMS.RUBY_RING,
-		ITEMS.RUBY_SCEPTER,
-		ITEMS.RUBY_SWORD,
-		ITEMS.HESSONITE_RING,
-		ITEMS.HESSONITE_SCEPTER,
-		ITEMS.HESSONITE_SWORD,
-	], 3)
-	await combineInvestitureItems([
-		ITEMS.CITRINE_RING,
-		ITEMS.CITRINE_SCEPTER,
-		ITEMS.CITRINE_SWORD,
-	], 4)
+	await combineInvestitureItems([ITEMS.RUBY_RING, ITEMS.RUBY_SCEPTER, ITEMS.RUBY_SWORD], 3)
+	await combineInvestitureItems([ITEMS.HESSONITE_RING, ITEMS.HESSONITE_SCEPTER, ITEMS.HESSONITE_SWORD], 3)
+	await combineInvestitureItems([ITEMS.CITRINE_RING, ITEMS.CITRINE_SCEPTER, ITEMS.CITRINE_SWORD], 4)
 	if (goat._isGautier() && goat._getServer() === '699') {
-		await combineInvestitureItems([
-			ITEMS.EMERALD_RING,
-			ITEMS.EMERALD_SCEPTER,
-			ITEMS.EMERALD_SWORD,
-		], 5)
+		await combineInvestitureItems([ITEMS.EMERALD_RING, ITEMS.EMERALD_SCEPTER, ITEMS.EMERALD_SWORD], 5)
 	}
 }
 
@@ -127,8 +117,10 @@ export const handleBag = async (): Promise<void> => {
 	await openManuscriptCaches()
 	progress.increment()
 
-	await combineInvestiture()
-	progress.increment()
+	if (goat._getServer() === '699') {
+		await combineInvestiture()
+		progress.increment()
+	}
 
 	progress.stop()
 }

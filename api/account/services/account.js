@@ -14,10 +14,12 @@ module.exports = {
 		}
 
 		const loginAccount = await goat.login(account.parameters, uid)
-		await knex('accounts').update({
-			token: loginAccount.token,
-			last_login: formatISO(new Date()),
-		}).where({ uid })
+		await knex('accounts')
+			.update({
+				token: loginAccount.token,
+				last_login: formatISO(new Date()),
+			})
+			.where({ uid })
 	},
 	loadAccount: async (uid) => {
 		const { goat, account } = strapi.services
@@ -28,12 +30,9 @@ module.exports = {
 		}
 
 		await account.loginWithUid(uid)
-		const game = await goat.sendRequest({ rsn:'2ynbmhanlb',guide:{ login:{ language:1,platform:'gaotukc',ug:'' } } }, uid)
+		const game = await goat.sendRequest({ guide: { login: { language: 1, platform: 'gaotukc', ug: '' } } }, uid)
 
-		await Promise.all([
-			account.saveHeroes(game.a.hero.heroList, user),
-			account.saveMaidens(game.a.wife.wifeList, user),
-		])
+		await Promise.all([account.saveHeroes(game.a.hero.heroList, user), account.saveMaidens(game.a.wife.wifeList, user)])
 
 		return game.a
 	},
@@ -47,8 +46,8 @@ module.exports = {
 			])
 
 			const stats = goatHero.aep
-			const brutality = goatHero.pkskill.find(it => it.id === 2)?.level || 0
-			const ferocity = goatHero.pkskill.find(it => it.id === 1)?.level || 0
+			const brutality = goatHero.pkskill.find((it) => it.id === 2)?.level || 0
+			const ferocity = goatHero.pkskill.find((it) => it.id === 1)?.level || 0
 			const quality = reduce(goatHero.epskill, (q, skill) => q + skill.zz, 0)
 
 			const myHero = {

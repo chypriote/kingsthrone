@@ -1,8 +1,7 @@
 import { filter, find, orderBy } from 'lodash'
 import { goat } from 'kingsthrone-api'
-import { logger } from '../services/logger'
 import { AlchemyLuckBoost, AlchemyStatus } from 'kingsthrone-api/lib/types/Events'
-import { useAllItems } from '~/scripts/actions/items'
+import { logger } from '../services/logger'
 
 const selectBoost = (boosts: AlchemyLuckBoost[], owned: number[]|null = null): AlchemyLuckBoost => {
 	if (owned) {

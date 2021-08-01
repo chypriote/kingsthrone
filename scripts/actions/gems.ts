@@ -1,5 +1,5 @@
-import chalk = require('chalk')
 import { goat } from 'kingsthrone-api'
+const chalk = require('chalk')
 const cliProgress = require('cli-progress')
 
 export const getGems = async (count: number|null = null): Promise<void> => {

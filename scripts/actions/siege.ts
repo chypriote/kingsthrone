@@ -1,6 +1,6 @@
+import { find, orderBy } from 'lodash'
 import { goat } from 'kingsthrone-api'
 import { AllianceSiegeBattle, BATTLE_STATUS } from 'kingsthrone-api/lib/types/Challenges/AllianceSiege'
-import { find, orderBy } from 'lodash'
 import { logger } from '../services/logger'
 
 const wall = async (status: AllianceSiegeBattle): Promise<void> => {

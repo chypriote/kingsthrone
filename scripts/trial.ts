@@ -1,9 +1,9 @@
 import { chunk, find, reduce } from 'lodash'
-import { Goat } from 'kingsthrone-api/lib'
-import { client } from './services/database'
 import winston from 'winston'
-import { HeroesTrialStatus } from 'kingsthrone-api/lib/types/Events'
 import { HeroesTrialFightResult } from 'kingsthrone-api'
+import { Goat } from 'kingsthrone-api/lib'
+import { HeroesTrialStatus } from 'kingsthrone-api/lib/types/Events'
+import { client } from './services/database'
 
 const w = winston.createLogger({
 	level: 'info',

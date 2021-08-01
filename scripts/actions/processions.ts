@@ -1,7 +1,7 @@
 import { find } from 'lodash'
 import { goat, ProcessionGain } from 'kingsthrone-api'
-import { logger } from '../services/logger'
 import { NPCS } from 'kingsthrone-api/lib/types/Processions'
+import { logger } from '../services/logger'
 import { Progress } from '../services/progress'
 
 function getItem(id: number): string {

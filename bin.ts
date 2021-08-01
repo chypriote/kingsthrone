@@ -4,15 +4,15 @@ import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 import { format } from 'date-fns'
 import { goat } from 'kingsthrone-api'
+import { ACCOUNT_GAUTIER, ACCOUNT_NAPOLEON } from 'kingsthrone-api/lib/src/goat'
 import { dailyChores } from './scripts/daily'
-import { doKingdom } from './scripts/actions/kingdom'
 import { doTourney } from './scripts/tourney'
 import { doProcessions, visitMaidens } from './scripts/actions'
+import { doKingdom } from './scripts/actions/kingdom'
 import { getGems } from './scripts/actions/gems'
-import { TOURNEY_TYPE } from './scripts/tourney/fight'
-import { logger } from './scripts/services/logger'
-import { ACCOUNT_GAUTIER, ACCOUNT_NAPOLEON } from 'kingsthrone-api/lib/src/goat'
+import { allTourney, TOURNEY_TYPE } from './scripts/tourney/fight'
 import { doEvents } from './scripts/events'
+import { logger } from './scripts/services/logger'
 
 function login(account: string|null = null, server: string) {
 	goat._setServer(server)
@@ -79,9 +79,15 @@ yargs(hideBin(process.argv))
 			alias: 'h',
 			type: 'number',
 			default: null,
-		})
+		}).boolean('all')
 	}, async (argv) => {
 		login(argv.account, argv.server)
+
+		if (argv.all) {
+			await allTourney(TOURNEY_TYPE.LOCAL, argv.opponent)
+			logger.success(`Finished ${format(new Date(), 'HH:mm')}`)
+			process.exit()
+		}
 
 		await doTourney(TOURNEY_TYPE.LOCAL, argv.opponent, argv.hero)
 		logger.success(`Finished ${format(new Date(), 'HH:mm')}`)

@@ -1,5 +1,5 @@
-import { EventPass, goat } from 'kingsthrone-api'
 import { find } from 'lodash'
+import { EventPass, goat } from 'kingsthrone-api'
 import { logger } from '../services/logger'
 
 export enum PASS_TYPE {

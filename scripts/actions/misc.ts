@@ -1,4 +1,4 @@
-import { goat, Son } from 'kingsthrone-api'
+import { goat } from 'kingsthrone-api'
 import { logger } from '../services/logger'
 import { DECREE_TYPE } from 'kingsthrone-api/lib/types/ThroneRoom'
 

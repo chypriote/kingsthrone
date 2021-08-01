@@ -1,6 +1,6 @@
 import { goat } from 'kingsthrone-api'
-import { logger } from '../services/logger'
 import { QUEST_STATUS, RWD_STATUS } from 'kingsthrone-api/lib/types/Events'
+import { logger } from '../services/logger'
 
 export const pathOfWealth = async (): Promise<void> => {
 	const status = await goat.events.pathOfWealth.eventInfos()

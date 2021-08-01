@@ -1,18 +1,17 @@
-import chalk = require('chalk')
-import { format, fromUnixTime } from 'date-fns'
 import { clone, find, orderBy } from 'lodash'
+import { format, fromUnixTime } from 'date-fns'
+import { goat } from 'kingsthrone-api'
+import { ITourneyFight, ITourneyStatus, OpponentHero, OpponentHeroStats, RewardItem, TourneyShopItem, User } from 'kingsthrone-api'
 
 import { PlayerHero } from '../../types/strapi/PlayerHero'
 import { Hero } from '../../types/strapi/Hero'
-
 import { logger } from '../services/logger'
 import { Progress } from '../services/progress'
 import { getExistingHeroesList } from '../repository/hero'
 import { getRoster, updatePlayerHero } from '../repository/player-heroes'
 import { getOrCreatePlayerFromGoat } from '../repository/player'
-import { deathmatchEndpoint, FClist, LocalTourneyEndpoint, TourneyEndpoint, xsTourneyEndpoint } from './index'
-import { ITourneyFight, ITourneyStatus, OpponentHero, OpponentHeroStats, RewardItem, TourneyShopItem, User } from 'kingsthrone-api'
-import { goat, Hero as GoatHero } from 'kingsthrone-api'
+import { deathmatchEndpoint, LocalTourneyEndpoint, TourneyEndpoint, xsTourneyEndpoint } from './index'
+const chalk = require('chalk')
 
 export enum TOURNEY_TYPE {
 	LOCAL= 'local',
@@ -302,6 +301,22 @@ const loadEndpoint = (type: TOURNEY_TYPE): void => {
 	case TOURNEY_TYPE.DEATHMATCH: state.setEndpoint(new deathmatchEndpoint()); break
 	case TOURNEY_TYPE.LOCAL:
 	default: state.setEndpoint(new LocalTourneyEndpoint()); break
+	}
+}
+
+export const allTourney = async (
+	type: TOURNEY_TYPE = TOURNEY_TYPE.LOCAL,
+	opponent: string|null = null
+): Promise<void> => {
+	loadEndpoint(type)
+	state.heroes = await getExistingHeroesList()
+	const mine = (await goat.profile.getGameInfos()).hero.heroList
+	if ((await goat.profile.getGameInfos()).hero.heroList.length < 15) { return }
+	for (const h of mine) {
+		const status = await startFighting(opponent, h.id)
+		if (!status) { return }
+		await loadFight(status.fight)
+		await loopFight(status)
 	}
 }
 

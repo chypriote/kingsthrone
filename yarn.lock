@@ -6308,9 +6308,9 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
 kingsthrone-api@^0.15:
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/kingsthrone-api/-/kingsthrone-api-0.15.0.tgz#2c1a594040ffdcc14ff40db05e9cbcce06bf44df"
-  integrity sha512-HM7iIG8uxPhNAw0A8sIOMCsHC8HEyhmT4eHGNcU5Hd28TcEBv/pPzOY9vj0AR0Qt9U7/exseKMPDqV2i6ufLtw==
+  version "0.15.1"
+  resolved "https://registry.yarnpkg.com/kingsthrone-api/-/kingsthrone-api-0.15.1.tgz#df4a62d40c259b181e5c177755cbc43bc34d7360"
+  integrity sha512-lrdUl6Wcuj9e2GzUmQzv1S297FNmn9Ch7iDtZyYa4Hrrr0E2ZBvfyERHcQhKs3/qur1ZeNt0+u0lpNpE2SZTxg==
   dependencies:
     axios "^0.21"
     dotenv "^10.0"

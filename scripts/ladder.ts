@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { chunk } from 'lodash'
 import { differenceInHours } from 'date-fns'
 import { User } from 'kingsthrone-api'
@@ -5,10 +6,9 @@ import { Goat } from 'kingsthrone-api/lib'
 import { UserProfile } from 'kingsthrone-api/lib/types/User'
 import { Player } from '../types/strapi/Player'
 import { logger } from './services/logger'
+import { client } from './services/database'
 import { updatePlayerAlliance } from './update/profiles'
 import { checkInactivity, createPlayer, getPlayerByGID, updatePlayerDetails } from './repository/player'
-import { client } from './services/database'
-import axios from 'axios'
 
 const getServer = (gid: string): string => {
 	switch (gid.length) {

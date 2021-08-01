@@ -1,12 +1,12 @@
 import { config } from 'dotenv'
 config()
 import { chunk } from 'lodash'
-import { logger } from '../services/logger'
+import { differenceInHours } from 'date-fns'
 import { goat, UserProfile } from 'kingsthrone-api'
+import { logger } from '../services/logger'
 import { checkInactivity, getPlayers, updatePlayerDetails } from '../repository/player'
 import { getPlayerAlliance, leaveAlliance, setPlayerAlliance } from '../repository/alliance'
-import { Player } from '~/types/strapi/Player'
-import { differenceInHours } from 'date-fns'
+import { Player } from '../../types/strapi/Player'
 
 export const updatePlayerAlliance = async (player: Player, ally: UserProfile): Promise<void> => {
 	//Check if player currently has alliance

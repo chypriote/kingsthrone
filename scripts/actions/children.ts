@@ -1,7 +1,7 @@
-import { goat } from 'kingsthrone-api'
-import { logger } from '../services/logger'
 import { orderBy } from 'lodash'
+import { goat } from 'kingsthrone-api'
 import { CHILDREN_STATUS } from 'kingsthrone-api/lib/types/Children'
+import { logger } from '../services/logger'
 
 export const handleSons = async (): Promise<void> => {
 	const sons = (await goat.profile.getGameInfos()).son.sonList

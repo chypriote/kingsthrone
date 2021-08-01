@@ -1,7 +1,7 @@
-import { goat } from 'kingsthrone-api'
-import { logger } from '../services/logger'
 import { find } from 'lodash'
+import { goat } from 'kingsthrone-api'
 import { CORONATION_ITEM, CoronationStatus } from 'kingsthrone-api/lib/types/Events'
+import { logger } from '../services/logger'
 
 const coronationItemIds = {
 	1: 256,

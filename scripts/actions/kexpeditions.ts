@@ -1,5 +1,5 @@
-import { goat, KingdomExpInfo } from 'kingsthrone-api'
 import { orderBy } from 'lodash'
+import { goat, KingdomExpInfo } from 'kingsthrone-api'
 import { logger } from '../services/logger'
 import { Progress } from '../services/progress'
 

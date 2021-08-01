@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { fromUnixTime } from 'date-fns'
 import { ClubEventRwd, goat } from 'kingsthrone-api'
-import { AllianceExperienceStatus, AllianceIntimacyStatus } from 'kingsthrone-api/lib/types/Challenges'
-import { client } from './services/database'
 import { Item } from 'kingsthrone-api/types/Item'
 import { EventRwd } from 'kingsthrone-api/lib/types/Events'
+import { AllianceExperienceStatus, AllianceIntimacyStatus } from 'kingsthrone-api/lib/types/Challenges'
+import { client } from './services/database'
 
 const rwdIdToRank = (index: number): number => {
 	switch (true) {

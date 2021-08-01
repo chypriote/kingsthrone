@@ -96,7 +96,7 @@ const combineInvestiture = async (): Promise<void> => {
 		ITEMS.CITRINE_SCEPTER,
 		ITEMS.CITRINE_SWORD,
 	], 4)
-	if (goat._isGautier()) {
+	if (goat._isGautier() && goat._getServer() === '699') {
 		await combineInvestitureItems([
 			ITEMS.EMERALD_RING,
 			ITEMS.EMERALD_SCEPTER,

@@ -38,11 +38,11 @@ const getServers = async (): Promise<GoatServer[]> => {
 }
 
 const logServer = async () => {
-	const existing = (await client('servers').select('id')).map(sv => sv.id)
+	const existing = (await client('servers').select('id')).map(sv => sv.id.toString())
 	const servers = await getServers()
 
 	for (const server of servers) {
-		if (existing.includes(server.id)) { continue }
+		if (existing.includes(server.id.toString())) { continue }
 		await client('servers')
 			.insert({
 				id: server.id,
@@ -95,7 +95,7 @@ const buyAllianceSiegeShopScrolls = async () => {
 }
 const mainQuest = async () => {
 	goat._setAccount(ACCOUNT_GAUTIER)
-	let next = 3083
+	let next = 4032
 	let goNext = true
 	while (goNext) {
 		try {
@@ -119,4 +119,4 @@ const checkItems = async () => {
 	}
 }
 
-checkItems().then(() => { logger.success('Finished'); process.exit() })
+logServer().then(() => { logger.success('Finished'); process.exit() })

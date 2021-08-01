@@ -1,8 +1,8 @@
 import { config } from 'dotenv'
 config()
 import chalk = require('chalk')
-import { logger } from '../services/logger'
 import { goat } from 'kingsthrone-api'
+import { logger } from '../services/logger'
 import { createAlliance, getAllianceByAID, updateAlliance } from '../repository/alliance'
 
 export const updateAlliances = async(): Promise<void> => {

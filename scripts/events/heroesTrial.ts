@@ -1,5 +1,5 @@
-import { goat } from 'kingsthrone-api'
 import { filter, orderBy, reduce } from 'lodash'
+import { goat } from 'kingsthrone-api'
 import { QualitySkill } from 'kingsthrone-api/lib/types/Hero'
 import { logger } from '../services/logger'
 

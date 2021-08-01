@@ -1,6 +1,7 @@
 import { goat } from 'kingsthrone-api'
 import { logger } from '../services/logger'
 import { DECREE_TYPE } from 'kingsthrone-api/lib/types/ThroneRoom'
+import { find } from 'lodash'
 
 export const getThroneRoom = async (): Promise<void> => {
 	try {
@@ -22,10 +23,13 @@ export const visitInLaws = async (): Promise<void> => {
 		await goat.children.visitInLaws()
 		logger.success('Visited in laws')
 	} catch (e) {
-		logger.error(e)
+		logger.error(`[INLAWS] ${e}`)
 	}
 }
 export const hostCouncil = async (): Promise<void> => {
+	const coins = find(await goat.items.getBag(), i => i.id === 133)
+	if (!coins || !coins.count) { return }
+
 	try {
 		const status = await goat.profile.visitCouncil()
 		if (status !== null) { return }

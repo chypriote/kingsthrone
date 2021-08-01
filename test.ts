@@ -18,38 +18,42 @@ interface GoatServer {
 }
 
 const getServers = async (): Promise<GoatServer[]> => {
-	const servers = await axios.post(
-		'http://ksrus.gtbackoverseas.com/serverlist.php?platform=gaotukc&lang=1',
-		{
-			platform: 'gaotukc',
-			lang: 1,
-		}, {
-			headers: {
-				'Accept-Encoding': 'identity',
-				'User-Agent': 'Dalvik/2.1.0 (Linux; U; Android 7.1.1; ONEPLUS A5000 Build/NMF26X)',
-				'Content-Length': 0,
-				'Content-Type': 'application/x-www-form-urlencoded',
-				'Connection': 'Keep-Alive',
-				'Host': 'ksrus.gtbackoverseas.com',
+	const servers = await axios
+		.post(
+			'http://ksrus.gtbackoverseas.com/serverlist.php?platform=gaotukc&lang=1',
+			{
+				platform: 'gaotukc',
+				lang: 1,
 			},
-		}
-	).then(response => response.data)
+			{
+				headers: {
+					'Accept-Encoding': 'identity',
+					'User-Agent': 'Dalvik/2.1.0 (Linux; U; Android 7.1.1; ONEPLUS A5000 Build/NMF26X)',
+					'Content-Length': 0,
+					'Content-Type': 'application/x-www-form-urlencoded',
+					Connection: 'Keep-Alive',
+					Host: 'ksrus.gtbackoverseas.com',
+				},
+			}
+		)
+		.then((response) => response.data)
 	return servers.a.system.server_list
 }
 
 const logServer = async () => {
-	const existing = (await client('servers').select('id')).map(sv => sv.id.toString())
+	const existing = (await client('servers').select('id')).map((sv) => sv.id.toString())
 	const servers = await getServers()
 
 	for (const server of servers) {
-		if (existing.includes(server.id.toString())) { continue }
-		await client('servers')
-			.insert({
-				id: server.id,
-				name: server.name,
-				time: fromUnixTime(server.showtime),
-				merger: server.he,
-			})
+		if (existing.includes(server.id.toString())) {
+			continue
+		}
+		await client('servers').insert({
+			id: server.id,
+			name: server.name,
+			time: fromUnixTime(server.showtime),
+			merger: server.he,
+		})
 	}
 }
 
@@ -109,7 +113,7 @@ const mainQuest = async () => {
 }
 
 const checkItems = async () => {
-	const existing = (await client('items')).map(i => i.id)
+	const existing = (await client('items')).map((i) => i.id)
 
 	const bag = await goat.items.getBag()
 	for (const item of bag) {
@@ -119,4 +123,7 @@ const checkItems = async () => {
 	}
 }
 
-logServer().then(() => { logger.success('Finished'); process.exit() })
+checkItems().then(() => {
+	logger.success('Finished')
+	process.exit()
+})

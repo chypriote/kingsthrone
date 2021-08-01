@@ -50,6 +50,9 @@ export const attendFeasts = async (): Promise<void> => {
 		let todo = data.jlfy.freeNum
 		const ours = find(feasts, f => [6999005053, 699002934].includes(parseInt(f.uid)) && f.uid != goat._getGid())
 
+		const invites = find(await goat.items.getBag(), i => i.id === 145)
+		if (!invites || !invites.count) { return }
+
 		await buyShop(data.jlShop)
 		//Join my feast if existing
 		if (todo && ours && await joinFeast(ours.uid)) { todo-- }

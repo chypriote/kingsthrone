@@ -37,5 +37,6 @@ export const dailyChores = async (): Promise<void> => {
 		await handleBag()
 	} catch (e) {
 		logger.error(e)
+		console.trace(e)
 	}
 }

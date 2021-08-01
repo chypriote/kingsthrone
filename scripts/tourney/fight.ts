@@ -14,13 +14,13 @@ import { deathmatchEndpoint, LocalTourneyEndpoint, TourneyEndpoint, xsTourneyEnd
 const chalk = require('chalk')
 
 export enum TOURNEY_TYPE {
-	LOCAL= 'local',
-	XSERVER= 'xserver',
-	DEATHMATCH= 'deathmatch',
+	LOCAL = 'local',
+	XSERVER = 'xserver',
+	DEATHMATCH = 'deathmatch',
 }
 
 class HeroStatus {
-	hero: Hero|null = null
+	hero: Hero | null = null
 	hp: number
 	hpmax: number
 	atkbonus: number
@@ -51,7 +51,9 @@ class HeroStatus {
 		return this
 	}
 	toString() {
-		return `Status: HP ${Math.round(this.hp / this.hpmax * 100)}% - Attack: +${this.atkbonus}% - Crit: +${this.skillbonus}% - Fight: ${this.kills + 1}/${this.opponents}`
+		return `Status: HP ${Math.round((this.hp / this.hpmax) * 100)}% - Attack: +${this.atkbonus}% - Crit: +${this.skillbonus}% - Fight: ${
+			this.kills + 1
+		}/${this.opponents}`
 	}
 }
 class GlobalState {
@@ -80,11 +82,11 @@ class GlobalState {
 		this.status = new HeroStatus()
 	}
 
-	setEndpoint (endpoint: TourneyEndpoint) {
+	setEndpoint(endpoint: TourneyEndpoint) {
 		this.endpoint = endpoint
 		return this
 	}
-	setType (type: TOURNEY_TYPE) {
+	setType(type: TOURNEY_TYPE) {
 		this.type = type
 		return this
 	}
@@ -106,13 +108,18 @@ const boughtItems = [
 ]
 
 const loopFight = async (status: ITourneyStatus) => {
-	if (!state.opponent) { return logger.error('no opponent') }
+	if (!state.opponent) {
+		return logger.error('no opponent')
+	}
 
 	const fight = status.fight
 
 	state.status.updateFromFight(fight)
-	try { await buyShop(fight.shop)
-	} catch (e) { logger.error(`Couln't buy from shop: ${e.toString()}`) }
+	try {
+		await buyShop(fight.shop)
+	} catch (e) {
+		logger.error(`Couln't buy from shop: ${e.toString()}`)
+	}
 
 	// displayFightStatus(fight)
 
@@ -124,9 +131,9 @@ const loopFight = async (status: ITourneyStatus) => {
 
 	if (battle.win.over?.isover) {
 		state.progress?.stop()
-		return battle.win.over.win ?
-			logger.success(`Fight won, got ${rewardsSummary()}`) :
-			logger.error(`Fight lost after ${state.currentFight} fights, got ${rewardsSummary(false)}`)
+		return battle.win.over.win
+			? logger.success(`Fight won, got ${rewardsSummary()}`)
+			: logger.error(`Fight lost after ${state.currentFight} fights, got ${rewardsSummary(false)}`)
 	}
 	if (!battle.fight.fheronum) {
 		state.progress?.stop()
@@ -147,9 +154,15 @@ const rewardsSummary = (won = true): string => {
 	let xp = won ? 2 : 0
 	let token = 0
 	for (const reward of state.rewards) {
-		if ([4, 6, 17].includes(reward.id) || reward.kind === 6) { xp += reward.count }
-		if ([18, 27].includes(reward.id) || reward.kind === 5) { qp += reward.count }
-		if (reward.id === 123) { token += reward.count }
+		if ([4, 6, 17].includes(reward.id) || reward.kind === 6) {
+			xp += reward.count
+		}
+		if ([18, 27].includes(reward.id) || reward.kind === 5) {
+			qp += reward.count
+		}
+		if (reward.id === 123) {
+			token += reward.count
+		}
 	}
 
 	return `${qp} quality, ${xp} tourney xp, ${token} tokens`
@@ -176,28 +189,29 @@ const inferQuality = (hero: OpponentHero): number => {
 }
 /** Selects the easiest hero to fight using known roster and current level */
 const selectHero = async (heroes: OpponentHero[]): Promise<OpponentHero> => {
-
 	if (!goat._isGautier()) {
 		for (const hero of heroes) {
-			const found = find(state.opponentRoster, ph => ph.hid == hero.id)
+			const found = find(state.opponentRoster, (ph) => ph.hid == hero.id)
 			if (!found) return hero
 		}
 	}
 
-	heroes = heroes.map(h => {
-		const found = find(state.opponentRoster, ph => ph.hid == h.id)
+	heroes = heroes.map((h) => {
+		const found = find(state.opponentRoster, (ph) => ph.hid == h.id)
 		return { ...h, quality: found?.quality || inferQuality(h) }
 	})
 
 	const hero = orderBy(heroes, ['quality', 'senior', 'heroLv', 'skin'], ['asc', 'asc', 'asc', 'asc'])[0]
-	hero.name = find(state.heroes, h => h.hid == hero.id)?.name || hero.id
+	hero.name = find(state.heroes, (h) => h.hid == hero.id)?.name || hero.id
 
 	return hero
 }
 /** Saves the opponent hero's stats to database */
 const saveOpponentHeroStats = async (hero: OpponentHero, stats: OpponentHeroStats[]) => {
-	if (!state.opponent) { return logger.error('no opponent') }
-	const opStats = find(stats, h => h.hid == hero.id && h.level == hero.heroLv && h.skin == hero.skin)
+	if (!state.opponent) {
+		return logger.error('no opponent')
+	}
+	const opStats = find(stats, (h) => h.hid == hero.id && h.level == hero.heroLv && h.skin == hero.skin)
 	if (!opStats) {
 		logger.error(JSON.stringify(stats))
 	} else {
@@ -216,9 +230,9 @@ const buyShop = async (shop: TourneyShopItem[]): Promise<void> => {
 
 	const status = state.status
 	for (const item of items) {
-		const buyable = find(boughtItems, it => {
+		const buyable = find(boughtItems, (it) => {
 			if (item.id == 4 || item.id == 7) {
-				const missingHp = 100 - Math.round(status.hp / status.hpmax * 100)
+				const missingHp = 100 - Math.round((status.hp / status.hpmax) * 100)
 				return missingHp > 75 || (missingHp > item.add && item.add >= it.min)
 			}
 
@@ -237,19 +251,25 @@ const buyShop = async (shop: TourneyShopItem[]): Promise<void> => {
  * otherwise starts a fight with the provided opponent,
  * or use a token to start a new one
  */
-const startFighting = async (opponent: string|null, hid: number|null): Promise<ITourneyStatus|null> => {
+const startFighting = async (opponent: string | null, hid: number | null): Promise<ITourneyStatus | null> => {
 	const status = await state.endpoint.getTourneyInfos()
 	const currentState = status.info.state
 
 	if ([11, 12, 14, 15].includes(currentState)) {
 		logger.warn('fight already started')
-		if (opponent) {logger.error(`can't challenge ${opponent}`); return null}
+		if (opponent) {
+			logger.error(`can't challenge ${opponent}`)
+			return null
+		}
 		return status
 	}
 
 	if (opponent) {
 		const hero = hid ? { id: hid } : await state.endpoint.findAvailableHero()
-		if (!hero) { logger.error('No more heroes available'); return null }
+		if (!hero) {
+			logger.error('No more heroes available')
+			return null
+		}
 		return await state.endpoint.challengeOpponent(opponent, hero.id)
 	}
 
@@ -260,7 +280,12 @@ const startFighting = async (opponent: string|null, hid: number|null): Promise<I
 
 	if (currentState === 3) {
 		logger.log('Daily fights over, using token')
-		return await state.endpoint.startTokenTourneyFight()
+		try {
+			return await state.endpoint.startTokenTourneyFight()
+		} catch (e) {
+			console.log(e.toString())
+			return null
+		}
 	}
 
 	if (currentState === 4) {
@@ -280,18 +305,21 @@ const loadFight = async (fight: ITourneyFight): Promise<void> => {
 	const uid = fight.fuser.uid
 	await getOrCreatePlayerFromGoat(uid)
 
-	const hero = find(state.heroes, h => h.hid == fight.hid)
-	if (!hero) {logger.error(`No hero found with id ${fight.hid}`); process.exit(1)}
+	const hero = find(state.heroes, (h) => h.hid == fight.hid)
+	if (!hero) {
+		logger.error(`No hero found with id ${fight.hid}`)
+		process.exit(1)
+	}
 
 	state.opponentRoster = await getRoster(uid)
 	state.opponent = clone(fight.fuser)
 	state.totalHeroes = clone(fight.fheronum)
 	state.easyFight = fight.fuser.shili < 30000000
-	state.status = (new HeroStatus()).setHero(clone(hero)).updateFromFight(fight)
+	state.status = new HeroStatus().setHero(clone(hero)).updateFromFight(fight)
 	state.currentFight = 0
 	state.rewards = []
 
-	logger.log(`Fighting ${chalk.cyan(fight.fuser.name)} (${fight.fuser.uid}) with ${chalk.yellow(hero? `${hero.name} (${hero.hid})`: fight.hid)}`)
+	logger.log(`Fighting ${chalk.cyan(fight.fuser.name)} (${fight.fuser.uid}) with ${chalk.yellow(hero ? `${hero.name} (${hero.hid})` : fight.hid)}`)
 	state.progress = new Progress(fight.fuser.name, state.totalHeroes)
 }
 const loadEndpoint = (type: TOURNEY_TYPE): void => {
@@ -304,17 +332,18 @@ const loadEndpoint = (type: TOURNEY_TYPE): void => {
 	}
 }
 
-export const allTourney = async (
-	type: TOURNEY_TYPE = TOURNEY_TYPE.LOCAL,
-	opponent: string|null = null
-): Promise<void> => {
+export const allTourney = async (type: TOURNEY_TYPE = TOURNEY_TYPE.LOCAL, opponent: string | null = null): Promise<void> => {
 	loadEndpoint(type)
 	state.heroes = await getExistingHeroesList()
 	const mine = (await goat.profile.getGameInfos()).hero.heroList
-	if ((await goat.profile.getGameInfos()).hero.heroList.length < 15) { return }
+	if ((await goat.profile.getGameInfos()).hero.heroList.length < 15) {
+		return
+	}
 	for (const h of mine) {
 		const status = await startFighting(opponent, h.id)
-		if (!status) { return }
+		if (!status) {
+			return
+		}
 		await loadFight(status.fight)
 		await loopFight(status)
 	}
@@ -322,14 +351,18 @@ export const allTourney = async (
 
 export const doTourney = async (
 	type: TOURNEY_TYPE = TOURNEY_TYPE.LOCAL,
-	opponent: string|null = null,
-	hid: number|null = null
+	opponent: string | null = null,
+	hid: number | null = null
 ): Promise<void> => {
 	loadEndpoint(type)
 	state.heroes = await getExistingHeroesList()
-	if ((await goat.profile.getGameInfos()).hero.heroList.length < 15) { return }
+	if ((await goat.profile.getGameInfos()).hero.heroList.length < 15) {
+		return
+	}
 	const status = await startFighting(opponent, hid)
-	if (!status) { return }
+	if (!status) {
+		return
+	}
 	await loadFight(status.fight)
 	await loopFight(status)
 }

@@ -6307,14 +6307,15 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
-kingsthrone-api@^0.15:
-  version "0.15.1"
-  resolved "https://registry.yarnpkg.com/kingsthrone-api/-/kingsthrone-api-0.15.1.tgz#df4a62d40c259b181e5c177755cbc43bc34d7360"
-  integrity sha512-lrdUl6Wcuj9e2GzUmQzv1S297FNmn9Ch7iDtZyYa4Hrrr0E2ZBvfyERHcQhKs3/qur1ZeNt0+u0lpNpE2SZTxg==
+kingsthrone-api@^2.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/kingsthrone-api/-/kingsthrone-api-2.1.1.tgz#a575b348766015cd542de881bee776b19dff9f6a"
+  integrity sha512-P5MNX39tuE3LOMcIgPVXnEhx4YJstU+ouHDA4MkNlO42shROk4hnHk8Da74H65RMpureH7B9tKR/mirFAT1SGQ==
   dependencies:
     axios "^0.21"
     dotenv "^10.0"
     lodash "^4.17"
+    short-unique-id "^4.3"
 
 klona@^2.0.3:
   version "2.0.4"
@@ -9696,6 +9697,11 @@ shimmer@^1.1.0:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/shimmer/-/shimmer-1.2.1.tgz#610859f7de327b587efebf501fb43117f9aff337"
   integrity sha512-sQTKC1Re/rM6XyFM6fIAGHRPVGvyXfgzIDvzoq608vM+jeyVD0Tu1E6Np0Kc2zAIFWIj963V2800iF/9LPieQw==
+
+short-unique-id@^4.3:
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/short-unique-id/-/short-unique-id-4.3.3.tgz#08cd79164c561940b5be03202fefdf74329b4390"
+  integrity sha512-wwo4qogI5t3So4EfNB2VtlgKTVrgImFQiKZKUHCi9lFcwR7CT/uWGWNzsTMSnS1Ryuj1MWfjo5jswsJ4BheTIg==
 
 side-channel@^1.0.4:
   version "1.0.4"

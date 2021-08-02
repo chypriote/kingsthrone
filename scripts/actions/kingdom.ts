@@ -3,19 +3,6 @@ import { differenceInMinutes, fromUnixTime } from 'date-fns'
 import { goat, CastleInfos, EventInfo, Son } from 'kingsthrone-api'
 import { Progress } from '../services/progress'
 
-const CASTLES_RSN: {[k: number]: string} = {
-	1: '5yprprvaae',
-	2: '7cydydogyv',
-	3: '6swwpwkwpxb',
-	4: '6wxlxlugsx',
-	5: '1kbibwuiri',
-	6: '8amxmxrkjm',
-	7: '3heseskfwp',
-	8: '9mninbtbci',
-	9: '6xukulblpx',
-	10: '4cfxfximbb',
-}
-
 const requiredSons = (rarity: number) => {
 	switch (rarity) {
 	case 1: return 1
@@ -84,7 +71,7 @@ const handleQuest = async (quest: EventInfo, castle: number): Promise<number> =>
 
 export const handleCastle = async (castle: CastleInfos): Promise<void> => {
 	// logger.warn(`Handling castle ${castle.id}`)
-	await goat.kingdom.getCastleRewards(castle.id, CASTLES_RSN[castle.id])
+	await goat.kingdom.getCastleRewards(castle.id)
 	// logger.log(`Claimed maiden rewards for cast ${casle.id}`)
 	await goat.kingdom.levelUpCastle(castle.id)
 

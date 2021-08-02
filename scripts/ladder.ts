@@ -55,14 +55,18 @@ const handleUser = async (user: User, goat: Goat): Promise<void> => {
 }
 
 const recordServerLadder = async (server: number|string): Promise<void> => {
-	const goat = new Goat()
-	goat._setServer(server.toString())
-	await goat.account.createAccount(server.toString())
+	try {
+		const goat = new Goat()
+		goat._setServer(server.toString())
+		await goat.account.createAccount(server.toString())
 
-	const ranks = await goat.rankings.getLadderKP(true)
+		const ranks = await goat.rankings.getLadderKP(true)
 
-	for (const user of ranks) {
-		await handleUser(user, goat)
+		for (const user of ranks) {
+			await handleUser(user, goat)
+		}
+	} catch (e) {
+		logger.error(`Error on server ${server}: ${e.toString()}`)
 	}
 }
 

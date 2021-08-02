@@ -5,7 +5,7 @@ import { format, fromUnixTime } from 'date-fns'
 import { goat } from 'kingsthrone-api'
 import { ACCOUNT_GAUTIER } from 'kingsthrone-api/lib/src/goat'
 import { Progress } from './scripts/services/progress'
-import { orderBy } from 'lodash'
+import { filter, map, orderBy } from 'lodash'
 import { doExpedition, doKingdomExpeditions, doMerchant } from './scripts/actions'
 
 interface GoatServer {
@@ -127,9 +127,11 @@ const checkItems = async () => {
 const doCampaign = async () => {
 	goat._setAccount(ACCOUNT_GAUTIER)
 	goat._setServer('691')
-	let currentSmap = 6296
-	let currentBmap = 86
-	let currentMmap = 426
+	const campaign = (await goat.profile.getGameInfos()).user.guide
+
+	let currentSmap = campaign.smap
+	let currentBmap = campaign.bmap
+	let currentMmap = campaign.mmap
 
 	let next = true
 	while (next) {
@@ -152,9 +154,11 @@ const doCampaign = async () => {
 const doCampaign1094 = async () => {
 	goat._setAccount(ACCOUNT_GAUTIER)
 	goat._setServer('1094')
-	let currentSmap = 1520
-	let currentBmap = 39
-	let currentMmap = 191
+	const campaign = (await goat.profile.getGameInfos()).user.guide
+
+	let currentSmap = campaign.smap
+	let currentBmap = campaign.bmap
+	let currentMmap = campaign.mmap
 
 	let next = true
 	while (next) {
@@ -167,12 +171,17 @@ const doCampaign1094 = async () => {
 				currentMmap++
 			}
 			await goat.campaign.fightCampaignBoss(33)
+			await goat.campaign.fightCampaignBoss(6)
+			await goat.campaign.fightCampaignBoss(16)
+			await goat.campaign.fightCampaignBoss(24)
+			await goat.campaign._unsafe({ 'user':{ 'comeback':{ 'id':33 } } })
 			console.log(`Did boss ${currentBmap}`)
 			currentBmap++
 		} catch (e) {
 			next = false
 		}
 	}
+	console.log(currentSmap, currentBmap, currentMmap)
 }
 const doTest = async () => {
 	goat._setAccount(ACCOUNT_GAUTIER)
@@ -181,7 +190,7 @@ const doTest = async () => {
 
 }
 
-doCampaign1094().then(() => {
-	logger.success('Finished')
-	process.exit()
+doCampaign1094().then(() => {+
+logger.success('Finished')
+process.exit()
 })

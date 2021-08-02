@@ -31,12 +31,16 @@ export class xsTourneyEndpoint implements TourneyEndpoint {
 		return goat.challenges.xServerTourney.xsStartTourneyFight()
 	}
 
-	findAvailableHero = async (): Promise<Hero|null> => {
+	getAvailableHeroesList = async (): Promise<Hero[]> => {
 		const info = await goat.profile.getGameInfos()
 		const heroes = info.hero.heroList
-		const used = info.yamen.fclist.map((u: FClist) => u.id)  //kuayamen ??
+		const used = info.yamen.fclist.map((u: FClist) => u.id.toString())  //kuayamen ??
 
-		const available = heroes.filter((h: Hero) => !used.includes(h.id))
+		return heroes.filter((h: Hero) => !used.includes(h.id.toString()))
+	}
+
+	findAvailableHero = async (): Promise<Hero|null> => {
+		const available = await this.getAvailableHeroesList()
 		if (!available.length) {
 			return null
 		}

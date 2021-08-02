@@ -4,12 +4,14 @@ import { client } from '../services/database'
 
 export const logGiftOfTheFae = async (): Promise<void> => {
 	const event = await goat.events.giftOfTheFae.eventInfos()
-	const [eid] = await client('events').insert({
-		name: 'Gift of the Fae',
-		eid: 1299,
-		type: 1299,
-		start: fromUnixTime(1627084800),
-	}).returning('id')
+	const [eid] = await client('events')
+		.insert({
+			name: 'Gift of the Fae',
+			eid: 1299,
+			type: 1299,
+			start: fromUnixTime(1627084800),
+		})
+		.returning('id')
 
 	for (const item of event.shopCfg) {
 		await client('event_shops').insert({

@@ -80,6 +80,7 @@ const trade = async (status: AlchemyStatus): Promise<void> => {
 			status.info.biscuitsNum :
 			max - iron
 
+		if (!bottles && !iron) { return}
 		await goat.events.alchemy.trade(iron, bottles, maiden.id)
 		logger.log(`Traded ${iron} iron and ${bottles} bottles`)
 	} catch (e) {

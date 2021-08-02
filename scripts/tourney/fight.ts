@@ -335,7 +335,7 @@ const loadEndpoint = (type: TOURNEY_TYPE): void => {
 export const allTourney = async (type: TOURNEY_TYPE = TOURNEY_TYPE.LOCAL, opponent: string | null = null): Promise<void> => {
 	loadEndpoint(type)
 	state.heroes = await getExistingHeroesList()
-	const mine = (await goat.profile.getGameInfos()).hero.heroList
+	const mine = await state.endpoint.getAvailableHeroesList()
 	if ((await goat.profile.getGameInfos()).hero.heroList.length < 15) {
 		return
 	}

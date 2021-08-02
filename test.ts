@@ -1,11 +1,12 @@
 import { logger } from './scripts/services/logger'
 import axios from 'axios'
 import { client } from './scripts/services/database'
-import { fromUnixTime } from 'date-fns'
+import { format, fromUnixTime } from 'date-fns'
 import { goat } from 'kingsthrone-api'
 import { ACCOUNT_GAUTIER } from 'kingsthrone-api/lib/src/goat'
 import { Progress } from './scripts/services/progress'
 import { orderBy } from 'lodash'
+import { doExpedition, doKingdomExpeditions, doMerchant } from './scripts/actions'
 
 interface GoatServer {
 	he: number
@@ -80,10 +81,11 @@ const spamAllianceSiege = async () => {
 }
 const buyShopPack = async () => {
 	goat._setAccount(ACCOUNT_GAUTIER)
-	const toBuy = 99
+	goat._setServer('691')
+	const toBuy = 100
 	const progress = new Progress('Buying packs', toBuy)
 	for (let i = 0; i < toBuy; i++) {
-		await goat.shop.buyShopPack(3)
+		await goat.shop.buyShopPack(1)
 		progress.increment()
 	}
 	progress.stop()
@@ -122,8 +124,64 @@ const checkItems = async () => {
 		}
 	}
 }
+const doCampaign = async () => {
+	goat._setAccount(ACCOUNT_GAUTIER)
+	goat._setServer('691')
+	let currentSmap = 6296
+	let currentBmap = 86
+	let currentMmap = 426
 
-checkItems().then(() => {
+	let next = true
+	while (next) {
+		try {
+			for (let i = 0; i < 5; i += 1) {
+				await goat.account.doCampaignGuide(currentSmap, currentBmap, currentMmap)
+				await goat.campaign.oneKeyPve()
+				console.log(`Did battle ${currentMmap}-${currentSmap}`)
+				currentSmap += i * 8
+				currentMmap++
+			}
+			await goat.campaign.fightCampaignBoss(68)
+			console.log(`Did boss ${currentBmap}`)
+			currentBmap++
+		} catch (e) {
+			next = false
+		}
+	}
+}
+const doCampaign1094 = async () => {
+	goat._setAccount(ACCOUNT_GAUTIER)
+	goat._setServer('1094')
+	let currentSmap = 1520
+	let currentBmap = 39
+	let currentMmap = 191
+
+	let next = true
+	while (next) {
+		try {
+			for (let i = 0; i < 5; i += 1) {
+				await goat.account.doCampaignGuide(currentSmap, currentBmap, currentMmap)
+				await goat.campaign.oneKeyPve()
+				console.log(`Did battle ${currentMmap}-${currentSmap}`)
+				currentSmap += i * 8
+				currentMmap++
+			}
+			await goat.campaign.fightCampaignBoss(33)
+			console.log(`Did boss ${currentBmap}`)
+			currentBmap++
+		} catch (e) {
+			next = false
+		}
+	}
+}
+const doTest = async () => {
+	goat._setAccount(ACCOUNT_GAUTIER)
+	goat._setServer('1094')
+	await doKingdomExpeditions()
+
+}
+
+doCampaign1094().then(() => {
 	logger.success('Finished')
 	process.exit()
 })

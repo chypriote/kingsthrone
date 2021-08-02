@@ -13,6 +13,7 @@ export interface TourneyEndpoint {
 	challengeOpponent(opponent: string, hero: number): Promise<ITourneyStatus>
 	startTokenTourneyFight(): Promise<ITourneyStatus>
 	startTourneyFight(): Promise<ITourneyStatus>
+	getAvailableHeroesList(): Promise<Hero[]>
 	findAvailableHero(): Promise<Hero|null>
 }
 

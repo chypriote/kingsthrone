@@ -4080,9 +4080,9 @@ error-stack-parser@^2.0.0:
     stackframe "^1.1.1"
 
 es-abstract@^1.17.4, es-abstract@^1.18.0-next.1, es-abstract@^1.18.0-next.2, es-abstract@^1.18.2:
-  version "1.18.4"
-  resolved "https://registry.yarnpkg.com/es-abstract/-/es-abstract-1.18.4.tgz#c6b7a1acd6bb1c8b5afeb54a53c46ad02fab346d"
-  integrity sha512-xjDAPJRxKc1uoTkdW8MEk7Fq/2bzz3YoCADYniDV7+KITCUdu9c90fj1aKI7nEZFZxRrHlDo3wtma/C6QkhlXQ==
+  version "1.18.5"
+  resolved "https://registry.yarnpkg.com/es-abstract/-/es-abstract-1.18.5.tgz#9b10de7d4c206a3581fd5b2124233e04db49ae19"
+  integrity sha512-DDggyJLoS91CkJjgauM5c0yZMjiD1uK3KcaCeAmffGwZ+ODWzOkPN4QwRbsK5DOFf06fywmyLci3ZD8jLGhVYA==
   dependencies:
     call-bind "^1.0.2"
     es-to-primitive "^1.2.1"
@@ -6307,10 +6307,10 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
-kingsthrone-api@^2.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/kingsthrone-api/-/kingsthrone-api-2.1.1.tgz#a575b348766015cd542de881bee776b19dff9f6a"
-  integrity sha512-P5MNX39tuE3LOMcIgPVXnEhx4YJstU+ouHDA4MkNlO42shROk4hnHk8Da74H65RMpureH7B9tKR/mirFAT1SGQ==
+kingsthrone-api@^2.2:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/kingsthrone-api/-/kingsthrone-api-2.2.1.tgz#af01613f4eb7bd58519bf1e8c96f89d2e8123a06"
+  integrity sha512-9Ud+KBigvk2RTPCmafetRluu+enO7s/4bXfVi0p/weNHLM7j4jSCUWCCwRnebkkXaoyBKMj9e9qSwRDzlH2zlQ==
   dependencies:
     axios "^0.21"
     dotenv "^10.0"

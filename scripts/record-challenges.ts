@@ -169,9 +169,37 @@ const logRaiseChildren = async () => {
 
 	await logChallengeRewards(id, challenge.zsshili.cfg.rwd)
 }
+const logTourney = async () => {
+	const challenge = await goat.challenges.tourney.eventInfos()
+	const [id] = await client('challenges').insert({
+		name: 'Tourney',
+		cid: challenge.yamen.cfg.info.id,
+		type: challenge.yamen.cfg.info.type,
+		start: fromUnixTime(challenge.yamen.cfg.info.sTime),
+		end: fromUnixTime(challenge.yamen.cfg.info.eTime),
+		alliance: false,
+		title: 'King of Glory',
+	}).returning('id')
+
+	await logChallengeRewards(id, challenge.yamen.cfg.rwd)
+}
+const logCharm = async () => {
+	const challenge = await goat.challenges.charm.eventInfos()
+	const [id] = await client('challenges').insert({
+		name: 'Raise Children',
+		cid: challenge.meili.cfg.info.id,
+		type: challenge.meili.cfg.info.type,
+		start: fromUnixTime(challenge.meili.cfg.info.sTime),
+		end: fromUnixTime(challenge.meili.cfg.info.eTime),
+		alliance: false,
+		title: 'King of Grace',
+	}).returning('id')
+
+	await logChallengeRewards(id, challenge.meili.cfg.rwd)
+}
 
 const logChallenges = async () => {
-	await logMaidenExp()
-	await logRaiseChildren()
+	// await logTourney()
+	// await logCharm()
 }
 logChallenges().then(() => { process.exit()})

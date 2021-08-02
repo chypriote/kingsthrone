@@ -7,11 +7,12 @@ import { treasureHunt } from './treasureHunt'
 import { coronation } from './coronation'
 import { giftOfTheFae } from './giftOfTheFae'
 import { pathOfWealth } from './pathOfWealth'
-import { renownedMerchant } from './renownedMerchant'
+import { renownedMerchant, renownedMerchantWishTree, renownedMerchantLoginRewards } from './renownedMerchant'
 import { handlePass, PASS_TYPE } from './pass'
 import { peoplesMonarch } from './peoplesMonarch'
 import { alchemy } from './alchemy'
 import { logger } from '../services/logger'
+import { heroesTrial } from './heroesTrial'
 
 const divining = async () => {
 	const status = await goat.events.divining.eventInfos()
@@ -35,8 +36,10 @@ const LIMITED_QUESTS = [
 	LTQ_TYPES.ENACT_DECREES,
 	LTQ_TYPES.LOGIN,
 	LTQ_TYPES.TOURNEY_SCORE,
+	LTQ_TYPES.CHALLENGE_TOKENS,
 	LTQ_TYPES.ARRANGE_MARRIAGES,
 	LTQ_TYPES.ENERGY_DRAUGHT,
+	LTQ_TYPES.INCREASE_CHARM,
 	LTQ_TYPES.RANDOM_VISITS,
 ]
 const getQuestInfos = async (type: number): Promise<LTQStatus|null> => {
@@ -49,8 +52,10 @@ const getQuestInfos = async (type: number): Promise<LTQStatus|null> => {
 	case LTQ_TYPES.ENACT_DECREES: return await goat.limitedTimeQuests.enactDecrees()
 	case LTQ_TYPES.LOGIN: return await goat.limitedTimeQuests.login()
 	case LTQ_TYPES.TOURNEY_SCORE: return await goat.limitedTimeQuests.tourneyScore()
+	case LTQ_TYPES.CHALLENGE_TOKENS: return await goat.limitedTimeQuests.challengeTokens()
 	case LTQ_TYPES.ARRANGE_MARRIAGES: return await goat.limitedTimeQuests.arrangeMarriages()
 	case LTQ_TYPES.ENERGY_DRAUGHT: return await goat.limitedTimeQuests.energyDraughtQuest()
+	case LTQ_TYPES.INCREASE_CHARM: return await goat.limitedTimeQuests.increaseCharm()
 	case LTQ_TYPES.RANDOM_VISITS: return await goat.limitedTimeQuests.randomVisitsQuest()
 	default: return null
 	}
@@ -75,7 +80,6 @@ export const doEvents = async (): Promise<void> => {
 		await allianceSiege()
 	}
 
-	let merchantDone = false
 	for (const event of events) {
 		if (!isFuture(fromUnixTime(event.eTime))) { continue }
 		if (event.type === 17) { await treasureHunt() }
@@ -84,7 +88,9 @@ export const doEvents = async (): Promise<void> => {
 		if (event.type === 7 && event.id === 282) { await peoplesMonarch() }
 		if (event.id === 1299) {await giftOfTheFae() }
 		if (event.id === 293) {await pathOfWealth() }
-		if (event.type === 1231 && !merchantDone) {merchantDone = true; await renownedMerchant() }
+		if (event.id === 1246 && event.type === 1231) {await renownedMerchant() }
+		if (event.id === 1209 && event.type === 1231) {await renownedMerchantWishTree() }
+		if (event.id === 1243 && event.type === 1231) {await renownedMerchantLoginRewards() }
 		if (event.id === 1241) {await handlePass(PASS_TYPE.VENETIAN_PASS) }
 		if (event.id === 1086) {await handlePass(PASS_TYPE.KINGS_PASS) }
 		//New heroesTrial is too difficult to automate

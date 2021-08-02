@@ -18,6 +18,7 @@ export const handleSons = async (): Promise<void> => {
 			son.state = CHILDREN_STATUS.EVALUATED
 		}
 
+		continue //disable this if the marry quest is on
 		if (son.state === CHILDREN_STATUS.EVALUATED) {
 			const offer = orderBy(await goat.children.matchMaker(son.id), p => p.ep.e1 + p.ep.e2 +p.ep.e3 +p.ep.e4, 'desc')
 			if (offer.length) {

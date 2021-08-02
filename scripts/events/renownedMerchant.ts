@@ -23,7 +23,8 @@ async function wishTreeQuest(info: CherishedWishInfo, rewards: CherishedWishRewa
 		console.log(`Claimed login reward of for day ${today} of type ${type}`)
 	} catch (e) {logger.error('Claim reward', e.toString())/*do nothing*/}
 }
-const doWishTree = async (): Promise<void> => {
+export const renownedMerchantWishTree = async (): Promise<void> => {
+	logger.log('---Renowned Merchant - Login Rewards---')
 	const wishTree = await goat.events.renownedMerchant.wishTreeInfos()
 	const [signIn, gems] = wishTree.info
 	const today = wishTree.info[wishTree.info.length - 1].today || 0
@@ -34,7 +35,8 @@ const doWishTree = async (): Promise<void> => {
 	// await wishTreeQuest(vip, wishTree.cfg.vip_rwd, today, CHERISHED_WISH_TYPE.VIP)
 }
 
-const doLoginRewards = async (): Promise<void> => {
+export const renownedMerchantLoginRewards = async (): Promise<void> => {
+	logger.log('---Renowned Merchant - Weekly Tasks---')
 	const loginRewards = await goat.events.renownedMerchant.loginRewardsInfo()
 
 	for (const daily of loginRewards.cfg.dayTasks) {
@@ -48,13 +50,25 @@ const doLoginRewards = async (): Promise<void> => {
 	}
 }
 
+/**
+ * 11 differents events with the same type (1231):
+ * 		1241 => Venetian Pass
+ * 		1242 => Venetian Pass shop
+ * 		1231 => Renowned merchant (emblems)
+ * 		1243 => login rewards
+ * 		1245 => Point exchange shop
+ * 		1246 => Continual top-up - Daily
+ * 		1247 => Continual top-up - Cumulative
+ * 		1248 => Continual top-up - Limited time
+ * 		1249 => Limited offers
+ * 		1209 => Cherished wish
+ */
+
 export const renownedMerchant = async (): Promise<void> => {
 	logger.log('---Renowned Merchant---')
 	const topUp = await goat.events.renownedMerchant.continualTopUpInfos()
 	if (!topUp.hasGetBox) {
 		await goat.events.renownedMerchant.getContinualTopUp()
 	}
-	await doWishTree()
-	await doLoginRewards()
 }
 

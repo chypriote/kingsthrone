@@ -180,7 +180,11 @@ yargs(hideBin(process.argv))
 			type: 'number',
 		})
 	}, async (argv) => {
-		goat._setAccount(ACCOUNT_GAUTIER)
+		if (argv.account && argv.server) {
+			login(argv.account, argv.server)
+		} else {
+			goat._setAccount(ACCOUNT_GAUTIER)
+		}
 
 		await getGems(argv.amount)
 		logger.success(`Finished ${format(new Date(), 'HH:mm')}`)

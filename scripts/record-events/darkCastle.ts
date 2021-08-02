@@ -13,23 +13,23 @@ export const logDarkCastle = async (): Promise<void> => {
 	})
 
 	for (const item of event.wsInfo.gezi.list) {
-		if (!item.items.id) { continue }
-		await client('event_drops')
-			.insert({
-				event: eid,
-				item: item.items.id,
-				count: item.items.count,
-			})
+		if (!item.items.id) {
+			continue
+		}
+		await client('event_drops').insert({
+			event: eid,
+			item: item.items.id,
+			count: item.items.count,
+		})
 	}
 
 	for (const item of event.wsShop.wsShopcfg) {
-		await client('event_shops')
-			.insert({
-				event: eid,
-				item: item.items.id,
-				limit: item.limitNum,
-				count: item.items.count,
-				price: item.need,
-			})
+		await client('event_shops').insert({
+			event: eid,
+			item: item.items.id,
+			limit: item.limitNum,
+			count: item.items.count,
+			price: item.need,
+		})
 	}
 }

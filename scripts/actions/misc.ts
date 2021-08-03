@@ -49,6 +49,7 @@ export const refreshTraining = async (): Promise<void> => {
 			logger.success('Training refreshed')
 		}
 	} catch (e) {
+		if (e.toString() === 'Error: All dummies have been occupied') { return }
 		logger.error(`[TRAINING] ${e}`)
 	}
 }

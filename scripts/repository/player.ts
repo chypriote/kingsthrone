@@ -17,7 +17,6 @@ export const createPlayer = async (
 		created_at: formatISO(new Date()),
 		updated_at: formatISO(new Date()),
 	})
-	logger.success(`Player ${name} created`)
 }
 
 export const getPlayers = async (): Promise<Player[]> => {
@@ -39,7 +38,6 @@ export const updatePlayer = async (player: Player, name: string, vip: number): P
 	await client('players')
 		.where({ gid: player.gid })
 		.update({ name, vip })
-	logger.debug('Player updated')
 }
 
 export const updatePlayerDetails = async (player: Player, goat: UserProfile): Promise<void> => {
@@ -100,7 +98,7 @@ export const checkInactivity = async (player: Player): Promise<void> => {
 	}
 	if (player.power == player.previous && player.inactive === null) {
 		inactivity = true
-		logger.error(`Marked ${player.name} inactive`)
+		logger.alert(`Marked ${player.name} inactive`)
 	}
 
 	await client('players')

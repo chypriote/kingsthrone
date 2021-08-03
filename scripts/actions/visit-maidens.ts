@@ -2,6 +2,7 @@ import { find } from 'lodash'
 import { goat } from 'kingsthrone-api'
 import { MAIDENS } from 'kingsthrone-api/lib/types/Maidens'
 import { Progress } from '../services/progress'
+import { client } from '../services/database'
 
 function getMaiden(id: number): {mid:number, name: string, visits: number} {
 	let wife = find(MAIDENS, m => m.mid == id)
@@ -49,6 +50,13 @@ export const visitMaidens = async (count = 0, draughts = 0): Promise<void> => {
 		maiden.visits++
 		state.visits++
 		state.availableVisits--
+		await client('maiden_visits').insert({
+			date: new Date(),
+			maiden: wife.id,
+			intimacy: wife.love,
+			charm: wife.flower,
+			account: goat._getGid(),
+		})
 		progress.increment()
 
 		if (state.availableVisits === 0 && (state.visits < count || state.usedDraught < draughts)) {

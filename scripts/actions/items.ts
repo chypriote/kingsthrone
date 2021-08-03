@@ -118,6 +118,7 @@ export const handleBag = async (): Promise<void> => {
 	progress.increment()
 
 	if (goat._getServer() === '699' && goat._isGautier()) {
+		console.log('Combining')
 		await combineInvestiture()
 		progress.increment()
 	}

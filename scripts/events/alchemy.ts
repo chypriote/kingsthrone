@@ -27,7 +27,6 @@ const getRewards = async (status: AlchemyStatus): Promise<void> => {
 		}
 	} catch (e) {
 		logger.error(`Trade ${e}`)
-		console.trace()
 	}
 }
 
@@ -48,7 +47,6 @@ const handleGifts = async (status: AlchemyStatus): Promise<void> => {
 		}
 	} catch (e) {
 		logger.error(`Receive ${e}`)
-		console.trace()
 	}
 
 	try {
@@ -66,7 +64,6 @@ const handleGifts = async (status: AlchemyStatus): Promise<void> => {
 		}
 	} catch (e) {
 		logger.error(`Sebd ${e}`)
-		console.trace()
 	}
 }
 
@@ -85,7 +82,6 @@ const trade = async (status: AlchemyStatus): Promise<void> => {
 		logger.log(`Traded ${iron} iron and ${bottles} bottles`)
 	} catch (e) {
 		logger.error(`Trade ${e}`)
-		console.trace()
 	}
 }
 

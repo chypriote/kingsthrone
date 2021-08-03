@@ -17,7 +17,6 @@ const claimQuests = async (status: PicnicStatus): Promise<void> => {
 		}
 	} catch (e) {
 		logger.error(`Quests ${e.toString()}`)
-		console.trace()
 	}
 }
 
@@ -31,7 +30,6 @@ const havePicnic = async (status: PicnicStatus): Promise<void> => {
 		}
 	} catch (e) {
 		logger.error(`Picnic ${e.toString()}`)
-		console.trace()
 	}
 }
 

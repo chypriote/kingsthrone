@@ -289,7 +289,7 @@ const startFighting = async (opponent: string | null, hid: number | null): Promi
 	}
 
 	if (currentState === 4) {
-		logger.error('Daily fights over, token fights over, use challenges')
+		logger.warn('Daily fights over, token fights over, use challenges')
 		return null
 	}
 

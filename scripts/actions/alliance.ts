@@ -52,6 +52,7 @@ const fightXServer = async (): Promise<void> => {
 		await goat.alliance.dispatchXServerHero(hero.id)
 		logger.success(`Dispatched ${hero.id} to xserver fight`)
 	} catch (e) {
+		if (e.toString() === 'Error: Unlock at Alliance Level 3') { return }
 		logger.error(`[XSERVER] ${e.toString()}`)
 		console.log(e)
 	}
@@ -87,8 +88,23 @@ const buyContributionItem = async (): Promise<void> => {
 			await buyItem(item)
 		}
 	} catch (e) {
+		if (e.toString() === 'Error: Insufficient Contribution') { return }
 		logger.error(`[ALLYSHOP] ${e.toString()}`)
 		console.log(e)
+	}
+}
+
+const xServerFight = async (): Promise<void> => {
+	await fightXServer()
+	const rwdStatus = await goat.alliance.getXServerRewardInfos()
+	try {
+		if (rwdStatus.isWin === 1 && rwdStatus.isGet === 0 && rwdStatus.is_get !== 0) {
+			await goat.alliance.claimXServerReward()
+			logger.success('got Reward')
+		}
+	} catch (e) {
+		if (e.toString() === 'Error: Haven\'t joined the fight') { return }
+		logger.error(e.toString())
 	}
 }
 
@@ -97,14 +113,10 @@ export const contributeAlliance = async (): Promise<void> => {
 		await fightBosses()
 		if (await goat.alliance.contributeAlliance())
 			logger.success('Alliance contributed')
-		await fightXServer()
 		await buyContributionItem()
-		const rwdStatus = await goat.alliance.getXServerRewardInfos()
-		if (rwdStatus.isWin === 1 && rwdStatus.isGet === 0 && rwdStatus.is_get !== 0) {
-			await goat.alliance.claimXServerReward()
-			logger.success('got Reward')
-		}
+		await xServerFight()
 	} catch (e) {
+		if (e.toString() === 'Error: Unlock at Alliance Level 3') { return }
 		logger.error(`[ALLIANCE] ${e}`)
 	}
 }

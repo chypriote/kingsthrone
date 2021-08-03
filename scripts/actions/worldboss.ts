@@ -84,6 +84,7 @@ const buyItems = async (): Promise<void> => {
 		await buyXItems(BOSS_SHOP.PRICELESS_EARRINGS, 3)
 		await buyXItems(BOSS_SHOP.BALL_GOWN, 8)
 	} catch (e) {
+		if (e.toString() === 'Error: Insufficient Points') { return }
 		console.log(`Items not bought because ${e.toString()}`)
 	}
 }

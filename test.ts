@@ -81,11 +81,11 @@ const spamAllianceSiege = async () => {
 }
 const buyShopPack = async () => {
 	goat._setAccount(ACCOUNT_GAUTIER)
-	goat._setServer('691')
+	goat._setServer('1094')
 	const toBuy = 100
 	const progress = new Progress('Buying packs', toBuy)
 	for (let i = 0; i < toBuy; i++) {
-		await goat.shop.buyShopPack(1)
+		await goat.shop.buyShopPack(4)
 		progress.increment()
 	}
 	progress.stop()
@@ -115,12 +115,13 @@ const mainQuest = async () => {
 
 const checkItems = async () => {
 	goat._setAccount(ACCOUNT_GAUTIER)
+	goat._setServer('691')
 	const existing = (await client('items')).map((i) => i.id)
 
 	const bag = await goat.items.getBag()
 	for (const item of bag) {
 		if (!existing.includes(item.id)) {
-			console.log(`${item.count} not registered (${item.id})`)
+			console.log(`Item ${item.id} not registered (own ${item.count})`)
 		}
 	}
 }
@@ -151,48 +152,14 @@ const doCampaign = async () => {
 		}
 	}
 }
-const doCampaign1094 = async () => {
-	goat._setAccount(ACCOUNT_GAUTIER)
-	goat._setServer('1094')
-	const campaign = (await goat.profile.getGameInfos()).user.guide
-
-	let currentSmap = campaign.smap
-	let currentBmap = campaign.bmap
-	let currentMmap = campaign.mmap
-
-	let next = true
-	while (next) {
-		try {
-			for (let i = 0; i < 5; i += 1) {
-				await goat.account.doCampaignGuide(currentSmap, currentBmap, currentMmap)
-				await goat.campaign.oneKeyPve()
-				console.log(`Did battle ${currentMmap}-${currentSmap}`)
-				currentSmap += i * 8
-				currentMmap++
-			}
-			await goat.campaign.fightCampaignBoss(33)
-			await goat.campaign.fightCampaignBoss(6)
-			await goat.campaign.fightCampaignBoss(16)
-			await goat.campaign.fightCampaignBoss(24)
-			await goat.campaign._unsafe({ 'user':{ 'comeback':{ 'id':33 } } })
-			console.log(`Did boss ${currentBmap}`)
-			currentBmap++
-		} catch (e) {
-			next = false
-		}
-	}
-	console.log(currentSmap, currentBmap, currentMmap)
-}
 const doTest = async () => {
 	goat._setAccount(ACCOUNT_GAUTIER)
-	goat._setServer('1094')
+	goat._setServer('691')
 	await doKingdomExpeditions()
-	
-	await doMerchant()
 
 }
 
-doTest().then(() => {+
+buyShopPack().then(() => {+
 logger.success('Finished')
 process.exit()
 })

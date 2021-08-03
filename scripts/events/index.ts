@@ -2,7 +2,7 @@ import { slice } from 'lodash'
 import { fromUnixTime, isFuture } from 'date-fns'
 import { Event as GoatEvent, goat } from 'kingsthrone-api'
 import { LTQ_TYPES, LTQStatus } from 'kingsthrone-api/lib/types/LimitedTimeQuests'
-import { allianceSiege } from '../actions/siege'
+import { allianceSiege } from './siege'
 import { treasureHunt } from './treasureHunt'
 import { coronation } from './coronation'
 import { giftOfTheFae } from './giftOfTheFae'
@@ -13,6 +13,7 @@ import { peoplesMonarch } from './peoplesMonarch'
 import { alchemy } from './alchemy'
 import { logger } from '../services/logger'
 import { heroesTrial } from './heroesTrial'
+import { picnic } from './picnic'
 
 const divining = async () => {
 	const status = await goat.events.divining.eventInfos()
@@ -93,6 +94,7 @@ export const doEvents = async (): Promise<void> => {
 		if (event.id === 1243 && event.type === 1231) {await renownedMerchantLoginRewards() }
 		if (event.id === 1241) {await handlePass(PASS_TYPE.VENETIAN_PASS) }
 		if (event.id === 1086) {await handlePass(PASS_TYPE.KINGS_PASS) }
+		if (event.id === 1028) {await picnic() }
 		//New heroesTrial is too difficult to automate
 		// if (event.id === 1083) {await heroesTrial() }
 		if (event.id === 1092) {await alchemy() }

@@ -97,7 +97,7 @@ const combineInvestiture = async (): Promise<void> => {
 
 export const handleBag = async (): Promise<void> => {
 	state.items = await goat.items.getBag()
-	const progress = new Progress('Clearing bag', 7, 'tasks')
+	const progress = new Progress('Clearing bag', goat._getServer() === '699' && goat._isGautier() ? 7 : 6, 'tasks')
 
 	await openRewardPacks()
 	progress.increment()
@@ -117,7 +117,7 @@ export const handleBag = async (): Promise<void> => {
 	await openManuscriptCaches()
 	progress.increment()
 
-	if (goat._getServer() === '699') {
+	if (goat._getServer() === '699' && goat._isGautier()) {
 		await combineInvestiture()
 		progress.increment()
 	}

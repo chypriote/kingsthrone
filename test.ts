@@ -187,10 +187,12 @@ const doTest = async () => {
 	goat._setAccount(ACCOUNT_GAUTIER)
 	goat._setServer('1094')
 	await doKingdomExpeditions()
+	
+	await doMerchant()
 
 }
 
-doCampaign1094().then(() => {+
+doTest().then(() => {+
 logger.success('Finished')
 process.exit()
 })

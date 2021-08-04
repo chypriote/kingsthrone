@@ -6307,10 +6307,10 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
-kingsthrone-api@^2.2:
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/kingsthrone-api/-/kingsthrone-api-2.2.4.tgz#75dc74f3ac5b2525c0ceb65fdaba0b72724c7a0a"
-  integrity sha512-ZDYXCcky0OWut5gEUyAiaa29YMq19YsdbcxAO0YE5BvyI7ebuTWn95aeRVOGoutyc7GpU6lYqMi0uJbpdarsLw==
+kingsthrone-api@^2.3:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/kingsthrone-api/-/kingsthrone-api-2.3.0.tgz#b6a8bc053ef9348cb23edfaf11171e3d70dbd973"
+  integrity sha512-fUXADBVbgeNBkNTq5DPL35psFhtcd+YxlfEe5ovo+wFlII7q+LOu50NWi7nDwnuhoM9j5/xstigZO38/1OomBA==
   dependencies:
     axios "^0.21"
     dotenv "^10.0"

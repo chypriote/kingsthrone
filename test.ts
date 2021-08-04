@@ -153,13 +153,10 @@ const doCampaign = async () => {
 	}
 }
 const doTest = async () => {
-	goat._setAccount(ACCOUNT_GAUTIER)
-	goat._setServer('691')
-	await doKingdomExpeditions()
-
+	console.log(await goat.hallOfFame.getHoFInfo())
 }
 
-buyShopPack().then(() => {+
-logger.success('Finished')
-process.exit()
+doTest().then(() => {
+	logger.success('Finished')
+	process.exit()
 })

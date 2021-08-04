@@ -44,10 +44,12 @@ export const hostCouncil = async (): Promise<void> => {
 }
 export const refreshTraining = async (): Promise<void> => {
 	try {
-		if (await goat.profile.finishTraining()) {
-			await goat.profile.startTraining()
-			logger.success('Training refreshed')
-		}
+		const status = (await goat.profile.getGameInfos()).school.list
+
+		if (status[0].cd.next !== 0) { return }
+		await goat.profile.finishTraining()
+		await goat.profile.startTraining()
+		logger.success('Training refreshed')
 	} catch (e) {
 		if (e.toString() === 'Error: All dummies have been occupied') { return }
 		logger.error(`[TRAINING] ${e}`)

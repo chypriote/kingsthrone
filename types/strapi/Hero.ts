@@ -11,7 +11,7 @@ export enum Attribute {
 }
 
 export type Hero = {
-	id?: number
+	id: number
 	hid: number
 	name: string
 

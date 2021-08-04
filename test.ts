@@ -5,8 +5,7 @@ import { format, fromUnixTime } from 'date-fns'
 import { goat } from 'kingsthrone-api'
 import { ACCOUNT_GAUTIER } from 'kingsthrone-api/lib/src/goat'
 import { Progress } from './scripts/services/progress'
-import { filter, map, orderBy } from 'lodash'
-import { doExpedition, doKingdomExpeditions, doMerchant } from './scripts/actions'
+import { orderBy } from 'lodash'
 
 interface GoatServer {
 	he: number
@@ -152,11 +151,34 @@ const doCampaign = async () => {
 		}
 	}
 }
-const doTest = async () => {
-	console.log(await goat.hallOfFame.getHoFInfo())
+const findTargets = async () => {
+	await goat.profile.getGameInfos()
+	const test = await goat.challenges.xServerTourney._unsafe({ kuayamen: { getRank: { type: 1 } } })
+
+	for (const user of test.a.kuayamen.scoreRank) {
+		if (user.uid.indexOf('696') === 0) { continue }
+		if (user.shili > 200000000) { continue }
+		const profile = await goat.profile.getUser(user.uid)
+		if (!profile) { continue }
+		const ratio = profile.shili / profile.hero_num
+
+		if (ratio < 15000000) {
+			console.log(ratio, user.uid, `${profile.hero_num}h`, user.shili)
+		}
+	}
+
 }
 
-doTest().then(() => {
+const doTest = async () => {
+	goat._setAccount(ACCOUNT_GAUTIER)
+	goat._setServer('1094')
+	console.log(JSON.stringify(
+		await goat.profile.getGameInfos(),
+		null, 2
+	))
+}
+
+findTargets().then(() => {
 	logger.success('Finished')
 	process.exit()
 })

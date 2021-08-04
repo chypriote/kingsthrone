@@ -118,7 +118,8 @@ const loopFight = async (status: ITourneyStatus) => {
 	try {
 		await buyShop(fight.shop)
 	} catch (e) {
-		logger.error(`Couln't buy from shop: ${e.toString()}`)
+		if (e.toString() !== 'Error: Has been purchased')
+			logger.error(`Couln't buy from shop: ${e.toString()}`)
 	}
 
 	// displayFightStatus(fight)
@@ -133,7 +134,7 @@ const loopFight = async (status: ITourneyStatus) => {
 		state.progress?.stop()
 		return battle.win.over.win
 			? logger.success(`Fight won, got ${rewardsSummary()}`)
-			: logger.error(`Fight lost after ${state.currentFight} fights, got ${rewardsSummary(false)}`)
+			: logger.alert(`Fight lost after ${state.currentFight} fights, got ${rewardsSummary(false)}`)
 	}
 	if (!battle.fight.fheronum) {
 		state.progress?.stop()
@@ -258,7 +259,7 @@ const startFighting = async (opponent: string | null, hid: number | null): Promi
 	if ([11, 12, 14, 15].includes(currentState)) {
 		logger.warn('fight already started')
 		if (opponent) {
-			logger.error(`can't challenge ${opponent}`)
+			logger.alert(`can't challenge ${opponent}`)
 			return null
 		}
 		return status
@@ -267,14 +268,14 @@ const startFighting = async (opponent: string | null, hid: number | null): Promi
 	if (opponent) {
 		const hero = hid ? { id: hid } : await state.endpoint.findAvailableHero()
 		if (!hero) {
-			logger.error('No more heroes available')
+			logger.alert('No more heroes available')
 			return null
 		}
 		return await state.endpoint.challengeOpponent(opponent, hero.id)
 	}
 
 	if (currentState === 1) {
-		logger.error(`Tourney not ready, awaiting ${format(fromUnixTime(status.info.cd.next), 'HH:mm')}`)
+		logger.alert(`Tourney not ready, awaiting ${format(fromUnixTime(status.info.cd.next), 'HH:mm')}`)
 		return null
 	}
 
@@ -307,7 +308,7 @@ const loadFight = async (fight: ITourneyFight): Promise<void> => {
 
 	const hero = find(state.heroes, (h) => h.hid == fight.hid)
 	if (!hero) {
-		logger.error(`No hero found with id ${fight.hid}`)
+		logger.alert(`No hero found with id ${fight.hid}`)
 		process.exit(1)
 	}
 

@@ -2,6 +2,7 @@ import { find } from 'lodash'
 import { differenceInMinutes, fromUnixTime } from 'date-fns'
 import { goat, CastleInfos, EventInfo, Son } from 'kingsthrone-api'
 import { Progress } from '../services/progress'
+import { logger } from '../services/logger'
 
 const requiredSons = (rarity: number) => {
 	switch (rarity) {
@@ -25,11 +26,9 @@ const updateSonsAvailability = (quest: EventInfo, status: boolean): void => {
 	})
 }
 
-const findAvailableSon = (honor: number|null = null): Son => {
+const findAvailableSon = (honor: number|null = null): Son|null => {
 	const available = state.sons.filter(s => s.available && (honor ? s.honor === honor : true))
-	if (!available.length) {
-		throw new Error('No son available')
-	}
+	if (!available.length) { return null }
 
 	available[available.length - 1].available = false
 	return available[available.length - 1]
@@ -55,6 +54,7 @@ const handleQuest = async (quest: EventInfo, castle: number): Promise<number> =>
 		const sons = []
 		for (let i = 0; i < requiredSons(quest.rarity); i++) {
 			const son = findAvailableSon()
+			if (!son) { return 0 }
 			sons.push(son.id)
 		}
 		await goat.kingdom.sendQuest(quest.eventId, castle, sons)
@@ -127,6 +127,6 @@ export const doKingdom = async (): Promise<void> => {
 		}
 		progress.stop()
 	} catch (e) {
-		console.log(e)
+		logger.error(e)
 	}
 }

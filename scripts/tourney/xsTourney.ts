@@ -1,6 +1,7 @@
 import { sample } from 'lodash'
 import { goat, Hero, OpponentHero, Reward, TourneyShopItem, XSOngoingFight } from 'kingsthrone-api'
 import { FClist, TourneyEndpoint } from './index'
+import { XSTourneyStatus } from 'kingsthrone-api/lib/types/TourneyXS'
 
 export class xsTourneyEndpoint implements TourneyEndpoint {
 	buyTourneyBoost(item: TourneyShopItem): Promise<XSOngoingFight> {
@@ -19,7 +20,8 @@ export class xsTourneyEndpoint implements TourneyEndpoint {
 		return goat.challenges.xServerTourney.xsGetReward()
 	}
 
-	getTourneyInfos(): Promise<XSOngoingFight> {
+	//@ts-ignore
+	getTourneyInfos(): Promise<XSTourneyStatus> {
 		return goat.challenges.xServerTourney.xsGetTourneyInfos()
 	}
 
@@ -32,9 +34,10 @@ export class xsTourneyEndpoint implements TourneyEndpoint {
 	}
 
 	getAvailableHeroesList = async (): Promise<Hero[]> => {
+		const status = await goat.challenges.xServerTourney.xsGetTourneyInfos()
 		const info = await goat.profile.getGameInfos()
 		const heroes = info.hero.heroList
-		const used = info.yamen.fclist.map((u: FClist) => u.id.toString())  //kuayamen ??
+		const used = status.fclist.map((u: FClist) => u.id.toString())
 
 		return heroes.filter((h: Hero) => !used.includes(h.id.toString()))
 	}

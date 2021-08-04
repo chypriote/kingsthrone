@@ -1,9 +1,9 @@
-import { formatISO, fromUnixTime } from 'date-fns'
+import { formatISO } from 'date-fns'
 import { client } from '../services/database'
 import { logger } from '../services/logger'
 import { Alliance } from '~/types/strapi/Alliance'
 import { Player } from '~/types/strapi/Player'
-import { UserProfile, XSAlliance, XSOpponent } from 'kingsthrone-api'
+import { UserProfile } from 'kingsthrone-api'
 
 export const createAlliance = async (
 	aid: string,
@@ -90,45 +90,4 @@ export const leaveAlliance = async (player: Player): Promise<void> => {
 	await client('alliance_members')
 		.update({ active: 0, leftAt: formatISO(new Date()), updated_at: formatISO(new Date()) })
 		.where({ player: player.id })
-}
-
-export const resetCrossAlliance = async (): Promise<void> => {
-	await client('alliances')
-		.update({ cross: false, opponent: false })
-}
-
-export const updateExistingForCross = async (existing: Alliance, alliance: XSAlliance): Promise<Alliance> => {
-	await client('alliances')
-		.update({
-			power: alliance.allShiLi,
-			cross: true,
-			wins: alliance.win,
-			updated_at: formatISO(new Date()),
-		})
-		.where({ aid: existing.aid })
-
-	return await getAllianceByAID(existing.aid)
-}
-export const createForCross = async (alliance: XSAlliance): Promise<Alliance> => {
-	await client('alliances')
-		.insert({
-			aid: alliance.cid,
-			name: alliance.cname,
-			power: alliance.allShiLi,
-			server: alliance.sev,
-			cross: true,
-			created_by: 1,
-			updated_by: 1,
-			created_at: formatISO(new Date()),
-			updated_at: formatISO(new Date()),
-		})
-	return await getAllianceByAID(alliance.cid)
-}
-
-export const setOpponent = async (opponent: XSOpponent): Promise<void> => {
-	await client('alliances')
-		.update({
-			opponent: true,
-			battletime: formatISO(fromUnixTime(opponent.time)),
-		}).where({ aid: opponent.fcid })
 }

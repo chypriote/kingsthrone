@@ -27,14 +27,14 @@ export const handleSons = async (): Promise<void> => {
 					logger.warn(`Married son ${son.id} to ${offer[0].fname} - ${offer[0].sonuid}`)
 					son.state = CHILDREN_STATUS.MARRIED
 				} catch (e) {
-					logger.error(`Couldn't marry son ${son.id} because ${e.toString()}`)
+					logger.alert(`Couldn't marry son ${son.id} because ${e.toString()}`)
 				}
 			} else {
 				try {
 					await goat.children.propose(son.id)
 					son.state = CHILDREN_STATUS.FINDING_SPOUSE
 				} catch (e) {
-					logger.error(`Couldn't matchmake son ${son.id} because ${e.toString()}`)
+					logger.alert(`Couldn't matchmake son ${son.id} because ${e.toString()}`)
 				}
 			}
 		}

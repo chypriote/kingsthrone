@@ -326,6 +326,7 @@ const loadFight = async (fight: ITourneyFight): Promise<void> => {
 const loadEndpoint = (type: TOURNEY_TYPE): void => {
 	state.setType(type)
 	switch (type) {
+	//@ts-ignore
 	case TOURNEY_TYPE.XSERVER: state.setEndpoint(new xsTourneyEndpoint()); break
 	case TOURNEY_TYPE.DEATHMATCH: state.setEndpoint(new deathmatchEndpoint()); break
 	case TOURNEY_TYPE.LOCAL:

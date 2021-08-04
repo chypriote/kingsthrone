@@ -8,6 +8,14 @@
         "policies": []
       }
     },
+		{
+			"method": "GET",
+			"path": "/servers/mergers",
+			"handler": "server.mergers",
+			"config": {
+				"policies": []
+			}
+		},
     {
       "method": "GET",
       "path": "/servers/count",

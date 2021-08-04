@@ -113,7 +113,7 @@ yargs(hideBin(process.argv))
 		logger.success(`Finished ${format(new Date(), 'HH:mm')}`)
 		process.exit()
 	})
-	//Deathmatch
+	//Cross Server
 	.command('cross', 'Fight in XServer tourney', (yargs) => {
 		return yargs.option('opponent', {
 			description: 'ID of the opponent to challenge',
@@ -125,9 +125,15 @@ yargs(hideBin(process.argv))
 			alias: 'h',
 			type: 'number',
 			default: null,
-		})
+		}).boolean('all')
 	}, async (argv) => {
 		login(argv.account, argv.server)
+
+		if (argv.all) {
+			await allTourney(TOURNEY_TYPE.XSERVER, argv.opponent)
+			logger.success(`Finished ${format(new Date(), 'HH:mm')}`)
+			process.exit()
+		}
 
 		await doTourney(TOURNEY_TYPE.XSERVER, argv.opponent, argv.hero)
 		logger.success(`Finished ${format(new Date(), 'HH:mm')}`)

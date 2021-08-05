@@ -5,7 +5,9 @@ import { format, fromUnixTime } from 'date-fns'
 import { goat } from 'kingsthrone-api'
 import { ACCOUNT_GAUTIER } from 'kingsthrone-api/lib/src/goat'
 import { Progress } from './scripts/services/progress'
-import { orderBy } from 'lodash'
+import { chunk, orderBy } from 'lodash'
+import { Goat } from 'kingsthrone-api/lib'
+const winston = require('winston')
 
 interface GoatServer {
 	he: number
@@ -54,6 +56,7 @@ const logServer = async () => {
 			time: fromUnixTime(server.showtime),
 			merger: server.he,
 		})
+		logger.success(`Created server ${server.id}`)
 	}
 }
 
@@ -169,16 +172,61 @@ const findTargets = async () => {
 
 }
 
+const w = winston.createLogger({
+	level: 'info',
+	format: winston.format.simple(),
+	transports: [],
+})
+w.add(new winston.transports.File({
+	filename: 'servers.csv',
+}))
+
+
+const recordRank = async (server: number|string): Promise<void> => {
+	const goat = new Goat()
+	goat._setServer(server.toString())
+	try {
+		if (server !== 256 && server < 1071 && server !== 1053) {
+			const rank = await goat.challenges.xServerTourney.xsGetRankings()
+			const data = await goat.limitedTimeQuests._unsafe({ 'huodong':{ 'hdGetXSRank':{ 'type':201 } } })
+			const gems: {name: string, rid: number, score: number, uid: number}[] = data.a.xshuodong.xsRank.xsRank
+
+			w.info(`${server},${rank.severScore.myScore},${gems[0].score},${gems[0].name},${gems[1].score},${gems[1].name},${gems[2].score},${gems[2].name}`)
+		} else {
+			await goat.limitedTimeQuests.spendGems()
+			const data = await goat.limitedTimeQuests._unsafe({ 'huodong':{ 'hdGetXSRank':{ 'type':201 } } })
+			const gems: {name: string, rid: number, score: number, uid: number}[] = data.a.xshuodong.xsRank.xsRank
+
+			w.info(`${server},NORANK,${gems[0].score},${gems[0].name},${gems[1].score},${gems[1].name},${gems[2].score},${gems[2].name}`)
+		}
+	} catch (e) {
+		w.info(`${server},ERROR,${e.toString()}`)
+	}
+}
 const doTest = async () => {
-	goat._setAccount(ACCOUNT_GAUTIER)
-	goat._setServer('1094')
-	console.log(JSON.stringify(
-		await goat.profile.getGameInfos(),
-		null, 2
-	))
+	const servers = (await client('servers')
+		.min('id')
+		.groupBy('merger')
+		.orderBy('min')).map(sv => sv.min)
+
+	const seconds = (await client('servers')
+		.select('id')
+		.whereNull('merger')).map(sv => sv.id)
+
+	const test = [...servers, ...seconds]
+
+	w.info('Server,Points,1stGem,1st,2ndGem,2nd,3rdGem,3rd')
+	const chunks: number[][] = chunk(test, 20)
+	for (const ck of chunks) {
+		const promises = []
+		for (const server of ck) {
+			promises.push(recordRank(server))
+		}
+		await Promise.all(promises)
+	}
 }
 
-findTargets().then(() => {
+doTest().then(() => {
 	logger.success('Finished')
 	process.exit()
 })

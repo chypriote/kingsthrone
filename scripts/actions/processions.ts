@@ -52,7 +52,7 @@ const useDraught = async (count = 1): Promise<void> => {
 
 export const doProcessions = async (count = 0, draughts = 0): Promise<void> => {
 	const available = await goat.processions.getAvailableProcessions()
-	const visitsPerDraughts = goat._isGautier() ? 3 : 5
+	const visitsPerDraughts = goat._isDemophlos() ? 5 : 3
 	state.availableProcessions = available.num
 
 	if (!state.availableProcessions && (count || draughts)) {

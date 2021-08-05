@@ -90,14 +90,14 @@ const combineInvestiture = async (): Promise<void> => {
 	await combineInvestitureItems([ITEMS.RUBY_RING, ITEMS.RUBY_SCEPTER, ITEMS.RUBY_SWORD], 3)
 	await combineInvestitureItems([ITEMS.HESSONITE_RING, ITEMS.HESSONITE_SCEPTER, ITEMS.HESSONITE_SWORD], 3)
 	await combineInvestitureItems([ITEMS.CITRINE_RING, ITEMS.CITRINE_SCEPTER, ITEMS.CITRINE_SWORD], 4)
-	if (goat._isGautier() && goat._getServer() === '699') {
+	if (goat._isGautier()) {
 		await combineInvestitureItems([ITEMS.EMERALD_RING, ITEMS.EMERALD_SCEPTER, ITEMS.EMERALD_SWORD], 5)
 	}
 }
 
 export const handleBag = async (): Promise<void> => {
 	state.items = await goat.items.getBag()
-	const progress = new Progress('Clearing bag', goat._getServer() === '699' && goat._isGautier() ? 7 : 6, 'tasks')
+	const progress = new Progress('Clearing bag', goat._isGautier() ? 7 : 6, 'tasks')
 
 	await openRewardPacks()
 	progress.increment()
@@ -117,8 +117,7 @@ export const handleBag = async (): Promise<void> => {
 	await openManuscriptCaches()
 	progress.increment()
 
-	if (goat._getServer() === '699' && goat._isGautier()) {
-		console.log('Combining')
+	if (goat._isGautier()) {
 		await combineInvestiture()
 		progress.increment()
 	}

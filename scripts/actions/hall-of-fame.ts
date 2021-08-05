@@ -5,17 +5,15 @@ import { logger } from '../services/logger'
 export const payHomage = async (): Promise<void> => {
 	const rankings = (await goat.profile.getGameInfos()).ranking.mobai
 
-	const todo = []
-	if (!rankings.shili) {todo.push(goat.rankings.payHomageKP())}
-	if (!rankings.guanka) {todo.push(goat.rankings.payHomageCampaign())}
-	if (!rankings.love) {todo.push(goat.rankings.payHomageIntimacy())}
-	if (!rankings.shiliKua) {todo.push(goat.rankings.payHomageXSKP())}
-	if (!rankings.clubKua) {todo.push(goat.rankings.payHomageXSAlliance())}
-	if (!rankings.loveKua) {todo.push(goat.rankings.payHomageXSIntimacy())}
-
 	try {
-		await Promise.all(todo)
-		if (todo.length) { logger.success('Homage in rankings paid') }
+		if (!rankings.shili) {await goat.rankings.payHomageKP()}
+		if (!rankings.guanka) {await goat.rankings.payHomageCampaign()}
+		if (!rankings.love) {await goat.rankings.payHomageIntimacy()}
+		if (!rankings.shiliKua) {await goat.rankings.payHomageXSKP()}
+		if (!rankings.clubKua) {await goat.rankings.payHomageXSAlliance()}
+		if (!rankings.loveKua) {await goat.rankings.payHomageXSIntimacy()}
+
+		logger.success('Homage in rankings paid')
 	} catch (e) {
 		logger.error(`[RANKINGS] ${e}`)
 	}

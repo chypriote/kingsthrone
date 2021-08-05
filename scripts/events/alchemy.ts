@@ -54,11 +54,13 @@ const handleGifts = async (status: AlchemyStatus): Promise<void> => {
 		const sent = status.info.send.map(f => f.uid.toString())
 		for (const inlaw of flist.qjlist) {
 			if (sent.includes(inlaw.uid.toString())) {continue}
+			sent.push(inlaw.uid.toString())
 			await goat.events.alchemy.sendGift(parseInt(inlaw.uid), kid.id)
 			logger.log(`Sent gift to ${inlaw.name}`)
 		}
 		for (const friend of flist.flist) {
 			if (sent.includes(friend.uid.toString())) {continue}
+			sent.push(friend.uid.toString())
 			await goat.events.alchemy.sendGift(parseInt(friend.uid), kid.id)
 			logger.log(`Sent gift to ${friend.name}`)
 		}

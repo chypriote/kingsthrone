@@ -3,62 +3,13 @@ import axios from 'axios'
 import { client } from './scripts/services/database'
 import { format, fromUnixTime } from 'date-fns'
 import { goat } from 'kingsthrone-api'
-import { ACCOUNT_GAUTIER } from 'kingsthrone-api/lib/src/goat'
+import { ACCOUNT_GAUTIER, ACCOUNT_NAPOLEON } from 'kingsthrone-api/lib/src/goat'
 import { Progress } from './scripts/services/progress'
 import { chunk, orderBy } from 'lodash'
 import { Goat } from 'kingsthrone-api/lib'
+import { IAccount } from 'kingsthrone-api/lib/src/GoatResource'
 const winston = require('winston')
 
-interface GoatServer {
-	he: number
-	id: number
-	name: string
-	showtime: number
-	state: number
-	skin: number
-	url: string
-}
-
-const getServers = async (): Promise<GoatServer[]> => {
-	const servers = await axios
-		.post(
-			'http://ksrus.gtbackoverseas.com/serverlist.php?platform=gaotukc&lang=1',
-			{
-				platform: 'gaotukc',
-				lang: 1,
-			},
-			{
-				headers: {
-					'Accept-Encoding': 'identity',
-					'User-Agent': 'Dalvik/2.1.0 (Linux; U; Android 7.1.1; ONEPLUS A5000 Build/NMF26X)',
-					'Content-Length': 0,
-					'Content-Type': 'application/x-www-form-urlencoded',
-					Connection: 'Keep-Alive',
-					Host: 'ksrus.gtbackoverseas.com',
-				},
-			}
-		)
-		.then((response) => response.data)
-	return servers.a.system.server_list
-}
-
-const logServer = async () => {
-	const existing = (await client('servers').select('id')).map((sv) => sv.id.toString())
-	const servers = await getServers()
-
-	for (const server of servers) {
-		if (existing.includes(server.id.toString())) {
-			continue
-		}
-		await client('servers').insert({
-			id: server.id,
-			name: server.name,
-			time: fromUnixTime(server.showtime),
-			merger: server.he,
-		})
-		logger.success(`Created server ${server.id}`)
-	}
-}
 
 const getTarget = async (): Promise<string> => {
 	const status = await goat.challenges.allianceSiege.eventInfos()
@@ -102,8 +53,11 @@ const buyAllianceSiegeShopScrolls = async () => {
 	progress.stop()
 }
 const mainQuest = async () => {
-	let next = 1553
-	let goNext = true
+	goat._setAccount(ACCOUNT_NAPOLEON)
+	const task = (await goat.profile.getGameInfos()).task.tmain
+
+	let goNext = task.num >= task.max
+	let next = task.id
 	while (goNext) {
 		try {
 			await goat.account.doMainQuestTask(next)
@@ -114,22 +68,29 @@ const mainQuest = async () => {
 		}
 	}
 }
-
 const checkItems = async () => {
-	goat._setAccount(ACCOUNT_GAUTIER)
-	goat._setServer('691')
-	const existing = (await client('items')).map((i) => i.id)
+	const todo: [IAccount, string][] = [
+		[ACCOUNT_GAUTIER, '699'],
+		[ACCOUNT_NAPOLEON, '699'],
+		[ACCOUNT_GAUTIER, '1094'],
+	]
 
-	const bag = await goat.items.getBag()
-	for (const item of bag) {
-		if (!existing.includes(item.id)) {
-			console.log(`Item ${item.id} not registered (own ${item.count})`)
+	for (const [account, server] of todo) {
+		goat._logout()
+		goat._setAccount(account)
+		goat._setServer(server)
+		const existing = (await client('items')).map((i) => i.id)
+
+		const bag = await goat.items.getBag()
+		for (const item of bag) {
+			if (!existing.includes(item.id)) {
+				console.log(`Item ${item.id} not registered (own ${item.count})`)
+			}
 		}
 	}
 }
 const doCampaign = async () => {
 	goat._setAccount(ACCOUNT_GAUTIER)
-	goat._setServer('691')
 	const campaign = (await goat.profile.getGameInfos()).user.guide
 
 	let currentSmap = campaign.smap
@@ -154,23 +115,6 @@ const doCampaign = async () => {
 		}
 	}
 }
-const findTargets = async () => {
-	await goat.profile.getGameInfos()
-	const test = await goat.challenges.xServerTourney._unsafe({ kuayamen: { getRank: { type: 1 } } })
-
-	for (const user of test.a.kuayamen.scoreRank) {
-		if (user.uid.indexOf('696') === 0) { continue }
-		if (user.shili > 200000000) { continue }
-		const profile = await goat.profile.getUser(user.uid)
-		if (!profile) { continue }
-		const ratio = profile.shili / profile.hero_num
-
-		if (ratio < 15000000) {
-			console.log(ratio, user.uid, `${profile.hero_num}h`, user.shili)
-		}
-	}
-
-}
 
 const w = winston.createLogger({
 	level: 'info',
@@ -180,8 +124,6 @@ const w = winston.createLogger({
 w.add(new winston.transports.File({
 	filename: 'servers.csv',
 }))
-
-
 const recordRank = async (server: number|string): Promise<void> => {
 	const goat = new Goat()
 	goat._setServer(server.toString())
@@ -203,7 +145,7 @@ const recordRank = async (server: number|string): Promise<void> => {
 		w.info(`${server},ERROR,${e.toString()}`)
 	}
 }
-const doTest = async () => {
+const recordXServerPointsAndGems = async () => {
 	const servers = (await client('servers')
 		.min('id')
 		.groupBy('merger')
@@ -226,7 +168,7 @@ const doTest = async () => {
 	}
 }
 
-doTest().then(() => {
+mainQuest().then(() => {
 	logger.success('Finished')
 	process.exit()
 })

@@ -1,4 +1,4 @@
-import { find } from 'lodash'
+import { find, orderBy } from 'lodash'
 import { differenceInMinutes, fromUnixTime } from 'date-fns'
 import { goat, CastleInfos, EventInfo, Son } from 'kingsthrone-api'
 import { Progress } from '../services/progress'
@@ -109,7 +109,7 @@ const state: IState = {
 export const doKingdom = async (): Promise<void> => {
 	try {
 		const game = await goat.profile.getGameInfos()
-		state.sons = game.son.sonList.map((son: Son) => ({ ...son, available: true }))
+		state.sons = orderBy(game.son.sonList.map((son: Son) => ({ ...son, available: true })), 'hono', 'asc')
 		state.castles = game.hangUpSystem.info
 
 		const progress = new Progress('Kingdom Exploration', state.castles.length, 'castles')

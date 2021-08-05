@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { chunk } from 'lodash'
-import { differenceInHours } from 'date-fns'
+import { differenceInHours, fromUnixTime } from 'date-fns'
 import { User } from 'kingsthrone-api'
 import { Goat } from 'kingsthrone-api/lib'
 import { UserProfile } from 'kingsthrone-api/lib/types/User'
@@ -35,7 +35,6 @@ const createPlayerFromProfile = async (profile: UserProfile): Promise<Player> =>
 	logger.success(`Created ${profile.name} (${gid}) on ${getServer(gid)}`)
 	return await getPlayerByGID(gid)
 }
-
 const handleUser = async (user: User, goat: Goat): Promise<void> => {
 	let player: Player|null = await getPlayerByGID(user.uid)
 	const profile = await goat.profile.getUser(user.uid)
@@ -53,12 +52,11 @@ const handleUser = async (user: User, goat: Goat): Promise<void> => {
 	await checkInactivity(player)
 	logger.success(`Updated ${profile.name}`)
 }
-
-const recordServerLadder = async (server: number|string): Promise<void> => {
+const recordServerLadder = async (server: string): Promise<void> => {
 	try {
 		const goat = new Goat()
-		goat._setServer(server.toString())
-		await goat.account.createAccount(server.toString())
+		goat._setServer(server)
+		await goat.account.createAccount(server)
 
 		const ranks = await goat.rankings.getLadderKP(true)
 
@@ -70,7 +68,54 @@ const recordServerLadder = async (server: number|string): Promise<void> => {
 	}
 }
 
+/** Get all existing servers and add missing ones */
+interface GoatServer {
+	he: number
+	id: number
+	name: string
+	showtime: number
+	state: number
+	skin: number
+	url: string
+}
+const getAllServers = async (): Promise<GoatServer[]> => {
+	const servers = await axios.post(
+		'http://ksrus.gtbackoverseas.com/serverlist.php?platform=gaotukc&lang=1',
+		{ platform: 'gaotukc', lang: 1 },
+		{
+			headers: {
+				'Accept-Encoding': 'identity',
+				'User-Agent': 'Dalvik/2.1.0 (Linux; U; Android 7.1.1; ONEPLUS A5000 Build/NMF26X)',
+				'Content-Length': 0,
+				'Content-Type': 'application/x-www-form-urlencoded',
+				Connection: 'Keep-Alive',
+				Host: 'ksrus.gtbackoverseas.com',
+			},
+		})
+		.then((response) => response.data)
+	return servers.a.system.server_list
+}
+const createMissingServers = async () => {
+	const existing = (await client('servers').select('id')).map((sv) => sv.id.toString())
+	const servers = await getAllServers()
+
+	for (const server of servers) {
+		if (existing.includes(server.id.toString())) {
+			continue
+		}
+		await client('servers').insert({
+			id: server.id,
+			name: server.name,
+			time: fromUnixTime(server.showtime),
+			merger: server.he,
+		})
+		logger.success(`Created server ${server.id}`)
+	}
+}
+
+/** Update every server's ladder */
 const logServers = async (): Promise<void> => {
+	await createMissingServers()
 	const servers = (await client('servers')
 		.min('id')
 		.groupBy('merger')
@@ -80,7 +125,7 @@ const logServers = async (): Promise<void> => {
 	for (const ck of chunks) {
 		const promises = []
 		for (const server of ck) {
-			promises.push(recordServerLadder(server))
+			promises.push(recordServerLadder(server.toString()))
 		}
 		await Promise.all(promises)
 	}

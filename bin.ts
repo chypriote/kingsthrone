@@ -16,7 +16,18 @@ import { logger } from './scripts/services/logger'
 
 function login(account: string|null = null, server: string) {
 	goat._setServer(server)
-	goat._setAccount(account === 'gautier' ? ACCOUNT_GAUTIER : ACCOUNT_NAPOLEON)
+	switch (true) {
+	case account === 'gautier':
+		goat._setAccount(ACCOUNT_GAUTIER)
+		break
+	case account === 'shallan':
+		goat._setAccount(ACCOUNT_GAUTIER)
+		goat._setServer('1094')
+		break
+	case account === 'demophlos':
+		goat._setAccount(ACCOUNT_NAPOLEON)
+		break
+	}
 }
 
 yargs(hideBin(process.argv))
@@ -179,18 +190,14 @@ yargs(hideBin(process.argv))
 	})
 
 	//Gems
-	.command('gems', 'Explore the kingdom', (yargs) => {
+	.command('gems', 'Get gems', (yargs) => {
 		return yargs.option('amount', {
 			description: 'Number of gems to get',
 			alias: 'n',
 			type: 'number',
 		})
 	}, async (argv) => {
-		if (argv.account && argv.server) {
-			login(argv.account, argv.server)
-		} else {
-			goat._setAccount(ACCOUNT_GAUTIER)
-		}
+		login(argv.account || 'gautier', argv.server)
 
 		await getGems(argv.amount)
 		logger.success(`Finished ${format(new Date(), 'HH:mm')}`)

@@ -38,7 +38,7 @@ class GoatRequest {
 		return this
 	}
 	setGid(gid) {
-		this.gid = gid === '691005139' ? '691005130' : gid
+		this.gid = gid
 		return this
 	}
 

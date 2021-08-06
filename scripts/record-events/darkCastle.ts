@@ -9,6 +9,7 @@ export const logDarkCastle = async (): Promise<void> => {
 		eid: event.wsInfo.info.id,
 		name: 'Dark Castle',
 		start: fromUnixTime(event.wsInfo.info.sTime),
+		end: fromUnixTime(event.wsInfo.info.eTime),
 		type: event.wsInfo.info.type,
 	})
 

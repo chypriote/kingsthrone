@@ -11,6 +11,7 @@ export const logMaidenPainting = async (): Promise<void> => {
 			name: 'Maiden Painting',
 			eid: 1258,
 			start: fromUnixTime(1626652800),
+			end: fromUnixTime(11),
 			type: 1258,
 		})
 		.returning('id')

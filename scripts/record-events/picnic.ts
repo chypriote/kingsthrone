@@ -10,6 +10,7 @@ export const logPicnic = async (): Promise<void> => {
 			name: 'Picnic',
 			eid: 1028,
 			start: fromUnixTime(1627862400),
+			end: fromUnixTime(11),
 			type: 1028,
 		})
 		.returning('id')

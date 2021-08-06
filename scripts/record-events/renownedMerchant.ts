@@ -9,6 +9,7 @@ export const logRenownedMerchant = async (): Promise<void> => {
 			name: 'Renowned Merchant',
 			eid: 1247,
 			start: fromUnixTime(1627257600),
+			end: fromUnixTime(11),
 			type: 1231,
 		})
 		.returning('id')

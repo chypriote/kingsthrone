@@ -23,6 +23,7 @@ export const logScratchAndWin = async (): Promise<void> => {
 			eid: 1341,
 			type: 1341,
 			start: fromUnixTime(1627862400),
+			end: fromUnixTime(11),
 		}).returning('id')
 
 		for (const items of prize.cfg) {

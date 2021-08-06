@@ -10,6 +10,7 @@ export const logPathOfWealth = async (): Promise<void> => {
 			eid: event.xunbao.cfg.info.id,
 			name: 'Path of Wealth',
 			start: fromUnixTime(event.xunbao.cfg.info.sTime),
+			end: fromUnixTime(event.xunbao.cfg.info.eTime),
 			type: event.xunbao.cfg.info.type,
 		})
 		.returning('id')

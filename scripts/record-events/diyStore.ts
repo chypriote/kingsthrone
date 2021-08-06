@@ -24,6 +24,7 @@ export const logDIYStore = async (): Promise<void> => {
 			eid: 1156,
 			type: 1156,
 			start: fromUnixTime(1627905900),
+			end: fromUnixTime(11),
 		}).returning('id')
 
 		for (const item of pack.fixedRwd) {

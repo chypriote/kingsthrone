@@ -9,7 +9,8 @@ export const logDivining = async (): Promise<void> => {
 		.insert({
 			name: 'Divining',
 			eid: 1123,
-			start: fromUnixTime(1626998400),
+			start: fromUnixTime(1628208000),
+			end: fromUnixTime(11),
 			type: 1123,
 		})
 		.returning('id')

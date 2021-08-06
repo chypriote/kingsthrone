@@ -8,6 +8,7 @@ const logEvent = async (name: string, event: CoronationStatus | PeoplesMonarchSt
 			name: 'Coronation',
 			eid: event.cfg.info.no,
 			start: fromUnixTime(event.cfg.info.sTime),
+			end: fromUnixTime(event.cfg.info.eTime),
 			type: event.cfg.info.type,
 		})
 		.returning('id')

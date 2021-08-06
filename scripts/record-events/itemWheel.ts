@@ -37,6 +37,7 @@ export const logJewelsOfLuck = async (): Promise<void> => {
 			name: 'Jewels of Luck',
 			eid: 208,
 			start: fromUnixTime(1626393600),
+			end: fromUnixTime(11),
 			type: 2,
 		})
 		.returning('id')

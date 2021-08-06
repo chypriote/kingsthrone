@@ -22,6 +22,7 @@ export const logKingsPass = async (): Promise<void> => {
 			eid: 1086,
 			type: 1086,
 			start: fromUnixTime(1625788800),
+			end: fromUnixTime(11),
 		})
 		.returning('id')
 
@@ -36,6 +37,7 @@ export const logVenetianPass = async (): Promise<void> => {
 			eid: 1241,
 			type: 1231,
 			start: fromUnixTime(1627257600),
+			end: fromUnixTime(11),
 		})
 		.returning('id')
 

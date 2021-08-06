@@ -10,6 +10,7 @@ export const logGiftOfTheFae = async (): Promise<void> => {
 			eid: 1299,
 			type: 1299,
 			start: fromUnixTime(1627084800),
+			end: fromUnixTime(11),
 		})
 		.returning('id')
 

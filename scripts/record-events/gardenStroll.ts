@@ -10,6 +10,7 @@ export const logGardenStroll = async (): Promise<void> => {
 			eid: event.cfg.info.id,
 			name: 'Garden Stroll',
 			start: fromUnixTime(event.cfg.info.sTime),
+			end: fromUnixTime(event.cfg.info.eTime),
 			type: event.cfg.info.type,
 		})
 		.returning('id')

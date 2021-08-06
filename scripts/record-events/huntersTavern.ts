@@ -1,17 +1,17 @@
-import { goat } from 'kingsthrone-api'
 import { fromUnixTime } from 'date-fns'
+import { goat } from 'kingsthrone-api'
 import { client } from '../services/database'
 
-export const logGiftingTree = async (): Promise<void> => {
-	const event = await goat.events.giftingTree.eventInfos()
+export const logHuntersTavern = async (): Promise<void> => {
+	const event = await goat.events.huntersTavern.eventInfos()
 
 	const [eid] = await client('events')
 		.insert({
-			name: 'Gifting Tree',
-			eid: 1085,
-			type: 1083,
-			start: fromUnixTime(1627603200),
+			name: 'Hunter\'s Tavern',
+			eid: 1091,
+			start: fromUnixTime(1628208000),
 			end: fromUnixTime(11),
+			type: 1089,
 		})
 		.returning('id')
 

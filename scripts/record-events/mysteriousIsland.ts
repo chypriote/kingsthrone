@@ -1,16 +1,17 @@
+import { fromUnixTime } from 'date-fns'
 import { goat } from 'kingsthrone-api'
-import { fromUnixTime, startOfToday } from 'date-fns'
 import { client } from '../services/database'
 
-export const logBlessedChest = async (): Promise<void> => {
-	const event = await goat.events.blessedChest.eventInfos()
+export const logMysteriousIsland = async (): Promise<void> => {
+	const event = await goat.events.mysteriousIsland.eventInfos()
+
 	const [eid] = await client('events')
 		.insert({
-			name: 'Blessed Chest',
-			eid: 1276,
-			type: 1276,
-			start: fromUnixTime(1626652800),
-			end: startOfToday(),
+			name: 'Mysterious Island',
+			eid: 1089,
+			start: fromUnixTime(1628208000),
+			end: fromUnixTime(11),
+			type: 1089,
 		})
 		.returning('id')
 

@@ -10,6 +10,7 @@ export const logDailyAllianceShop = async (): Promise<void> => {
 			name: 'Alliance Siege Daily',
 			eid: null,
 			start: startOfToday(),
+			end: startOfToday(),
 			type: 1096,
 		})
 		.returning('id')
@@ -32,6 +33,7 @@ export const logAllianceSiege = async (): Promise<void> => {
 			name: 'Alliance Siege Shop',
 			eid: 1095,
 			start: fromUnixTime(1626393600),
+			end: startOfToday(),
 			type: 1095,
 		})
 		.returning('id')

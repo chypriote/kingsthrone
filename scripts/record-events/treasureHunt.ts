@@ -10,6 +10,7 @@ export const logTreasureHunt = async (): Promise<void> => {
 			name: 'Treasure Hunt',
 			eid: event.cfg.info.id,
 			start: fromUnixTime(event.cfg.info.sTime),
+			end: fromUnixTime(event.cfg.info.eTime),
 			type: event.cfg.info.type,
 		})
 		.returning('id')

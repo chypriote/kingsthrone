@@ -10,6 +10,7 @@ const logAlchemyDrop = async (items: EventDropWithProbability[], name: string): 
 			eid: null,
 			type: 1092,
 			start: fromUnixTime(1627603200),
+			end: fromUnixTime(1),
 		})
 		.returning('id')
 	for (const item of items) {

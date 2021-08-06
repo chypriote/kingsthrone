@@ -197,9 +197,22 @@ const logCharm = async () => {
 
 	await logChallengeRewards(id, challenge.meili.cfg.rwd)
 }
+const logSpendGold = async () => {
+	const challenge = await goat.challenges.spendGold.eventInfos()
+	const [id] = await client('challenges').insert({
+		name: 'Spend Gold',
+		cid: challenge.yinliang.cfg.info.id,
+		type: challenge.yinliang.cfg.info.type,
+		start: fromUnixTime(challenge.yinliang.cfg.info.sTime),
+		end: fromUnixTime(challenge.yinliang.cfg.info.eTime),
+		alliance: false,
+		title: 'King of Grace',
+	}).returning('id')
+
+	await logChallengeRewards(id, challenge.yinliang.cfg.rwd)
+}
 
 const logChallenges = async () => {
-	// await logTourney()
-	// await logCharm()
+	await logQuality()
 }
 logChallenges().then(() => { process.exit()})

@@ -15,13 +15,9 @@ export const dailyChores = async (): Promise<void> => {
 			await HallOfFame()
 			await payHomage()
 			// await doKingdomExpeditions()
-			if (goat._isShallan()) {
-				await doMerchant(10)
-				await doExpedition(10)
-
-			} else {
-				await doMerchant(goat._isGautier() ? 150 : 80)
-				await doExpedition(goat._isGautier() ? 100 : 50)
+			if (!goat._isShallan()) {
+				await doMerchant(goat._isGautier() ? 120 : 80)
+				await doExpedition(goat._isGautier() ? 100 : 60)
 			}
 			await visitInLaws()
 			if (goat._isGautier() || goat._isDemophlos()) {
@@ -43,6 +39,10 @@ export const dailyChores = async (): Promise<void> => {
 		await getWeeklyRewards()
 		await getProgressionRewards()
 		await handleBag()
+		try {
+			await goat.events.castle.findEgg()
+			await goat.events.castle.claimEgg()
+		} catch (e) {/* do nothing */}
 	} catch (e) {
 		logger.error(e)
 		console.trace(e)

@@ -14,6 +14,7 @@ import { alchemy } from './alchemy'
 import { logger } from '../services/logger'
 import { heroesTrial } from './heroesTrial'
 import { picnic } from './picnic'
+import { mysteriousIsland } from './mysteriousIsland'
 
 const divining = async () => {
 	const status = await goat.events.divining.eventInfos()
@@ -99,5 +100,6 @@ export const doEvents = async (): Promise<void> => {
 		// if (event.id === 1083) {await heroesTrial() }
 		if (event.id === 1092) {await alchemy() }
 		if (LIMITED_QUESTS.includes(event.id) && event.type === 2) { await doLimitedQuests(event)}
+		if (event.id === 1089) {await mysteriousIsland()}
 	}
 }

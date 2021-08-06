@@ -126,6 +126,7 @@ const loopFight = async (status: ITourneyStatus) => {
 
 	const hero = await selectHero(fight.fheros)
 	const battle = await state.endpoint.fightHero(hero)
+	if (!battle.win) {throw new Error('No fight result ?!')}
 	await saveOpponentHeroStats(hero, battle.win.fight.base)
 	state.progress?.increment()
 	await handleRewards(battle)
@@ -170,7 +171,7 @@ const rewardsSummary = (won = true): string => {
 }
 /** Rewards */
 const handleRewards = async (battle: ITourneyStatus): Promise<void> => {
-	if (!battle.win.fight.winnum || battle.win.fight.winnum % 3 || battle.win.over?.isover) {
+	if (!battle.win || !battle.win.fight.winnum || battle.win.fight.winnum % 3 || battle.win.over?.isover) {
 		return
 	}
 

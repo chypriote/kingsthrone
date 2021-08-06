@@ -86,6 +86,7 @@ const CHALLENGES = [
 	CHALLENGE_TYPES.CHARM,
 	CHALLENGE_TYPES.SPEND_GOLD,
 	CHALLENGE_TYPES.QUALITY,
+	CHALLENGE_TYPES.EQUIPMENT,
 ]
 
 export const doEvents = async (): Promise<void> => {
@@ -115,6 +116,6 @@ export const doEvents = async (): Promise<void> => {
 		if (event.id === 1092) {await alchemy() }
 		if (LIMITED_QUESTS.includes(event.id) && event.type === 2) { await doLimitedQuests(event)}
 		if (event.id === 1089) {await mysteriousIsland()}
-		if (CHALLENGES.includes(event.id) && event.type === 3) { await getChallengeRewards(event.id)}
+		if (CHALLENGES.includes(event.id)) { await getChallengeRewards(event.id)}
 	}
 }

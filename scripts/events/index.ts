@@ -2,6 +2,7 @@ import { slice } from 'lodash'
 import { fromUnixTime, isFuture } from 'date-fns'
 import { Event as GoatEvent, goat } from 'kingsthrone-api'
 import { LTQ_TYPES, LTQStatus } from 'kingsthrone-api/lib/types/LimitedTimeQuests'
+import { CHALLENGE_TYPES } from 'kingsthrone-api/lib/types/Challenges'
 import { allianceSiege } from './siege'
 import { treasureHunt } from './treasureHunt'
 import { coronation } from './coronation'
@@ -15,6 +16,7 @@ import { logger } from '../services/logger'
 import { heroesTrial } from './heroesTrial'
 import { picnic } from './picnic'
 import { mysteriousIsland } from './mysteriousIsland'
+import { getChallengeRewards } from './challenge'
 
 const divining = async () => {
 	const status = await goat.events.divining.eventInfos()
@@ -74,6 +76,18 @@ const doLimitedQuests = async (event: GoatEvent) => {
 	}
 }
 
+const CHALLENGES = [
+	CHALLENGE_TYPES.ALLIANCE_INTIMACY,
+	CHALLENGE_TYPES.ALLIANCE_EXPERIENCE,
+	CHALLENGE_TYPES.GRAIN,
+	CHALLENGE_TYPES.MAIDEN_EXPERIENCE,
+	CHALLENGE_TYPES.RAISE_CHILDREN,
+	CHALLENGE_TYPES.TOURNEY,
+	CHALLENGE_TYPES.CHARM,
+	CHALLENGE_TYPES.SPEND_GOLD,
+	CHALLENGE_TYPES.QUALITY,
+]
+
 export const doEvents = async (): Promise<void> => {
 	const status = await goat.profile.getGameInfos()
 	const events = status.huodonglist.all
@@ -101,5 +115,6 @@ export const doEvents = async (): Promise<void> => {
 		if (event.id === 1092) {await alchemy() }
 		if (LIMITED_QUESTS.includes(event.id) && event.type === 2) { await doLimitedQuests(event)}
 		if (event.id === 1089) {await mysteriousIsland()}
+		if (CHALLENGES.includes(event.id) && event.type === 3) { await getChallengeRewards(event.id)}
 	}
 }

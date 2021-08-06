@@ -4,7 +4,7 @@ import {
 	attendFeasts, contributeAlliance, doExpedition, doMerchant,
 	doProcessions, doWorldBoss, getDailyRewards, getLoginRewards, getThroneRoom, handleBag,
 	getTourneyRewards, getWeeklyRewards, HallOfFame, hostCouncil, payHomage, punishPrisoners,
-	handleSons, refreshTraining, visitInLaws, visitMaidens, readAndDeleteMail, getProgressionRewards
+	handleSons, refreshTraining, visitInLaws, visitMaidens, readAndDeleteMail, getProgressionRewards, doKingdomExpeditions
 } from './actions'
 
 export const dailyChores = async (): Promise<void> => {
@@ -14,7 +14,7 @@ export const dailyChores = async (): Promise<void> => {
 			await punishPrisoners()
 			await HallOfFame()
 			await payHomage()
-			// await doKingdomExpeditions()
+			await doKingdomExpeditions()
 			if (!goat._isShallan()) {
 				await doMerchant(goat._isGautier() ? 120 : 80)
 				await doExpedition(goat._isGautier() ? 100 : 60)

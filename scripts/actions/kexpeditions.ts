@@ -51,7 +51,7 @@ const doExpeditions = async (status: KingdomExpInfo): Promise<void> => {
 
 	while (available) {
 		const status = await goat.expeditions.doKingdomExpedition(next)
-		next = getNextLevel(status.maxLevel)
+		next = getNextLevel(next)
 		available = status.playNum
 		progress.increment()
 	}

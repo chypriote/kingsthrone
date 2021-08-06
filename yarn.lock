@@ -5766,9 +5766,9 @@ is-buffer@^1.1.5:
   integrity sha512-NcdALwpXkTm5Zvvbk7owOUSvVvBKDgKP5/ewfXEznmQFfs4ZRmanOeKBTjRVjka3QFoN6XJ+9F3USqfHqTaU5w==
 
 is-callable@^1.1.4, is-callable@^1.2.3:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/is-callable/-/is-callable-1.2.3.tgz#8b1e0500b73a1d76c70487636f368e519de8db8e"
-  integrity sha512-J1DcMe8UYTBSrKezuIUTUwjXsho29693unXM2YhJUTR2txK/eG47bvNa/wipPFmZFgr/N6f1GA66dv0mEyTIyQ==
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/is-callable/-/is-callable-1.2.4.tgz#47301d58dd0259407865547853df6d61fe471945"
+  integrity sha512-nsuwtxZfMX67Oryl9LCQ+upnC0Z0BgpwntpS89m1H/TLF0zNfzfLMV/9Wa/6MZsj0acpEjAO0KF1xT6ZdLl95w==
 
 is-class-hotfix@~0.0.6:
   version "0.0.6"
@@ -6315,9 +6315,9 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
 kingsthrone-api@^2.3:
-  version "2.3.7"
-  resolved "https://registry.yarnpkg.com/kingsthrone-api/-/kingsthrone-api-2.3.7.tgz#1fcd712c583d5500372fd0af5c43a8e8406a5ac6"
-  integrity sha512-zMVj8MoxQ63N4R2x0Snr+g+SkslOUaFcrkAiphAzKepeK9T48qEP53zCh6mUUyKygy7JvvfCu/vgSehYr5mMIA==
+  version "2.3.11"
+  resolved "https://registry.yarnpkg.com/kingsthrone-api/-/kingsthrone-api-2.3.11.tgz#546f14af90353d524f6622434d689026afde103e"
+  integrity sha512-ELPy3CPIuuthB5oF6Fqa09kJ0MF8ftAn7xpYqsqpwx7EZsK0tSzn1oetoSiq2Ej3duDAe2+p/z7PIQbM/NCz3A==
   dependencies:
     axios "^0.21"
     dotenv "^10.0"

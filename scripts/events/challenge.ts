@@ -1,7 +1,7 @@
 // noinspection DuplicatedCode
 
 import { goat } from 'kingsthrone-api'
-import { CHALLENGE_TYPES } from '../../../apikingsthrone/types/Challenges'
+import { CHALLENGE_TYPES } from 'kingsthrone-api/lib/types/Challenges'
 import { logger } from '../services/logger'
 
 export const getChallengeRewards = async (type: CHALLENGE_TYPES): Promise<void> => {

@@ -96,7 +96,7 @@ const combineInvestiture = async (): Promise<void> => {
 
 export const handleBag = async (): Promise<void> => {
 	state.items = await goat.items.getBag()
-	const progress = new Progress('Clearing bag', !goat._isShallan() ? 6 : 7, 'tasks')
+	const progress = new Progress('Clearing bag', !goat._isShallan() ? 7 : 6, 'tasks')
 
 	await openRewardPacks()
 	progress.increment()

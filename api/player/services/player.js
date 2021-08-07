@@ -121,7 +121,10 @@ module.exports = {
 	updatePlayerAlliance: async (player, goat) => {
 		const _this = strapi.services.player
 		//Check if player currently has alliance
-		const current = await strapi.query('alliance').findOne({ 'alliance_members.player': player.id, 'alliance_members.active': true })
+		const current = await strapi.query('alliance').findOne({
+			'alliance_members.player': player.id,
+			'alliance_members.active': true,
+		})
 
 		//Return if no current and club is 0
 		if (!current && goat.clubid === 0) {

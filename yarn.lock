@@ -5729,9 +5729,9 @@ is-arrayish@^0.3.1:
   integrity sha512-eVRqCvVlZbuw3GrM63ovNSNAeA1K16kaR/LRY/92w0zxQ5/1YzwblUX652i4Xs9RwAGjW9d9y6X88t8OaAJfWQ==
 
 is-bigint@^1.0.1:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/is-bigint/-/is-bigint-1.0.2.tgz#ffb381442503235ad245ea89e45b3dbff040ee5a"
-  integrity sha512-0JV5+SOCQkIdzjBK9buARcV804Ddu7A0Qet6sHi3FimE9ne6m4BGQZfRn+NZiXbBk4F4XmHfDZIipLj9pX8dSA==
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/is-bigint/-/is-bigint-1.0.3.tgz#fc9d9e364210480675653ddaea0518528d49a581"
+  integrity sha512-ZU538ajmYJmzysE5yU4Y7uIrPQ2j704u+hXFiIPQExpqzzUbpe5jCPdTfmz7jXRxZdvjY3KZ3ZNenoXQovX+Dg==
 
 is-binary-path@^1.0.0:
   version "1.0.1"
@@ -6315,9 +6315,9 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
 kingsthrone-api@^2.3:
-  version "2.3.11"
-  resolved "https://registry.yarnpkg.com/kingsthrone-api/-/kingsthrone-api-2.3.11.tgz#546f14af90353d524f6622434d689026afde103e"
-  integrity sha512-ELPy3CPIuuthB5oF6Fqa09kJ0MF8ftAn7xpYqsqpwx7EZsK0tSzn1oetoSiq2Ej3duDAe2+p/z7PIQbM/NCz3A==
+  version "2.3.12"
+  resolved "https://registry.yarnpkg.com/kingsthrone-api/-/kingsthrone-api-2.3.12.tgz#46597355e1238de987a1bc2a80a05b2ba6c9f867"
+  integrity sha512-2HFpma6a8NJr9SJS54OeVkJkTvwkXbxoTGjHHH4MR1XSgLMrGoj+w7BM/Se3imKLgHNuRNL6VOFPdM0bnlZ3Yg==
   dependencies:
     axios "^0.21"
     dotenv "^10.0"

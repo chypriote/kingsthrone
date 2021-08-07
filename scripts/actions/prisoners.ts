@@ -6,11 +6,10 @@ export const punishPrisoners = async (): Promise<void> => {
 		let punishments = 10
 		let i = 1
 		while (punishments >= 10) {
-			console.log(`Punishing ${punishments}, ${i}`)
 			if (i === 10 && punishments < 100) { break }
 			const result = await goat.profile.punishPrisoner()
 			punishments = result.mingwang.mw
-			i++
+			if (i < 10) { i++ }
 		}
 		logger.success('Prisoners punished')
 	} catch (e) {

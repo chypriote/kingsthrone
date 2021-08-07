@@ -13,12 +13,14 @@ module.exports = {
 		const params = isNaN(id) ? { slug: id.toLowerCase() } : { id }
 		const entity = await strapi.services.hero.findOne(params, [
 			'hero_group.paragons',
+			'hero_group.paragons.item',
 			'picture',
 			'skins',
 			'quality_skills',
 			'quality_skills.skins',
 			'quality_skills.skins.picture',
 			'paragons',
+			'paragons.item',
 			'maiden',
 			'maiden.picture',
 		])

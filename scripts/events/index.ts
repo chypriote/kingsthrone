@@ -36,14 +36,19 @@ const LIMITED_QUESTS = [
 	LTQ_TYPES.LOSE_SOLDIERS,
 	LTQ_TYPES.SPEND_GOLD,
 	LTQ_TYPES.STUDY_MANUSCRIPTS,
+	LTQ_TYPES.INCREASE_INTIMACY,
 	LTQ_TYPES.INCREASE_POWER,
 	LTQ_TYPES.ENACT_DECREES,
 	LTQ_TYPES.LOGIN,
 	LTQ_TYPES.TOURNEY_SCORE,
-	LTQ_TYPES.CHALLENGE_TOKENS,
 	LTQ_TYPES.ARRANGE_MARRIAGES,
+	LTQ_TYPES.CHALLENGE_TOKENS,
+	LTQ_TYPES.PROCESSIONS_DONATION,
+	LTQ_TYPES.GOODWILL_DRAUGHT,
 	LTQ_TYPES.ENERGY_DRAUGHT,
 	LTQ_TYPES.INCREASE_CHARM,
+	LTQ_TYPES.ATTEND_FEASTS,
+	LTQ_TYPES.FEAST_POINTS,
 	LTQ_TYPES.RANDOM_VISITS,
 ]
 const getQuestInfos = async (type: number): Promise<LTQStatus|null> => {
@@ -52,14 +57,19 @@ const getQuestInfos = async (type: number): Promise<LTQStatus|null> => {
 	case LTQ_TYPES.LOSE_SOLDIERS: return await goat.limitedTimeQuests.loseSoldiers()
 	case LTQ_TYPES.SPEND_GOLD: return await goat.limitedTimeQuests.spendGold()
 	case LTQ_TYPES.STUDY_MANUSCRIPTS: return await goat.limitedTimeQuests.studyManuscripts()
+	case LTQ_TYPES.INCREASE_INTIMACY: return await goat.limitedTimeQuests.increaseIntimacy()
 	case LTQ_TYPES.INCREASE_POWER: return await goat.limitedTimeQuests.increaseKP()
 	case LTQ_TYPES.ENACT_DECREES: return await goat.limitedTimeQuests.enactDecrees()
 	case LTQ_TYPES.LOGIN: return await goat.limitedTimeQuests.login()
 	case LTQ_TYPES.TOURNEY_SCORE: return await goat.limitedTimeQuests.tourneyScore()
-	case LTQ_TYPES.CHALLENGE_TOKENS: return await goat.limitedTimeQuests.challengeTokens()
 	case LTQ_TYPES.ARRANGE_MARRIAGES: return await goat.limitedTimeQuests.arrangeMarriages()
+	case LTQ_TYPES.CHALLENGE_TOKENS: return await goat.limitedTimeQuests.challengeTokens()
+	case LTQ_TYPES.PROCESSIONS_DONATION: return await goat.limitedTimeQuests.processionsDonation()
+	case LTQ_TYPES.GOODWILL_DRAUGHT: return await goat.limitedTimeQuests.goodwillDraughtQuest()
 	case LTQ_TYPES.ENERGY_DRAUGHT: return await goat.limitedTimeQuests.energyDraughtQuest()
 	case LTQ_TYPES.INCREASE_CHARM: return await goat.limitedTimeQuests.increaseCharm()
+	case LTQ_TYPES.ATTEND_FEASTS: return await goat.limitedTimeQuests.attendFeasts()
+	case LTQ_TYPES.FEAST_POINTS: return await goat.limitedTimeQuests.feastPoints()
 	case LTQ_TYPES.RANDOM_VISITS: return await goat.limitedTimeQuests.randomVisitsQuest()
 	default: return null
 	}

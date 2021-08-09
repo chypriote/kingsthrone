@@ -6,16 +6,16 @@
   },
   "options": {
     "increments": true,
-		"timestamps": false,
-		"draftAndPublish": false
+    "timestamps": false,
+    "draftAndPublish": false
   },
   "attributes": {
     "score": {
       "type": "integer"
     },
     "challenge": {
-      "model": "challenge",
-      "via": "challenge_progresses"
+      "via": "challenge_progresses",
+      "model": "challenge"
     },
     "challenge_progress_items": {
       "via": "challenge_progress",

@@ -8,7 +8,7 @@
   "options": {
     "increments": true,
     "timestamps": false,
-		"draftAndPublish": false
+    "draftAndPublish": false
   },
   "attributes": {
     "rank": {
@@ -19,10 +19,10 @@
       "type": "boolean",
       "default": false
     },
-		"challenge": {
-			"model": "challenge",
-			"via": "challenge_rewards"
-		},
+    "challenge": {
+      "via": "challenge_rewards",
+      "model": "challenge"
+    },
     "challenge_reward_items": {
       "via": "challenge_reward",
       "collection": "challenge-reward-item"

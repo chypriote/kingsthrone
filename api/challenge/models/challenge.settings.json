@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "challenges",
   "info": {
-    "name": "Challenge"
+    "name": "Challenge",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -15,7 +16,7 @@
       "required": true
     },
     "cid": {
-			"type": "integer"
+      "type": "integer"
     },
     "type": {
       "type": "integer"
@@ -33,6 +34,10 @@
     "title": {
       "type": "string"
     },
+		"crossServer": {
+			"type": "boolean",
+			"default": false
+		},
     "challenge_rewards": {
       "via": "challenge",
       "collection": "challenge-reward"

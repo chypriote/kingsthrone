@@ -24,6 +24,9 @@
     "start": {
       "type": "date"
     },
+		"end": {
+			"type": "date"
+		},
     "event_shops": {
       "via": "event",
       "collection": "event-shop"
@@ -31,9 +34,6 @@
     "event_drops": {
       "via": "event",
       "collection": "event-drop"
-    },
-    "end": {
-      "type": "date"
     }
   }
 }

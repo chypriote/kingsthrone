@@ -18,7 +18,7 @@ const selectExpedition = (expeditions: Expedition[]): number => {
 	let select = expeditions[0]
 	for (const expedition of expeditions) {
 		const manus = find(expedition.rwd, rwd => rwd.id === 77) //manuscript
-		if (manus) return expedition.id
+		if (manus) {return expedition.id}
 
 		select = select.army > expedition.army ? expedition : select
 	}

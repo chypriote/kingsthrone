@@ -21,7 +21,7 @@ export const useAllItems = async (types: number[]): Promise<void> => {
 	}
 }
 const openRewardPacks = async (): Promise<void> => {
-	await useAllItems(REWARD_PACKS)
+	await useAllItems([...REWARD_PACKS, 120])
 }
 const useResourceItems = async (): Promise<void> => {
 	await useAllItems(RESOURCES_ITEMS)

@@ -211,8 +211,36 @@ const logSpendGold = async () => {
 
 	await logChallengeRewards(id, challenge.yinliang.cfg.rwd)
 }
+const logIntimacy = async () => {
+	const challenge = await goat.challenges.intimacy.eventInfos()
+	const [id] = await client('challenges').insert({
+		name: 'Intimacy',
+		cid: challenge.love.cfg.info.id,
+		type: challenge.love.cfg.info.type,
+		start: fromUnixTime(challenge.love.cfg.info.sTime),
+		end: fromUnixTime(challenge.love.cfg.info.eTime),
+		alliance: false,
+		title: 'King of Passion',
+	}).returning('id')
+
+	await logChallengeRewards(id, challenge.love.cfg.rwd)
+}
+const logRareBeasts = async () => {
+	const challenge = await goat.challenges.rareBeasts.eventInfos()
+	const [id] = await client('challenges').insert({
+		name: 'Rare Beasts',
+		cid: challenge.zhenshou.cfg.info.id,
+		type: challenge.zhenshou.cfg.info.type,
+		start: fromUnixTime(challenge.zhenshou.cfg.info.sTime),
+		end: fromUnixTime(challenge.zhenshou.cfg.info.eTime),
+		alliance: false,
+		title: 'King of Beasts',
+	}).returning('id')
+
+	await logChallengeRewards(id, challenge.zhenshou.cfg.rwd)
+}
 
 const logChallenges = async () => {
-	await logQuality()
+	await logRareBeasts()
 }
 logChallenges().then(() => { process.exit()})

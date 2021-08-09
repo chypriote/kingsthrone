@@ -1,7 +1,5 @@
 import { logger } from './scripts/services/logger'
-import axios from 'axios'
 import { client } from './scripts/services/database'
-import { format, fromUnixTime } from 'date-fns'
 import { goat } from 'kingsthrone-api'
 import { ACCOUNT_GAUTIER, ACCOUNT_NAPOLEON } from 'kingsthrone-api/lib/src/goat'
 import { Progress } from './scripts/services/progress'
@@ -13,7 +11,6 @@ const winston = require('winston')
 
 const getTarget = async (): Promise<string> => {
 	const status = await goat.challenges.allianceSiege.eventInfos()
-	const attacks = status.info.freeNum + status.info.buyNum
 
 	const members = orderBy(status.data.members, 'shili', 'asc')
 
@@ -167,8 +164,12 @@ const recordXServerPointsAndGems = async () => {
 		await Promise.all(promises)
 	}
 }
+const doExpedition = async () => {
+	goat._setAccount(ACCOUNT_GAUTIER)
+	await goat.expeditions.doKingdomExpedition(11600001)
+}
 
-mainQuest().then(() => {
+checkItems().then(() => {
 	logger.success('Finished')
 	process.exit()
 })

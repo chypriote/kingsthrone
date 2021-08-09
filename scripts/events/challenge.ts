@@ -16,6 +16,8 @@ export const getChallengeRewards = async (type: CHALLENGE_TYPES): Promise<void> 
 	case CHALLENGE_TYPES.SPEND_GOLD: return spendGold()
 	case CHALLENGE_TYPES.QUALITY: return quality()
 	case CHALLENGE_TYPES.EQUIPMENT: return equipment()
+	case CHALLENGE_TYPES.INTIMACY: return intimacy()
+	case CHALLENGE_TYPES.RARE_BEASTS: return rareBeasts()
 	default: return
 	}
 }
@@ -25,7 +27,7 @@ const allianceIntimacy = async (): Promise<void> => {
 	const score = event.myclubRid.score
 	const claimed = JSON.parse(event.rewards[0].taskStatus.toString()).map((r: {id: number}) => r.id)
 
-	for (const task of event.clublove.cfg.task) {
+	for (const task of event.clublove.cfg.task || []) {
 		if (task.target > score || claimed.includes(task.id)) { continue }
 		await goat.challenges.allianceIntimacy.claimProgressReward(task.id)
 		logger.success(`Claimed reward ${task.id} for challenge alliance intimacy`)
@@ -36,7 +38,7 @@ const allianceExperience = async (): Promise<void> => {
 	const score = event.myclubRid.score
 	const claimed = JSON.parse(event.rewards[0].taskStatus.toString()).map((r: {id: number}) => r.id)
 
-	for (const task of event.club.cfg.task) {
+	for (const task of event.club.cfg.task || []) {
 		if (task.target > score || claimed.includes(task.id)) { continue }
 		await goat.challenges.allianceExperience.claimProgressReward(task.id)
 		logger.success(`Claimed reward ${task.id} for challenge alliance experience`)
@@ -47,7 +49,7 @@ const grain = async (): Promise<void> => {
 	const score = event.myLiangShiRid.score
 	const claimed = JSON.parse(event.rewards[0].taskStatus.toString()).map((r: {id: number}) => r.id)
 
-	for (const task of event.liangshi.cfg.task) {
+	for (const task of event.liangshi.cfg.task || []) {
 		if (task.target > score || claimed.includes(task.id)) { continue }
 		await goat.challenges.grain.claimProgressReward(task.id)
 		logger.success(`Claimed reward ${task.id} for challenge grain`)
@@ -58,7 +60,7 @@ const maidenExp = async (): Promise<void> => {
 	const score = event.myJiaRenRid.score
 	const claimed = JSON.parse(event.rewards[0].taskStatus.toString()).map((r: {id: number}) => r.id)
 
-	for (const task of event.jiaren.cfg.task) {
+	for (const task of event.jiaren.cfg.task || []) {
 		if (task.target > score || claimed.includes(task.id)) { continue }
 		await goat.challenges.maidenExp.claimProgressReward(task.id)
 		logger.success(`Claimed reward ${task.id} for challenge maiden experience`)
@@ -69,7 +71,7 @@ const raiseChildren = async (): Promise<void> => {
 	const score = event.myzsShiliRid.score
 	const claimed = JSON.parse(event.rewards[0].taskStatus.toString()).map((r: {id: number}) => r.id)
 
-	for (const task of event.zsshili.cfg.task) {
+	for (const task of event.zsshili.cfg.task || []) {
 		if (task.target > score || claimed.includes(task.id)) { continue }
 		await goat.challenges.raiseChildren.claimProgressReward(task.id)
 		logger.success(`Claimed reward ${task.id} for challenge raise children`)
@@ -80,7 +82,7 @@ const tourney = async (): Promise<void> => {
 	const score = event.myyamenRid.score
 	const claimed = JSON.parse(event.rewards[0].taskStatus.toString()).map((r: {id: number}) => r.id)
 
-	for (const task of event.yamen.cfg.task) {
+	for (const task of event.yamen.cfg.task || []) {
 		if (task.target > score || claimed.includes(task.id)) { continue }
 		await goat.challenges.tourney.claimProgressReward(task.id)
 		logger.success(`Claimed reward ${task.id} for challenge tourney`)
@@ -91,7 +93,7 @@ const charm = async (): Promise<void> => {
 	const score = event.myMeiLiRid.score
 	const claimed = JSON.parse(event.rewards[0].taskStatus.toString()).map((r: {id: number}) => r.id)
 
-	for (const task of event.meili.cfg.task) {
+	for (const task of event.meili.cfg.task || []) {
 		if (task.target > score || claimed.includes(task.id)) { continue }
 		await goat.challenges.charm.claimProgressReward(task.id)
 		logger.success(`Claimed reward ${task.id} for challenge charm`)
@@ -102,7 +104,7 @@ const spendGold = async (): Promise<void> => {
 	const score = event.myYinLiangRid.score
 	const claimed = JSON.parse(event.rewards[0].taskStatus.toString()).map((r: {id: number}) => r.id)
 
-	for (const task of event.yinliang.cfg.task) {
+	for (const task of event.yinliang.cfg.task || []) {
 		if (task.target > score || claimed.includes(task.id)) { continue }
 		await goat.challenges.spendGold.claimProgressReward(task.id)
 		logger.success(`Claimed reward ${task.id} for challenge spend gold`)
@@ -113,7 +115,7 @@ const quality = async (): Promise<void> => {
 	const score = event.myZiZhiRid.score
 	const claimed = JSON.parse(event.rewards[0].taskStatus.toString()).map((r: {id: number}) => r.id)
 
-	for (const task of event.zizhi.cfg.task) {
+	for (const task of event.zizhi.cfg.task || []) {
 		if (task.target > score || claimed.includes(task.id)) { continue }
 		await goat.challenges.quality.claimProgressReward(task.id)
 		logger.success(`Claimed reward ${task.id} for challenge quality`)
@@ -124,9 +126,31 @@ const equipment = async (): Promise<void> => {
 	const score = event.myPowerRid.score
 	const claimed = JSON.parse(event.rewards[0].taskStatus.toString()).map((r: {id: number}) => r.id)
 
-	for (const task of event.power.cfg.task) {
+	for (const task of event.power.cfg.task || []) {
 		if (task.target > score || claimed.includes(task.id)) { continue }
 		await goat.challenges.equipment.claimProgressReward(task.id)
 		logger.success(`Claimed reward ${task.id} for challenge equipment`)
+	}
+}
+const intimacy = async (): Promise<void> => {
+	const event = await goat.challenges.intimacy.eventInfos()
+	const score = event.myloveRid.score
+	const claimed = JSON.parse(event.rewards[0].taskStatus.toString()).map((r: {id: number}) => r.id)
+
+	for (const task of event.love.cfg.task || []) {
+		if (task.target > score || claimed.includes(task.id)) { continue }
+		await goat.challenges.intimacy.claimProgressReward(task.id)
+		logger.success(`Claimed reward ${task.id} for challenge intimacy`)
+	}
+}
+const rareBeasts = async (): Promise<void> => {
+	const event = await goat.challenges.rareBeasts.eventInfos()
+	const score = event.myZhenShouRid.score
+	const claimed = JSON.parse(event.rewards[0].taskStatus.toString()).map((r: {id: number}) => r.id)
+
+	for (const task of event.zhenshou.cfg.task || []) {
+		if (task.target > score || claimed.includes(task.id)) { continue }
+		await goat.challenges.quality.claimProgressReward(task.id)
+		logger.success(`Claimed reward ${task.id} for challenge rare beasts`)
 	}
 }

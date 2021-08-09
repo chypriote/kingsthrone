@@ -1,6 +1,7 @@
-import { logCoronation } from './record-events/index'
+import { logGardenStroll, logPathOfWealth } from './record-events/index'
 
 const logEvents = async () => {
-	await logCoronation()
+	await logGardenStroll()
+	await logPathOfWealth()
 }
 logEvents().then(() => { process.exit()})

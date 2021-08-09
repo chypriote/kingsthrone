@@ -62,7 +62,7 @@ export const doKingdomExpeditions = async (): Promise<void> => {
 	const status = await goat.expeditions.getKingdomExpStatus()
 
 	try {
-		await doExpeditions(status)
+		// await doExpeditions(status)
 		await getRewards(status.chapterPhasesRwd)
 		await getGlobalRewards(status.firstAllRwd)
 	} catch (e) {

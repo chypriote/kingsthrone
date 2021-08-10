@@ -58,6 +58,10 @@
     "account_maidens": {
       "collection": "account-maiden",
       "via": "maiden"
+    },
+    "maiden_bonds": {
+      "via": "maiden",
+      "collection": "maiden-bond"
     }
   }
 }

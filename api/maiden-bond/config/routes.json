@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/maiden-bonds",
+      "handler": "maiden-bond.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/maiden-bonds/count",
+      "handler": "maiden-bond.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/maiden-bonds/:id",
+      "handler": "maiden-bond.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/maiden-bonds",
+      "handler": "maiden-bond.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/maiden-bonds/:id",
+      "handler": "maiden-bond.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/maiden-bonds/:id",
+      "handler": "maiden-bond.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

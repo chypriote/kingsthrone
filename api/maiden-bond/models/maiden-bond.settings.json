@@ -1,0 +1,53 @@
+{
+  "kind": "collectionType",
+  "collectionName": "maiden_bonds",
+  "info": {
+    "name": "MaidenBond"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": false,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "attribute": {
+      "type": "enumeration",
+      "enum": [
+        "military",
+        "fortune",
+        "provisions",
+        "inspiration",
+        "balanced"
+      ]
+    },
+    "second_attribute": {
+      "type": "enumeration",
+      "enum": [
+        "military",
+        "fortune",
+        "provisions",
+        "inspiration",
+        "balanced"
+      ]
+    },
+    "per_level": {
+      "type": "integer"
+    },
+    "multiplier_per_level": {
+      "type": "decimal"
+    },
+    "levels": {
+      "type": "integer"
+    },
+		"unlock": {
+			"type": "integer"
+		},
+    "order": {
+      "type": "integer"
+    },
+    "maiden": {
+      "model": "maiden",
+      "via": "maiden_bonds"
+    }
+  }
+}

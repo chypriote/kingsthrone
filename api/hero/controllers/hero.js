@@ -14,8 +14,10 @@ module.exports = {
 		const entity = await strapi.services.hero.findOne(params, [
 			'hero_group.paragons',
 			'hero_group.paragons.item',
+			'hero_group.paragons.hero_groups',
 			'picture',
 			'skins',
+			'skins.picture',
 			'quality_skills',
 			'quality_skills.skins',
 			'quality_skills.skins.picture',
@@ -23,6 +25,7 @@ module.exports = {
 			'paragons.item',
 			'maiden',
 			'maiden.picture',
+			'maiden.maiden_bonds',
 		])
 
 		return sanitizeEntity(entity, { model: strapi.models.hero })

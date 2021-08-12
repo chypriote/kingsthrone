@@ -7,9 +7,16 @@ export const treasureTable = async (): Promise<void> => {
 
 	const outer = status.zhuanpan.lowquan
 	const inner = status.zhuanpan.higquan
-	logger.success(`You have ${inner} inner spin available`)
-	if (outer > 0) {
-		await goat.events.treasureTable.spin(1, outer)
-		logger.log('Spin outer wheel')
+	if (inner || outer) {
+		logger.success(`You have ${inner} inner spin + ${outer} outer spin available`)
+	}
+
+	if (status.zhuanpan.cfg.neirwd.cd.num) {
+		await goat.events.treasureTable.spin(2, 1)
+		logger.log('Spin free inner wheel')
+	}
+	if (status.zhuanpan.cfg.wairwd.cd.num) {
+		await goat.events.treasureTable.spin(2, 1)
+		logger.log('Spin free outer wheel')
 	}
 }

@@ -18,6 +18,7 @@ export const getChallengeRewards = async (type: CHALLENGE_TYPES): Promise<void> 
 	case CHALLENGE_TYPES.EQUIPMENT: return equipment()
 	case CHALLENGE_TYPES.INTIMACY: return intimacy()
 	case CHALLENGE_TYPES.RARE_BEASTS: return rareBeasts()
+	case CHALLENGE_TYPES.XS_INTIMACY: return xsIntimacy()
 	default: return
 	}
 }
@@ -150,7 +151,19 @@ const rareBeasts = async (): Promise<void> => {
 
 	for (const task of event.zhenshou.cfg.task || []) {
 		if (task.target > score || claimed.includes(task.id)) { continue }
-		await goat.challenges.quality.claimProgressReward(task.id)
+		await goat.challenges.rareBeasts.claimProgressReward(task.id)
+		logger.success(`Claimed reward ${task.id} for challenge rare beasts`)
+	}
+}
+const xsIntimacy = async (): Promise<void> => {
+	const event = await goat.challenges.xsIntimacy.eventInfos()
+	const ranks = await goat.challenges.xsIntimacy.getRankings()
+	const score = ranks.mykualoveRid.score
+	const claimed = JSON.parse(event.rewards[0].taskStatus.toString()).map((r: {id: number}) => r.id)
+
+	for (const task of event.kualove.cfg.task || []) {
+		if (task.target > score || claimed.includes(task.id)) { continue }
+		await goat.challenges.xsIntimacy.claimProgressReward(task.id)
 		logger.success(`Claimed reward ${task.id} for challenge rare beasts`)
 	}
 }

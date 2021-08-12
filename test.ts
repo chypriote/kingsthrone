@@ -166,9 +166,41 @@ const recordXServerPointsAndGems = async () => {
 }
 const doExpedition = async () => {
 	goat._setAccount(ACCOUNT_GAUTIER)
-	await goat.expeditions.doKingdomExpedition(11600001)
+	goat._setServer('1094')
+	await goat.expeditions.doKingdomExpedition(12900006)
+	await goat.expeditions.doKingdomExpedition(11900002)
+	await goat.expeditions.doKingdomExpedition(11900003)
+	await goat.expeditions.doKingdomExpedition(11900004)
+	await goat.expeditions.doKingdomExpedition(11900005)
+	await goat.expeditions.doKingdomExpedition(11900006)
+	await goat.expeditions.doKingdomExpedition(12000001)
+	await goat.expeditions.doKingdomExpedition(12000002)
+	await goat.expeditions.doKingdomExpedition(12000003)
+	await goat.expeditions.doKingdomExpedition(12000004)
+	await goat.expeditions.doKingdomExpedition(12000005)
 }
 
+const test = async () => {
+	goat._setAccount(ACCOUNT_GAUTIER)
+	goat._setServer('1094')
+	const existing = (await client('items')).map((i) => i.id)
+	const table = await goat.events.treasureTable.eventInfos()
+	for (const item of table.zhuanpan.cfg.shop.list) {
+		if (!existing.includes(item.items.id)){
+			console.log(`Item ${item.items.id} not registered (count ${item.items.count}, price ${item.need}, limit ${item.totalLimit})`)
+		}
+	}
+	for (const item of table.zhuanpan.cfg.neirwd.list) {
+		if (!existing.includes(item.items.id)) {
+			console.log(`Item ${item.items.id} not registered (inner)`)
+		}
+	}
+	for (const item of table.zhuanpan.cfg.wairwd.list) {
+		if (!existing.includes(item.items.id)) {
+			console.log(`Item ${item.items.id} not registered (outer)`)
+		}
+	}
+}
 checkItems().then(() => {
 	logger.success('Finished')
 	process.exit()

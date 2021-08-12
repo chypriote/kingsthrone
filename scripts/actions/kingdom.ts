@@ -73,8 +73,9 @@ export const handleCastle = async (castle: CastleInfos): Promise<void> => {
 	// logger.warn(`Handling castle ${castle.id}`)
 	await goat.kingdom.getCastleRewards(castle.id)
 	// logger.log(`Claimed maiden rewards for cast ${casle.id}`)
-	if (!goat._isShallan())
+	if (!goat._isShallan() || castle.id < 4) {
 		await goat.kingdom.levelUpCastle(castle.id)
+	}
 
 	let status = 0
 	const quests = castle.task.event

@@ -5,15 +5,15 @@ import { LTQ_TYPES, LTQStatus } from 'kingsthrone-api/lib/types/LimitedTimeQuest
 import { CHALLENGE_TYPES } from 'kingsthrone-api/lib/types/Challenges'
 import { allianceSiege } from './siege'
 import { treasureHunt } from './treasureHunt'
+import { treasureTable } from './treasureTable'
 import { coronation } from './coronation'
 import { giftOfTheFae } from './giftOfTheFae'
 import { pathOfWealth } from './pathOfWealth'
-import { renownedMerchant, renownedMerchantWishTree, renownedMerchantLoginRewards } from './renownedMerchant'
+import { renownedMerchant, renownedMerchantLoginRewards, renownedMerchantWishTree } from './renownedMerchant'
 import { handlePass, PASS_TYPE } from './pass'
 import { peoplesMonarch } from './peoplesMonarch'
 import { alchemy } from './alchemy'
 import { logger } from '../services/logger'
-import { heroesTrial } from './heroesTrial'
 import { picnic } from './picnic'
 import { mysteriousIsland } from './mysteriousIsland'
 import { getChallengeRewards } from './challenge'
@@ -42,12 +42,15 @@ const LIMITED_QUESTS = [
 	LTQ_TYPES.LOGIN,
 	LTQ_TYPES.TOURNEY_SCORE,
 	LTQ_TYPES.ARRANGE_MARRIAGES,
+	LTQ_TYPES.TRAINING_GROUND,
 	LTQ_TYPES.CHALLENGE_TOKENS,
 	LTQ_TYPES.PROCESSIONS_DONATION,
 	LTQ_TYPES.GOODWILL_DRAUGHT,
 	LTQ_TYPES.ENERGY_DRAUGHT,
 	LTQ_TYPES.INCREASE_CHARM,
 	LTQ_TYPES.ATTEND_FEASTS,
+	LTQ_TYPES.DAMAGE_ALLIANCE_BOSS,
+	LTQ_TYPES.KILL_ALLIANCE_BOSS,
 	LTQ_TYPES.FEAST_POINTS,
 	LTQ_TYPES.RANDOM_VISITS,
 ]
@@ -63,12 +66,15 @@ const getQuestInfos = async (type: number): Promise<LTQStatus|null> => {
 	case LTQ_TYPES.LOGIN: return await goat.limitedTimeQuests.login()
 	case LTQ_TYPES.TOURNEY_SCORE: return await goat.limitedTimeQuests.tourneyScore()
 	case LTQ_TYPES.ARRANGE_MARRIAGES: return await goat.limitedTimeQuests.arrangeMarriages()
+	case LTQ_TYPES.TRAINING_GROUND: return await goat.limitedTimeQuests.trainingGround()
 	case LTQ_TYPES.CHALLENGE_TOKENS: return await goat.limitedTimeQuests.challengeTokens()
 	case LTQ_TYPES.PROCESSIONS_DONATION: return await goat.limitedTimeQuests.processionsDonation()
 	case LTQ_TYPES.GOODWILL_DRAUGHT: return await goat.limitedTimeQuests.goodwillDraughtQuest()
 	case LTQ_TYPES.ENERGY_DRAUGHT: return await goat.limitedTimeQuests.energyDraughtQuest()
 	case LTQ_TYPES.INCREASE_CHARM: return await goat.limitedTimeQuests.increaseCharm()
 	case LTQ_TYPES.ATTEND_FEASTS: return await goat.limitedTimeQuests.attendFeasts()
+	case LTQ_TYPES.DAMAGE_ALLIANCE_BOSS: return await goat.limitedTimeQuests.damageAllianceBosses()
+	case LTQ_TYPES.KILL_ALLIANCE_BOSS: return await goat.limitedTimeQuests.killAllianceBosses()
 	case LTQ_TYPES.FEAST_POINTS: return await goat.limitedTimeQuests.feastPoints()
 	case LTQ_TYPES.RANDOM_VISITS: return await goat.limitedTimeQuests.randomVisitsQuest()
 	default: return null
@@ -99,6 +105,7 @@ const CHALLENGES = [
 	CHALLENGE_TYPES.EQUIPMENT,
 	CHALLENGE_TYPES.INTIMACY,
 	CHALLENGE_TYPES.RARE_BEASTS,
+	CHALLENGE_TYPES.XS_INTIMACY,
 ]
 
 export const doEvents = async (): Promise<void> => {
@@ -117,6 +124,7 @@ export const doEvents = async (): Promise<void> => {
 		if (event.type === 7 && event.id === 282) { await peoplesMonarch() }
 		if (event.id === 1299) {await giftOfTheFae() }
 		if (event.id === 293) {await pathOfWealth() }
+		if (event.id === 290) {await treasureTable() }
 		if (event.id === 1246 && event.type === 1231) {await renownedMerchant() }
 		if (event.id === 1209 && event.type === 1231) {await renownedMerchantWishTree() }
 		if (event.id === 1243 && event.type === 1231) {await renownedMerchantLoginRewards() }

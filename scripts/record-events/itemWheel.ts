@@ -36,8 +36,8 @@ export const logJewelsOfLuck = async (): Promise<void> => {
 		.insert({
 			name: 'Jewels of Luck',
 			eid: 208,
-			start: fromUnixTime(1626393600),
-			end: fromUnixTime(11),
+			start: fromUnixTime(1628812800),
+			end: fromUnixTime(1629071999),
 			type: 2,
 		})
 		.returning('id')

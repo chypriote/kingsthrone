@@ -19,6 +19,8 @@ export const getChallengeRewards = async (type: CHALLENGE_TYPES): Promise<void> 
 	case CHALLENGE_TYPES.INTIMACY: return intimacy()
 	case CHALLENGE_TYPES.RARE_BEASTS: return rareBeasts()
 	case CHALLENGE_TYPES.XS_INTIMACY: return xsIntimacy()
+	case CHALLENGE_TYPES.ALLIANCE_POWER: return alliancePower()
+	case CHALLENGE_TYPES.FEAST_POINTS: return feastPoints()
 	default: return
 	}
 }
@@ -43,6 +45,17 @@ const allianceExperience = async (): Promise<void> => {
 		if (task.target > score || claimed.includes(task.id)) { continue }
 		await goat.challenges.allianceExperience.claimProgressReward(task.id)
 		logger.success(`Claimed reward ${task.id} for challenge alliance experience`)
+	}
+}
+const alliancePower = async (): Promise<void> => {
+	const event = await goat.challenges.alliancePower.eventInfos()
+	const score = event.myclubShiliRid.score
+	const claimed = JSON.parse(event.rewards[0].taskStatus.toString()).map((r: {id: number}) => r.id)
+
+	for (const task of event.clubshili.cfg.task || []) {
+		if (task.target > score || claimed.includes(task.id)) { continue }
+		await goat.challenges.alliancePower.claimProgressReward(task.id)
+		logger.success(`Claimed reward ${task.id} for challenge alliance power`)
 	}
 }
 const grain = async (): Promise<void> => {
@@ -155,6 +168,18 @@ const rareBeasts = async (): Promise<void> => {
 		logger.success(`Claimed reward ${task.id} for challenge rare beasts`)
 	}
 }
+const feastPoints = async (): Promise<void> => {
+	const event = await goat.challenges.feastPoints.eventInfos()
+	const score = event.myJiuLouRid.score
+	const claimed = JSON.parse(event.rewards[0].taskStatus.toString()).map((r: {id: number}) => r.id)
+
+	for (const task of event.jiulou.cfg.task || []) {
+		if (task.target > score || claimed.includes(task.id)) { continue }
+		await goat.challenges.feastPoints.claimProgressReward(task.id)
+		logger.success(`Claimed reward ${task.id} for challenge feast points`)
+	}
+}
+
 const xsIntimacy = async (): Promise<void> => {
 	const event = await goat.challenges.xsIntimacy.eventInfos()
 	const ranks = await goat.challenges.xsIntimacy.getRankings()

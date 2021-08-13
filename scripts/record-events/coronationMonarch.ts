@@ -5,7 +5,7 @@ import { client } from '../services/database'
 const logEvent = async (name: string, event: CoronationStatus | PeoplesMonarchStatus): Promise<void> => {
 	const [eid] = await client('events')
 		.insert({
-			name: 'Coronation',
+			name: name,
 			eid: event.cfg.info.no,
 			start: fromUnixTime(event.cfg.info.sTime),
 			end: fromUnixTime(event.cfg.info.eTime),

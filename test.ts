@@ -166,22 +166,26 @@ const recordXServerPointsAndGems = async () => {
 	}
 }
 const doExpedition = async () => {
-	goat._setAccount(ACCOUNT_GAUTIER)
-	goat._setServer('1094')
-	await goat.expeditions.doKingdomExpedition(1200005)
-	await goat.expeditions.doKingdomExpedition(1200006)
-	await goat.expeditions.doKingdomExpedition(1300001)
-	await goat.expeditions.doKingdomExpedition(1300002)
-	await goat.expeditions.doKingdomExpedition(1300003)
-	await goat.expeditions.doKingdomExpedition(1300004)
-	await goat.expeditions.doKingdomExpedition(1300005)
-	await goat.expeditions.doKingdomExpedition(1300006)
-	await goat.expeditions.doKingdomExpedition(1400001)
-	await goat.expeditions.doKingdomExpedition(1400002)
-	await goat.expeditions.doKingdomExpedition(1400003)
+	// goat._setAccount(ACCOUNT_GAUTIER)
+	// goat._setServer('1094')
+	await goat.expeditions.doKingdomExpedition(11900003)
+	await goat.expeditions.doKingdomExpedition(11900004)
+	await goat.expeditions.doKingdomExpedition(11900005)
+	await goat.expeditions.doKingdomExpedition(11900006)
+	await goat.expeditions.doKingdomExpedition(12000001)
+	await goat.expeditions.doKingdomExpedition(12000002)
+	await goat.expeditions.doKingdomExpedition(12000003)
+	await goat.expeditions.doKingdomExpedition(12000004)
+	await goat.expeditions.doKingdomExpedition(12000005)
+	await goat.expeditions.doKingdomExpedition(12000006)
+	await goat.expeditions.doKingdomExpedition(12100001)
+}
+const test = async () => {
+	const test =(await goat.profile.getGameInfos()).huodonglist.all
+	console.log(test)
 }
 
-doExpedition().then(() => {
+mainQuest().then(() => {
 	logger.success('Finished')
 	process.exit()
 })

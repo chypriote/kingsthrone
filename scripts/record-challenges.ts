@@ -3,7 +3,11 @@ import { fromUnixTime } from 'date-fns'
 import { ClubEventRwd, goat } from 'kingsthrone-api'
 import { Item } from 'kingsthrone-api/types/Item'
 import { EventRwd } from 'kingsthrone-api/lib/types/Events'
-import { AllianceExperienceStatus, AllianceIntimacyStatus } from 'kingsthrone-api/lib/types/Challenges'
+import {
+	AllianceExperienceStatus,
+	AllianceIntimacyStatus,
+	AlliancePowerStatus
+} from 'kingsthrone-api/lib/types/Challenges'
 import { client } from './services/database'
 
 const rwdIdToRank = (index: number): number => {
@@ -30,7 +34,7 @@ const logRewards = async (cid: number, rewards: {id: number, count:number}[]): P
 		})
 	}
 }
-const logAllianceRewards = async (cid: number, rewards: ClubEventRwd[]): Promise<void> => {
+export const logAllianceRewards = async (cid: number, rewards: ClubEventRwd[]): Promise<void> => {
 	let i = 0
 	for (const reward of rewards) {
 		//Logging leader rewards
@@ -50,7 +54,7 @@ const logAllianceRewards = async (cid: number, rewards: ClubEventRwd[]): Promise
 		i++
 	}
 }
-const logChallengeRewards = async (cid: number, rewards: EventRwd[]): Promise<void> => {
+export const logChallengeRewards = async (cid: number, rewards: EventRwd[]): Promise<void> => {
 	let i = 0
 	for (const reward of rewards) {
 		const [rid] = await client('challenge_rewards').insert({
@@ -63,7 +67,7 @@ const logChallengeRewards = async (cid: number, rewards: EventRwd[]): Promise<vo
 	}
 }
 
-const logProgresses = async (cid: number, rewards: Item[]): Promise<void> => {
+export const logProgresses = async (cid: number, rewards: Item[]): Promise<void> => {
 	for (const item of rewards) {
 		await client('challenge_progress_items').insert({
 			count: item.count,
@@ -112,6 +116,22 @@ const logAllianceExperience = async () => {
 
 	await logAllianceRewards(id, challenge.club.cfg.rwd)
 	await logAllianceProgress(id, challenge.club.cfg.task)
+}
+const logAlliancePower = async () => {
+	const challenge: AlliancePowerStatus = await goat.challenges.alliancePower.eventInfos()
+
+	const [id] = await client('challenges').insert({
+		name: 'Alliance Power',
+		cid: challenge.clubshili.cfg.info.id,
+		type: challenge.clubshili.cfg.info.type,
+		start: fromUnixTime(challenge.clubshili.cfg.info.sTime),
+		end: fromUnixTime(challenge.clubshili.cfg.info.eTime),
+		alliance: true,
+		title: 'King of Warriors',
+	}).returning('id')
+
+	await logAllianceRewards(id, challenge.clubshili.cfg.rwd)
+	await logAllianceProgress(id, challenge.clubshili.cfg.task)
 }
 const logGrain = async () => {
 	const challenge = await goat.challenges.grain.eventInfos()
@@ -239,8 +259,23 @@ const logRareBeasts = async () => {
 
 	await logChallengeRewards(id, challenge.zhenshou.cfg.rwd)
 }
+const logFeastPoints = async () => {
+	const challenge = await goat.challenges.feastPoints.eventInfos()
+	const [id] = await client('challenges').insert({
+		name: 'Feast Points',
+		cid: challenge.jiulou.cfg.info.id,
+		type: challenge.jiulou.cfg.info.type,
+		start: fromUnixTime(challenge.jiulou.cfg.info.sTime),
+		end: fromUnixTime(challenge.jiulou.cfg.info.eTime),
+		alliance: false,
+		title: 'King of Conquerors',
+	}).returning('id')
+
+	await logChallengeRewards(id, challenge.jiulou.cfg.rwd)
+}
 
 const logChallenges = async () => {
-	await logRareBeasts()
+	await logAlliancePower()
+	await logFeastPoints()
+	await logCharm()
 }
-logChallenges().then(() => { process.exit()})

@@ -6,6 +6,7 @@ import { Progress } from './scripts/services/progress'
 import { chunk, orderBy } from 'lodash'
 import { Goat } from 'kingsthrone-api/lib'
 import { IAccount } from 'kingsthrone-api/lib/src/GoatResource'
+import axios from 'axios'
 const winston = require('winston')
 
 
@@ -167,40 +168,19 @@ const recordXServerPointsAndGems = async () => {
 const doExpedition = async () => {
 	goat._setAccount(ACCOUNT_GAUTIER)
 	goat._setServer('1094')
-	await goat.expeditions.doKingdomExpedition(1100001)
-	await goat.expeditions.doKingdomExpedition(1100002)
-	await goat.expeditions.doKingdomExpedition(1100003)
-	await goat.expeditions.doKingdomExpedition(1100004)
-	await goat.expeditions.doKingdomExpedition(1100005)
-	await goat.expeditions.doKingdomExpedition(1100006)
-	await goat.expeditions.doKingdomExpedition(1200001)
-	await goat.expeditions.doKingdomExpedition(1200002)
-	await goat.expeditions.doKingdomExpedition(1200003)
-	await goat.expeditions.doKingdomExpedition(1200004)
 	await goat.expeditions.doKingdomExpedition(1200005)
+	await goat.expeditions.doKingdomExpedition(1200006)
+	await goat.expeditions.doKingdomExpedition(1300001)
+	await goat.expeditions.doKingdomExpedition(1300002)
+	await goat.expeditions.doKingdomExpedition(1300003)
+	await goat.expeditions.doKingdomExpedition(1300004)
+	await goat.expeditions.doKingdomExpedition(1300005)
+	await goat.expeditions.doKingdomExpedition(1300006)
+	await goat.expeditions.doKingdomExpedition(1400001)
+	await goat.expeditions.doKingdomExpedition(1400002)
+	await goat.expeditions.doKingdomExpedition(1400003)
 }
 
-const test = async () => {
-	goat._setAccount(ACCOUNT_GAUTIER)
-	goat._setServer('1094')
-	const existing = (await client('items')).map((i) => i.id)
-	const table = await goat.events.treasureTable.eventInfos()
-	for (const item of table.zhuanpan.cfg.shop.list) {
-		if (!existing.includes(item.items.id)){
-			console.log(`Item ${item.items.id} not registered (count ${item.items.count}, price ${item.need}, limit ${item.totalLimit})`)
-		}
-	}
-	for (const item of table.zhuanpan.cfg.neirwd.list) {
-		if (!existing.includes(item.items.id)) {
-			console.log(`Item ${item.items.id} not registered (inner)`)
-		}
-	}
-	for (const item of table.zhuanpan.cfg.wairwd.list) {
-		if (!existing.includes(item.items.id)) {
-			console.log(`Item ${item.items.id} not registered (outer)`)
-		}
-	}
-}
 doExpedition().then(() => {
 	logger.success('Finished')
 	process.exit()

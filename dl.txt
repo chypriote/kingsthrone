@@ -1,0 +1,21 @@
+Goto
+https://ksrclient.gtclientoverseas.com/kings/kingZsjEfun/res/cn_h_kingZsjEfun_cn/reslist_v11.json
+https://ksrclient.gtclientoverseas.com/kings/kingZsjEfun/res/cn_h_kingZsjEfun_cn/reslist_v21.json
+https://ksrclient.gtclientoverseas.com/kings/kingZsjEfun/res/cn_h_kingZsjEfun_cn/reslist_v31.json
+https://ksrclient.gtclientoverseas.com/kings/kingZsjEfun/res/cn_h_kingZsjEfun_cn/reslist_v41.json
+
+xlist = list of zip updates
+
+
+Go to
+https://ksrclient.gtclientoverseas.com/kings/kingZsjEfun/res/cn_h_kingZsjEfun_cn/%update%.zip
+to download an update
+
+
+(Servers: http://ksrclient.gtclientoverseas.com/kings/kingZsjEfun/gw_channel/goat/goatgame_aab4.json) not very useful
+
+http://ksrclient.gtclientoverseas.com/kings/kingZsjEfun/res/cn_h_kingZsjEfun_act(ACT_ID)_cn/reslist_v31.json
+to get event packages list
+http://ksrclient.gtclientoverseas.com/kings/kingZsjEfun/res/cn_h_kingZsjEfun_act(ACT_ID)_cn/(PACKAGE).zip
+to download
+

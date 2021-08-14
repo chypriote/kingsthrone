@@ -14,6 +14,7 @@ module.exports = {
 		const entity = await strapi.services.hero.findOne(params, [
 			'hero_group.paragons',
 			'hero_group.paragons.item',
+			'hero_group.paragons.item.picture',
 			'hero_group.paragons.hero_groups',
 			'picture',
 			'skins',
@@ -22,7 +23,9 @@ module.exports = {
 			'quality_skills.skins',
 			'quality_skills.skins.picture',
 			'paragons',
+			'paragons.picture',
 			'paragons.item',
+			'paragons.item.picture',
 			'maiden',
 			'maiden.picture',
 			'maiden.maiden_bonds',

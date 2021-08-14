@@ -57,6 +57,8 @@ export const updatePlayerDetails = async (player: Player, goat: UserProfile): Pr
 			heroes: goat.hero_num,
 			maidens: goat.wife_num,
 			children: goat.son_num,
+			headType: goat.headType,
+			headId: goat.headId,
 			ratio: Math.round(goat.shili / goat.hero_num),
 			updated_at: formatISO(new Date()),
 		})

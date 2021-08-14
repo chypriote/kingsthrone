@@ -102,6 +102,16 @@
       "type": "component",
       "repeatable": false,
       "component": "hero.frame"
+    },
+    "icon": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
     }
   }
 }

@@ -39,15 +39,15 @@
     "levels": {
       "type": "integer"
     },
-		"unlock": {
-			"type": "integer"
-		},
+    "unlock": {
+      "type": "integer"
+    },
     "order": {
       "type": "integer"
     },
     "maiden": {
-      "model": "maiden",
-      "via": "maiden_bonds"
+      "via": "maiden_bonds",
+      "model": "maiden"
     }
   }
 }

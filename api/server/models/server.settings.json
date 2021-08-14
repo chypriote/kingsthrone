@@ -9,7 +9,9 @@
     "increments": true,
     "timestamps": false,
     "draftAndPublish": false,
-		"privateAttributes": ["players"]
+    "privateAttributes": [
+      "players"
+    ]
   },
   "attributes": {
     "name": {

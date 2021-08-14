@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "event_types",
+  "info": {
+    "name": "EventType",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": false,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "picture": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "strategy": {
+      "type": "richtext"
+    },
+    "vip0_strategy": {
+      "type": "richtext"
+    },
+    "cost_effectiveness": {
+      "type": "integer"
+    },
+    "events": {
+      "collection": "event",
+      "via": "event_type"
+    }
+  }
+}

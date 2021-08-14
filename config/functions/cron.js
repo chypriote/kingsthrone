@@ -13,11 +13,7 @@
 module.exports = {
 	'50 1 * * *': {
 		task: async () => {
-			const { goat, update } = strapi.services
-
-			await goat.login()
-			await update.profiles()
-			await update.alliances()
+			console.log('hello')
 		},
 		options: {
 			tz: 'Europe/Paris',

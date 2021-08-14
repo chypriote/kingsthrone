@@ -114,7 +114,7 @@ export const doEvents = async (): Promise<void> => {
 	const status = await goat.profile.getGameInfos()
 	const events = status.huodonglist.all
 
-	if (status.kuaCLubBattle && status.kuaCLubBattle.data.type !== 0) {
+	if (status.kuaCLubBattle && status.kuaCLubBattle.data && status.kuaCLubBattle.data.type !== 0) {
 		await allianceSiege()
 	}
 

@@ -1,12 +1,18 @@
 const fs = require('fs').promises
 const path = require('path')
+const chalk = require('chalk')
 
 const decryptFile = async (file, currentPath) => {
-	const buffer = await fs.readFile(path.join(currentPath, file))
-	const content = Buffer.from(buffer, 'ascii')
-	const value = content.toString('hex')
-	const final = value.replace(/^545b735f6270563445535d28/, '')
-	await fs.writeFile(path.join(currentPath, file), final, 'hex')
+	try {
+		const buffer = await fs.readFile(path.join(currentPath, file))
+		const content = Buffer.from(buffer, 'ascii')
+		const value = content.toString('hex')
+		const final = value.replace(/^545b735f6270563445535d28/, '')
+		await fs.writeFile(path.join(currentPath, file), final, 'hex')
+	} catch (e) {
+		console.log(chalk.red(`${currentPath}/${file} not converted because: ${e.toString()}`))
+		console.trace()
+	}
 }
 
 async function unpack(dir) {
@@ -26,7 +32,7 @@ async function unpack(dir) {
 	await Promise.all(promises)
 }
 
-unpack('D:\\Nicolas\\Downloads\\KTupdates\\kingZsjEfun_01_0450\\stu\\assetsRes\\res')
+unpack('D:\\Nicolas\\Downloads\\KTupdates')
 	.then(() => {
 		console.log('Finished')
 		process.exit()

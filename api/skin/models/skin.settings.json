@@ -58,6 +58,11 @@
       "model": "quality-skill",
       "via": "skins",
       "dominant": true
-    }
+    },
+		"paragon": {
+			"model": "paragon",
+			"via": "skins",
+			"dominant": true
+		}
   }
 }

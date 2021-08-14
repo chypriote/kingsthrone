@@ -38,6 +38,16 @@
     "inspiration": {
       "type": "float"
     },
+		"icon": {
+			"model": "file",
+			"via": "related",
+			"allowedTypes": [
+				"images"
+			],
+			"plugin": "upload",
+			"required": false,
+			"pluginOptions": {}
+		},
     "heroes": {
       "via": "paragons",
       "collection": "hero",
@@ -50,6 +60,10 @@
     "item": {
       "model": "item",
       "via": "paragons"
-    }
+    },
+		"skins": {
+			"via": "paragon",
+			"collection": "skin"
+		}
   }
 }

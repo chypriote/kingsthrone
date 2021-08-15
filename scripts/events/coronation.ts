@@ -16,8 +16,8 @@ const buyAll = async (item: CORONATION_ITEM) => {
 	const available = find(status.shop, s => s.items.id === coronationItemIds[item])
 
 	if (!available) { return}
-	const bag = find(status.bag, b => b.id === coronationItemIds[item])
-	if (!bag) { return }
+	const bag = find(status.bag, b => b.id === coronationItemIds[item]) || { id: coronationItemIds[item], count: 0, kind: 11 }
+
 	for (let i = 0; i < available.limit; i++) {
 		await goat.events.coronation.buyShopItem(item)
 		bag.count++

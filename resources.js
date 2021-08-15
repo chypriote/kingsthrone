@@ -1,9 +1,7 @@
 const fs = require('fs')
 const path = require('path')
-const https = require('https')
 const axios = require('axios')
 const chalk = require('chalk')
-const unzipper = require('unzipper')
 
 async function download(item, event) {
 	if (item.indexOf('.zip') === -1) {console.log(`${event} invalid ${item}`); return}
@@ -11,14 +9,28 @@ async function download(item, event) {
 	const folder = path.join('/home/nicolas/Téléchargements/KT', item)
 	const file = fs.createWriteStream(folder)
 
-	https.get(`https://ksrclient.gtclientoverseas.com/kings/kingZsjEfun/res/cn_h_kingZsjEfun_act${event}_cn/${item}`, function(response) {
-		response.pipe(file)
-		console.log(chalk.green(`Downloaded ${item}`))
-	})
+	return axios
+		.get(`https://ksrclient.gtclientoverseas.com/kings/kingZsjEfun/res/cn_h_kingZsjEfun_act${event}_cn/${item}`, { responseType: 'stream' })
+		.then(response => {
+
+			return new Promise((resolve, reject) => {
+				response.data.pipe(file)
+				let error = null
+				file.on('error', err => {
+					error = err
+					file.close()
+					reject(err)
+				})
+				file.on('close', () => {
+					if (!error) { resolve(true) }
+				})
+				console.log(chalk.green(`Downloaded ${item}`))
+			})
+		})
 }
 
 async function resources() {
-	const events = [298, 336,1028, 1085,1089, 1091, 1092, 1095, 1123, 1156, 1258, 1276, 1299, 1341]
+	const events = [1250]
 
 	for (const event of events) {
 		try {

@@ -21,6 +21,8 @@ export const getChallengeRewards = async (type: CHALLENGE_TYPES): Promise<void> 
 	case CHALLENGE_TYPES.XS_INTIMACY: return xsIntimacy()
 	case CHALLENGE_TYPES.ALLIANCE_POWER: return alliancePower()
 	case CHALLENGE_TYPES.FEAST_POINTS: return feastPoints()
+	case CHALLENGE_TYPES.KINGDOM_POWER: return kingdomPower()
+	case CHALLENGE_TYPES.LOSE_SOLDIERS: return loseSoldiers()
 	default: return
 	}
 }
@@ -177,6 +179,28 @@ const feastPoints = async (): Promise<void> => {
 		if (task.target > score || claimed.includes(task.id)) { continue }
 		await goat.challenges.feastPoints.claimProgressReward(task.id)
 		logger.success(`Claimed reward ${task.id} for challenge feast points`)
+	}
+}
+const kingdomPower = async (): Promise<void> => {
+	const event = await goat.challenges.kingdomPower.eventInfos()
+	const score = event.myshiliRid.score
+	const claimed = JSON.parse(event.rewards[0].taskStatus.toString()).map((r: {id: number}) => r.id)
+
+	for (const task of event.shili.cfg.task || []) {
+		if (task.target > score || claimed.includes(task.id)) { continue }
+		await goat.challenges.kingdomPower.claimProgressReward(task.id)
+		logger.success(`Claimed reward ${task.id} for challenge kingdom power`)
+	}
+}
+const loseSoldiers = async (): Promise<void> => {
+	const event = await goat.challenges.loseSoldiers.eventInfos()
+	const score = event.myShiBingRid.score
+	const claimed = JSON.parse(event.rewards[0].taskStatus.toString()).map((r: {id: number}) => r.id)
+
+	for (const task of event.shibing.cfg.task || []) {
+		if (task.target > score || claimed.includes(task.id)) { continue }
+		await goat.challenges.loseSoldiers.claimProgressReward(task.id)
+		logger.success(`Claimed reward ${task.id} for challenge lose soldiers`)
 	}
 }
 

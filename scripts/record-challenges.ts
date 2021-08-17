@@ -273,9 +273,38 @@ const logFeastPoints = async () => {
 
 	await logChallengeRewards(id, challenge.jiulou.cfg.rwd)
 }
+const logLoseSoldiers = async () => {
+	const challenge = await goat.challenges.loseSoldiers.eventInfos()
+	const [id] = await client('challenges').insert({
+		name: 'Lose Soldiers',
+		cid: challenge.shibing.cfg.info.id,
+		type: challenge.shibing.cfg.info.type,
+		start: fromUnixTime(challenge.shibing.cfg.info.sTime),
+		end: fromUnixTime(challenge.shibing.cfg.info.eTime),
+		alliance: false,
+		title: 'Lord of Militance',
+	}).returning('id')
+
+	await logChallengeRewards(id, challenge.shibing.cfg.rwd)
+}
+const logKingdomPower = async () => {
+	const challenge = await goat.challenges.kingdomPower.eventInfos()
+	const [id] = await client('challenges').insert({
+		name: 'Kingdom Power',
+		cid: challenge.shili.cfg.info.id,
+		type: challenge.shili.cfg.info.type,
+		start: fromUnixTime(challenge.shili.cfg.info.sTime),
+		end: fromUnixTime(challenge.shili.cfg.info.eTime),
+		alliance: false,
+		title: 'King of Might',
+	}).returning('id')
+
+	await logChallengeRewards(id, challenge.shili.cfg.rwd)
+}
 
 const logChallenges = async () => {
-	await logAlliancePower()
-	await logFeastPoints()
-	await logCharm()
+	await logKingdomPower()
+	await logLoseSoldiers()
 }
+
+// logChallenges().then(() => {process.exit()})

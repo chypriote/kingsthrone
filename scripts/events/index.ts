@@ -43,6 +43,7 @@ const LIMITED_QUESTS = [
 	LTQ_TYPES.TOURNEY_SCORE,
 	LTQ_TYPES.ARRANGE_MARRIAGES,
 	LTQ_TYPES.TRAINING_GROUND,
+	LTQ_TYPES.KILL_SIEGE_BOSS,
 	LTQ_TYPES.CHALLENGE_TOKENS,
 	LTQ_TYPES.PROCESSIONS_DONATION,
 	LTQ_TYPES.GOODWILL_DRAUGHT,
@@ -65,6 +66,7 @@ const getQuestInfos = async (type: number): Promise<LTQStatus|null> => {
 	case LTQ_TYPES.ENACT_DECREES: return await goat.limitedTimeQuests.enactDecrees()
 	case LTQ_TYPES.LOGIN: return await goat.limitedTimeQuests.login()
 	case LTQ_TYPES.TOURNEY_SCORE: return await goat.limitedTimeQuests.tourneyScore()
+	case LTQ_TYPES.KILL_SIEGE_BOSS: return await goat.limitedTimeQuests.killSiegeBoss()
 	case LTQ_TYPES.ARRANGE_MARRIAGES: return await goat.limitedTimeQuests.arrangeMarriages()
 	case LTQ_TYPES.TRAINING_GROUND: return await goat.limitedTimeQuests.trainingGround()
 	case LTQ_TYPES.CHALLENGE_TOKENS: return await goat.limitedTimeQuests.challengeTokens()
@@ -108,6 +110,8 @@ const CHALLENGES = [
 	CHALLENGE_TYPES.RARE_BEASTS,
 	CHALLENGE_TYPES.XS_INTIMACY,
 	CHALLENGE_TYPES.FEAST_POINTS,
+	CHALLENGE_TYPES.LOSE_SOLDIERS,
+	CHALLENGE_TYPES.KINGDOM_POWER,
 ]
 
 export const doEvents = async (): Promise<void> => {

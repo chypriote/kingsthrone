@@ -9,8 +9,8 @@ export const logPicnic = async (): Promise<void> => {
 		.insert({
 			name: 'Picnic',
 			eid: 1028,
-			start: fromUnixTime(1627862400),
-			end: fromUnixTime(11),
+			start: fromUnixTime(1629072000),
+			end: fromUnixTime(1629417600),
 			type: 1028,
 		})
 		.returning('id')

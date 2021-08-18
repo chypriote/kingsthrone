@@ -3,7 +3,7 @@ import { fromUnixTime, startOfToday } from 'date-fns'
 import { client } from '../services/database'
 
 export const logDailyAllianceShop = async (): Promise<void> => {
-	const event = await goat.challenges.allianceSiege.eventInfos()
+	const event = await goat.events.allianceSiege.eventInfos()
 
 	const [eid] = await client('events')
 		.insert({
@@ -26,7 +26,7 @@ export const logDailyAllianceShop = async (): Promise<void> => {
 	}
 }
 export const logAllianceSiege = async (): Promise<void> => {
-	const event = await goat.challenges.allianceSiege.eventInfos()
+	const event = await goat.events.allianceSiege.eventInfos()
 
 	const [eid] = await client('events')
 		.insert({

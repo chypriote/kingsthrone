@@ -11,7 +11,7 @@ const winston = require('winston')
 
 
 const getTarget = async (): Promise<string> => {
-	const status = await goat.challenges.allianceSiege.eventInfos()
+	const status = await goat.events.allianceSiege.eventInfos()
 
 	const members = orderBy(status.data.members, 'shili', 'asc')
 
@@ -23,9 +23,9 @@ const spamAllianceSiege = async () => {
 	const progress = new Progress('Attacking', todo)
 	const target = await getTarget()
 	for (let i = 0; i < todo; i++) {
-		await goat.challenges.allianceSiege.buySiegeWeapon(10)
-		// await goat.challenges.allianceSiege.attackWall(10)
-		await goat.challenges.allianceSiege.attackMember(target, 10)
+		await goat.events.allianceSiege.buySiegeWeapon(10)
+		// await goat.events.allianceSiege.attackWall(10)
+		await goat.events.allianceSiege.attackMember(target, 10)
 		progress.increment()
 	}
 	progress.stop()
@@ -45,7 +45,7 @@ const buyAllianceSiegeShopScrolls = async () => {
 	goat._setAccount(ACCOUNT_GAUTIER)
 	const progress = new Progress('Buying scrolls', 20)
 	for (let i = 0; i < 20; i++) {
-		await goat.challenges.allianceSiege.buyDailyShop(13)
+		await goat.events.allianceSiege.buyDailyShop(13)
 		progress.increment()
 	}
 	progress.stop()

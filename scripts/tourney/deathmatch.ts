@@ -4,31 +4,31 @@ import { FClist, TourneyEndpoint } from './index'
 
 export class deathmatchEndpoint implements TourneyEndpoint {
 	buyTourneyBoost(item: TourneyShopItem): Promise<DMOngoingFight> {
-		return goat.events.deathmatch.dmBuyTourneyBoost(item)
+		return goat.deathmatch.dmBuyTourneyBoost(item)
 	}
 
 	challengeOpponent(opponent: string, hero: number): Promise<DMOngoingFight> {
-		return goat.events.deathmatch.dmChallengeOpponent(opponent, hero)
+		return goat.deathmatch.dmChallengeOpponent(opponent, hero)
 	}
 
 	fightHero(hero: OpponentHero): Promise<DMOngoingFight> {
-		return goat.events.deathmatch.dmFightHero(hero)
+		return goat.deathmatch.dmFightHero(hero)
 	}
 
 	getReward(): Promise<Reward> {
-		return goat.events.deathmatch.dmGetReward()
+		return goat.deathmatch.dmGetReward()
 	}
 
 	getTourneyInfos(): Promise<DMOngoingFight> {
-		return goat.events.deathmatch.dmGetTourneyInfos()
+		return goat.deathmatch.dmGetTourneyInfos()
 	}
 
 	startTokenTourneyFight(): Promise<DMOngoingFight> {
-		return goat.events.deathmatch.dmStartTokenTourneyFight()
+		return goat.deathmatch.dmStartTokenTourneyFight()
 	}
 
 	startTourneyFight(): Promise<DMOngoingFight> {
-		return goat.events.deathmatch.dmStartTourneyFight()
+		return goat.deathmatch.dmStartTourneyFight()
 	}
 
 	getAvailableHeroesList = async (): Promise<Hero[]> => {

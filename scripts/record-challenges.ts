@@ -162,7 +162,7 @@ const logQuality = async () => {
 	await logChallengeRewards(id, challenge.zizhi.cfg.rwd)
 }
 const logMaidenExp = async () => {
-	const challenge = await goat.challenges.maidenExp()
+	const challenge = await goat.challenges.maidenExperience()
 	const [id] = await client('challenges').insert({
 		name: 'Maiden Experience',
 		cid: challenge.jiaren.cfg.info.id,
@@ -302,9 +302,22 @@ const logKingdomPower = async () => {
 	await logChallengeRewards(id, challenge.shili.cfg.rwd)
 }
 
-const logChallenges = async () => {
-	await logKingdomPower()
-	await logLoseSoldiers()
+const logXSKingdomPower = async () => {
+	const challenge = await goat.xsChallenges.kingdomPower()
+	const [id] = await client('challenges').insert({
+		name: 'Cross-Server Kingdom Power',
+		cid: challenge.kuashili.cfg.info.id,
+		type: challenge.kuashili.cfg.info.type,
+		start: fromUnixTime(challenge.kuashili.cfg.info.sTime),
+		end: fromUnixTime(challenge.kuashili.cfg.info.eTime),
+		alliance: false,
+		title: 'Emperor of Might',
+	}).returning('id')
+	await logChallengeRewards(id, challenge.kuashili.cfg.rwd)
 }
 
-// logChallenges().then(() => {process.exit()})
+const logChallenges = async () => {
+	await logXSKingdomPower()
+}
+
+logChallenges().then(() => {process.exit()})

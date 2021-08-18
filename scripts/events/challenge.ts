@@ -19,6 +19,7 @@ export const getChallengeRewards = async (type: CHALLENGE_TYPES): Promise<void> 
 	case CHALLENGE_TYPES.INTIMACY: return intimacy()
 	case CHALLENGE_TYPES.RARE_BEASTS: return rareBeasts()
 	case CHALLENGE_TYPES.XS_INTIMACY: return xsIntimacy()
+	case CHALLENGE_TYPES.XS_KINGDOM_POWER: return xsKingdomPower()
 	case CHALLENGE_TYPES.ALLIANCE_POWER: return alliancePower()
 	case CHALLENGE_TYPES.FEAST_POINTS: return feastPoints()
 	case CHALLENGE_TYPES.KINGDOM_POWER: return kingdomPower()
@@ -205,26 +206,26 @@ const loseSoldiers = async (): Promise<void> => {
 }
 
 const xsIntimacy = async (): Promise<void> => {
-	const event = await goat.xsChallenges.xsIntimacy.eventInfos()
-	const ranks = await goat.xsChallenges.xsIntimacy.getRankings()
+	const event = await goat.xsChallenges.intimacy()
+	const ranks = await goat.xsChallenges.getIntimacyRankings()
 	const score = ranks.mykualoveRid.score
 	const claimed = JSON.parse(event.rewards[0].taskStatus.toString()).map((r: {id: number}) => r.id)
 
 	for (const task of event.kualove.cfg.task || []) {
 		if (task.target > score || claimed.includes(task.id)) { continue }
-		await goat.xsChallenges.xsIntimacy.claimProgressReward(task.id)
+		await goat.xsChallenges.claimProgressReward(CHALLENGE_TYPES.XS_INTIMACY, task.id)
 		logger.success(`Claimed reward ${task.id} for challenge XS Intimacy`)
 	}
 }
-// const xsKingdomPower = async (): Promise<void> => {
-// 	const event = await goat.xsChallenges.xsKingdomPower.eventInfos()
-// 	const ranks = await goat.xsChallenges.xsKingdomPower.getRankings()
-// 	const score = ranks.mykuashiliRid.score
-// 	const claimed = JSON.parse(event.rewards[0].taskStatus.toString()).map((r: {id: number}) => r.id)
-//
-// 	for (const task of event.kuashili.cfg.task || []) {
-// 		if (task.target > score || claimed.includes(task.id)) { continue }
-// 		await goat.xsChallenges.xsKingdomPower.claimProgressReward(task.id)
-// 		logger.success(`Claimed reward ${task.id} for challenge XS Kingdom Power`)
-// 	}
-// }
+const xsKingdomPower = async (): Promise<void> => {
+	const event = await goat.xsChallenges.kingdomPower()
+	const ranks = await goat.xsChallenges.getKingdomPowerRankings()
+	const score = ranks.mykuashiliRid.score
+	const claimed = JSON.parse(event.rewards[0].taskStatus.toString()).map((r: {id: number}) => r.id)
+
+	for (const task of event.kuashili.cfg.task || []) {
+		if (task.target > score || claimed.includes(task.id)) { continue }
+		await goat.xsChallenges.claimProgressReward(CHALLENGE_TYPES.XS_KINGDOM_POWER, task.id)
+		logger.success(`Claimed reward ${task.id} for challenge XS Kingdom Power`)
+	}
+}

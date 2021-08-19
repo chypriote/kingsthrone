@@ -11,11 +11,11 @@ import { updatePlayerAlliance } from './update/profiles'
 import { checkInactivity, createPlayer, getPlayerByGID, updatePlayerDetails } from './repository/player'
 
 const getServer = (gid: string): string => {
-	switch (gid.length) {
-	case 7: return gid.toString().substr(0, 1)
-	case 8: return gid.toString().substr(0, 2)
-	case 10: return gid.toString().substr(0, 4)
-	case 9:
+	switch (true) {
+	case gid.length === 7: return gid.toString().substr(0, 1)
+	case gid.length === 8: return gid.toString().substr(0, 2)
+	case gid.length === 10: return gid.toString().substr(0, 4)
+	case gid.length === 9:
 	default:
 		return gid.toString().substr(0, 3)
 	}
@@ -115,13 +115,17 @@ const createMissingServers = async () => {
 
 /** Update every server's ladder */
 const logServers = async (): Promise<void> => {
-	await createMissingServers()
-	const servers = (await client('servers')
-		.min('id')
-		.groupBy('merger')
-		.orderBy('min')).map(sv => sv.min)
+	// await createMissingServers()
+	// const servers = (await client('servers')
+	// 	.min('id')
+	// 	.groupBy('merger')
+	// 	.orderBy('min')).map(sv => sv.min)
+	const test = []
+	for (let i = 1000; i < 1100; i++) {
+		test.push(i)
+	}
 
-	const chunks: number[][] = chunk(servers, 20)
+	const chunks: number[][] = chunk(test, 20)
 	for (const ck of chunks) {
 		const promises = []
 		for (const server of ck) {

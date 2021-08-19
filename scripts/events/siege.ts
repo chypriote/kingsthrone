@@ -1,7 +1,7 @@
 import { find, orderBy } from 'lodash'
 import { goat } from 'kingsthrone-api'
-import { AllianceSiegeBattle, BATTLE_STATUS } from 'kingsthrone-api/lib/types/Challenges/AllianceSiege'
 import { logger } from '../services/logger'
+import { AllianceSiegeBattle, BATTLE_STATUS } from 'kingsthrone-api/lib/types/Events'
 
 const wall = async (status: AllianceSiegeBattle): Promise<void> => {
 	const attacks = status.info.freeNum + status.info.buyNum

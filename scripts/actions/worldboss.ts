@@ -77,12 +77,13 @@ const buyXItems = async (id: number, count = 1): Promise<void> => {
 const buyItems = async (): Promise<void> => {
 	try {
 		await buyXItems(BOSS_SHOP.MANUSCRIPT_CACHE, 10)
-		await buyXItems(BOSS_SHOP.MANUSCRIPT_PAGE, 4)
+		await buyXItems(BOSS_SHOP.MANUSCRIPT_PAGE, 8)
 		await buyXItems(BOSS_SHOP.RUBY_RING, 3)
 		await buyXItems(BOSS_SHOP.RUBY_SCEPTER, 3)
 		await buyXItems(BOSS_SHOP.RUBY_SWORD, 3)
 		await buyXItems(BOSS_SHOP.PRICELESS_EARRINGS, 3)
-		await buyXItems(BOSS_SHOP.BALL_GOWN, 8)
+		await buyXItems(BOSS_SHOP.PERFUME, 10)
+		await buyXItems(BOSS_SHOP.BALL_GOWN, 10)
 	} catch (e) {
 		if (e.toString() === 'Error: Insufficient Points') { return }
 		console.log(`Items not bought because ${e.toString()}`)

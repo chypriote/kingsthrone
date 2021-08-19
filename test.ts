@@ -127,7 +127,7 @@ const recordRank = async (server: number|string): Promise<void> => {
 	goat._setServer(server.toString())
 	try {
 		if (server !== 256 && server < 1071 && server !== 1053) {
-			const rank = await goat.challenges.xServerTourney.xsGetRankings()
+			const rank = await goat.xServerTourney.xsGetRankings()
 			const data = await goat.limitedTimeQuests._unsafe({ 'huodong':{ 'hdGetXSRank':{ 'type':201 } } })
 			const gems: {name: string, rid: number, score: number, uid: number}[] = data.a.xshuodong.xsRank.xsRank
 
@@ -168,23 +168,22 @@ const recordXServerPointsAndGems = async () => {
 const doExpedition = async () => {
 	// goat._setAccount(ACCOUNT_GAUTIER)
 	// goat._setServer('1094')
-	await goat.expeditions.doKingdomExpedition(12500002)
-	await goat.expeditions.doKingdomExpedition(12500003)
-	await goat.expeditions.doKingdomExpedition(12500004)
-	await goat.expeditions.doKingdomExpedition(12500005)
-	await goat.expeditions.doKingdomExpedition(12500006)
-	await goat.expeditions.doKingdomExpedition(12600001)
-	await goat.expeditions.doKingdomExpedition(12600002)
-	await goat.expeditions.doKingdomExpedition(12600003)
-	await goat.expeditions.doKingdomExpedition(12600004)
-	await goat.expeditions.doKingdomExpedition(12600005)
+	await goat.expeditions.doKingdomExpedition(12800001)
+	await goat.expeditions.doKingdomExpedition(12800002)
+	await goat.expeditions.doKingdomExpedition(12800003)
+	await goat.expeditions.doKingdomExpedition(12800004)
+	await goat.expeditions.doKingdomExpedition(12800005)
+	await goat.expeditions.doKingdomExpedition(12800006)
+	await goat.expeditions.doKingdomExpedition(12900001)
+	await goat.expeditions.doKingdomExpedition(12900002)
+	await goat.expeditions.doKingdomExpedition(12900003)
 }
 const test = async () => {
 	const test =(await goat.profile.getGameInfos()).huodonglist.all
 	console.log(test)
 }
 
-test().then(() => {
+doExpedition().then(() => {
 	logger.success('Finished')
 	process.exit()
 })

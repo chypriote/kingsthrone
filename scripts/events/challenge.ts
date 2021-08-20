@@ -30,7 +30,7 @@ export const getChallengeRewards = async (type: CHALLENGE_TYPES): Promise<void> 
 
 const allianceIntimacy = async (): Promise<void> => {
 	const event = await goat.challenges.allianceIntimacy()
-	const score = event.myclubRid.score
+	const score = event.myclubLoveRid.score
 	const claimed = JSON.parse(event.rewards[0].taskStatus.toString()).map((r: {id: number}) => r.id)
 
 	for (const task of event.clublove.cfg.task || []) {

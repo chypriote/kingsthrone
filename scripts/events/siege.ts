@@ -43,16 +43,20 @@ const getRewards = async (status: AllianceSiegeBattle): Promise<void> => {
 }
 
 export const allianceSiege = async (): Promise<void> => {
-	logger.log('---Alliance Siege---')
-	const status = await goat.events.allianceSiege.eventInfos()
+	try {
+		logger.log('---Alliance Siege---')
+		const status = await goat.events.allianceSiege.eventInfos()
 
-	if ([BATTLE_STATUS.FINISHED, BATTLE_STATUS.AWAITING].includes(status.data.type)) { return }
+		if ([BATTLE_STATUS.FINISHED, BATTLE_STATUS.AWAITING].includes(status.data.type)) { return }
 
-	switch (status.data.type) {
-	case BATTLE_STATUS.WALL: await wall(status); break
-	case BATTLE_STATUS.GENERAL: await general(status); break
-	case BATTLE_STATUS.PLUNDER: await plunder(status); break
+		switch (status.data.type) {
+		case BATTLE_STATUS.WALL: await wall(status); break
+		case BATTLE_STATUS.GENERAL: await general(status); break
+		case BATTLE_STATUS.PLUNDER: await plunder(status); break
+		}
+
+		await getRewards(status)
+	} catch (e) {
+		logger.error(`[SIEGE] ${e.toString()}`)
 	}
-
-	await getRewards(status)
 }

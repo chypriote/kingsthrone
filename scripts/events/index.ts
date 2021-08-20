@@ -17,6 +17,7 @@ import { alchemy } from './alchemy'
 import { picnic } from './picnic'
 import { mysteriousIsland } from './mysteriousIsland'
 import { getChallengeRewards } from './challenge'
+import { alliancePurchase } from './alliancePurchase'
 
 const divining = async () => {
 	const status = await goat.events.divining.eventInfos()
@@ -138,6 +139,7 @@ export const doEvents = async (): Promise<void> => {
 		if (event.id === 1241) {await handlePass(PASS_TYPE.VENETIAN_PASS) }
 		if (event.id === 1086) {await handlePass(PASS_TYPE.KINGS_PASS) }
 		if (event.id === 1028) {await picnic() }
+		if (event.id === 445) {await alliancePurchase() }
 		//New heroesTrial is too difficult to automate
 		// if (event.id === 1083) {await heroesTrial() }
 		if (event.id === 1092) {await alchemy() }

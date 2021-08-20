@@ -32,7 +32,7 @@ async function unpack(dir) {
 	await Promise.all(promises)
 }
 
-unpack('C:\\Users\\Nicolas\\Downloads\\tt')
+unpack('C:\\Users\\Nicolas\\Downloads\\kingZsjEfun_583_6367')
 	.then(() => {
 		console.log('Finished')
 		process.exit()

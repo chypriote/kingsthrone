@@ -4,7 +4,6 @@ import { goat, Item } from 'kingsthrone-api'
 import { client } from './services/database'
 import { Shop } from '~/types/strapi/Shop'
 
-
 export const getShopByNameAndId = async (shop_id: number, name: string): Promise<Shop|null> => {
 	const packs = await client('shop_packs')
 		.where({ shop_id, name })

@@ -9,8 +9,8 @@ export const logDailyAllianceShop = async (): Promise<void> => {
 		.insert({
 			name: 'Alliance Siege Daily',
 			eid: null,
-			start: startOfToday(),
-			end: startOfToday(),
+			start: fromUnixTime(1628812800),
+			end: fromUnixTime(1630022400),
 			type: 1096,
 		})
 		.returning('id')
@@ -32,8 +32,8 @@ export const logAllianceSiege = async (): Promise<void> => {
 		.insert({
 			name: 'Alliance Siege Shop',
 			eid: 1095,
-			start: fromUnixTime(1626393600),
-			end: startOfToday(),
+			start: fromUnixTime(1628812800),
+			end: fromUnixTime(1630022400),
 			type: 1095,
 		})
 		.returning('id')

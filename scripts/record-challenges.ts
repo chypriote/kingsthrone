@@ -24,6 +24,13 @@ const rwdIdToRank = (index: number): number => {
 	default: return 0
 	}
 }
+const challengeByIdAndDateExists = async ({ id, sTime }: { id: number, sTime: number }): Promise<boolean> => {
+	const test = await client('challenges')
+		.where({ cid: id, start: fromUnixTime(sTime) })
+		.limit(1)
+
+	return test.length > 0
+}
 
 const logRewards = async (cid: number, rewards: {id: number, count:number}[]): Promise<void> => {
 	for (const item of rewards) {
@@ -88,6 +95,7 @@ const logAllianceProgress = async (cid: number, tasks: { id: number, target: num
 
 const logAllianceIntimacy = async () => {
 	const challenge: AllianceIntimacyStatus = await goat.challenges.allianceIntimacy()
+	if (await challengeByIdAndDateExists(challenge.clublove.cfg.info)) { return }
 
 	const [id] = await client('challenges').insert({
 		name: 'Alliance Intimacy',
@@ -103,6 +111,7 @@ const logAllianceIntimacy = async () => {
 }
 const logAllianceExperience = async () => {
 	const challenge: AllianceExperienceStatus = await goat.challenges.allianceExperience()
+	if (await challengeByIdAndDateExists(challenge.club.cfg.info)) { return }
 
 	const [id] = await client('challenges').insert({
 		name: 'Alliance Experience',
@@ -119,6 +128,7 @@ const logAllianceExperience = async () => {
 }
 const logAlliancePower = async () => {
 	const challenge: AlliancePowerStatus = await goat.challenges.alliancePower()
+	if (await challengeByIdAndDateExists(challenge.clubshili.cfg.info)) { return }
 
 	const [id] = await client('challenges').insert({
 		name: 'Alliance Power',
@@ -135,6 +145,7 @@ const logAlliancePower = async () => {
 }
 const logGrain = async () => {
 	const challenge = await goat.challenges.grain()
+	if (await challengeByIdAndDateExists(challenge.liangshi.cfg.info)) { return }
 	const [id] = await client('challenges').insert({
 		name: 'Grain',
 		cid: challenge.liangshi.cfg.info.id,
@@ -149,6 +160,7 @@ const logGrain = async () => {
 }
 const logQuality = async () => {
 	const challenge = await goat.challenges.quality()
+	if (await challengeByIdAndDateExists(challenge.zizhi.cfg.info)) { return }
 	const [id] = await client('challenges').insert({
 		name: 'Quality',
 		cid: challenge.zizhi.cfg.info.id,
@@ -163,6 +175,7 @@ const logQuality = async () => {
 }
 const logMaidenExp = async () => {
 	const challenge = await goat.challenges.maidenExperience()
+	if (await challengeByIdAndDateExists(challenge.jiaren.cfg.info)) { return }
 	const [id] = await client('challenges').insert({
 		name: 'Maiden Experience',
 		cid: challenge.jiaren.cfg.info.id,
@@ -177,6 +190,7 @@ const logMaidenExp = async () => {
 }
 const logRaiseChildren = async () => {
 	const challenge = await goat.challenges.raiseChildren()
+	if (await challengeByIdAndDateExists(challenge.zsshili.cfg.info)) { return }
 	const [id] = await client('challenges').insert({
 		name: 'Raise Children',
 		cid: challenge.zsshili.cfg.info.id,
@@ -191,6 +205,7 @@ const logRaiseChildren = async () => {
 }
 const logTourney = async () => {
 	const challenge = await goat.challenges.tourney()
+	if (await challengeByIdAndDateExists(challenge.yamen.cfg.info)) { return }
 	const [id] = await client('challenges').insert({
 		name: 'Tourney',
 		cid: challenge.yamen.cfg.info.id,
@@ -205,6 +220,7 @@ const logTourney = async () => {
 }
 const logCharm = async () => {
 	const challenge = await goat.challenges.charm()
+	if (await challengeByIdAndDateExists(challenge.meili.cfg.info)) { return }
 	const [id] = await client('challenges').insert({
 		name: 'Raise Children',
 		cid: challenge.meili.cfg.info.id,
@@ -219,6 +235,7 @@ const logCharm = async () => {
 }
 const logSpendGold = async () => {
 	const challenge = await goat.challenges.spendGold()
+	if (await challengeByIdAndDateExists(challenge.yinliang.cfg.info)) { return }
 	const [id] = await client('challenges').insert({
 		name: 'Spend Gold',
 		cid: challenge.yinliang.cfg.info.id,
@@ -233,6 +250,7 @@ const logSpendGold = async () => {
 }
 const logIntimacy = async () => {
 	const challenge = await goat.challenges.intimacy()
+	if (await challengeByIdAndDateExists(challenge.love.cfg.info)) { return }
 	const [id] = await client('challenges').insert({
 		name: 'Intimacy',
 		cid: challenge.love.cfg.info.id,
@@ -247,6 +265,7 @@ const logIntimacy = async () => {
 }
 const logRareBeasts = async () => {
 	const challenge = await goat.challenges.rareBeasts()
+	if (await challengeByIdAndDateExists(challenge.zhenshou.cfg.info)) { return }
 	const [id] = await client('challenges').insert({
 		name: 'Rare Beasts',
 		cid: challenge.zhenshou.cfg.info.id,
@@ -261,6 +280,7 @@ const logRareBeasts = async () => {
 }
 const logFeastPoints = async () => {
 	const challenge = await goat.challenges.feastPoints()
+	if (await challengeByIdAndDateExists(challenge.jiulou.cfg.info)) { return }
 	const [id] = await client('challenges').insert({
 		name: 'Feast Points',
 		cid: challenge.jiulou.cfg.info.id,
@@ -275,6 +295,7 @@ const logFeastPoints = async () => {
 }
 const logLoseSoldiers = async () => {
 	const challenge = await goat.challenges.loseSoldiers()
+	if (await challengeByIdAndDateExists(challenge.shibing.cfg.info)) { return }
 	const [id] = await client('challenges').insert({
 		name: 'Lose Soldiers',
 		cid: challenge.shibing.cfg.info.id,
@@ -289,6 +310,7 @@ const logLoseSoldiers = async () => {
 }
 const logKingdomPower = async () => {
 	const challenge = await goat.challenges.kingdomPower()
+	if (await challengeByIdAndDateExists(challenge.shili.cfg.info)) { return }
 	const [id] = await client('challenges').insert({
 		name: 'Kingdom Power',
 		cid: challenge.shili.cfg.info.id,
@@ -304,6 +326,7 @@ const logKingdomPower = async () => {
 
 const logXSKingdomPower = async () => {
 	const challenge = await goat.xsChallenges.kingdomPower()
+	if (await challengeByIdAndDateExists(challenge.kuashili.cfg.info)) { return }
 	const [id] = await client('challenges').insert({
 		name: 'Cross-Server Kingdom Power',
 		cid: challenge.kuashili.cfg.info.id,
@@ -316,8 +339,10 @@ const logXSKingdomPower = async () => {
 	await logChallengeRewards(id, challenge.kuashili.cfg.rwd)
 }
 
+
 const logChallenges = async () => {
-	await logXSKingdomPower()
+	// await logAllianceIntimacy()
+	await logAllianceExperience()
 }
 
-logChallenges().then(() => {process.exit()})
+// logChallenges().then(() => {process.exit()})

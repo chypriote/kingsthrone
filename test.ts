@@ -184,7 +184,7 @@ const test = async () => {
 	console.log(test)
 }
 
-doExpedition().then(() => {
+test().then(() => {
 	logger.success('Finished')
 	process.exit()
 })

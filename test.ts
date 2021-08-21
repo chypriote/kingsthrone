@@ -166,25 +166,62 @@ const recordXServerPointsAndGems = async () => {
 	}
 }
 const doExpedition = async () => {
-	goat._setAccount(ACCOUNT_GAUTIER)
-	// goat._setServer('1094')
-	await goat.expeditions.doKingdomExpedition(13000005)
-	await goat.expeditions.doKingdomExpedition(13000006)
-	await goat.expeditions.doKingdomExpedition(13100001)
-	await goat.expeditions.doKingdomExpedition(13100002)
-	await goat.expeditions.doKingdomExpedition(13100003)
-	await goat.expeditions.doKingdomExpedition(13100004)
-	await goat.expeditions.doKingdomExpedition(13100005)
-	await goat.expeditions.doKingdomExpedition(13100006)
-	await goat.expeditions.doKingdomExpedition(13200001)
-	await goat.expeditions.doKingdomExpedition(13200002)
+	try {
+		await goat.expeditions.doKingdomExpedition(13100002)
+		await goat.expeditions.doKingdomExpedition(13100003)
+		await goat.expeditions.doKingdomExpedition(13100004)
+		await goat.expeditions.doKingdomExpedition(13100005)
+		await goat.expeditions.doKingdomExpedition(13100006)
+		await goat.expeditions.doKingdomExpedition(13200001)
+		await goat.expeditions.doKingdomExpedition(13200002)
+		await goat.expeditions.doKingdomExpedition(13200003)
+		await goat.expeditions.doKingdomExpedition(13200004)
+		await goat.expeditions.doKingdomExpedition(13200005)
+	} catch (e) {
+		logger.error(`[Demophlos] ${e.toString()}`)
+	}
+	try {
+		goat._logout()
+		goat._setAccount(ACCOUNT_GAUTIER)
+		//done: 134-6 139-6 144-6
+		await goat.expeditions.doKingdomExpedition(14400006)
+		await goat.expeditions.doKingdomExpedition(13200003)
+		await goat.expeditions.doKingdomExpedition(13200004)
+		await goat.expeditions.doKingdomExpedition(13200005)
+		await goat.expeditions.doKingdomExpedition(13200006)
+		await goat.expeditions.doKingdomExpedition(13300001)
+		await goat.expeditions.doKingdomExpedition(13300002)
+		await goat.expeditions.doKingdomExpedition(13300003)
+		await goat.expeditions.doKingdomExpedition(13300004)
+		await goat.expeditions.doKingdomExpedition(13300005)
+	} catch (e) {
+		logger.error(`[Gautier] ${e.toString()}`)
+	}
+	try {
+		goat._logout()
+		goat._setAccount(ACCOUNT_GAUTIER)
+		goat._setServer('1094')
+		//done 29-6 34-6
+		await goat.expeditions.doKingdomExpedition(2400003)
+		await goat.expeditions.doKingdomExpedition(2400004)
+		await goat.expeditions.doKingdomExpedition(2400005)
+		await goat.expeditions.doKingdomExpedition(2500001)
+		await goat.expeditions.doKingdomExpedition(2500002)
+		await goat.expeditions.doKingdomExpedition(2500003)
+		await goat.expeditions.doKingdomExpedition(2500004)
+		await goat.expeditions.doKingdomExpedition(2500005)
+		await goat.expeditions.doKingdomExpedition(2500006)
+		await goat.expeditions.doKingdomExpedition(2600001)
+	} catch (e) {
+		logger.error(`[Shallan] ${e.toString()}`)
+	}
 }
 const test = async () => {
 	const test =(await goat.profile.getGameInfos()).huodonglist.all
 	console.log(test)
 }
 
-test().then(() => {
+doExpedition().then(() => {
 	logger.success('Finished')
 	process.exit()
 })

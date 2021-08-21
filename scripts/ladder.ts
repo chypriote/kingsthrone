@@ -115,17 +115,13 @@ const createMissingServers = async () => {
 
 /** Update every server's ladder */
 const logServers = async (): Promise<void> => {
-	// await createMissingServers()
-	// const servers = (await client('servers')
-	// 	.min('id')
-	// 	.groupBy('merger')
-	// 	.orderBy('min')).map(sv => sv.min)
-	const test = []
-	for (let i = 1000; i < 1100; i++) {
-		test.push(i)
-	}
+	await createMissingServers()
+	const servers = (await client('servers')
+		.min('id')
+		.groupBy('merger')
+		.orderBy('min')).map(sv => sv.min)
 
-	const chunks: number[][] = chunk(test, 20)
+	const chunks: number[][] = chunk(servers, 20)
 	for (const ck of chunks) {
 		const promises = []
 		for (const server of ck) {

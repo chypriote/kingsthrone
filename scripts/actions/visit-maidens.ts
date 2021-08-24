@@ -46,7 +46,7 @@ export const visitMaidens = async (count = 0, draughts = 0): Promise<void> => {
 	while (state.availableVisits) {
 		const wife = await goat.maidens.visitRandomMaiden()
 		const maiden = getMaiden(wife.id)
-		if (maiden.name === 'Unknown') {console.log(JSON.stringify(wife))}
+		//		if (maiden.name === 'Unknown') {console.log(JSON.stringify(wife))}
 		maiden.visits++
 		state.visits++
 		state.availableVisits--

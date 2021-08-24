@@ -67,23 +67,13 @@ const mainQuest = async () => {
 	}
 }
 const checkItems = async () => {
-	const todo: [IAccount, string][] = [
-		[ACCOUNT_GAUTIER, '699'],
-		[ACCOUNT_NAPOLEON, '699'],
-		[ACCOUNT_GAUTIER, '1094'],
-	]
+	goat._setAccount(ACCOUNT_NAPOLEON)
+	const existing = (await client('items')).map((i) => i.id)
 
-	for (const [account, server] of todo) {
-		goat._logout()
-		goat._setAccount(account)
-		goat._setServer(server)
-		const existing = (await client('items')).map((i) => i.id)
-
-		const bag = await goat.items.getBag()
-		for (const item of bag) {
-			if (!existing.includes(item.id)) {
-				console.log(`Item ${item.id} not registered (own ${item.count})`)
-			}
+	const bag = await goat.items.getBag()
+	for (const item of bag) {
+		if (!existing.includes(item.id)) {
+			console.log(`Item ${item.id} not registered (own ${item.count})`)
 		}
 	}
 }
@@ -167,53 +157,18 @@ const recordXServerPointsAndGems = async () => {
 }
 const doExpedition = async () => {
 	try {
-		await goat.expeditions.doKingdomExpedition(13200006)
-		await goat.expeditions.doKingdomExpedition(13300001)
-		await goat.expeditions.doKingdomExpedition(13300002)
-		await goat.expeditions.doKingdomExpedition(13300003)
-		await goat.expeditions.doKingdomExpedition(13300004)
-		await goat.expeditions.doKingdomExpedition(13300005)
-		await goat.expeditions.doKingdomExpedition(13300006)
-		await goat.expeditions.doKingdomExpedition(13400001)
-		await goat.expeditions.doKingdomExpedition(13400002)
-		await goat.expeditions.doKingdomExpedition(13400003)
-	} catch (e) {
-		logger.error(`[Demophlos] ${e.toString()}`)
-	}
-	try {
-		goat._logout()
-		goat._setAccount(ACCOUNT_GAUTIER)
-		//done: 134-6 139-6 144-6
-		await goat.expeditions.doKingdomExpedition(13300006)
-		await goat.expeditions.doKingdomExpedition(13400001)
-		await goat.expeditions.doKingdomExpedition(13400002)
-		await goat.expeditions.doKingdomExpedition(13400003)
-		await goat.expeditions.doKingdomExpedition(13400004)
 		await goat.expeditions.doKingdomExpedition(13400005)
 		await goat.expeditions.doKingdomExpedition(13400006)
 		await goat.expeditions.doKingdomExpedition(13500001)
 		await goat.expeditions.doKingdomExpedition(13500002)
 		await goat.expeditions.doKingdomExpedition(13500003)
+		await goat.expeditions.doKingdomExpedition(13500004)
+		await goat.expeditions.doKingdomExpedition(13500005)
+		await goat.expeditions.doKingdomExpedition(13500006)
+		await goat.expeditions.doKingdomExpedition(13600001)
+		await goat.expeditions.doKingdomExpedition(13600002)
 	} catch (e) {
-		logger.error(`[Gautier] ${e.toString()}`)
-	}
-	try {
-		goat._logout()
-		goat._setAccount(ACCOUNT_GAUTIER)
-		goat._setServer('1094')
-		//done 29-6 34-6
-		await goat.expeditions.doKingdomExpedition(2600002)
-		await goat.expeditions.doKingdomExpedition(2600003)
-		await goat.expeditions.doKingdomExpedition(2600004)
-		await goat.expeditions.doKingdomExpedition(2600005)
-		await goat.expeditions.doKingdomExpedition(2600006)
-		await goat.expeditions.doKingdomExpedition(2700001)
-		await goat.expeditions.doKingdomExpedition(2700002)
-		await goat.expeditions.doKingdomExpedition(2700003)
-		await goat.expeditions.doKingdomExpedition(2700004)
-		await goat.expeditions.doKingdomExpedition(2700005)
-	} catch (e) {
-		logger.error(`[Shallan] ${e.toString()}`)
+		logger.error(`[Demophlos] ${e.toString()}`)
 	}
 }
 const test = async () => {
@@ -221,7 +176,7 @@ const test = async () => {
 	console.log(test)
 }
 
-checkItems().then(() => {
+doExpedition().then(() => {
 	logger.success('Finished')
 	process.exit()
 })

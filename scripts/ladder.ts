@@ -121,7 +121,7 @@ const logServers = async (): Promise<void> => {
 		.groupBy('merger')
 		.orderBy('min')).map(sv => sv.min)
 
-	const chunks: number[][] = chunk(servers, 20)
+	const chunks: number[][] = chunk(servers, 30)
 	for (const ck of chunks) {
 		const promises = []
 		for (const server of ck) {

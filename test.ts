@@ -157,16 +157,16 @@ const recordXServerPointsAndGems = async () => {
 }
 const doExpedition = async () => {
 	try {
-		await goat.expeditions.doKingdomExpedition(13400005)
-		await goat.expeditions.doKingdomExpedition(13400006)
-		await goat.expeditions.doKingdomExpedition(13500001)
-		await goat.expeditions.doKingdomExpedition(13500002)
-		await goat.expeditions.doKingdomExpedition(13500003)
-		await goat.expeditions.doKingdomExpedition(13500004)
-		await goat.expeditions.doKingdomExpedition(13500005)
-		await goat.expeditions.doKingdomExpedition(13500006)
-		await goat.expeditions.doKingdomExpedition(13600001)
-		await goat.expeditions.doKingdomExpedition(13600002)
+		await goat.expeditions.doKingdomExpedition(13600003)
+		await goat.expeditions.doKingdomExpedition(13600004)
+		await goat.expeditions.doKingdomExpedition(13600005)
+		await goat.expeditions.doKingdomExpedition(13600006)
+		await goat.expeditions.doKingdomExpedition(13700001)
+		await goat.expeditions.doKingdomExpedition(13700002)
+		await goat.expeditions.doKingdomExpedition(13700003)
+		await goat.expeditions.doKingdomExpedition(13700004)
+		await goat.expeditions.doKingdomExpedition(13700005)
+		await goat.expeditions.doKingdomExpedition(13700006)
 	} catch (e) {
 		logger.error(`[Demophlos] ${e.toString()}`)
 	}

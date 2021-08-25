@@ -45,6 +45,7 @@ const LIMITED_QUESTS = [
 	LTQ_TYPES.ARRANGE_MARRIAGES,
 	LTQ_TYPES.TRAINING_GROUND,
 	LTQ_TYPES.KILL_SIEGE_BOSS,
+	LTQ_TYPES.COLLECT_GRAIN,
 	LTQ_TYPES.CHALLENGE_TOKENS,
 	LTQ_TYPES.PROCESSIONS_DONATION,
 	LTQ_TYPES.GOODWILL_DRAUGHT,
@@ -55,6 +56,7 @@ const LIMITED_QUESTS = [
 	LTQ_TYPES.KILL_ALLIANCE_BOSS,
 	LTQ_TYPES.FEAST_POINTS,
 	LTQ_TYPES.RANDOM_VISITS,
+	LTQ_TYPES.CONSUME_GRAIN,
 ]
 const getQuestInfos = async (type: number): Promise<LTQStatus|null> => {
 	switch (type) {
@@ -68,6 +70,7 @@ const getQuestInfos = async (type: number): Promise<LTQStatus|null> => {
 	case LTQ_TYPES.LOGIN: return await goat.limitedTimeQuests.login()
 	case LTQ_TYPES.TOURNEY_SCORE: return await goat.limitedTimeQuests.tourneyScore()
 	case LTQ_TYPES.KILL_SIEGE_BOSS: return await goat.limitedTimeQuests.killSiegeBoss()
+	case LTQ_TYPES.COLLECT_GRAIN: return await goat.limitedTimeQuests.collectGrain()
 	case LTQ_TYPES.ARRANGE_MARRIAGES: return await goat.limitedTimeQuests.arrangeMarriages()
 	case LTQ_TYPES.TRAINING_GROUND: return await goat.limitedTimeQuests.trainingGround()
 	case LTQ_TYPES.CHALLENGE_TOKENS: return await goat.limitedTimeQuests.challengeTokens()
@@ -80,6 +83,7 @@ const getQuestInfos = async (type: number): Promise<LTQStatus|null> => {
 	case LTQ_TYPES.KILL_ALLIANCE_BOSS: return await goat.limitedTimeQuests.killAllianceBosses()
 	case LTQ_TYPES.FEAST_POINTS: return await goat.limitedTimeQuests.feastPoints()
 	case LTQ_TYPES.RANDOM_VISITS: return await goat.limitedTimeQuests.randomVisitsQuest()
+	case LTQ_TYPES.CONSUME_GRAIN: return await goat.limitedTimeQuests.consumeGrain()
 	default: return null
 	}
 }
@@ -110,6 +114,7 @@ const CHALLENGES = [
 	CHALLENGE_TYPES.INTIMACY,
 	CHALLENGE_TYPES.RARE_BEASTS,
 	CHALLENGE_TYPES.XS_INTIMACY,
+	CHALLENGE_TYPES.XS_QUALITY,
 	CHALLENGE_TYPES.XS_KINGDOM_POWER,
 	CHALLENGE_TYPES.FEAST_POINTS,
 	CHALLENGE_TYPES.LOSE_SOLDIERS,

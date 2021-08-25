@@ -191,11 +191,9 @@ const inferQuality = (hero: OpponentHero): number => {
 }
 /** Selects the easiest hero to fight using known roster and current level */
 const selectHero = async (heroes: OpponentHero[]): Promise<OpponentHero> => {
-	if (!goat._isGautier()) {
-		for (const hero of heroes) {
-			const found = find(state.opponentRoster, (ph) => ph.hid == hero.id)
-			if (!found) return hero
-		}
+	for (const hero of heroes) {
+		const found = find(state.opponentRoster, (ph) => ph.hid == hero.id)
+		if (!found) return hero
 	}
 
 	heroes = heroes.map((h) => {

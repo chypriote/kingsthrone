@@ -88,15 +88,14 @@ const combineInvestitureItems = async (items: number[], amount: number): Promise
 }
 const combineInvestiture = async (): Promise<void> => {
 	await combineInvestitureItems([ITEMS.RUBY_RING, ITEMS.RUBY_SCEPTER, ITEMS.RUBY_SWORD], 3)
-	if (goat._isDemophlos()) { return }
 	await combineInvestitureItems([ITEMS.HESSONITE_RING, ITEMS.HESSONITE_SCEPTER, ITEMS.HESSONITE_SWORD], 3)
-	await combineInvestitureItems([ITEMS.CITRINE_RING, ITEMS.CITRINE_SCEPTER, ITEMS.CITRINE_SWORD], 4)
-	await combineInvestitureItems([ITEMS.EMERALD_RING, ITEMS.EMERALD_SCEPTER, ITEMS.EMERALD_SWORD], 5)
+	// await combineInvestitureItems([ITEMS.CITRINE_RING, ITEMS.CITRINE_SCEPTER, ITEMS.CITRINE_SWORD], 4)
+	// await combineInvestitureItems([ITEMS.EMERALD_RING, ITEMS.EMERALD_SCEPTER, ITEMS.EMERALD_SWORD], 5)
 }
 
 export const handleBag = async (): Promise<void> => {
 	state.items = await goat.items.getBag()
-	const progress = new Progress('Clearing bag', !goat._isShallan() ? 7 : 6, 'tasks')
+	const progress = new Progress('Clearing bag', 7, 'tasks')
 
 	await openRewardPacks()
 	progress.increment()
@@ -116,10 +115,8 @@ export const handleBag = async (): Promise<void> => {
 	await openManuscriptCaches()
 	progress.increment()
 
-	if (!goat._isShallan()) {
-		await combineInvestiture()
-		progress.increment()
-	}
+	await combineInvestiture()
+	progress.increment()
 
 	progress.stop()
 }

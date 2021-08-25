@@ -8,7 +8,7 @@ import { Progress } from '../services/progress'
 interface UsedHero { id: number; h: number; f: number; }
 const fightBosses = async (): Promise<void> => {
 	const infos = await goat.alliance.getAllianceBossInfo()
-	const bosses = infos.bosses.filter((boss: AllianceBossInfo) => boss.hp > 0 && (!goat._isGautier() || boss.id > 4))
+	const bosses = infos.bosses.filter((boss: AllianceBossInfo) => boss.hp > 0)
 
 	if (!bosses.length) { return }
 	const heroes = (await goat.profile.getGameInfos()).hero.heroList

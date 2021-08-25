@@ -323,7 +323,6 @@ const logKingdomPower = async () => {
 
 	await logChallengeRewards(id, challenge.shili.cfg.rwd)
 }
-
 const logXSKingdomPower = async () => {
 	const challenge = await goat.xsChallenges.kingdomPower()
 	if (await challengeByIdAndDateExists(challenge.kuashili.cfg.info)) { return }
@@ -338,11 +337,25 @@ const logXSKingdomPower = async () => {
 	}).returning('id')
 	await logChallengeRewards(id, challenge.kuashili.cfg.rwd)
 }
+const logXSQuality = async () => {
+	const challenge = await goat.xsChallenges.quality()
+	if (await challengeByIdAndDateExists(challenge.kuazizhi.cfg.info)) { return }
+	const [id] = await client('challenges').insert({
+		name: 'Cross-Server Quality',
+		cid: challenge.kuazizhi.cfg.info.id,
+		type: challenge.kuazizhi.cfg.info.type,
+		start: fromUnixTime(challenge.kuazizhi.cfg.info.sTime),
+		end: fromUnixTime(challenge.kuazizhi.cfg.info.eTime),
+		alliance: false,
+		title: '',
+	}).returning('id')
+	await logChallengeRewards(id, challenge.kuazizhi.cfg.rwd)
+}
 
 
 const logChallenges = async () => {
-	// await logAllianceIntimacy()
-	await logAllianceExperience()
+	await logGrain()
+	await logXSQuality()
 }
 
 // logChallenges().then(() => {process.exit()})

@@ -15,18 +15,11 @@ export const dailyChores = async (): Promise<void> => {
 			await HallOfFame()
 			await payHomage()
 			await doKingdomExpeditions()
-			if (goat._isShallan()) {
-				await doMerchant(10)
-				await doExpedition(10)
-			} else {
-				await doMerchant(goat._isGautier() ? 100 : 70)
-				await doExpedition(goat._isGautier() ? 100 : 60)
-			}
+			await doMerchant(70)
+			await doExpedition(60)
 			await visitInLaws()
-			if (goat._isGautier() || goat._isDemophlos()) {
-				await doProcessions(30)
-				await visitMaidens(20)
-			}
+			await doProcessions(30)
+			await visitMaidens(20)
 		}
 		await getThroneRoom()
 		await refreshTraining()

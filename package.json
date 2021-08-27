@@ -46,14 +46,14 @@
     "strapi-plugin-users-permissions": "^3.6",
     "strapi-provider-upload-cloudinary": "https://github.com/chypriote/strapi-provider-upload-cloudinary.git",
     "strapi-utils": "^3.6",
-    "typescript": "^4.3",
+    "typescript": "^4.4",
     "winston": "^3.3.3",
     "yargs": "^17.1"
   },
   "devDependencies": {
     "@types/axios": "^0.14",
     "@types/lodash": "^4.14",
-    "@types/node": "^16.6",
+    "@types/node": "^16.7",
     "@types/pg": "^8.6",
     "@types/yargs": "^17.0",
     "@typescript-eslint/eslint-plugin": "^4.29",

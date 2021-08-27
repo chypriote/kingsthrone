@@ -23,6 +23,7 @@ async function unpack(dir) {
 	const promises = []
 	for (const item of items) {
 		const itemPath = path.join(dir, item)
+		if (['.git', '.idea'].includes(item)) {continue}
 		if ((await fs.stat(itemPath)).isDirectory()) {
 			await unpack(itemPath)
 		} else {
@@ -32,7 +33,7 @@ async function unpack(dir) {
 	await Promise.all(promises)
 }
 
-unpack('C:\\Users\\Nicolas\\Downloads\\kingZsjEfun_583_6367')
+unpack('E:\\Workspace\\datathrone')
 	.then(() => {
 		console.log('Finished')
 		process.exit()

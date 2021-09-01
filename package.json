@@ -46,7 +46,7 @@
     "strapi-plugin-users-permissions": "^3.6",
     "strapi-provider-upload-cloudinary": "https://github.com/chypriote/strapi-provider-upload-cloudinary.git",
     "strapi-utils": "^3.6",
-    "typescript": "^4.4",
+    "typescript": "4.3",
     "winston": "^3.3.3",
     "yargs": "^17.1"
   },

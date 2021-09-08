@@ -6,7 +6,13 @@ export const readAndDeleteMail = async (): Promise<void> => {
 
 	for (const mail of mails) {
 		logger.log(`Received mail: ${mail.mtitle}`)
-		if (mail.mtype === 0) { await goat.mail.openMail(mail.id) }
+
+		try {
+			if (mail.mtype === 0) { await goat.mail.openMail(mail.id) }
+		} catch (e) {
+			if (e.toString() === 'Error: The mail has been deleted') { continue }
+			logger.error(`[MAIL] ${e}`)
+		}
 	}
 
 	try {

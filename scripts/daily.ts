@@ -15,6 +15,7 @@ export const dailyChores = async (): Promise<void> => {
 			await punishPrisoners()
 			await HallOfFame()
 			await payHomage()
+			await claimCards()
 			await doKingdomExpeditions()
 			await doMerchant(70)
 			await doExpedition(70)

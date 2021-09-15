@@ -84,7 +84,7 @@ const buyContributionItem = async (): Promise<void> => {
 		state.money = alliance.memberInfo.leftgx
 		state.shopList = alliance.shopList
 
-		for (const item of [81, ITEMS.CITRINE_RING]) {
+		for (const item of [81, ITEMS.CITRINE_RING, ITEMS.CITRINE_SCEPTER]) {
 			await buyItem(item)
 		}
 	} catch (e) {

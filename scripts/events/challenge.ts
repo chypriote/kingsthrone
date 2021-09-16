@@ -8,6 +8,7 @@ export const getChallengeRewards = async (type: CHALLENGE_TYPES): Promise<void> 
 	switch (type) {
 	case CHALLENGE_TYPES.ALLIANCE_INTIMACY: return allianceIntimacy()
 	case CHALLENGE_TYPES.ALLIANCE_EXPERIENCE: return allianceExperience()
+	case CHALLENGE_TYPES.ALLIANCE_TOURNEY: return allianceTourney()
 	case CHALLENGE_TYPES.GRAIN: return grain()
 	case CHALLENGE_TYPES.MAIDEN_EXPERIENCE: return maidenExp()
 	case CHALLENGE_TYPES.RAISE_CHILDREN: return raiseChildren()
@@ -60,6 +61,17 @@ const alliancePower = async (): Promise<void> => {
 		if (task.target > score || claimed.includes(task.id)) { continue }
 		await goat.challenges.claimProgressReward(CHALLENGE_TYPES.ALLIANCE_POWER, task.id)
 		logger.success(`Claimed reward ${task.id} for challenge alliance power`)
+	}
+}
+const allianceTourney = async (): Promise<void> => {
+	const event = await goat.challenges.allianceTourney()
+	const score = event.myclubyamen.score
+	const claimed = JSON.parse(event.rewards[0].taskStatus.toString()).map((r: {id: number}) => r.id)
+
+	for (const task of event.clubyamen.cfg.task || []) {
+		if (task.target > score || claimed.includes(task.id)) { continue }
+		await goat.challenges.claimProgressReward(CHALLENGE_TYPES.ALLIANCE_TOURNEY, task.id)
+		logger.success(`Claimed reward ${task.id} for challenge alliance tourney`)
 	}
 }
 const grain = async (): Promise<void> => {

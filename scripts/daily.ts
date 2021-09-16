@@ -1,7 +1,7 @@
 import { goat } from 'kingsthrone-api'
 import { logger } from './services/logger'
 import {
-	attendFeasts, contributeAlliance, doExpedition, doMerchant,
+	attendFeasts, contributeAlliance, doExpedition, doMerchant, claimCards,
 	doProcessions, doWorldBoss, getDailyRewards, getLoginRewards, getThroneRoom, handleBag,
 	getTourneyRewards, getWeeklyRewards, HallOfFame, hostCouncil, payHomage, punishPrisoners,
 	handleSons, refreshTraining, visitInLaws, visitMaidens, readAndDeleteMail, getProgressionRewards, doKingdomExpeditions
@@ -10,6 +10,7 @@ import {
 export const dailyChores = async (): Promise<void> => {
 	try {
 		if (await getLoginRewards()) {
+			await claimCards()
 			await readAndDeleteMail()
 			await punishPrisoners()
 			await HallOfFame()

@@ -20,9 +20,3 @@ export const getGems = async (count: number|null = null): Promise<void> => {
 	}
 	progress.stop()
 }
-
-export const claimCards = async (): Promise<void> => {
-	try { await goat.card.weekly(); logger.success('Claimed weekly card') } catch (e) {/**/}
-	try { await goat.card.monthly(); logger.success('Claimed monthly card') } catch (e) {/**/}
-	try { await goat.card.season(); logger.success('Claimed season card') } catch (e) {/**/}
-}

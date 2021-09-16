@@ -292,8 +292,12 @@ const startFighting = async (opponent: string | null, hid: number | null): Promi
 		logger.warn('Daily fights over, token fights over, use challenges')
 		return null
 	}
+	if (currentState === 0) {
+		logger.warn('Truce phase')
+		return null
+	}
 
-	if (currentState !== 2) {
+	if (currentState !== 2 && currentState !== 0) {
 		logger.error(`Unknown state: ${currentState}`)
 		return null
 	}

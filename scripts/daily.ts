@@ -10,7 +10,6 @@ import {
 export const dailyChores = async (): Promise<void> => {
 	try {
 		if (await getLoginRewards()) {
-			await claimCards()
 			await readAndDeleteMail()
 			await punishPrisoners()
 			await HallOfFame()
